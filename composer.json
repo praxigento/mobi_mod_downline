@@ -1,0 +1,30 @@
+{
+  "name": "praxigento/mobi_mod_mage2_downline",
+  "description": "Magento v2 integration code for Praxigento_Downline module used in MOBI apps.",
+  "type": "magento2-module",
+  "homepage": "https://github.com/praxigento/mobi_mod_mage2_downline",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alex Gusev",
+      "email": "flancer64@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Praxigento\\Downline\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.3",
+    "praxigento/mobi_mod_common_downline": "dev-master"
+  },
+  "extra": {
+    "map": [
+      [
+        "src",
+        "Praxigento/Downline"
+      ]
+    ]
+  }
+}
