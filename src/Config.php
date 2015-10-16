@@ -7,5 +7,5 @@
 namespace Praxigento\Downline;
 
 class Config {
-
+    const MODULE = 'Praxigento_Downline';
 }
