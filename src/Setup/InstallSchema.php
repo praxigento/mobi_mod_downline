@@ -3,24 +3,16 @@
  * Create DB schema.
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigneto\Downline\Setup;
+namespace Praxigento\Downline\Setup;
 
-use Magento\Framework\DB\Ddl\Table as Ddl;
-use Magento\Framework\Setup\InstallSchemaInterface;
-use Magento\Framework\Setup\ModuleContextInterface;
-use Magento\Framework\Setup\SchemaSetupInterface;
+use Praxigento\Core\Lib\Setup\Schema\Base as SchemaBase;
 
-class InstallSchema implements InstallSchemaInterface {
+class InstallSchema extends SchemaBase {
 
-    public function install(
-        SchemaSetupInterface $setup,
-        ModuleContextInterface $context
-    ) {
-        $installer = $setup;
-        $installer->startSetup();
-        $conn = $installer->getConnection();
-
-        $installer->endSetup();
+    /**
+     * InstallSchema constructor.
+     */
+    public function __construct() {
+        parent::__construct('\Praxigento\Downline\Lib\Setup\Schema');
     }
-
 }
