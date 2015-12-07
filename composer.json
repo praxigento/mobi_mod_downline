@@ -21,13 +21,5 @@
   "require": {
     "php": ">=5.3",
     "praxigento/mobi_mod_common_downline": "dev-master"
-  },
-  "extra": {
-    "map": [
-      [
-        "src",
-        "Praxigento/Downline"
-      ]
-    ]
   }
 }
