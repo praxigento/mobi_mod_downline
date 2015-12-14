@@ -5,9 +5,7 @@
  */
 namespace Praxigento\Downline\Setup;
 
-use Praxigento\Core\Lib\Setup\Schema\Base as SchemaBase;
-
-class InstallSchema extends SchemaBase {
+class InstallSchema extends \Praxigento\Core\Setup\Schema\Base {
 
     /**
      * InstallSchema constructor.
