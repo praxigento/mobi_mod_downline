@@ -1,6 +1,6 @@
 {
   "name": "praxigento/mobi_mod_mage2_downline",
-  "description": "Magento v2 integration code for Praxigento_Downline module used in MOBI apps.",
+  "description": "MOBI: Magento 2 integration code for Praxigento_Downline module.",
   "type": "magento2-module",
   "homepage": "https://github.com/praxigento/mobi_mod_mage2_downline",
   "license": "MIT",
