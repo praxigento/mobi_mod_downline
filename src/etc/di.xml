@@ -2,9 +2,14 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
 
+    <!-- Services -->
     <preference for="Praxigento\Downline\Lib\Service\ICustomer"
                 type="Praxigento\Downline\Lib\Service\Customer\Call"/>
     <preference for="Praxigento\Downline\Lib\Service\ISnap"
                 type="Praxigento\Downline\Lib\Service\Snap\Call"/>
+
+    <!-- Tools -->
+    <preference for="Praxigento\Downline\Lib\Tool\ITree"
+                type="\Praxigento\Downline\Lib\Tool\Def\Tree"/>
 
 </config>
