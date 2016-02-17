@@ -19,7 +19,6 @@
     }
   },
   "require": {
-    "php": ">=5.3",
     "praxigento/mobi_mod_common_downline": "dev-master",
     "praxigento/mobi_mod_mage2_accounting": "dev-master"
   }
