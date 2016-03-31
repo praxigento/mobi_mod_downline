@@ -5,6 +5,8 @@
     <!-- Services -->
     <preference for="Praxigento\Downline\Lib\Service\ICustomer"
                 type="Praxigento\Downline\Lib\Service\Customer\Call"/>
+    <preference for="Praxigento\Downline\Lib\Service\IMap"
+                type="Praxigento\Downline\Lib\Service\Map\Call"/>
     <preference for="Praxigento\Downline\Lib\Service\ISnap"
                 type="Praxigento\Downline\Lib\Service\Snap\Call"/>
 
