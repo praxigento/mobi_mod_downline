@@ -1,0 +1,200 @@
+{
+  "dBEAR": {
+    "package": {
+      "Praxigento": {
+        "alias": "prxgt",
+        "comment": "Root namespace for Praxigento modules",
+        "package": {
+          "Downline": {
+            "alias": "dwnl",
+            "comment": "Top level package for Praxigento_Downline module",
+            "entity": {
+              "Customer": {
+                "alias": "customer",
+                "comment": "Additional customer attributes related to downline tree.",
+                "attribute": {
+                  "CustomerId": {
+                    "alias": "customer_id",
+                    "comment": "Reference to the customer.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "ParentId": {
+                    "alias": "parent_id",
+                    "comment": "Reference to the customer's parent.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "Depth": {
+                    "alias": "depth",
+                    "comment": "Depth of the node in the tree.",
+                    "nullable": false,
+                    "default": 0,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "Path": {
+                    "alias": "path",
+                    "comment": "Path to the node - /1/2/3/.../",
+                    "nullable": false,
+                    "type": {"text": {"length": 255}}
+                  },
+                  "HumanReference": {
+                    "alias": "human_ref",
+                    "comment": "Human readable reference.",
+                    "nullable": false,
+                    "type": {"text": {"length": 255}}
+                  },
+                  "CountryCode": {
+                    "alias": "country_code",
+                    "comment": "Code for country of the registration.",
+                    "nullable": false,
+                    "type": {"text": {"length": 2}}
+                  }
+                },
+                "index": {
+                  "PK": {"type": "primary", "aliases": ["customer_id"]},
+                  "uniqueHumanReference": {"type": "unique", "aliases": ["human_ref"]}
+                },
+                "relation": {
+                  "toMageCustomer": {
+                    "own": {"aliases": ["customer_id"]},
+                    "reference": {
+                      "entity": {"completeAlias": "customer_entity"},
+                      "aliases": ["entity_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  },
+                  "toSelfAsParent": {
+                    "own": {"aliases": ["parent_id"]},
+                    "reference": {
+                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                      "aliases": ["customer_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  },
+                  "toMageCountryCode": {
+                    "own": {"aliases": ["country_code"]},
+                    "reference": {
+                      "entity": {"completeAlias": "directory_country"},
+                      "aliases": ["country_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  }
+                }
+              },
+              "Change": {
+                "alias": "change",
+                "comment": "Registry for changes in downline.",
+                "attribute": {
+                  "Id": {
+                    "alias": "id",
+                    "comment": "ID of the change.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                  },
+                  "DateChanged": {
+                    "alias": "date_changed",
+                    "comment": "Timestamp for the change.",
+                    "nullable": false,
+                    "type": {"datetime": {}}
+                  },
+                  "CustomerId": {
+                    "alias": "customer_id",
+                    "comment": "Reference to the customer.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "ParentId": {
+                    "alias": "parent_id",
+                    "comment": "Reference to the customer's parent.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true}}
+                  }
+                },
+                "index": {
+                  "PK": {"type": "primary", "aliases": ["id"]}
+                },
+                "relation": {
+                  "toDownlineCustomer": {
+                    "own": {"aliases": ["customer_id"]},
+                    "reference": {
+                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                      "aliases": ["customer_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  },
+                  "toDownlineCustomerAsParent": {
+                    "own": {"aliases": ["parent_id"]},
+                    "reference": {
+                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                      "aliases": ["customer_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  }
+                }
+              },
+              "Snapshot": {
+                "alias": "snap",
+                "comment": "Historical snapshots of the downline states.",
+                "attribute": {
+                  "Date": {
+                    "alias": "date",
+                    "comment": "Snapshot date ('YYYYMMDD').",
+                    "nullable": false,
+                    "type": {"text": {"length": 8}}
+                  },
+                  "CustomerId": {
+                    "alias": "customer_id",
+                    "comment": "Reference to the customer.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "ParentId": {
+                    "alias": "parent_id",
+                    "comment": "Reference to the customer's parent.",
+                    "nullable": false,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "Depth": {
+                    "alias": "depth",
+                    "comment": "Depth of the node in the tree.",
+                    "nullable": false,
+                    "default": 0,
+                    "type": {"integer": {"unsigned": true}}
+                  },
+                  "Path": {
+                    "alias": "path",
+                    "comment": "Path to the node - /1/2/3/.../",
+                    "nullable": false,
+                    "type": {"text": {"length": 255}}
+                  }
+                },
+                "index": {
+                  "PK": {"type": "primary", "aliases": ["date", "customer_id"]}
+                },
+                "relation": {
+                  "toDownlineCustomer": {
+                    "own": {"aliases": ["customer_id"]},
+                    "reference": {
+                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                      "aliases": ["customer_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  },
+                  "toDownlineCustomerAsParent": {
+                    "own": {"aliases": ["parent_id"]},
+                    "reference": {
+                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                      "aliases": ["customer_id"]
+                    },
+                    "action": {"delete": "restrict", "update": "restrict"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
