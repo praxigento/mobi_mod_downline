@@ -6,6 +6,13 @@
  */
 namespace Praxigento\Downline;
 
-class Config {
+class Config extends \Praxigento\Core\Config
+{
+    /** Downline Tree path separator */
+    const DTPS = '/';
+    /**
+     * Depth for root nodes.
+     */
+    const INIT_DEPTH = 0;
     const MODULE = 'Praxigento_Downline';
 }
