@@ -27,7 +27,7 @@ class Main_IntegrationTest extends BaseIntegrationTest {
 
     public function __construct() {
         parent::__construct();
-        $this->_callSnap = $this->_obm->get(\Praxigento\Downline\Lib\Service\Snap\Call::class);
+        $this->_callSnap = $this->_manObj->get(\Praxigento\Downline\Lib\Service\Snap\Call::class);
     }
 
     private function _calcSnapshots() {
