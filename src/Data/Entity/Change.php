@@ -14,13 +14,81 @@ class Change extends EntityBase
     const ATTR_PARENT_ID = 'parent_id';
     const ENTITY_NAME = 'prxgt_dwnl_change';
 
+    /**
+     * @return int
+     */
+    public function getCustomerId()
+    {
+        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDateChanged()
+    {
+        $result = parent::getData(self::ATTR_DATE_CHANGED);
+        return $result;
+    }
+
     public function getEntityName()
     {
         return self::ENTITY_NAME;
     }
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        $result = parent::getData(self::ATTR_ID);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParentId()
+    {
+        $result = parent::getData(self::ATTR_PARENT_ID);
+        return $result;
+    }
+
     public function getPrimaryKeyAttrs()
     {
         return [self::ATTR_ID];
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setCustomerId($data)
+    {
+        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+    }
+
+    /**
+     * @param string $data
+     */
+    public function setDateChanged($data)
+    {
+        parent::setData(self::ATTR_DATE_CHANGED, $data);
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setId($data)
+    {
+        parent::setData(self::ATTR_ID, $data);
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setParentId($data)
+    {
+        parent::setData(self::ATTR_PARENT_ID, $data);
     }
 }
