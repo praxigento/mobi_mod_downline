@@ -23,17 +23,17 @@ class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
 
         /* Customer */
         $entityAlias = Customer::ENTITY_NAME;
-        $demEntity = $demPackage['entity']['Customer'];
+        $demEntity = $demPackage->getData('entity/Customer');
         $this->_toolDem->createEntity($entityAlias, $demEntity);
 
         /* Change */
         $entityAlias = Change::ENTITY_NAME;
-        $demEntity = $demPackage['entity']['Change'];
+        $demEntity = $demPackage->getData('entity/Change');
         $this->_toolDem->createEntity($entityAlias, $demEntity);
 
         /* Snapshot */
         $entityAlias = Snap::ENTITY_NAME;
-        $demEntity = $demPackage['entity']['Snapshot'];
+        $demEntity = $demPackage->getData('entity/Snapshot');
         $this->_toolDem->createEntity($entityAlias, $demEntity);
     }
 
