@@ -2,14 +2,26 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Lib\Service\Snap\Sub;
 
+namespace Praxigento\Downline\Repo\Def;
 
 use Praxigento\Downline\Data\Entity\Change;
 use Praxigento\Downline\Data\Entity\Snap;
+use Praxigento\Downline\Repo\IModule;
 
-class Db
+class Module implements IModule
 {
+    /** @var \Magento\Framework\App\ResourceConnection */
+    protected $_resource;
+    /** @var \Magento\Framework\DB\Adapter\AdapterInterface */
+    protected $_conn;
+
+    public function __construct(
+        \Magento\Framework\App\ResourceConnection $resource
+    ) {
+        $this->_resource = $resource;
+        $this->_conn = $resource->getConnection();
+    }
 
     /**
      * Select MIN date for the existing change log.
@@ -25,15 +37,14 @@ class Db
     {
         $result = null;
         $asChange = 'c';
-        $tblChange = $this->_getTableName(Change::ENTITY_NAME);
+        $tblChange = $this->_conn->getTableName(Change::ENTITY_NAME);
         /* select from account */
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from([$asChange => $tblChange], [Change::ATTR_DATE_CHANGED]);
         /* order by */
         $query->order([$asChange . '.' . Change::ATTR_DATE_CHANGED . ' ASC']);
         /* perform query */
-        // $sql = (string)$query;
-        $result = $this->_getConn()->fetchOne($query);
+        $result = $this->_conn->fetchOne($query);
         return $result;
     }
 
@@ -54,9 +65,9 @@ class Db
     public function getChangesForPeriod($timestampFrom, $timestampTo)
     {
         $asChange = 'log';
-        $tblChange = $this->_getTableName(Change::ENTITY_NAME);
+        $tblChange = $this->_conn->getTableName(Change::ENTITY_NAME);
         /* select from prxgt_dwnl_change */
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from([$asChange => $tblChange]);
         /* where */
         $query->where($asChange . '.' . Change::ATTR_DATE_CHANGED . '>=:date_from');
@@ -73,13 +84,12 @@ class Db
             $asChange . '.' . Change::ATTR_DATE_CHANGED . ' ASC',
             $asChange . '.' . Change::ATTR_CUSTOMER_ID . ' ASC'
         ]);
-        // $sql = (string)$query;
-        $result = $this->_getConn()->fetchAll($query, $bind);
+        $result = $this->_conn->fetchAll($query, $bind);
         return $result;
     }
 
     /**
-     *Select MAX datestamp for downline snapshots.
+     * Select MAX datestamp for downline snapshots.
      *
      * SELECT
      * `s`.`date`
@@ -93,15 +103,15 @@ class Db
     {
         $result = null;
         $asSnap = 's';
-        $tblSnap = $this->_getTableName(Snap::ENTITY_NAME);
+        $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
         /* select from account */
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from([$asSnap => $tblSnap], [Snap::ATTR_DATE]);
         /* order by */
         $query->order([$asSnap . '.' . Snap::ATTR_DATE . ' DESC']);
         /* perform query */
         // $sql = (string)$query;
-        $result = $this->_getConn()->fetchOne($query);
+        $result = $this->_conn->fetchOne($query);
         return $result;
     }
 
@@ -135,9 +145,9 @@ class Db
         $asSnap4Max = 'snap4Max';
         $asSnap = 'snap';
         $asMax = 'snapMax';
-        $tblSnap = $this->_getTableName(Snap::ENTITY_NAME);
+        $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
         /* select MAX(date) from prxgt_dwnl_snap (internal select) */
-        $q4Max = $this->_getConn()->select();
+        $q4Max = $this->_conn->select();
         $colDateMax = 'date_max';
         $expMaxDate = new \Zend_Db_Expr('MAX(`' . $asSnap4Max . '`.`' . Snap::ATTR_DATE . '`) as ' . $colDateMax);
         $q4Max->from([$asSnap4Max => $tblSnap], [Snap::ATTR_CUSTOMER_ID, $expMaxDate]);
@@ -145,7 +155,7 @@ class Db
         $q4Max->where($asSnap4Max . '.' . Snap::ATTR_DATE . '<=:date');
         $bind['date'] = $datestamp;
         /* select from prxgt_dwnl_snap */
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from([$asSnap => $tblSnap], [
             Snap::ATTR_CUSTOMER_ID,
             Snap::ATTR_PARENT_ID,
@@ -159,7 +169,7 @@ class Db
         /* where */
         $query->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
         // $sql = (string)$query;
-        $rows = $this->_getConn()->fetchAll($query, $bind);
+        $rows = $this->_conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {
                 $result[$one[Snap::ATTR_CUSTOMER_ID]] = $one;
@@ -175,10 +185,10 @@ class Db
      */
     public function saveCalculatedUpdates($updates)
     {
-        $tbl = $this->_getTableName(Snap::ENTITY_NAME);
+        $tbl = $this->_conn->getTableName(Snap::ENTITY_NAME);
         foreach ($updates as $date => $updatesByDate) {
             foreach ($updatesByDate as $data) {
-                $this->_getConn()->insert($tbl, $data);
+                $this->_conn->insert($tbl, $data);
             }
         }
     }

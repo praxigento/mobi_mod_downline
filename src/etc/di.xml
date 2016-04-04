@@ -2,6 +2,9 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
 
+    <!-- Repo -->
+    <preference for="Praxigento\Downline\Repo\IModule"
+                type="Praxigento\Downline\Repo\Def\Module"/>
     <!-- Services -->
     <preference for="Praxigento\Downline\Lib\Service\ICustomer"
                 type="Praxigento\Downline\Lib\Service\Customer\Call"/>
