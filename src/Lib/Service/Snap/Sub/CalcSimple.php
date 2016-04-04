@@ -9,8 +9,8 @@ namespace Praxigento\Downline\Lib\Service\Snap\Sub;
 
 use Praxigento\Core\Lib\IToolbox;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Lib\Entity\Change;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Change;
+use Praxigento\Downline\Data\Entity\Snap;
 
 class CalcSimple {
     /**

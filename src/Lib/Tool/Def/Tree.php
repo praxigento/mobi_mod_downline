@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Lib\Tool\Def;
 
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Snap;
 use Praxigento\Downline\Lib\Tool\ITree;
 
 class Tree implements ITree {

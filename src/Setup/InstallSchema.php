@@ -8,9 +8,9 @@ namespace Praxigento\Downline\Setup;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Praxigento\Core\Lib\Setup\Db as Db;
-use Praxigento\Downline\Lib\Entity\Change;
-use Praxigento\Downline\Lib\Entity\Customer;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Change;
+use Praxigento\Downline\Data\Entity\Customer;
+use Praxigento\Downline\Data\Entity\Snap;
 
 class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
 {

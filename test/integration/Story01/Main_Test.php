@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Lib\Test\Story01;
 use Praxigento\Core\Lib\Context;
 use Praxigento\Core\Lib\Test\BaseIntegrationTest;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Snap;
 use Praxigento\Downline\Lib\Service\Customer\Request\ChangeParent as CustomerChangeParentRequest;
 use Praxigento\Downline\Lib\Service\Snap\Request\Calc as SnapCalcRequest;
 use Praxigento\Downline\Lib\Service\Snap\Request\GetStateOnDate as SnapGetStateOnDateRequest;

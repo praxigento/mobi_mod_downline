@@ -5,8 +5,8 @@
 namespace Praxigento\Downline\Lib\Service\Snap\Sub;
 
 
-use Praxigento\Downline\Lib\Entity\Change;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Change;
+use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
 

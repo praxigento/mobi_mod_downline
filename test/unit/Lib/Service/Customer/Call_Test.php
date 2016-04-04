@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Lib\Service\Customer;
 use Praxigento\Core\Lib\Service\Base\Response as BaseResponse;
 use Praxigento\Core\Lib\Service\Repo\Response\AddEntity as AddEntityResponse;
 use Praxigento\Core\Lib\Service\Repo\Response\UpdateEntity as UpdateEntityResponse;
-use Praxigento\Downline\Lib\Entity\Customer;
+use Praxigento\Downline\Data\Entity\Customer;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 

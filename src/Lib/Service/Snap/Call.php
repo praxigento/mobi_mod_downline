@@ -5,7 +5,7 @@
 namespace Praxigento\Downline\Lib\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Snap;
 use Praxigento\Downline\Lib\Service\ISnap;
 
 class Call extends \Praxigento\Core\Lib\Service\Base\Call implements ISnap
