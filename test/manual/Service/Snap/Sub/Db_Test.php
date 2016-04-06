@@ -8,7 +8,7 @@ use Praxigento\Downline\Lib\Context;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Db_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
+class Db_ManualTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
 
     public function test_getSnapMaxDate() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
