@@ -20,7 +20,7 @@ class Call extends \Praxigento\Core\Lib\Service\Base\Call implements ISnap
      * @var Sub\CalcSimple
      */
     protected $_subCalc;
-    /** @var  \Praxigento\Core\Lib\Tool\Period */
+    /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;
     /** @var \Praxigento\Core\Repo\ITransactionManager */
     protected $_manTrans;
@@ -28,7 +28,7 @@ class Call extends \Praxigento\Core\Lib\Service\Base\Call implements ISnap
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
-        \Praxigento\Core\Lib\Tool\Period $toolPeriod,
+        \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\IModule $repoModule,
         Sub\CalcSimple $subCalc
     ) {

@@ -7,22 +7,24 @@
 namespace Praxigento\Downline\Lib\Service\Snap\Sub;
 
 
-use Praxigento\Core\Lib\IToolbox;
+use Praxigento\Core\Tool\IPeriod;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Change;
 use Praxigento\Downline\Data\Entity\Snap;
 
-class CalcSimple {
+class CalcSimple
+{
     /**
-     * @var \Praxigento\Core\Lib\IToolbox
+     * @var \Praxigento\Core\Tool\IPeriod
      */
-    private $_toolbox;
+    private $_toolPeriod;
 
     /**
      * CalcSimple constructor.
      */
-    public function __construct(IToolbox $toolbox) {
-        $this->_toolbox = $toolbox;
+    public function __construct(IPeriod $toolPeriod)
+    {
+        $this->_toolPeriod = $toolPeriod;
     }
 
     /**
@@ -35,24 +37,23 @@ class CalcSimple {
      *
      * @return array
      */
-    public function calcSnapshots($currentState, $changes) {
-        $result = [ ];
-        /** @var  $toolPeriod \Praxigento\Core\Lib\Tool\Period */
-        $toolPeriod = $this->_toolbox->getPeriod();
-        foreach($changes as $downCustomer) {
+    public function calcSnapshots($currentState, $changes)
+    {
+        $result = [];
+        foreach ($changes as $downCustomer) {
             $customerId = $downCustomer[Change::ATTR_CUSTOMER_ID];
             $parentId = $downCustomer[Change::ATTR_PARENT_ID];
             $tsChanged = $downCustomer[Change::ATTR_DATE_CHANGED];
-            $dsChanged = $toolPeriod->getPeriodCurrent($tsChanged);
+            $dsChanged = $this->_toolPeriod->getPeriodCurrent($tsChanged);
             /* $currentState contains actual state that is updated with changes */
-            if(isset($currentState[$customerId])) {
+            if (isset($currentState[$customerId])) {
                 /* this is update of the existing customer */
                 /* write down existing state */
                 $currCustomer = $currentState[$customerId];
                 $currDepth = $currCustomer[Snap::ATTR_DEPTH];
                 $currPath = $currCustomer[Snap::ATTR_PATH];
                 /* write down new state */
-                if($customerId == $parentId) {
+                if ($customerId == $parentId) {
                     /* this is root node customer */
                     $newDepth = Cfg::INIT_DEPTH;
                     $newPath = Cfg::DTPS;
@@ -63,20 +64,20 @@ class CalcSimple {
                     $newPath = $newParent[Snap::ATTR_PATH] . $parentId . Cfg::DTPS;
                 }
                 $customer = [
-                    Snap::ATTR_DATE        => $dsChanged,
+                    Snap::ATTR_DATE => $dsChanged,
                     Snap::ATTR_CUSTOMER_ID => $customerId,
-                    Snap::ATTR_PARENT_ID   => $parentId,
-                    Snap::ATTR_DEPTH       => $newDepth,
-                    Snap::ATTR_PATH        => $newPath
+                    Snap::ATTR_PARENT_ID => $parentId,
+                    Snap::ATTR_DEPTH => $newDepth,
+                    Snap::ATTR_PATH => $newPath
                 ];
                 /* we need to update downline's depths & paths for changed customer */
                 /* TODO slow code, add ndx if too much slow */
                 $key = $currPath . $customerId . Cfg::DTPS;
                 $depthDelta = $newDepth - $currDepth;
                 $pathReplace = $newPath . $customerId . Cfg::DTPS;
-                foreach($currentState as $downCustomer) {
+                foreach ($currentState as $downCustomer) {
                     $downPath = $downCustomer[Snap::ATTR_PATH];
-                    if(false !== strrpos($downPath, $key, -strlen($downPath))) {
+                    if (false !== strrpos($downPath, $key, -strlen($downPath))) {
                         /* this is customer from downlilne, we need to change depth & path */
                         $downCustId = $downCustomer[Snap::ATTR_CUSTOMER_ID];
                         $downParentId = $downCustomer[Snap::ATTR_PARENT_ID];
@@ -86,34 +87,34 @@ class CalcSimple {
                         $downCustomer[Snap::ATTR_PATH] = $downNewPath;
                         /* add to result updates */
                         $result[$dsChanged][$downCustId] = [
-                            Snap::ATTR_DATE        => $dsChanged,
+                            Snap::ATTR_DATE => $dsChanged,
                             Snap::ATTR_CUSTOMER_ID => $downCustId,
-                            Snap::ATTR_PARENT_ID   => $downParentId,
-                            Snap::ATTR_DEPTH       => $downNewDepth,
-                            Snap::ATTR_PATH        => $downNewPath
+                            Snap::ATTR_PARENT_ID => $downParentId,
+                            Snap::ATTR_DEPTH => $downNewDepth,
+                            Snap::ATTR_PATH => $downNewPath
                         ];
                     }
                 }
             } else {
                 /* there is no data for this customer, this is new customer; just add new customer to results */
-                if($customerId == $parentId) {
+                if ($customerId == $parentId) {
                     /* this is root node customer */
                     $customer = [
-                        Snap::ATTR_DATE        => $dsChanged,
+                        Snap::ATTR_DATE => $dsChanged,
                         Snap::ATTR_CUSTOMER_ID => $customerId,
-                        Snap::ATTR_PARENT_ID   => $customerId,
-                        Snap::ATTR_DEPTH       => Cfg::INIT_DEPTH,
-                        Snap::ATTR_PATH        => Cfg::DTPS
+                        Snap::ATTR_PARENT_ID => $customerId,
+                        Snap::ATTR_DEPTH => Cfg::INIT_DEPTH,
+                        Snap::ATTR_PATH => Cfg::DTPS
                     ];
                 } else {
                     /* this is NOT root node customer */
                     $parent = $currentState[$parentId];
                     $customer = [
-                        Snap::ATTR_DATE        => $dsChanged,
+                        Snap::ATTR_DATE => $dsChanged,
                         Snap::ATTR_CUSTOMER_ID => $customerId,
-                        Snap::ATTR_PARENT_ID   => $parentId,
-                        Snap::ATTR_DEPTH       => $parent[Snap::ATTR_DEPTH] + 1,
-                        Snap::ATTR_PATH        => $parent[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
+                        Snap::ATTR_PARENT_ID => $parentId,
+                        Snap::ATTR_DEPTH => $parent[Snap::ATTR_DEPTH] + 1,
+                        Snap::ATTR_PATH => $parent[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
                     ];
                 }
             }

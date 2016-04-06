@@ -54,8 +54,8 @@ class Main_IntegrationTest extends BaseIntegrationTest {
     private function _changeC10ParentFromC7ToC9() {
         $this->_logger->debug("Change parent from #9 to #7 for customer #10.");
         $this->_dayIsOver();
-        /** @var  $period \Praxigento\Core\Lib\Tool\Period */
-        $period = $this->_toolbox->getPeriod();
+        /** @var  $period \Praxigento\Core\Tool\IPeriod */
+        $period = $this->_toolPeriod;
         $customerId = $this->_mapCustomerMageIdByIndex[10];
         $parentId = $this->_mapCustomerMageIdByIndex[9];
         /* get snapshot before calculation */
@@ -93,8 +93,8 @@ class Main_IntegrationTest extends BaseIntegrationTest {
     private function _changeC10ParentFromC9ToC7() {
         $this->_logger->debug("Change parent back from #7 to #9 for customer #10.");
         $this->_dayIsOver();
-        /** @var  $period \Praxigento\Core\Lib\Tool\Period */
-        $period = $this->_toolbox->getPeriod();
+        /** @var  $period \Praxigento\Core\Tool\IPeriod */
+        $period = $this->_toolPeriod;
         $customerId = $this->_mapCustomerMageIdByIndex[10];
         $parentId = $this->_mapCustomerMageIdByIndex[7];
         /* get snapshot before calculation */
@@ -132,8 +132,8 @@ class Main_IntegrationTest extends BaseIntegrationTest {
     private function _changeC13ToRoot() {
         $this->_logger->debug("Change parent to root for customer #13.");
         $this->_dayIsOver();
-        /** @var  $period \Praxigento\Core\Lib\Tool\Period */
-        $period = $this->_toolbox->getPeriod();
+        /** @var  $period \Praxigento\Core\Tool\IPeriod */
+        $period = $this->_toolPeriod;
         $customerId = $this->_mapCustomerMageIdByIndex[13];
         /* get snapshot before calculation */
         $reqSnap = new SnapGetStateOnDateRequest();
@@ -169,7 +169,7 @@ class Main_IntegrationTest extends BaseIntegrationTest {
     }
 
     private function _checkSnapsForC13() {
-        $period = $this->_toolbox->getPeriod();
+        $period = $this->_toolPeriod;
         $today = $this->_dtToday;
         $customerId = $this->_mapCustomerMageIdByIndex[13];
         $customer7Id = $this->_mapCustomerMageIdByIndex[7];
@@ -209,7 +209,7 @@ class Main_IntegrationTest extends BaseIntegrationTest {
     }
 
     private function _dayIsOver() {
-        $this->_dtToday = $this->_toolbox->getPeriod()->getPeriodNext($this->_dtToday);
+        $this->_dtToday = $this->_toolPeriod->getPeriodNext($this->_dtToday);
         $this->_logger->debug("Today is '{$this->_dtToday}'.");
     }
 
