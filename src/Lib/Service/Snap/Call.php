@@ -8,7 +8,7 @@ use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Snap;
 use Praxigento\Downline\Lib\Service\ISnap;
 
-class Call extends \Praxigento\Core\Lib\Service\Base\Call implements ISnap
+class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 {
     /**
      * Module level repository functions.

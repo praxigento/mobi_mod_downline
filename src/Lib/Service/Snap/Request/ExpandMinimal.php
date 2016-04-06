@@ -13,5 +13,5 @@ namespace Praxigento\Downline\Lib\Service\Snap\Request;
  * @method array getTree() [$custId => $parentId, ...] | [$custId => [KEY => $parentId, ...], ...] | [[KEY_C => $customerId, KEY_P => $parentId, ...], ...]
  * @method void setTree(array $data)
  */
-class ExpandMinimal extends \Praxigento\Core\Lib\Service\Base\Request {
+class ExpandMinimal extends \Praxigento\Core\Service\Base\Request {
 }

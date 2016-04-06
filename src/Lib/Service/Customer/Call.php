@@ -9,7 +9,7 @@ use Praxigento\Downline\Data\Entity\Change;
 use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Lib\Service\ICustomer;
 
-class Call extends \Praxigento\Core\Lib\Service\Base\Call implements ICustomer
+class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
 {
     /** @var \Praxigento\Core\Repo\ITransactionManager */
     protected $_manTrans;

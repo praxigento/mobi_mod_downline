@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Lib\Service\Customer\Request;
 
 
-class ChangeParent extends \Praxigento\Core\Lib\Service\Base\Request {
+class ChangeParent extends \Praxigento\Core\Service\Base\Request {
     /**
      * Magento ID for customer itself.
      * @var int

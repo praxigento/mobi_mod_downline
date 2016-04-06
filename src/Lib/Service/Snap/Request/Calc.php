@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Lib\Service\Snap\Request;
 
 
-class Calc extends \Praxigento\Core\Lib\Service\Base\Request {
+class Calc extends \Praxigento\Core\Service\Base\Request {
     /**
      * Calculate snapshots up to this date (including it).
      * @var string 'YYYYMMDD'

@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Lib\Service\Snap\Request;
  * Class GetStateOnDate
  * @package Praxigento\Downline\Lib\Service\Snap\Request
  */
-class GetStateOnDate extends \Praxigento\Core\Lib\Service\Base\Request {
+class GetStateOnDate extends \Praxigento\Core\Service\Base\Request {
     /**
      * @var string 'YYYYMMDD'
      */

@@ -8,5 +8,5 @@ namespace Praxigento\Downline\Lib\Service\Snap\Response;
  * @method array getSnapData()
  * @method void setSnapData(array $data)
  */
-class ExpandMinimal extends \Praxigento\Core\Lib\Service\Base\Response {
+class ExpandMinimal extends \Praxigento\Core\Service\Base\Response {
 }
