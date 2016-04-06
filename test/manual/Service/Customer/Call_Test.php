@@ -4,14 +4,14 @@
  */
 namespace Praxigento\Downline\Lib\Service\Customer;
 
-use Praxigento\Core\Lib\Context;
+
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
 class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
 
     public function test_add() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Downline\Lib\Service\Customer\Call */
         $call = $obm->get('Praxigento\Downline\Lib\Service\Customer\Call');
         $request = new Request\Add();
@@ -23,7 +23,7 @@ class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
     }
 
     public function test_changeParent() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Downline\Lib\Service\Customer\Call */
         $call = $obm->get('Praxigento\Downline\Lib\Service\Customer\Call');
         $request = new Request\ChangeParent();

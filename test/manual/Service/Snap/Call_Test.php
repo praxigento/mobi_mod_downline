@@ -4,14 +4,14 @@
  */
 namespace Praxigento\Downline\Lib\Service\Snap;
 
-use Praxigento\Core\Lib\Context;
+
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
 class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
 
     public function test_getLastDate() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
         $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
         $req = new Request\GetLastDate();
@@ -23,7 +23,7 @@ class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
     }
 
     public function test_getStateOnDate() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
         $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
         $req = new Request\GetStateOnDate();
@@ -34,7 +34,7 @@ class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
     }
 
     public function test_calc() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
         $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
         $req = new Request\Calc();
@@ -45,7 +45,7 @@ class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
     }
 
     public function test_extendMinimal() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
         $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
         $req = new Request\ExpandMinimal();

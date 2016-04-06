@@ -11,7 +11,7 @@ include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 class Db_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
 
     public function test_getSnapMaxDate() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $sub \Praxigento\Downline\Lib\Service\Snap\Sub\Db */
         $sub = $obm->get('Praxigento\Downline\Lib\Service\Snap\Sub\Db');
         $snapMaxDate = $sub->getSnapMaxDatestamp();

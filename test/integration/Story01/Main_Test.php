@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Lib\Test\Story01;
 
-use Praxigento\Core\Lib\Context;
+
 use Praxigento\Core\Lib\Test\BaseIntegrationTest;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Snap;
