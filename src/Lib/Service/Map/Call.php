@@ -22,7 +22,7 @@ class Call extends BaseCall implements IMap
             $mapped[$item[$asId]] = $item;
         }
         $result->setMapped($mapped);
-        $result->setAsSucceed();
+        $result->markSucceed();
         return $result;
     }
 
@@ -47,7 +47,7 @@ class Call extends BaseCall implements IMap
             krsort($mapped);
         }
         $result->setMapped($mapped);
-        $result->setAsSucceed();
+        $result->markSucceed();
         return $result;
     }
 
@@ -72,7 +72,7 @@ class Call extends BaseCall implements IMap
             $mapped[$parentId][] = $custId;
         }
         $result->setMapped($mapped);
-        $result->setAsSucceed();
+        $result->markSucceed();
         return $result;
     }
 

@@ -109,7 +109,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
             /* save new snapshots in DB */
             $this->_repoModule->saveCalculatedUpdates($updates);
             $this->_manTrans->transactionCommit($trans);
-            $result->setAsSucceed();
+            $result->markSucceed();
         } finally {
             $this->_manTrans->transactionClose($trans);
         }
@@ -176,7 +176,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         $snapData = [];
         $this->_composeSnapData($snapData, $tree);
         $result->setSnapData($snapData);
-        $result->setAsSucceed();
+        $result->markSucceed();
         return $result;
     }
 
@@ -204,7 +204,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
                 $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
                 $this->_logger->info("The last date for downline snapshot is '$dayBefore'.");
                 $result->setData([Response\GetLastDate::LAST_DATE => $dayBefore]);
-                $result->setAsSucceed();
+                $result->markSucceed();
             }
         }
         $this->_logger->info("'Get Last Data' operation is completed.");
@@ -225,7 +225,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         $dateOn = $request->getDatestamp();
         $rows = $this->_repoModule->getStateOnDate($dateOn);
         $result->setData($rows);
-        $result->setAsSucceed();
+        $result->markSucceed();
         $this->_logger->info("'Get Downline Tree state' operation is completed.");
         return $result;
     }

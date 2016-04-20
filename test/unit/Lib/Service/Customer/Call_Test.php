@@ -40,7 +40,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             Customer::ATTR_PATH  => $PARENT_PATH,
             Customer::ATTR_DEPTH => $PARENT_DEPTH
         ]);
-        $mRespByPk->setAsSucceed();
+        $mRespByPk->markSucceed();
         $mCallRepo
             ->expects($this->once())
             ->method('getEntityByPk')
@@ -50,7 +50,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $mRespAddCust->setData([
             AddEntityResponse::ID_INSERTED => $ID_INSERTED_CUST
         ]);
-        $mRespAddCust->setAsSucceed();
+        $mRespAddCust->markSucceed();
         $mCallRepo
             ->expects($this->at(1))
             ->method('addEntity')
@@ -60,7 +60,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $mRespAddLog->setData([
             AddEntityResponse::ID_INSERTED => $ID_INSERTED_LOG
         ]);
-        $mRespAddLog->setAsSucceed();
+        $mRespAddLog->markSucceed();
         $mCallRepo
             ->expects($this->at(2))
             ->method('addEntity')
@@ -149,7 +149,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $mRespAddCust->setData([
             AddEntityResponse::ID_INSERTED => $ID_INSERTED_CUST
         ]);
-        $mRespAddCust->setAsSucceed();
+        $mRespAddCust->markSucceed();
         $mCallRepo
             ->expects($this->at(0))
             ->method('addEntity')
@@ -249,7 +249,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             Customer::ATTR_PATH      => $PARENT_PATH_OLD,
             Customer::ATTR_DEPTH     => $PARENT_DEPTH_OLD
         ]);
-        $mRespByPk->setAsSucceed();
+        $mRespByPk->markSucceed();
         $mCallRepo
             ->expects($this->at(0))
             ->method('getEntityByPk')
@@ -262,7 +262,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             Customer::ATTR_PATH      => $PARENT_PATH_NEW,
             Customer::ATTR_DEPTH     => $PARENT_DEPTH_NEW
         ]);
-        $mRespByPkParent->setAsSucceed();
+        $mRespByPkParent->markSucceed();
         $mCallRepo
             ->expects($this->at(1))
             ->method('getEntityByPk')
@@ -270,7 +270,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         // $respUpdate = $this->_callRepo->updateEntity($reqUpdate);
         $mRespUpdate = new UpdateEntityResponse();
         $mRespUpdate->setData([ UpdateEntityResponse::ROWS_UPDATED => 1 ]);
-        $mRespUpdate->setAsSucceed();
+        $mRespUpdate->markSucceed();
         $mCallRepo
             ->expects($this->at(2))
             ->method('updateEntity')
@@ -278,7 +278,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         // $respUpdate = $this->_callRepo->updateEntity($reqUpdate);
         $mRespUpdate = new UpdateEntityResponse();
         $mRespUpdate->setData([ UpdateEntityResponse::ROWS_UPDATED => 5 ]);
-        $mRespUpdate->setAsSucceed();
+        $mRespUpdate->markSucceed();
         $mCallRepo
             ->expects($this->at(3))
             ->method('updateEntity')
@@ -288,7 +288,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $mRespAddCust->setData([
             AddEntityResponse::ID_INSERTED => $ID_INSERTED_LOG
         ]);
-        $mRespAddCust->setAsSucceed();
+        $mRespAddCust->markSucceed();
         $mCallRepo
             ->expects($this->at(4))
             ->method('addEntity')
