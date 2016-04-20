@@ -11,7 +11,7 @@ use Praxigento\Downline\Data\Entity\Customer;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
+class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
     protected function setUp()
     {
