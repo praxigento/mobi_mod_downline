@@ -7,23 +7,27 @@ namespace Praxigento\Downline\Lib\Service\Map;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
+class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
+{
 
     /** @var  Call */
     private $call;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
+        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
         $this->call = new Call();
     }
 
-    public function test_byId() {
+    public function test_byId()
+    {
         /** === Test Data === */
         $AS_ID = 'id';
         $AS_OTHER = 'other';
         $ID = 23;
         $OTHER = 'any data';
-        $DATA = [ [ $AS_ID => $ID, $AS_OTHER => $OTHER ] ];
+        $DATA = [[$AS_ID => $ID, $AS_OTHER => $OTHER]];
         /** === Setup Mocks === */
         /** === Call and asserts  === */
         $req = new Request\ById();
@@ -36,7 +40,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($OTHER, $mapped[$ID][$AS_OTHER]);
     }
 
-    public function test_treeByDepth() {
+    public function test_treeByDepth()
+    {
         /** === Test Data === */
         $AS_CUST_ID = 'id';
         $AS_DEPTH = 'depth';
@@ -44,9 +49,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $DEPTH_0 = 0;
         $DEPTH_1 = 1;
         $DATA = [
-            [ $AS_CUST_ID => 1, $AS_DEPTH => $DEPTH_0 ],
-            [ $AS_CUST_ID => 2, $AS_DEPTH => $DEPTH_0 ],
-            [ $AS_CUST_ID => 3, $AS_DEPTH => $DEPTH_1 ]
+            [$AS_CUST_ID => 1, $AS_DEPTH => $DEPTH_0],
+            [$AS_CUST_ID => 2, $AS_DEPTH => $DEPTH_0],
+            [$AS_CUST_ID => 3, $AS_DEPTH => $DEPTH_1]
         ];
         /** === Setup Mocks === */
         /** === Call and asserts  === */
@@ -63,7 +68,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals(1, count($mapped[$DEPTH_1]));
     }
 
-    public function test_treeByTeams() {
+    public function test_treeByTeams()
+    {
         /** === Test Data === */
         $AS_CUST_ID = 'customer';
         $AS_PARENT_ID = 'parent';
@@ -71,9 +77,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $ID_2 = 2;
         $ID_3 = 3;
         $DATA = [
-            [ $AS_CUST_ID => $ID_1, $AS_PARENT_ID => $ID_1 ],
-            [ $AS_CUST_ID => $ID_2, $AS_PARENT_ID => $ID_1 ],
-            [ $AS_CUST_ID => $ID_3, $AS_PARENT_ID => $ID_2 ]
+            [$AS_CUST_ID => $ID_1, $AS_PARENT_ID => $ID_1],
+            [$AS_CUST_ID => $ID_2, $AS_PARENT_ID => $ID_1],
+            [$AS_CUST_ID => $ID_3, $AS_PARENT_ID => $ID_2]
         ];
         /** === Setup Mocks === */
         /** === Call and asserts  === */

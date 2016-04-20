@@ -8,9 +8,16 @@ use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
 
-class Db_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
+class Db_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
+{
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
+    }
 
-    public function test_getChangelogMinDate() {
+    public function test_getChangelogMinDate()
+    {
         /** === Test Data === */
         $TABLE = 'table name';
         $RESULT = 'some result';
@@ -42,12 +49,13 @@ class Db_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($RESULT, $res);
     }
 
-    public function test_getChangesForPeriod() {
+    public function test_getChangesForPeriod()
+    {
         /** === Test Data === */
         $TIMESTAMP_FROM = '2345/12/07 10:20:30';
         $TIMESTAMP_TO = '2345/12/08 10:20:30';
         $TABLE = 'table name';
-        $RESULT = [ ];
+        $RESULT = [];
 
         /** === Mocks === */
         $mLogger = $this->_mockLogger();
@@ -77,7 +85,8 @@ class Db_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($RESULT, $res);
     }
 
-    public function test_getSnapMaxDatestamp() {
+    public function test_getSnapMaxDatestamp()
+    {
         /** === Test Data === */
         $TABLE = 'table name';
         $RESULT = 'result here';
@@ -109,14 +118,15 @@ class Db_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($RESULT, $res);
     }
 
-    public function test_getStateOnDate() {
+    public function test_getStateOnDate()
+    {
         /** === Test Data === */
         $DATESTAMP = '20161223';
         $TABLE = 'table name';
         $FETCHED = [
-            [ Snap::ATTR_CUSTOMER_ID => 21 ]
+            [Snap::ATTR_CUSTOMER_ID => 21]
         ];
-        $RESULT = [ 21 => [ Snap::ATTR_CUSTOMER_ID => 21 ] ];
+        $RESULT = [21 => [Snap::ATTR_CUSTOMER_ID => 21]];
         /** === Mocks === */
         $mLogger = $this->_mockLogger();
         $mConn = $this->_mockConnection();
@@ -151,13 +161,14 @@ class Db_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($RESULT, $res);
     }
 
-    public function test_saveCalculatedUpdates() {
+    public function test_saveCalculatedUpdates()
+    {
         /** === Test Data === */
         $TABLE = 'table name';
         $UPDATES = [
             '20151201' => [
-                21 => [ ],
-                32 => [ ]
+                21 => [],
+                32 => []
             ]
         ];
         /** === Mocks === */

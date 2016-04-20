@@ -6,15 +6,57 @@ namespace Praxigento\Downline\Lib\Service\Snap;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
+class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
+{
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
+    }
 
-    public function test_calc_withGetLastDate() {
+    public function test_calc_exception()
+    {
+        /** === Test Data === */
+        $DS_TO = '20151207';
+        /** === Mocks === */
+        $mLogger = $this->_mockLogger();
+        $mConn = $this->_mockConnection();
+        $mDba = $this->_mockDbAdapter(null, $mConn);
+        $mToolPeriod = $this->_mockFor('Praxigento\Core\Tool\IPeriod');
+        $mToolbox = $this->_mockToolbox(null, null, null, $mToolPeriod);
+        $mCallRepo = $this->_mockCallRepo();
+        $mSubDb = $this->_mockFor('Praxigento\Downline\Lib\Service\Snap\Sub\Db');
+        $mSubCalc = $this->_mockFor('Praxigento\Downline\Lib\Service\Snap\Sub\CalcSimple');
+
+        // $this->_conn->beginTransaction();
+        $mConn
+            ->expects($this->once())
+            ->method('beginTransaction')
+            ->willThrowException(new \Exception());
+        // $this->_conn->rollback();
+        $mConn
+            ->expects($this->once())
+            ->method('rollBack');
+        /**
+         * Prepare request and perform call.
+         */
+        /** === Test itself === */
+        /** @var  $call Call */
+        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo, $mSubDb, $mSubCalc);
+        $req = new Request\Calc();
+        $req->setDatestampTo($DS_TO);
+        $resp = $call->calc($req);
+        $this->assertFalse($resp->isSucceed());
+    }
+
+    public function test_calc_withGetLastDate()
+    {
         /** === Test Data === */
         $DS_TO = '20151207';
         $DS_MAX = '20151206';
-        $SNAPSHOT = [ ];
-        $CHANGELOG = [ ];
-        $UPDATES = [ ];
+        $SNAPSHOT = [];
+        $CHANGELOG = [];
+        $UPDATES = [];
         /** === Mocks === */
         $mLogger = $this->_mockLogger();
         $mConn = $this->_mockConnection();
@@ -70,41 +112,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_calc_exception() {
-        /** === Test Data === */
-        $DS_TO = '20151207';
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolPeriod = $this->_mockFor('Praxigento\Core\Tool\IPeriod');
-        $mToolbox = $this->_mockToolbox(null, null, null, $mToolPeriod);
-        $mCallRepo = $this->_mockCallRepo();
-        $mSubDb = $this->_mockFor('Praxigento\Downline\Lib\Service\Snap\Sub\Db');
-        $mSubCalc = $this->_mockFor('Praxigento\Downline\Lib\Service\Snap\Sub\CalcSimple');
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction')
-            ->willThrowException(new \Exception());
-        // $this->_conn->rollback();
-        $mConn
-            ->expects($this->once())
-            ->method('rollBack');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo, $mSubDb, $mSubCalc);
-        $req = new Request\Calc();
-        $req->setDatestampTo($DS_TO);
-        $resp = $call->calc($req);
-        $this->assertFalse($resp->isSucceed());
-    }
-
-    public function test_extendMinimal() {
+    public function test_extendMinimal()
+    {
         /** === Test Data === */
         /** === Mocks === */
         $mLogger = $this->_mockLogger();
@@ -125,16 +134,16 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo, $mSubDb, $mSubCalc);
         $req = new Request\ExpandMinimal();
         $req->setTree([
-            2  => 1,
-            3  => 1,
-            4  => 2,
-            5  => 2,
-            6  => 3,
-            7  => 3,
+            2 => 1,
+            3 => 1,
+            4 => 2,
+            5 => 2,
+            6 => 3,
+            7 => 3,
             20 => 20,
             10 => 7,
             11 => 7,
-            1  => 1,
+            1 => 1,
             12 => 10,
             12 => 121
         ]);
@@ -144,7 +153,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertTrue(is_array($snapData));
     }
 
-    public function test_getLastDate_noSnapshot() {
+    public function test_getLastDate_noSnapshot()
+    {
         /** === Test Data === */
         $TS_MIN_DATE = '2015-12-07 10:00:00';
         $DS_CURRENT = '20151207';
@@ -193,10 +203,11 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($DS_PREV, $resp->getLastDate());
     }
 
-    public function test_getStateOnDate() {
+    public function test_getStateOnDate()
+    {
         /** === Test Data === */
         $DS = '20151206';
-        $ROWS = [ ];
+        $ROWS = [];
         /** === Mocks === */
         $mLogger = $this->_mockLogger();
         $mConn = $this->_mockConnection();
