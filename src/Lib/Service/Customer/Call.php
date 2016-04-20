@@ -13,13 +13,13 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
 {
     /** @var \Praxigento\Core\Repo\ITransactionManager */
     protected $_manTrans;
-    /** @var \Praxigento\Core\Repo\IBasic */
+    /** @var \Praxigento\Core\Repo\IGeneric */
     protected $_repoBasic;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
-        \Praxigento\Core\Repo\IBasic $repoBasic
+        \Praxigento\Core\Repo\IGeneric $repoBasic
     ) {
         parent::__construct($logger);
         $this->_manTrans = $manTrans;
