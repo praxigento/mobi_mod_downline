@@ -4,16 +4,18 @@
  */
 namespace Praxigento\Downline\Repo\Entity\Def;
 
+use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
+use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
 use Praxigento\Downline\Data\Entity\Snap as Entity;
-use Praxigento\Downline\Repo\Entity\ISnap;
+use Praxigento\Downline\Repo\Entity\ISnap as IEntityRepo;
 
-class Snap extends BaseEntityRepo implements ISnap
+class Snap extends BaseEntityRepo implements IEntityRepo
 {
 
     public function __construct(
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric
+        ResourceConnection $resource,
+        IRepoGeneric $repoGeneric
     ) {
         parent::__construct($resource, $repoGeneric, Entity::class);
     }

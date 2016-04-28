@@ -4,16 +4,18 @@
  */
 namespace Praxigento\Downline\Repo\Entity\Def;
 
+use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
+use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
 use Praxigento\Downline\Data\Entity\Customer as Entity;
-use Praxigento\Downline\Repo\Entity\ICustomer;
+use Praxigento\Downline\Repo\Entity\ICustomer as IEntityRepo;
 
-class Customer extends BaseEntityRepo implements ICustomer
+class Customer extends BaseEntityRepo implements IEntityRepo
 {
 
     public function __construct(
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric
+        ResourceConnection $resource,
+        IRepoGeneric $repoGeneric
     ) {
         parent::__construct($resource, $repoGeneric, Entity::class);
     }
