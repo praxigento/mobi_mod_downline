@@ -19,7 +19,7 @@
                 type="Praxigento\Downline\Lib\Service\Snap\Call"/>
 
     <!-- Tools -->
-    <preference for="Praxigento\Downline\Lib\Tool\ITree"
-                type="\Praxigento\Downline\Lib\Tool\Def\Tree"/>
+    <preference for="Praxigento\Downline\Tool\ITree"
+                type="\Praxigento\Downline\Tool\Def\Tree"/>
 
 </config>

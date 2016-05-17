@@ -125,7 +125,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
      *
      * @return Response\ExpandMinimal
      *
-     * @deprecated use \Praxigento\Downline\Lib\Tool\ITree::expandMinimal instead
+     * @deprecated use \Praxigento\Downline\Tool\ITree::expandMinimal instead
      */
     public function expandMinimal(Request\ExpandMinimal $request)
     {

@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Lib\Tool;
+namespace Praxigento\Downline\Tool;
 
 
 interface ITree {

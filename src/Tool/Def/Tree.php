@@ -3,12 +3,12 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Lib\Tool\Def;
+namespace Praxigento\Downline\Tool\Def;
 
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Snap;
-use Praxigento\Downline\Lib\Tool\ITree;
+use Praxigento\Downline\Tool\ITree;
 
 class Tree implements ITree {
 

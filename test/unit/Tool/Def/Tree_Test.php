@@ -2,36 +2,37 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Lib\Tool\Def;
+namespace Praxigento\Downline\Tool\Def;
 
-include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
+include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Tree_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase {
+class Tree_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
+{
     /** @var  Tree */
     private $obj;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
         $this->obj = new Tree();
     }
 
-    public function test_expandMinimal_withoutKey() {
+    public function test_expandMinimal_withoutKey()
+    {
         /** === Test Data === */
         $TREE = [
             1 => 1,
             2 => 1,
             4 => 5,
         ];
-        /** === Setup Mocks === */
         /** === Call and asserts  === */
         $res = $this->obj->expandMinimal($TREE);
         $this->assertTrue(is_array($res));
         $this->assertEquals(3, count($res));
     }
 
-    public function test_getParentsFromPathReversed() {
-        /** === Test Data === */
-        /** === Setup Mocks === */
+    public function test_getParentsFromPathReversed()
+    {
         /** === Call and asserts  === */
         $res = $this->obj->getParentsFromPathReversed("/1/2/3/4/");
         $this->assertTrue(is_array($res));
