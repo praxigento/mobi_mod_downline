@@ -10,32 +10,36 @@ use Praxigento\Downline\Lib\Service\ISnap;
 
 class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 {
+    /** @var \Praxigento\Core\Repo\ITransactionManager */
+    protected $_manTrans;
     /**
      * Module level repository functions.
      *
      * @var \Praxigento\Downline\Repo\IModule
      */
     protected $_repoModule;
+    /** @var \Praxigento\Downline\Repo\Entity\ISnap */
+    protected $_repoSnap;
     /**
      * @var Sub\CalcSimple
      */
     protected $_subCalc;
     /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;
-    /** @var \Praxigento\Core\Repo\ITransactionManager */
-    protected $_manTrans;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\IModule $repoModule,
+        \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
         Sub\CalcSimple $subCalc
     ) {
         parent::__construct($logger);
         $this->_manTrans = $manTrans;
         $this->_toolPeriod = $toolPeriod;
         $this->_repoModule = $repoModule;
+        $this->_repoSnap = $repoSnap;
         $this->_subCalc = $subCalc;
     }
 
@@ -99,7 +103,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
             $respLast = $this->getLastDate($reqLast);
             $lastDatestamp = $respLast->getLastDate();
             /* get the snapshot on the last date */
-            $snapshot = $this->_repoModule->getStateOnDate($lastDatestamp);
+            $snapshot = $this->_repoSnap->getStateOnDate($lastDatestamp);
             /* get change log for the period */
             $tsFrom = $this->_toolPeriod->getTimestampNextFrom($lastDatestamp);
             $tsTo = $this->_toolPeriod->getTimestampTo($periodTo);
@@ -107,7 +111,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
             /* calculate snapshots for the period */
             $updates = $this->_subCalc->calcSnapshots($snapshot, $changelog);
             /* save new snapshots in DB */
-            $this->_repoModule->saveCalculatedUpdates($updates);
+            $this->_repoSnap->saveCalculatedUpdates($updates);
             $this->_manTrans->transactionCommit($trans);
             $result->markSucceed();
         } finally {
@@ -223,7 +227,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         $result = new Response\GetStateOnDate();
         $this->_logger->info("'Get Downline Tree state' operation is requested.");
         $dateOn = $request->getDatestamp();
-        $rows = $this->_repoModule->getStateOnDate($dateOn);
+        $rows = $this->_repoSnap->getStateOnDate($dateOn);
         $result->setData($rows);
         $result->markSucceed();
         $this->_logger->info("'Get Downline Tree state' operation is completed.");

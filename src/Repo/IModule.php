@@ -31,19 +31,4 @@ interface IModule
      */
     public function getSnapMaxDatestamp();
 
-    /**
-     * Select downline tree state on the given datestamp.
-     *
-     * @param $datestamp string 'YYYYMMDD'
-     *
-     * @return array
-     */
-    public function getStateOnDate($datestamp);
-
-    /**
-     * Insert snapshot updates. $updates is array [date][customerId] => $data
-     *
-     * @param $updates
-     */
-    public function saveCalculatedUpdates($updates);
 }

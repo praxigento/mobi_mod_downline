@@ -11,10 +11,10 @@ use Praxigento\Downline\Repo\IModule;
 
 class Module implements IModule
 {
-    /** @var \Magento\Framework\App\ResourceConnection */
-    protected $_resource;
     /** @var \Magento\Framework\DB\Adapter\AdapterInterface */
     protected $_conn;
+    /** @var \Magento\Framework\App\ResourceConnection */
+    protected $_resource;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource
@@ -115,81 +115,5 @@ class Module implements IModule
         return $result;
     }
 
-    /**
-     * Select downline tree state on the given datestamp.
-     *
-     * SELECT
-     * `snap`.`customer_id`,
-     * `snap`.`parent_id`,
-     * `snap`.`depth`,
-     * `snap`.`path`
-     * FROM `prxgt_dwnl_snap` AS `snap`
-     * LEFT JOIN (SELECT
-     * `snap4Max`.`customer_id`,
-     * MAX(`snap4Max`.`date`) AS date_max
-     * FROM `prxgt_dwnl_snap` AS `snap4Max`
-     * WHERE (snap4Max.date <= :date)
-     * GROUP BY `snap4Max`.`customer_id`) AS `snapMax`
-     * ON (snapMax.customer_id = snap.customer_id)
-     * AND (snapMax.date_max = snap.date)
-     * WHERE (snapMax.date_max IS NOT NULL)
-     *
-     * @param $datestamp string 'YYYYMMDD'
-     *
-     * @return array
-     */
-    public function getStateOnDate($datestamp)
-    {
-        $result = [];
-        $bind = [];
-        $asSnap4Max = 'snap4Max';
-        $asSnap = 'snap';
-        $asMax = 'snapMax';
-        $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
-        /* select MAX(date) from prxgt_dwnl_snap (internal select) */
-        $q4Max = $this->_conn->select();
-        $colDateMax = 'date_max';
-        $expMaxDate = new \Zend_Db_Expr('MAX(`' . $asSnap4Max . '`.`' . Snap::ATTR_DATE . '`) as ' . $colDateMax);
-        $q4Max->from([$asSnap4Max => $tblSnap], [Snap::ATTR_CUSTOMER_ID, $expMaxDate]);
-        $q4Max->group($asSnap4Max . '.' . Snap::ATTR_CUSTOMER_ID);
-        $q4Max->where($asSnap4Max . '.' . Snap::ATTR_DATE . '<=:date');
-        $bind['date'] = $datestamp;
-        /* select from prxgt_dwnl_snap */
-        $query = $this->_conn->select();
-        $query->from([$asSnap => $tblSnap], [
-            Snap::ATTR_CUSTOMER_ID,
-            Snap::ATTR_PARENT_ID,
-            Snap::ATTR_DEPTH,
-            Snap::ATTR_PATH
-        ]);
-        /* left join $q4Max */
-        $on = '(' . $asMax . '.' . Snap::ATTR_CUSTOMER_ID . '=' . $asSnap . '.' . Snap::ATTR_CUSTOMER_ID . ')';
-        $on .= ' AND (' . $asMax . '.' . $colDateMax . '=' . $asSnap . '.' . Snap::ATTR_DATE . ')';
-        $query->joinLeft([$asMax => $q4Max], $on, []);
-        /* where */
-        $query->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
-        // $sql = (string)$query;
-        $rows = $this->_conn->fetchAll($query, $bind);
-        if (count($rows)) {
-            foreach ($rows as $one) {
-                $result[$one[Snap::ATTR_CUSTOMER_ID]] = $one;
-            }
-        }
-        return $result;
-    }
 
-    /**
-     * Insert snapshot updates. $updates is array [date][customerId] => $data
-     *
-     * @param $updates
-     */
-    public function saveCalculatedUpdates($updates)
-    {
-        $tbl = $this->_conn->getTableName(Snap::ENTITY_NAME);
-        foreach ($updates as $date => $updatesByDate) {
-            foreach ($updatesByDate as $data) {
-                $this->_conn->insert($tbl, $data);
-            }
-        }
-    }
 }

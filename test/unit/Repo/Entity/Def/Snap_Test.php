@@ -13,21 +13,25 @@ include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
     /** @var  \Mockery\MockInterface */
-    private $mDba;
+    private $mConn;
     /** @var  \Mockery\MockInterface */
     private $mRepoGeneric;
     /** @var  \Mockery\MockInterface */
-    private $mRsrcConn;
+    private $mRsrc;
     /** @var  Snap */
     private $obj;
 
     public function setUp()
     {
         parent::setUp();
-        $this->mRsrcConn = $this->_mockResourceConnection($this->mDba);
+        /** create mocks */
+        $this->mConn = $this->_mockConn();
         $this->mRepoGeneric = $this->_mockRepoGeneric();
+        /** setup mocks for constructor */
+        $this->mRsrc = $this->_mockResourceConnection($this->mConn);
+        /** create object to test */
         $this->obj = new Snap(
-            $this->mRsrcConn,
+            $this->mRsrc,
             $this->mRepoGeneric,
             Entity::class
         );
@@ -39,4 +43,50 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->assertInstanceOf(ISnap::class, $this->obj);
     }
 
+    public function test_getStateOnDate()
+    {
+        /** === Test Data === */
+        $DS = 'datestamp';
+        $TBL_SNAP = 'snap';
+        $CUST_ID = 32;
+        $ROW = [Entity::ATTR_CUSTOMER_ID => $CUST_ID];
+        $ROWS = [$ROW];
+        /** === Setup Mocks === */
+        // $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
+        $this->mConn
+            ->shouldReceive('getTableName')->once()
+            ->andReturn($TBL_SNAP);
+        // $q4Max = $this->_conn->select();
+        $mQ4Max = $this->_mockDbSelect();
+        $this->mConn
+            ->shouldReceive('select')->once()
+            ->andReturn($mQ4Max);
+        $mQ4Max->shouldReceive('from', 'where', 'order', 'group', 'joinLeft');
+        // $rows = $this->_conn->fetchAll($query, $bind);
+        $this->mConn
+            ->shouldReceive('fetchAll')->once()
+            ->andReturn($ROWS);
+        /** === Call and asserts  === */
+        $res = $this->obj->getStateOnDate($DS);
+        $this->assertEquals($ROW, $res[$CUST_ID]);
+    }
+
+    public function test_saveCalculatedUpdates()
+    {
+        /** === Test Data === */
+        $UPDATES = [
+            'date' => [
+                ['update1']
+            ]
+        ];
+        $this->obj = \Mockery::mock(
+            Snap::class . '[create]',
+            [$this->mRsrc, $this->mRepoGeneric, Entity::class]);
+        /** === Setup Mocks === */
+        // $this->create($data);
+        $this->obj
+            ->shouldReceive('create')->once();
+        /** === Call and asserts  === */
+        $this->obj->saveCalculatedUpdates($UPDATES);
+    }
 }
