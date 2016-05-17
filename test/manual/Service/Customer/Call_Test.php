@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Lib\Service\Customer;
+namespace Praxigento\Downline\Service\Customer;
 
 
 
@@ -12,8 +12,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_add() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\Downline\Lib\Service\Customer\Call */
-        $call = $obm->get('Praxigento\Downline\Lib\Service\Customer\Call');
+        /** @var  $call \Praxigento\Downline\Service\Customer\Call */
+        $call = $obm->get('Praxigento\Downline\Service\Customer\Call');
         $request = new Request\Add();
         $request->customerId = 159;
         $request->parentId = 158;
@@ -24,8 +24,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_changeParent() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\Downline\Lib\Service\Customer\Call */
-        $call = $obm->get('Praxigento\Downline\Lib\Service\Customer\Call');
+        /** @var  $call \Praxigento\Downline\Service\Customer\Call */
+        $call = $obm->get('Praxigento\Downline\Service\Customer\Call');
         $request = new Request\ChangeParent();
         $request->customerId = 120;
         $request->parentIdNew = 119;

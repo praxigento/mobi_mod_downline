@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Lib\Service\Snap;
+namespace Praxigento\Downline\Service\Snap;
 
 
 
@@ -12,8 +12,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_getLastDate() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
-        $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
+        /** @var  $call \Praxigento\Downline\Service\Snap\Call */
+        $call = $obm->get('Praxigento\Downline\Service\Snap\Call');
         $req = new Request\GetLastDate();
         /** @var  $resp Response\GetLastDate */
         $resp = $call->getLastDate($req);
@@ -24,8 +24,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_getStateOnDate() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
-        $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
+        /** @var  $call \Praxigento\Downline\Service\Snap\Call */
+        $call = $obm->get('Praxigento\Downline\Service\Snap\Call');
         $req = new Request\GetStateOnDate();
         $req->setDatestamp('20151202');
         /** @var  $resp Response\GetStateOnDate */
@@ -35,8 +35,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_calc() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
-        $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
+        /** @var  $call \Praxigento\Downline\Service\Snap\Call */
+        $call = $obm->get('Praxigento\Downline\Service\Snap\Call');
         $req = new Request\Calc();
         $req->setDatestampTo('20151219');
         /** @var  $resp Response\Calc */
@@ -46,8 +46,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_extendMinimal() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\Downline\Lib\Service\Snap\Call */
-        $call = $obm->get('Praxigento\Downline\Lib\Service\Snap\Call');
+        /** @var  $call \Praxigento\Downline\Service\Snap\Call */
+        $call = $obm->get('Praxigento\Downline\Service\Snap\Call');
         $req = new Request\ExpandMinimal();
         $req->setTree([
             2  => 1,

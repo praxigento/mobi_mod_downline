@@ -8,15 +8,15 @@ namespace Praxigento\Downline\Lib\Test\Story01;
 use Praxigento\Core\Test\BaseIntegrationTest;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Snap;
-use Praxigento\Downline\Lib\Service\Customer\Request\ChangeParent as CustomerChangeParentRequest;
-use Praxigento\Downline\Lib\Service\Snap\Request\Calc as SnapCalcRequest;
-use Praxigento\Downline\Lib\Service\Snap\Request\GetStateOnDate as SnapGetStateOnDateRequest;
+use Praxigento\Downline\Service\Customer\Request\ChangeParent as CustomerChangeParentRequest;
+use Praxigento\Downline\Service\Snap\Request\Calc as SnapCalcRequest;
+use Praxigento\Downline\Service\Snap\Request\GetStateOnDate as SnapGetStateOnDateRequest;
 
 include_once(__DIR__ . '/../phpunit_bootstrap.php');
 
 class Main_IntegrationTest extends BaseIntegrationTest {
     const DATE_UP_TO = '20151231';
-    /** @var \Praxigento\Downline\Lib\Service\Snap\Call */
+    /** @var \Praxigento\Downline\Service\Snap\Call */
     private $_callSnap;
     /**
      * Date stamp for 'today' (float value from self::DEFAULT_DATE_BEGIN and up to self::DATE_UP_TO).
@@ -27,7 +27,7 @@ class Main_IntegrationTest extends BaseIntegrationTest {
 
     public function __construct() {
         parent::__construct();
-        $this->_callSnap = $this->_manObj->get(\Praxigento\Downline\Lib\Service\Snap\Call::class);
+        $this->_callSnap = $this->_manObj->get(\Praxigento\Downline\Service\Snap\Call::class);
     }
 
     private function _calcSnapshots() {

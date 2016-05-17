@@ -11,12 +11,12 @@
                 type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
 
     <!-- Services -->
-    <preference for="Praxigento\Downline\Lib\Service\ICustomer"
-                type="Praxigento\Downline\Lib\Service\Customer\Call"/>
-    <preference for="Praxigento\Downline\Lib\Service\IMap"
-                type="Praxigento\Downline\Lib\Service\Map\Call"/>
-    <preference for="Praxigento\Downline\Lib\Service\ISnap"
-                type="Praxigento\Downline\Lib\Service\Snap\Call"/>
+    <preference for="Praxigento\Downline\Service\ICustomer"
+                type="Praxigento\Downline\Service\Customer\Call"/>
+    <preference for="Praxigento\Downline\Service\IMap"
+                type="Praxigento\Downline\Service\Map\Call"/>
+    <preference for="Praxigento\Downline\Service\ISnap"
+                type="Praxigento\Downline\Service\Snap\Call"/>
 
     <!-- Tools -->
     <preference for="Praxigento\Downline\Tool\ITree"
