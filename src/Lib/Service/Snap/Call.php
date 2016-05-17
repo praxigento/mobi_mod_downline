@@ -12,12 +12,10 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 {
     /** @var \Praxigento\Core\Repo\ITransactionManager */
     protected $_manTrans;
-    /**
-     * Module level repository functions.
-     *
-     * @var \Praxigento\Downline\Repo\IModule
-     */
-    protected $_repoModule;
+
+    /** @var \Praxigento\Downline\Repo\Entity\IChange */
+    protected $_repoChange;
+
     /** @var \Praxigento\Downline\Repo\Entity\ISnap */
     protected $_repoSnap;
     /**
@@ -31,14 +29,14 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
-        \Praxigento\Downline\Repo\IModule $repoModule,
+        \Praxigento\Downline\Repo\Entity\IChange $repoChange,
         \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
         Sub\CalcSimple $subCalc
     ) {
         parent::__construct($logger);
         $this->_manTrans = $manTrans;
         $this->_toolPeriod = $toolPeriod;
-        $this->_repoModule = $repoModule;
+        $this->_repoChange = $repoChange;
         $this->_repoSnap = $repoSnap;
         $this->_subCalc = $subCalc;
     }
@@ -107,7 +105,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
             /* get change log for the period */
             $tsFrom = $this->_toolPeriod->getTimestampNextFrom($lastDatestamp);
             $tsTo = $this->_toolPeriod->getTimestampTo($periodTo);
-            $changelog = $this->_repoModule->getChangesForPeriod($tsFrom, $tsTo);
+            $changelog = $this->_repoChange->getChangesForPeriod($tsFrom, $tsTo);
             /* calculate snapshots for the period */
             $updates = $this->_subCalc->calcSnapshots($snapshot, $changelog);
             /* save new snapshots in DB */
@@ -196,13 +194,13 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         $result = new Response\GetLastDate();
         $this->_logger->info("'Get Last Data' operation is requested.");
         /* get the maximal date for existing snapshot */
-        $snapMaxDate = $this->_repoModule->getSnapMaxDatestamp();
+        $snapMaxDate = $this->_repoSnap->getMaxDatestamp();
         if ($snapMaxDate) {
             /* there is snapshots data */
             $result->setData([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
         } else {
             /* there is no snapshot data yet, get change log minimal date  */
-            $changelogMinDate = $this->_repoModule->getChangelogMinDate();
+            $changelogMinDate = $this->_repoChange->getChangelogMinDate();
             if ($changelogMinDate) {
                 $period = $this->_toolPeriod->getPeriodCurrent($changelogMinDate);
                 $dayBefore = $this->_toolPeriod->getPeriodPrev($period);

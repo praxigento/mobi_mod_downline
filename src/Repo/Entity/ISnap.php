@@ -22,6 +22,14 @@ interface ISnap extends IBaseRepo
     public function getById($id);
 
     /**
+     * Select MAX datestamp for downline snapshots.
+     *
+     * @return null|string YYYYMMDD
+     *
+     */
+    public function getMaxDatestamp();
+
+    /**
      * Select downline tree state on the given datestamp.
      *
      * @param $datestamp string 'YYYYMMDD'

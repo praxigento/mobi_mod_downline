@@ -22,6 +22,33 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     }
 
     /**
+     * Select MAX datestamp for downline snapshots.
+     *
+     * SELECT
+     * `s`.`date`
+     * FROM `prxgt_dwnl_snap` AS `s`
+     * ORDER BY `s`.`date` DESC
+     *
+     * @return null|string YYYYMMDD
+     *
+     */
+    public function getMaxDatestamp()
+    {
+        $result = null;
+        $asSnap = 's';
+        $tblSnap = $this->_conn->getTableName(Entity::ENTITY_NAME);
+        /* select from account */
+        $query = $this->_conn->select();
+        $query->from([$asSnap => $tblSnap], [Entity::ATTR_DATE]);
+        /* order by */
+        $query->order([$asSnap . '.' . Entity::ATTR_DATE . ' DESC']);
+        /* perform query */
+        // $sql = (string)$query;
+        $result = $this->_conn->fetchOne($query);
+        return $result;
+    }
+
+    /**
      * Select downline tree state on the given datestamp.
      *
      * SELECT

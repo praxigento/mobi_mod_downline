@@ -43,6 +43,31 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->assertInstanceOf(ISnap::class, $this->obj);
     }
 
+    public function test_getMaxDatestamp()
+    {
+        /** === Test Data === */
+        $TABLE = 'table';
+        $RESULT = 'result';
+        /** === Setup Mocks === */
+        // $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
+        $this->mConn
+            ->shouldReceive('getTableName')->once()
+            ->andReturn($TABLE);
+        // $query = $this->_conn->select();
+        $mQuery = $this->_mockDbSelect();
+        $this->mConn
+            ->shouldReceive('select')->once()
+            ->andReturn($mQuery);
+        $mQuery->shouldReceive('from', 'order');
+        // $result = $this->_conn->fetchOne($query);
+        $this->mConn
+            ->shouldReceive('fetchOne')->once()
+            ->andReturn($RESULT);
+        /** === Call and asserts  === */
+        $res = $this->obj->getMaxDatestamp();
+        $this->assertEquals($RESULT, $res);
+    }
+
     public function test_getStateOnDate()
     {
         /** === Test Data === */
