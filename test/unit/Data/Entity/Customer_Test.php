@@ -27,6 +27,7 @@ class Customer_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $HUMAN_REF = 'mlm id';
         $PARENT_ID = 'parent id';
         $PATH = 'path';
+        $REFERRAL_CODE = 'referral_code';
         /** === Call and asserts  === */
         $this->obj->setCountryCode($COUNTRY_CODE);
         $this->obj->setCustomerId($CUSTOMER_ID);
@@ -34,11 +35,13 @@ class Customer_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->obj->setHumanRef($HUMAN_REF);
         $this->obj->setParentId($PARENT_ID);
         $this->obj->setPath($PATH);
+        $this->obj->setReferralCode($REFERRAL_CODE);
         $this->assertEquals($COUNTRY_CODE, $this->obj->getCountryCode());
         $this->assertEquals($CUSTOMER_ID, $this->obj->getCustomerId());
         $this->assertEquals($DEPTH, $this->obj->getDepth());
         $this->assertEquals($HUMAN_REF, $this->obj->getHumanRef());
         $this->assertEquals($PARENT_ID, $this->obj->getParentId());
         $this->assertEquals($PATH, $this->obj->getPath());
+        $this->assertEquals($REFERRAL_CODE, $this->obj->getReferralCode());
     }
 }
