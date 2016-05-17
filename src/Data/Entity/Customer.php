@@ -14,6 +14,7 @@ class Customer extends EntityBase
     const ATTR_HUMAN_REF = 'human_ref';
     const ATTR_PARENT_ID = 'parent_id';
     const ATTR_PATH = 'path';
+    const ATTR_REFERRAL_CODE = 'referral_code';
     const ENTITY_NAME = 'prxgt_dwnl_customer';
 
 
@@ -82,6 +83,15 @@ class Customer extends EntityBase
     }
 
     /**
+     * @return string
+     */
+    public function getReferralCode()
+    {
+        $result = parent::getData(self::ATTR_REFERRAL_CODE);
+        return $result;
+    }
+
+    /**
      * @param string $data
      */
     public function setCountryCode($data)
@@ -127,6 +137,14 @@ class Customer extends EntityBase
     public function setPath($data)
     {
         parent::setData(self::ATTR_PATH, $data);
+    }
+
+    /**
+     * @param string $data
+     */
+    public function setReferralCode($data)
+    {
+        parent::setData(self::ATTR_REFERRAL_CODE, $data);
     }
 
 }
