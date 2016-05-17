@@ -184,4 +184,15 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
         return $result;
     }
 
+    public function generateReferralCode(Request\GenerateReferralCode $request)
+    {
+        $result = new Response\GenerateReferralCode();
+        $customerId = $request->getCustomerId();
+        $humanRef = $request->getHumanRef();
+        $this->_logger->info("Generate new code for customer #$customerId/$humanRef.");
+        $code = ($humanRef) ? $humanRef : $customerId;
+        $result->setReferralCode($customerId);
+        $result->markSucceed();
+        return $result;
+    }
 }

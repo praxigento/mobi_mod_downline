@@ -7,7 +7,8 @@ namespace Praxigento\Downline\Service;
 use Praxigento\Downline\Service\Customer\Request;
 use Praxigento\Downline\Service\Customer\Response;
 
-interface ICustomer {
+interface ICustomer
+{
     /**
      * Add new customer to downline and new entry to change log.
      *
@@ -23,4 +24,13 @@ interface ICustomer {
      * @return Response\ChangeParent
      */
     public function changeParent(Request\ChangeParent $request);
+
+    /**
+     * Generate new referral code for the customer.
+     *
+     * @param Request\GenerateReferralCode $request
+     *
+     * @return Response\GenerateReferralCode
+     */
+    public function generateReferralCode(Request\GenerateReferralCode $request);
 }
