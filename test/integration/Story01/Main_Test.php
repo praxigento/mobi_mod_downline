@@ -14,7 +14,8 @@ use Praxigento\Downline\Service\Snap\Request\GetStateOnDate as SnapGetStateOnDat
 
 include_once(__DIR__ . '/../phpunit_bootstrap.php');
 
-class Main_IntegrationTest extends BaseIntegrationTest {
+class Main_IntegrationTest extends BaseIntegrationTest
+{
     const DATE_UP_TO = '20151231';
     /** @var \Praxigento\Downline\Service\Snap\Call */
     private $_callSnap;
@@ -25,12 +26,14 @@ class Main_IntegrationTest extends BaseIntegrationTest {
      */
     private $_dtToday = '20151213';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->_callSnap = $this->_manObj->get(\Praxigento\Downline\Service\Snap\Call::class);
     }
 
-    private function _calcSnapshots() {
+    private function _calcSnapshots()
+    {
         /* get snapshots before calcl */
         $reqSnap = new SnapGetStateOnDateRequest();
         $reqSnap->setDatestamp($this->_dtToday);
@@ -51,7 +54,8 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->assertTrue(count($snap) == 13);
     }
 
-    private function _changeC10ParentFromC7ToC9() {
+    private function _changeC10ParentFromC7ToC9()
+    {
         $this->_logger->debug("Change parent from #9 to #7 for customer #10.");
         $this->_dayIsOver();
         /** @var  $period \Praxigento\Core\Tool\IPeriod */
@@ -69,9 +73,9 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->_logger->debug("Mage ID of the #10 customer's parent is $beforeParentId (before update).");
         /* change parent */
         $reqChange = new CustomerChangeParentRequest();
-        $reqChange->setData(CustomerChangeParentRequest::CUSTOMER_ID, $customerId);
-        $reqChange->setData(CustomerChangeParentRequest::PARENT_ID_NEW, $parentId);
-        $reqChange->setData(CustomerChangeParentRequest::DATE, $period->getTimestampFrom($this->_dtToday));
+        $reqChange->setCustomerId($customerId);
+        $reqChange->setNewParentId($parentId);
+        $reqChange->setDate($period->getTimestampFrom($this->_dtToday));
         $respChange = $this->_callDownlineCustomer->changeParent($reqChange);
         $this->assertTrue($respChange->isSucceed());
         /* calculate snapshots */
@@ -90,7 +94,8 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->_logger->debug("Mage ID of the #10 customer's parent is $afterParentId (after update).");
     }
 
-    private function _changeC10ParentFromC9ToC7() {
+    private function _changeC10ParentFromC9ToC7()
+    {
         $this->_logger->debug("Change parent back from #7 to #9 for customer #10.");
         $this->_dayIsOver();
         /** @var  $period \Praxigento\Core\Tool\IPeriod */
@@ -108,9 +113,9 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->_logger->debug("Mage ID of the #10 customer's parent is $beforeParentId (before update).");
         /* change parent */
         $reqChange = new CustomerChangeParentRequest();
-        $reqChange->setData(CustomerChangeParentRequest::CUSTOMER_ID, $customerId);
-        $reqChange->setData(CustomerChangeParentRequest::PARENT_ID_NEW, $parentId);
-        $reqChange->setData(CustomerChangeParentRequest::DATE, $period->getTimestampFrom($this->_dtToday));
+        $reqChange->setCustomerId($customerId);
+        $reqChange->setNewParentId($parentId);
+        $reqChange->setDate($period->getTimestampFrom($this->_dtToday));
         $respChange = $this->_callDownlineCustomer->changeParent($reqChange);
         $this->assertTrue($respChange->isSucceed());
         /* calculate snapshots */
@@ -129,7 +134,8 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->_logger->debug("Mage ID of the #10 customer's parent is $afterParentId (after update).");
     }
 
-    private function _changeC13ToRoot() {
+    private function _changeC13ToRoot()
+    {
         $this->_logger->debug("Change parent to root for customer #13.");
         $this->_dayIsOver();
         /** @var  $period \Praxigento\Core\Tool\IPeriod */
@@ -146,9 +152,9 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->_logger->debug("Mage ID of the #10 customer's parent is $beforeParentId (before update).");
         /* change parent */
         $reqChange = new CustomerChangeParentRequest();
-        $reqChange->setData(CustomerChangeParentRequest::CUSTOMER_ID, $customerId);
-        $reqChange->setData(CustomerChangeParentRequest::PARENT_ID_NEW, $customerId);
-        $reqChange->setData(CustomerChangeParentRequest::DATE, $period->getTimestampFrom($this->_dtToday));
+        $reqChange->setCustomerId($customerId);
+        $reqChange->setNewParentId($customerId);
+        $reqChange->setDate($period->getTimestampFrom($this->_dtToday));
         $respChange = $this->_callDownlineCustomer->changeParent($reqChange);
         $this->assertTrue($respChange->isSucceed());
         /* calculate snapshots */
@@ -165,10 +171,10 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $afterParentId = $afterData[Snap::ATTR_PARENT_ID];
         $this->assertNotEquals($beforeParentId, $afterParentId);
         $this->_logger->debug("Mage ID of the #13 customer's parent is $afterParentId (after update).");
-
     }
 
-    private function _checkSnapsForC13() {
+    private function _checkSnapsForC13()
+    {
         $period = $this->_toolPeriod;
         $today = $this->_dtToday;
         $customerId = $this->_mapCustomerMageIdByIndex[13];
@@ -208,12 +214,14 @@ class Main_IntegrationTest extends BaseIntegrationTest {
         $this->_logger->debug("Customer C13 is under C7 again 3 days before.");
     }
 
-    private function _dayIsOver() {
+    private function _dayIsOver()
+    {
         $this->_dtToday = $this->_toolPeriod->getPeriodNext($this->_dtToday);
         $this->_logger->debug("Today is '{$this->_dtToday}'.");
     }
 
-    public function test_main() {
+    public function test_main()
+    {
         $this->_logger->debug('Story01 in Downline Integration tests is started.');
         $this->_conn->beginTransaction();
         try {

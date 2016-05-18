@@ -41,13 +41,13 @@
                   "HumanReference": {
                     "alias": "human_ref",
                     "comment": "Human readable reference.",
-                    "nullable": false,
+                    "nullable": true,
                     "type": {"text": {"length": 255}}
                   },
                   "ReferralCode": {
                     "alias": "referral_code",
                     "comment": "Code for referral links/coupons to build downline.",
-                    "nullable": false,
+                    "nullable": true,
                     "type": {"text": {"length": 255}}
                   },
                   "CountryCode": {

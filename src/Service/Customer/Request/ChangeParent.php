@@ -5,21 +5,14 @@
 
 namespace Praxigento\Downline\Service\Customer\Request;
 
-
-class ChangeParent extends \Praxigento\Core\Service\Base\Request {
-    /**
-     * Magento ID for customer itself.
-     * @var int
-     */
-    const CUSTOMER_ID = 'customer_id';
-    /**
-     * UTC date.
-     * @var string '2015-11-23 12:23:34'
-     */
-    const DATE = 'date';
-    /**
-     * Magento ID for customer's new parent.
-     * @var int
-     */
-    const PARENT_ID_NEW = 'parent_id_new';
+/**
+ * @method int getCustomerId($data)
+ * @method void setCustomerId(int $data)
+ * @method string getDate($data) '2015-11-23 12:23:34'
+ * @method void setDate(string $data) '2015-11-23 12:23:34'
+ * @method int getNewParentId($data)
+ * @method void setNewParentId(int $data)
+ */
+class ChangeParent extends \Praxigento\Core\Service\Base\Request
+{
 }

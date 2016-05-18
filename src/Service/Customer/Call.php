@@ -9,21 +9,31 @@ use Praxigento\Downline\Data\Entity\Change;
 use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Service\ICustomer;
 
-class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
+class Call implements ICustomer
 {
+    /** @var \Psr\Log\LoggerInterface */
+    protected $_logger;
     /** @var \Praxigento\Core\Repo\ITransactionManager */
     protected $_manTrans;
+    /** @var  \Praxigento\Downline\Repo\Entity\IChange */
+    protected $_repoChange;
+    /** @var  \Praxigento\Downline\Repo\Entity\ICustomer */
+    protected $_repoCustomer;
     /** @var \Praxigento\Core\Repo\IGeneric */
-    protected $_repoBasic;
+    protected $_repoGeneric;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric
+        \Praxigento\Core\Repo\IGeneric $repoGeneric,
+        \Praxigento\Downline\Repo\Entity\IChange $repoChange,
+        \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer
     ) {
-        parent::__construct($logger);
+        $this->_logger = $logger;
         $this->_manTrans = $manTrans;
-        $this->_repoBasic = $repoGeneric;
+        $this->_repoGeneric = $repoGeneric;
+        $this->_repoChange = $repoChange;
+        $this->_repoCustomer = $repoCustomer;
     }
 
     /**
@@ -51,7 +61,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
                 $depth = Cfg::INIT_DEPTH;
             } else {
                 /* get parent data by parent Mage id */
-                $data = $this->_repoBasic->getEntityByPk(
+                $data = $this->_repoGeneric->getEntityByPk(
                     Customer::ENTITY_NAME,
                     [Customer::ATTR_CUSTOMER_ID => $parentId]
                 );
@@ -59,7 +69,6 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
                 $parentDepth = $data[Customer::ATTR_DEPTH];
                 $path = $parentPath . $parentId . Cfg::DTPS;
                 $depth = $parentDepth + 1;
-
             }
             /* add customer to downline */
             $toAdd = [
@@ -72,7 +81,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
             if (isset($humanReference)) {
                 $toAdd[Customer::ATTR_HUMAN_REF] = $humanReference;
             }
-            $this->_repoBasic->addEntity(Customer::ENTITY_NAME, $toAdd);
+            $this->_repoCustomer->create($toAdd);
 
             /* save log record to changes registry */
             $formatted = $date;
@@ -81,7 +90,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
                 Change::ATTR_PARENT_ID => $parentId,
                 Change::ATTR_DATE_CHANGED => $formatted
             ];
-            $idLog = $this->_repoBasic->addEntity(Change::ENTITY_NAME, $toLog);
+            $idLog = $this->_repoChange->create($toLog);
             if ($idLog) {
                 $this->_logger->debug("Downline changes are logged in registry with date: $formatted.");
                 $this->_logger->debug("New change log record #$idLog is inserted (customer: $customerId, parent: $parentId, date: $formatted).");
@@ -103,20 +112,17 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
     public function changeParent(Request\ChangeParent $request)
     {
         $result = new Response\ChangeParent();
-        $customerId = $request->getData(Request\ChangeParent::CUSTOMER_ID);
-        $newParentId = $request->getData(Request\ChangeParent::PARENT_ID_NEW);
-        $formatted = $request->getData(Request\ChangeParent::DATE);
+        $customerId = $request->getCustomerId();
+        $newParentId = $request->getNewParentId();
+        $formatted = $request->getDate();
         $this->_logger->info("Set up new parent #$newParentId for customer #$customerId.");
         $trans = $this->_manTrans->transactionBegin();
         try {
-            /* get customer data */
-            $data = $this->_repoBasic->getEntityByPk(
-                Customer::ENTITY_NAME,
-                [Customer::ATTR_CUSTOMER_ID => $customerId]
-            );
-            $currParentId = $data[Customer::ATTR_PARENT_ID];
-            $currDepth = $data[Customer::ATTR_DEPTH];
-            $currPath = $data[Customer::ATTR_PATH];
+            /* get customer's downline  data */
+            $data = $this->_repoCustomer->getById($customerId);
+            $currParentId = $data->getParentId();;
+            $currDepth = $data->getDepth();
+            $currPath = $data->getPath();
             if ($currParentId == $newParentId) {
                 /* nothing to change */
                 $result->markSucceed();
@@ -129,12 +135,9 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
                     $newCustomerPath = Cfg::DTPS;
                 } else {
                     /* get new parent data */
-                    $newParentData = $this->_repoBasic->getEntityByPk(
-                        Customer::ENTITY_NAME,
-                        [Customer::ATTR_CUSTOMER_ID => $newParentId]
-                    );
-                    $newParentDepth = $newParentData[Customer::ATTR_DEPTH];
-                    $newParentPath = $newParentData[Customer::ATTR_PATH];
+                    $newParentData = $this->_repoCustomer->getById($newParentId);
+                    $newParentDepth = $newParentData->getDepth();
+                    $newParentPath = $newParentData->getPath();
                     $newCustomerDepth = $newParentDepth + 1;
                     $newCustomerPath = $newParentPath . $newParentId . Cfg::DTPS;
                 }
@@ -144,23 +147,13 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
                     Customer::ATTR_DEPTH => $newCustomerDepth,
                     Customer::ATTR_PATH => $newCustomerPath
                 ];
-                $where = Customer::ATTR_CUSTOMER_ID . '=' . (int)$customerId;
-                $updateRows = $this->_repoBasic->updateEntity(Customer::ENTITY_NAME, $bind, $where);
+                $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
                 if ($updateRows == 1) {
-                    /* TODO: this functionality should be placed in the repo class (with parameters quoting: $this->_getConn()->quote($pathKey);)*/
-//                    $quotedKey = $this->_getConn()->quote($pathKey);
-//                    $quotedReplace = $this->_getConn()->quote($pathReplace);
-//                    $cond = $this->_getConn()->quote($pathKey . '%');
                     /* update depths and paths in downline */
                     $deltaDepth = $newCustomerDepth - $currDepth;
                     $pathKey = $currPath . $customerId . Cfg::DTPS;
                     $pathReplace = $newCustomerPath . $customerId . Cfg::DTPS;
-                    $bind = [
-                        Customer::ATTR_DEPTH => Customer::ATTR_DEPTH . '+' . $deltaDepth,
-                        Customer::ATTR_PATH => 'REPLACE(' . Customer::ATTR_PATH . ", $pathKey, $pathReplace)"
-                    ];
-                    $where = Customer::ATTR_PATH . " LIKE '$pathKey%'";
-                    $rowsUpdated = $this->_repoBasic->updateEntity(Customer::ENTITY_NAME, $bind, $where);
+                    $rowsUpdated = $this->_repoCustomer->updateChildrenPath($pathKey, $pathReplace, $deltaDepth);
                     $this->_logger->info("Total '$rowsUpdated' customers in downline were updated.");
                     /* save new record into change log */
                     $bind = [
@@ -169,7 +162,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
                         Change::ATTR_DATE_CHANGED => $formatted
 
                     ];
-                    $insertedId = $this->_repoBasic->addEntity(Change::ENTITY_NAME, $bind);
+                    $insertedId = $this->_repoChange->create($bind);
                     if ($insertedId) {
                         $this->_logger->info("New change log record #$insertedId is inserted (customer: $customerId, parent: $newParentId, date: $formatted).");
                         $this->_manTrans->transactionCommit($trans);
@@ -191,7 +184,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ICustomer
         $humanRef = $request->getHumanRef();
         $this->_logger->info("Generate new code for customer #$customerId/$humanRef.");
         $code = ($humanRef) ? $humanRef : $customerId;
-        $result->setReferralCode($customerId);
+        $result->setReferralCode($code);
         $result->markSucceed();
         return $result;
     }

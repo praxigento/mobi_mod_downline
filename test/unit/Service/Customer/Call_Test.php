@@ -4,465 +4,180 @@
  */
 namespace Praxigento\Downline\Service\Customer;
 
-use Praxigento\Core\Lib\Service\Repo\Response\AddEntity as AddEntityResponse;
-use Praxigento\Core\Lib\Service\Repo\Response\UpdateEntity as UpdateEntityResponse;
-use Praxigento\Core\Service\Base\Response as BaseResponse;
 use Praxigento\Downline\Data\Entity\Customer;
+use Praxigento\Downline\Service\ICustomer;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
 class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
+    /** @var  \Mockery\MockInterface */
+    private $mLogger;
+    /** @var  \Mockery\MockInterface */
+    private $mManTrans;
+    /** @var  \Mockery\MockInterface */
+    private $mRepoChange;
+    /** @var  \Mockery\MockInterface */
+    private $mRepoCustomer;
+    /** @var  \Mockery\MockInterface */
+    private $mRepoGeneric;
+    /** @var  Call */
+    private $obj;
+
     protected function setUp()
     {
         parent::setUp();
-        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
+        /** create mocks */
+        $this->mLogger = $this->_mockLogger();
+        $this->mManTrans = $this->_mockTransactionManager();
+        $this->mRepoGeneric = $this->_mockRepoGeneric();
+        $this->mRepoChange = $this->_mock(\Praxigento\Downline\Repo\Entity\IChange::class);
+        $this->mRepoCustomer = $this->_mock(\Praxigento\Downline\Repo\Entity\ICustomer::class);
+        /** create object to test */
+        $this->obj = new Call(
+            $this->mLogger,
+            $this->mManTrans,
+            $this->mRepoGeneric,
+            $this->mRepoChange,
+            $this->mRepoCustomer
+        );
     }
 
-    public function test_add_common_commit()
+    /**
+     * @expectedException \Exception
+     */
+    public function test_add_commonNode_exception()
     {
         /** === Test Data === */
         $CUSTOMER_ID = 21;
         $PARENT_ID = 12;
         $REF_ID = '123123123';
         $DATE = '2015-12-05 12:34:56';
-        $PARENT_PATH = '/1/2/3/';
-        $PARENT_DEPTH = 3;
-        $ID_INSERTED_CUST = 1024;
+        /** === Setup Mocks === */
+        // $trans = $this->_manTrans->transactionBegin();
+        $mTrans = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('transactionBegin')->once()
+            ->andReturn($mTrans);
+        // $this->_repoCustomer->create($toAdd);
+        $this->mRepoCustomer
+            ->shouldReceive('create')->once();
+        // $idLog = $this->_repoChange->create($toLog);
+        $this->mRepoChange
+            ->shouldReceive('create')->once()
+            ->andThrow(new \Exception());
+        // $this->_manTrans->transactionClose($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionClose')->once();
+        /** === Call and asserts  === */
+        $req = new Request\Add();
+        $req->setCustomerId($CUSTOMER_ID);
+        $req->setParentId($PARENT_ID);
+        $req->setReference($REF_ID);
+        $req->setDate($DATE);
+        $this->obj->add($req);
+    }
+
+
+    public function test_add_rootNode_commit()
+    {
+        /** === Test Data === */
+        $CUSTOMER_ID = 21;
+        $PARENT_ID = $CUSTOMER_ID;
+        $REF_ID = '123123123';
+        $DATE = '2015-12-05 12:34:56';
         $ID_INSERTED_LOG = 2048;
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mRespByPk = new BaseResponse();
-        $mRespByPk->setData([
-            Customer::ATTR_PATH => $PARENT_PATH,
-            Customer::ATTR_DEPTH => $PARENT_DEPTH
-        ]);
-        $mRespByPk->markSucceed();
-        $mCallRepo
-            ->expects($this->once())
-            ->method('getEntityByPk')
-            ->willReturn($mRespByPk);
-        // $respAdd = $this->_callRepo->addEntity($reqAdd);
-        $mRespAddCust = new AddEntityResponse();
-        $mRespAddCust->setData([
-            AddEntityResponse::ID_INSERTED => $ID_INSERTED_CUST
-        ]);
-        $mRespAddCust->markSucceed();
-        $mCallRepo
-            ->expects($this->at(1))
-            ->method('addEntity')
-            ->willReturn($mRespAddCust);
-        // $respLog = $this->_callRepo->addEntity($reqLog);
-        $mRespAddLog = new AddEntityResponse();
-        $mRespAddLog->setData([
-            AddEntityResponse::ID_INSERTED => $ID_INSERTED_LOG
-        ]);
-        $mRespAddLog->markSucceed();
-        $mCallRepo
-            ->expects($this->at(2))
-            ->method('addEntity')
-            ->willReturn($mRespAddLog);
-        // $this->_conn->commit();
-        $mConn
-            ->expects($this->once())
-            ->method('commit');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
+        /** === Setup Mocks === */
+        // $trans = $this->_manTrans->transactionBegin();
+        $mTrans = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('transactionBegin')->once()
+            ->andReturn($mTrans);
+        // $this->_repoCustomer->create($toAdd);
+        $this->mRepoCustomer
+            ->shouldReceive('create')->once();
+        // $idLog = $this->_repoChange->create($toLog);
+        $this->mRepoChange
+            ->shouldReceive('create')->once()
+            ->andReturn($ID_INSERTED_LOG);
+        // $this->_manTrans->transactionCommit($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionCommit')->once();
+        // $this->_manTrans->transactionClose($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionClose')->once();
+        /** === Call and asserts  === */
         $req = new Request\Add();
         $req->setCustomerId($CUSTOMER_ID);
         $req->setParentId($PARENT_ID);
         $req->setReference($REF_ID);
         $req->setDate($DATE);
-        $resp = $call->add($req);
+        $resp = $this->obj->add($req);
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_add_common_exception()
-    {
-        /** === Test Data === */
-        $CUSTOMER_ID = 21;
-        $PARENT_ID = 12;
-        $REF_ID = '123123123';
-        $DATE = '2015-12-05 12:34:56';
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mCallRepo
-            ->expects($this->once())
-            ->method('getEntityByPk')
-            ->willThrowException(new \Exception());
-        // $this->_conn->rollBack();
-        $mConn
-            ->expects($this->once())
-            ->method('rollBack');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
-        $req = new Request\Add();
-        $req->setCustomerId($CUSTOMER_ID);
-        $req->setParentId($PARENT_ID);
-        $req->setReference($REF_ID);
-        $req->setDate($DATE);
-        $resp = $call->add($req);
-        $this->assertFalse($resp->isSucceed());
-    }
-
-    public function test_add_root_changeLogInsertFailed()
-    {
-        /** === Test Data === */
-        $CUSTOMER_ID = 21;
-        $PARENT_ID = 21;
-        $REF_ID = '123123123';
-        $DATE = '2015-12-05 12:34:56';
-        $ID_INSERTED_CUST = 1024;
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respAdd = $this->_callRepo->addEntity($reqAdd);
-        $mRespAddCust = new AddEntityResponse();
-        $mRespAddCust->setData([
-            AddEntityResponse::ID_INSERTED => $ID_INSERTED_CUST
-        ]);
-        $mRespAddCust->markSucceed();
-        $mCallRepo
-            ->expects($this->at(0))
-            ->method('addEntity')
-            ->willReturn($mRespAddCust);
-        // $respLog = $this->_callRepo->addEntity($reqLog);
-        $mRespAddLog = new AddEntityResponse();
-        $mCallRepo
-            ->expects($this->at(1))
-            ->method('addEntity')
-            ->willReturn($mRespAddLog);
-        // $this->_conn->rollBack();
-        $mConn
-            ->expects($this->once())
-            ->method('rollBack');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
-        $req = new Request\Add();
-        $req->setCustomerId($CUSTOMER_ID);
-        $req->setParentId($PARENT_ID);
-        $req->setReference($REF_ID);
-        $req->setDate($DATE);
-        $resp = $call->add($req);
-        $this->assertFalse($resp->isSucceed());
-    }
-
-    public function test_add_root_customerInsertFailed()
-    {
-        /** === Test Data === */
-        $CUSTOMER_ID = 21;
-        $PARENT_ID = 21;
-        $REF_ID = '123123123';
-        $DATE = '2015-12-05 12:34:56';
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respAdd = $this->_callRepo->addEntity($reqAdd);
-        $mRespAddCust = new AddEntityResponse();
-        $mCallRepo
-            ->expects($this->at(0))
-            ->method('addEntity')
-            ->willReturn($mRespAddCust);
-        // $this->_conn->rollBack();
-        $mConn
-            ->expects($this->once())
-            ->method('rollBack');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
-        $req = new Request\Add();
-        $req->setCustomerId($CUSTOMER_ID);
-        $req->setParentId($PARENT_ID);
-        $req->setReference($REF_ID);
-        $req->setDate($DATE);
-        $resp = $call->add($req);
-        $this->assertFalse($resp->isSucceed());
-    }
-
-    public function test_changeParent_common_commit()
+    public function test_changeParent()
     {
         /** === Test Data === */
         $DATE = '2015-12-05 12:34:56';
         $CUSTOMER_ID = 21;
-        $PARENT_ID_OLD = 10;
-        $PARENT_PATH_OLD = '/1/2/3/';
-        $PARENT_DEPTH_OLD = 3;
-        $PARENT_ID_NEW = 12;
-        $PARENT_PATH_NEW = '/3/2/1/';
-        $PARENT_DEPTH_NEW = 5;
-        $ID_INSERTED_LOG = 2048;
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mRespByPk = new BaseResponse();
-        $mRespByPk->setData([
-            Customer::ATTR_PARENT_ID => $PARENT_ID_OLD,
-            Customer::ATTR_PATH => $PARENT_PATH_OLD,
-            Customer::ATTR_DEPTH => $PARENT_DEPTH_OLD
-        ]);
-        $mRespByPk->markSucceed();
-        $mCallRepo
-            ->expects($this->at(0))
-            ->method('getEntityByPk')
-            ->willReturn($mRespByPk);
-        /* get new parent data */
-        //  $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mRespByPkParent = new BaseResponse();
-        $mRespByPkParent->setData([
-            Customer::ATTR_PARENT_ID => $PARENT_ID_NEW,
-            Customer::ATTR_PATH => $PARENT_PATH_NEW,
-            Customer::ATTR_DEPTH => $PARENT_DEPTH_NEW
-        ]);
-        $mRespByPkParent->markSucceed();
-        $mCallRepo
-            ->expects($this->at(1))
-            ->method('getEntityByPk')
-            ->willReturn($mRespByPkParent);
-        // $respUpdate = $this->_callRepo->updateEntity($reqUpdate);
-        $mRespUpdate = new UpdateEntityResponse();
-        $mRespUpdate->setData([UpdateEntityResponse::ROWS_UPDATED => 1]);
-        $mRespUpdate->markSucceed();
-        $mCallRepo
-            ->expects($this->at(2))
-            ->method('updateEntity')
-            ->willReturn($mRespUpdate);
-        // $respUpdate = $this->_callRepo->updateEntity($reqUpdate);
-        $mRespUpdate = new UpdateEntityResponse();
-        $mRespUpdate->setData([UpdateEntityResponse::ROWS_UPDATED => 5]);
-        $mRespUpdate->markSucceed();
-        $mCallRepo
-            ->expects($this->at(3))
-            ->method('updateEntity')
-            ->willReturn($mRespUpdate);
-        // $respAdd = $this->_callRepo->addEntity($reqAdd);
-        $mRespAddCust = new AddEntityResponse();
-        $mRespAddCust->setData([
-            AddEntityResponse::ID_INSERTED => $ID_INSERTED_LOG
-        ]);
-        $mRespAddCust->markSucceed();
-        $mCallRepo
-            ->expects($this->at(4))
-            ->method('addEntity')
-            ->willReturn($mRespAddCust);
-        // $this->_conn->commit();
-        $mConn
-            ->expects($this->once())
-            ->method('commit');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
+        $PARENT_ID_CUR = 43;
+        $PATH_CUR = '/1/2/3/43/';
+        $DEPTH_CUR = 4;
+        $PARENT_ID_NEW = 55;
+        $PATH_NEW = '/1/2/55/';
+        $DEPTH_NEW = 3;
+        $DO_CUST = new Customer();
+        $DO_CUST->setParentId($PARENT_ID_CUR);
+        $DO_CUST->setPath($PATH_CUR);
+        $DO_CUST->setDepth($DEPTH_CUR);
+        $DO_PARENT = new Customer();
+        $DO_PARENT->setPath($PATH_NEW);
+        $DO_PARENT->setDepth($DEPTH_NEW);
+        /** === Setup Mocks === */
+        // $trans = $this->_manTrans->transactionBegin();
+        $mTrans = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('transactionBegin')->once()
+            ->andReturn($mTrans);
+        // $data = $this->_repoCustomer->getById($customerId);
+        $this->mRepoCustomer
+            ->shouldReceive('getById')->once()
+            ->andReturn($DO_CUST);
+        // $newParentData = $this->_repoCustomer->getById($newParentId);
+        $this->mRepoCustomer
+            ->shouldReceive('getById')->once()
+            ->andReturn($DO_PARENT);
+        // $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
+        $this->mRepoCustomer
+            ->shouldReceive('updateById')->once()
+            ->andReturn(1);
+        // $rowsUpdated = $this->_repoCustomer->updateChildrenPath($pathKey, $pathReplace, $deltaDepth);
+        $this->mRepoCustomer
+            ->shouldReceive('updateChildrenPath')->once()
+            ->andReturn(2);
+        // $insertedId = $this->_repoChange->create($bind);
+        $this->mRepoChange
+            ->shouldReceive('create')->once()
+            ->andReturn(433);
+        // $this->_manTrans->transactionCommit($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionCommit')->once();
+        // $this->_manTrans->transactionClose($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionClose')->once();
+        /** === Call and asserts  === */
         $req = new Request\ChangeParent();
-        $req->setData(Request\ChangeParent::CUSTOMER_ID, $CUSTOMER_ID);
-        $req->setData(Request\ChangeParent::PARENT_ID_NEW, $PARENT_ID_NEW);
-        $req->setData(Request\ChangeParent::DATE, $DATE);
-        $resp = $call->changeParent($req);
+        $req->setCustomerId($CUSTOMER_ID);
+        $req->setNewParentId($PARENT_ID_NEW);
+        $req->setDate($DATE);
+        $resp = $this->obj->changeParent($req);
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_changeParent_exception()
+    public function test_constructor()
     {
-        /** === Test Data === */
-        $DATE = '2015-12-05 12:34:56';
-        $CUSTOMER_ID = 21;
-        $PARENT_ID_NEW = 21;
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mCallRepo
-            ->expects($this->at(0))
-            ->method('getEntityByPk')
-            ->willThrowException(new \Exception());
-        // $this->_conn->rollBack();
-        $mConn
-            ->expects($this->once())
-            ->method('rollBack');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
-        $req = new Request\ChangeParent();
-        $req->setData(Request\ChangeParent::CUSTOMER_ID, $CUSTOMER_ID);
-        $req->setData(Request\ChangeParent::PARENT_ID_NEW, $PARENT_ID_NEW);
-        $req->setData(Request\ChangeParent::DATE, $DATE);
-        $resp = $call->changeParent($req);
-        $this->assertFalse($resp->isSucceed());
-    }
-
-    public function test_changeParent_nothingToChange()
-    {
-        /** === Test Data === */
-        $DATE = '2015-12-05 12:34:56';
-        $CUSTOMER_ID = 21;
-        $PARENT_ID_OLD = 10;
-        $PARENT_PATH_OLD = '/1/2/3/';
-        $PARENT_DEPTH_OLD = 3;
-        $PARENT_ID_NEW = 10;
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mRespByPk = new BaseResponse();
-        $mRespByPk->setData([
-            Customer::ATTR_PARENT_ID => $PARENT_ID_OLD,
-            Customer::ATTR_PATH => $PARENT_PATH_OLD,
-            Customer::ATTR_DEPTH => $PARENT_DEPTH_OLD
-        ]);
-        $mCallRepo
-            ->expects($this->at(0))
-            ->method('getEntityByPk')
-            ->willReturn($mRespByPk);
-        // $this->_conn->commit();
-        $mConn
-            ->expects($this->once())
-            ->method('commit');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
-        $req = new Request\ChangeParent();
-        $req->setData(Request\ChangeParent::CUSTOMER_ID, $CUSTOMER_ID);
-        $req->setData(Request\ChangeParent::PARENT_ID_NEW, $PARENT_ID_NEW);
-        $req->setData(Request\ChangeParent::DATE, $DATE);
-        $resp = $call->changeParent($req);
-        $this->assertTrue($resp->isSucceed());
-    }
-
-    public function test_changeParent_rootNode_failedParentUpdate()
-    {
-        /** === Test Data === */
-        $DATE = '2015-12-05 12:34:56';
-        $CUSTOMER_ID = 21;
-        $PARENT_ID_OLD = 10;
-        $PARENT_PATH_OLD = '/1/2/3/';
-        $PARENT_DEPTH_OLD = 3;
-        $PARENT_ID_NEW = 21;
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolbox = $this->_mockToolbox();
-        $mCallRepo = $this->_mockCallRepo();
-
-        // $this->_conn->beginTransaction();
-        $mConn
-            ->expects($this->once())
-            ->method('beginTransaction');
-        // $respByPk = $this->_callRepo->getEntityByPk($reqByPk);
-        $mRespByPk = new BaseResponse();
-        $mRespByPk->setData([
-            Customer::ATTR_PARENT_ID => $PARENT_ID_OLD,
-            Customer::ATTR_PATH => $PARENT_PATH_OLD,
-            Customer::ATTR_DEPTH => $PARENT_DEPTH_OLD
-        ]);
-        $mCallRepo
-            ->expects($this->at(0))
-            ->method('getEntityByPk')
-            ->willReturn($mRespByPk);
-        // $respUpdate = $this->_callRepo->updateEntity($reqUpdate);
-        $mRespUpdate = new UpdateEntityResponse();
-        $mCallRepo
-            ->expects($this->at(1))
-            ->method('updateEntity')
-            ->willReturn($mRespUpdate);
-        // $this->_conn->rollBack();
-        $mConn
-            ->expects($this->once())
-            ->method('rollBack');
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo);
-        $req = new Request\ChangeParent();
-        $req->setData(Request\ChangeParent::CUSTOMER_ID, $CUSTOMER_ID);
-        $req->setData(Request\ChangeParent::PARENT_ID_NEW, $PARENT_ID_NEW);
-        $req->setData(Request\ChangeParent::DATE, $DATE);
-        $resp = $call->changeParent($req);
-        $this->assertFalse($resp->isSucceed());
+        /** === Call and asserts  === */
+        $this->assertInstanceOf(ICustomer::class, $this->obj);
     }
 }
