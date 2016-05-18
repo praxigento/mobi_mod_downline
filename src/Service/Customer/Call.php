@@ -61,12 +61,9 @@ class Call implements ICustomer
                 $depth = Cfg::INIT_DEPTH;
             } else {
                 /* get parent data by parent Mage id */
-                $data = $this->_repoGeneric->getEntityByPk(
-                    Customer::ENTITY_NAME,
-                    [Customer::ATTR_CUSTOMER_ID => $parentId]
-                );
-                $parentPath = $data[Customer::ATTR_PATH];
-                $parentDepth = $data[Customer::ATTR_DEPTH];
+                $data = $this->_repoCustomer->getById($parentId);
+                $parentPath = $data->getPath();
+                $parentDepth = $data->getDepth();
                 $path = $parentPath . $parentId . Cfg::DTPS;
                 $depth = $parentDepth + 1;
             }
@@ -82,7 +79,6 @@ class Call implements ICustomer
                 $toAdd[Customer::ATTR_HUMAN_REF] = $humanReference;
             }
             $this->_repoCustomer->create($toAdd);
-
             /* save log record to changes registry */
             $formatted = $date;
             $toLog = [
@@ -98,8 +94,6 @@ class Call implements ICustomer
                 $result->markSucceed();
                 $this->_manTrans->transactionCommit($trans);
                 $this->_logger->info("New customer #$customerId with parent #$parentId is added to downline tree.");
-            } else {
-                $this->_logger->error("Cannot add new customer to downline. Insert of the change log is failed.");
             }
         } finally {
             $this->_manTrans->transactionClose($trans);

@@ -53,15 +53,21 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $PARENT_ID = 12;
         $REF_ID = '123123123';
         $DATE = '2015-12-05 12:34:56';
+        $PATH = '/1/2/3/43/';
+        $DEPTH = 4;
+        $DO_CUST = new Customer();
+        $DO_CUST->setPath($PATH);
+        $DO_CUST->setDepth($DEPTH);
         /** === Setup Mocks === */
         // $trans = $this->_manTrans->transactionBegin();
         $mTrans = $this->_mockTransactionDefinition();
         $this->mManTrans
             ->shouldReceive('transactionBegin')->once()
             ->andReturn($mTrans);
-        // $this->_repoCustomer->create($toAdd);
+        // $data = $this->_repoCustomer->getById($parentId);
         $this->mRepoCustomer
-            ->shouldReceive('create')->once();
+            ->shouldReceive('getById')->once()
+            ->andReturn($DO_CUST);
         // $idLog = $this->_repoChange->create($toLog);
         $this->mRepoChange
             ->shouldReceive('create')->once()
@@ -175,9 +181,117 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->assertTrue($resp->isSucceed());
     }
 
+    public function test_changeParent_nothingToDo()
+    {
+        /** === Test Data === */
+        $DATE = '2015-12-05 12:34:56';
+        $CUSTOMER_ID = 21;
+        $PARENT_ID_CUR = 43;
+        $PATH_CUR = '/1/2/3/43/';
+        $DEPTH_CUR = 4;
+        $PARENT_ID_NEW = $PARENT_ID_CUR;
+        $DO_CUST = new Customer();
+        $DO_CUST->setParentId($PARENT_ID_CUR);
+        $DO_CUST->setPath($PATH_CUR);
+        $DO_CUST->setDepth($DEPTH_CUR);
+        /** === Setup Mocks === */
+        // $trans = $this->_manTrans->transactionBegin();
+        $mTrans = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('transactionBegin')->once()
+            ->andReturn($mTrans);
+        // $data = $this->_repoCustomer->getById($customerId);
+        $this->mRepoCustomer
+            ->shouldReceive('getById')->once()
+            ->andReturn($DO_CUST);
+        // $this->_manTrans->transactionCommit($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionCommit')->once();
+        // $this->_manTrans->transactionClose($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionClose')->once();
+        /** === Call and asserts  === */
+        $req = new Request\ChangeParent();
+        $req->setCustomerId($CUSTOMER_ID);
+        $req->setNewParentId($PARENT_ID_NEW);
+        $req->setDate($DATE);
+        $resp = $this->obj->changeParent($req);
+        $this->assertTrue($resp->isSucceed());
+    }
+
+    public function test_changeParent_rootNode()
+    {
+        /** === Test Data === */
+        $DATE = '2015-12-05 12:34:56';
+        $CUSTOMER_ID = 21;
+        $PARENT_ID_CUR = 43;
+        $PATH_CUR = '/1/2/3/43/';
+        $DEPTH_CUR = 4;
+        $PARENT_ID_NEW = $CUSTOMER_ID;
+        $PATH_NEW = '/1/2/55/';
+        $DEPTH_NEW = 3;
+        $DO_CUST = new Customer();
+        $DO_CUST->setParentId($PARENT_ID_CUR);
+        $DO_CUST->setPath($PATH_CUR);
+        $DO_CUST->setDepth($DEPTH_CUR);
+        $DO_PARENT = new Customer();
+        $DO_PARENT->setPath($PATH_NEW);
+        $DO_PARENT->setDepth($DEPTH_NEW);
+        /** === Setup Mocks === */
+        // $trans = $this->_manTrans->transactionBegin();
+        $mTrans = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('transactionBegin')->once()
+            ->andReturn($mTrans);
+        // $data = $this->_repoCustomer->getById($customerId);
+        $this->mRepoCustomer
+            ->shouldReceive('getById')->once()
+            ->andReturn($DO_CUST);
+        // $newParentData = $this->_repoCustomer->getById($newParentId);
+        $this->mRepoCustomer
+            ->shouldReceive('getById')->once()
+            ->andReturn($DO_PARENT);
+        // $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
+        $this->mRepoCustomer
+            ->shouldReceive('updateById')->once()
+            ->andReturn(1);
+        // $rowsUpdated = $this->_repoCustomer->updateChildrenPath($pathKey, $pathReplace, $deltaDepth);
+        $this->mRepoCustomer
+            ->shouldReceive('updateChildrenPath')->once()
+            ->andReturn(2);
+        // $insertedId = $this->_repoChange->create($bind);
+        $this->mRepoChange
+            ->shouldReceive('create')->once()
+            ->andReturn(433);
+        // $this->_manTrans->transactionCommit($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionCommit')->once();
+        // $this->_manTrans->transactionClose($trans);
+        $this->mManTrans
+            ->shouldReceive('transactionClose')->once();
+        /** === Call and asserts  === */
+        $req = new Request\ChangeParent();
+        $req->setCustomerId($CUSTOMER_ID);
+        $req->setNewParentId($PARENT_ID_NEW);
+        $req->setDate($DATE);
+        $resp = $this->obj->changeParent($req);
+        $this->assertTrue($resp->isSucceed());
+    }
+
     public function test_constructor()
     {
         /** === Call and asserts  === */
         $this->assertInstanceOf(ICustomer::class, $this->obj);
+    }
+
+    public function test_generateReferralCode()
+    {
+        /** === Test Data === */
+        $CUSTOMER_ID = 21;
+        /** === Call and asserts  === */
+        $req = new Request\GenerateReferralCode();
+        $req->setCustomerId($CUSTOMER_ID);
+        $resp = $this->obj->generateReferralCode($req);
+        $this->assertTrue($resp->isSucceed());
     }
 }
