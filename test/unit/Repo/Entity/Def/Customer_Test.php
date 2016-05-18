@@ -41,4 +41,46 @@ class Customer_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->assertInstanceOf(ICustomer::class, $this->obj);
     }
 
+    public function test_updateChildrenPath_negative()
+    {
+        /** === Test Data === */
+        $PATH = '/1/2/3/';
+        $REPLACE = '/3/2/';
+        $DELTA = -1;
+        $UPDATED = 3;
+        /** === Setup Mocks === */
+        // $qPath = $this->_conn->quote($path);
+        // ...
+        $this->mConn
+            ->shouldReceive('quote');
+        // $result = $this->_repoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
+        $this->mRepoGeneric
+            ->shouldReceive('updateEntity')->once()
+            ->andReturn($UPDATED);
+        /** === Call and asserts  === */
+        $res = $this->obj->updateChildrenPath($PATH, $REPLACE, $DELTA);
+        $this->assertEquals($UPDATED, $res);
+
+    }
+
+    public function test_updateChildrenPath_positive()
+    {
+        /** === Test Data === */
+        $PATH = '/1/2/3/';
+        $REPLACE = '/4/3/2/1/';
+        $DELTA = 1;
+        $UPDATED = 3;
+        /** === Setup Mocks === */
+        // $qPath = $this->_conn->quote($path);
+        // ...
+        $this->mConn
+            ->shouldReceive('quote');
+        // $result = $this->_repoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
+        $this->mRepoGeneric
+            ->shouldReceive('updateEntity')->once()
+            ->andReturn($UPDATED);
+        /** === Call and asserts  === */
+        $res = $this->obj->updateChildrenPath($PATH, $REPLACE, $DELTA);
+        $this->assertEquals($UPDATED, $res);
+    }
 }
