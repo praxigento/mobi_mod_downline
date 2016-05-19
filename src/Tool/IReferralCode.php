@@ -10,6 +10,8 @@ namespace Praxigento\Downline\Tool;
  */
 interface IReferralCode
 {
+    public function getCode();
+
     public function processCoupon($coupon);
 
     public function processHttpRequest($getVar);
