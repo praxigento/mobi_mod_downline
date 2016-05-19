@@ -21,6 +21,25 @@ class Customer extends BaseEntityRepo implements IEntityRepo
         parent::__construct($resource, $repoGeneric, Entity::class);
     }
 
+    /** @inheritdoc */
+    public function getByReferralCode($code)
+    {
+        $result = null;
+        $cols = null;
+        $qCode = $this->_conn->quote($code);
+        $where = Entity::ATTR_REFERRAL_CODE . '=' . $qCode;
+        $items = $this->_repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        if (
+            is_array($items) &&
+            (count($items) == 1)
+        ) {
+            $data = reset($items);
+            $result = $this->_createEntityInstance($data);
+        }
+        return $result;
+    }
+
+    /** @inheritdoc */
     public function updateChildrenPath($path, $replace, $depthDelta)
     {
         $qPath = $this->_conn->quote($path);

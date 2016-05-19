@@ -6,9 +6,9 @@
 namespace Praxigento\Downline\Tool\Def;
 
 use Praxigento\Downline\Data\Value\ReferralCookie;
-use Praxigento\Downline\Tool\IReferralCode;
+use Praxigento\Downline\Tool\IReferral;
 
-class ReferralCode implements IReferralCode
+class Referral implements IReferral
 {
     /** Cookie name to save referral code and creation date into browser */
     const COOKIE_REFERRAL_CODE = 'prxgtDwnlReferral';
@@ -34,31 +34,56 @@ class ReferralCode implements IReferralCode
         $this->_toolDate = $toolDate;
     }
 
-    public function getCode()
+    public function getDefaultCountryCode()
+    {
+        return 'LV';
+    }
+
+    /** @inheritdoc */
+    public function getReferralCode()
     {
         $result = $this->_registry->registry(static::REG_REFERRAL_CODE);
         return $result;
     }
 
+    /** @inheritdoc */
+    public function getReferredParent($customerId)
+    {
+        $result = $customerId;
+        $code = $this->getReferralCode();
+        if ($code) {
+
+        }
+        return $result;
+    }
+
+    /** @inheritdoc */
     public function processCoupon($coupon)
     {
         // TODO: Implement processCoupon() method.
     }
 
+    /** @inheritdoc */
     public function processHttpRequest($getVar)
     {
         /* get code from cookie */
         $cookie = $this->_cookieManager->getCookie(static::COOKIE_REFERRAL_CODE);
         $voCookie = new ReferralCookie($cookie);
         /* replace cookie value if GET code is not equal to cookie value */
-        if ($getVar != $voCookie->getCode()) {
+        if (
+            $getVar &&
+            ($getVar != $voCookie->getCode())
+        ) {
             $voCookie->setCode($getVar);
             $cookie = $voCookie->generateCookieValue();
-            $this->_cookieManager->setSensitiveCookie(static::COOKIE_REFERRAL_CODE, $cookie);
-            /* save referral code into the registry */
-            $code = $voCookie->getCode();
-            $this->replaceCodeInRegistry($code);
+            $meta = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
+            $meta->setPath('/');
+            $meta->setDurationOneYear();
+            $this->_cookieManager->setPublicCookie(static::COOKIE_REFERRAL_CODE, $cookie, $meta);
         }
+        /* save referral code into the registry */
+        $code = $voCookie->getCode();
+        $this->replaceCodeInRegistry($code);
     }
 
     public function replaceCodeInRegistry($code)

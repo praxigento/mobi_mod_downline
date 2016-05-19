@@ -11,11 +11,11 @@ use Praxigento\Downline\Config as Cfg;
 
 class FrontControllerPlugin
 {
-    /** @var \Praxigento\Downline\Tool\IReferralCode */
+    /** @var \Praxigento\Downline\Tool\IReferral */
     protected $_toolReferralCode;
 
     public function __construct(
-        \Praxigento\Downline\Tool\IReferralCode $toolReferralCode
+        \Praxigento\Downline\Tool\IReferral $toolReferralCode
     ) {
         $this->_toolReferralCode = $toolReferralCode;
     }

@@ -21,19 +21,23 @@ class Call implements ICustomer
     protected $_repoCustomer;
     /** @var \Praxigento\Core\Repo\IGeneric */
     protected $_repoGeneric;
+    /** @var  Sub\Referral */
+    protected $_subReferral;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
         \Praxigento\Core\Repo\IGeneric $repoGeneric,
         \Praxigento\Downline\Repo\Entity\IChange $repoChange,
-        \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer
+        \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
+        Sub\Referral $subReferral
     ) {
         $this->_logger = $logger;
         $this->_manTrans = $manTrans;
         $this->_repoGeneric = $repoGeneric;
         $this->_repoChange = $repoChange;
         $this->_repoCustomer = $repoCustomer;
+        $this->_subReferral = $subReferral;
     }
 
     /**
@@ -54,6 +58,8 @@ class Call implements ICustomer
         $this->_logger->info("Add new customer #$customerId with parent #$parentId to downline tree.");
         $trans = $this->_manTrans->transactionBegin();
         try {
+            /* define referred parent */
+            $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
             if ($customerId == $parentId) {
                 /* add root node */
                 $this->_logger->info("This is root node (customer id is equal to parent id).");
@@ -72,11 +78,15 @@ class Call implements ICustomer
                 Customer::ATTR_CUSTOMER_ID => $customerId,
                 Customer::ATTR_PARENT_ID => $parentId,
                 Customer::ATTR_DEPTH => $depth,
-                Customer::ATTR_PATH => $path,
-                Customer::ATTR_COUNTRY_CODE => $countryCode
+                Customer::ATTR_PATH => $path
             ];
             if (isset($humanReference)) {
                 $toAdd[Customer::ATTR_HUMAN_REF] = $humanReference;
+            }
+            if (isset($countryCode)) {
+                $toAdd[Customer::ATTR_COUNTRY_CODE] = $countryCode;
+            } else {
+                $toAdd[Customer::ATTR_COUNTRY_CODE] = $this->_subReferral->getDefaultCountryCode();
             }
             $this->_repoCustomer->create($toAdd);
             /* save log record to changes registry */
@@ -139,7 +149,8 @@ class Call implements ICustomer
                 $bind = [
                     Customer::ATTR_PARENT_ID => $newParentId,
                     Customer::ATTR_DEPTH => $newCustomerDepth,
-                    Customer::ATTR_PATH => $newCustomerPath
+                    Customer::ATTR_PATH => $newCustomerPath,
+                    Customer::ATTR_COUNTRY_CODE => ''
                 ];
                 $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
                 if ($updateRows == 1) {
