@@ -19,7 +19,20 @@
                 type="Praxigento\Downline\Service\Snap\Call"/>
 
     <!-- Tools -->
+    <preference for="\Praxigento\Downline\Tool\IReferralCode"
+                type="Praxigento\Downline\Tool\Def\ReferralCode"/>
     <preference for="Praxigento\Downline\Tool\ITree"
-                type="\Praxigento\Downline\Tool\Def\Tree"/>
+                type="Praxigento\Downline\Tool\Def\Tree"/>
 
+    <!-- ******* -->
+    <!-- PLUGINS -->
+    <!-- ******* -->
+    <type name="Magento\Framework\App\FrontControllerInterface">
+        <plugin
+                name="praxigento_downline_front_controller_referral"
+                type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin"
+                sortOrder="100"
+                disabled="false"
+        />
+    </type>
 </config>
