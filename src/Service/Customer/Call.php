@@ -78,7 +78,9 @@ class Call implements ICustomer
                 Customer::ATTR_CUSTOMER_ID => $customerId,
                 Customer::ATTR_PARENT_ID => $parentId,
                 Customer::ATTR_DEPTH => $depth,
-                Customer::ATTR_PATH => $path
+                Customer::ATTR_PATH => $path,
+                /* use own ID as referral code */
+                Customer::ATTR_REFERRAL_CODE => $customerId
             ];
             if (isset($humanReference)) {
                 $toAdd[Customer::ATTR_HUMAN_REF] = $humanReference;

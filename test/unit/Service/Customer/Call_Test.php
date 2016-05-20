@@ -21,6 +21,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
     private $mRepoCustomer;
     /** @var  \Mockery\MockInterface */
     private $mRepoGeneric;
+    /** @var  \Mockery\MockInterface */
+    private $mSubReferral;
     /** @var  Call */
     private $obj;
 
@@ -33,20 +35,22 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->mRepoGeneric = $this->_mockRepoGeneric();
         $this->mRepoChange = $this->_mock(\Praxigento\Downline\Repo\Entity\IChange::class);
         $this->mRepoCustomer = $this->_mock(\Praxigento\Downline\Repo\Entity\ICustomer::class);
+        $this->mSubReferral = $this->_mock(Sub\Referral::class);
         /** create object to test */
         $this->obj = new Call(
             $this->mLogger,
             $this->mManTrans,
             $this->mRepoGeneric,
             $this->mRepoChange,
-            $this->mRepoCustomer
+            $this->mRepoCustomer,
+            $this->mSubReferral
         );
     }
 
     /**
      * @expectedException \Exception
      */
-    public function test_add_commonNode_exception()
+    public function test_add_commonNode_withCountry_exception()
     {
         /** === Test Data === */
         $CUSTOMER_ID = 21;
@@ -58,12 +62,17 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $DO_CUST = new Customer();
         $DO_CUST->setPath($PATH);
         $DO_CUST->setDepth($DEPTH);
+        $COUNTRY_CODE = 'LV';
         /** === Setup Mocks === */
         // $trans = $this->_manTrans->transactionBegin();
         $mTrans = $this->_mockTransactionDefinition();
         $this->mManTrans
             ->shouldReceive('transactionBegin')->once()
             ->andReturn($mTrans);
+        // $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
+        $this->mSubReferral
+            ->shouldReceive('getReferredParentId')->once()
+            ->andReturn($PARENT_ID);
         // $data = $this->_repoCustomer->getById($parentId);
         $this->mRepoCustomer
             ->shouldReceive('getById')->once()
@@ -80,6 +89,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $req->setCustomerId($CUSTOMER_ID);
         $req->setParentId($PARENT_ID);
         $req->setReference($REF_ID);
+        $req->setCountryCode($COUNTRY_CODE);
         $req->setDate($DATE);
         $this->obj->add($req);
     }
@@ -93,12 +103,21 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $REF_ID = '123123123';
         $DATE = '2015-12-05 12:34:56';
         $ID_INSERTED_LOG = 2048;
+        $COUNTRY_CODE = 'LV';
         /** === Setup Mocks === */
         // $trans = $this->_manTrans->transactionBegin();
         $mTrans = $this->_mockTransactionDefinition();
         $this->mManTrans
             ->shouldReceive('transactionBegin')->once()
             ->andReturn($mTrans);
+        // $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
+        $this->mSubReferral
+            ->shouldReceive('getReferredParentId')->once()
+            ->andReturn($PARENT_ID);
+        // $toAdd[Customer::ATTR_COUNTRY_CODE] = $this->_subReferral->getDefaultCountryCode();
+        $this->mSubReferral
+            ->shouldReceive('getDefaultCountryCode')->once()
+            ->andReturn($COUNTRY_CODE);
         // $this->_repoCustomer->create($toAdd);
         $this->mRepoCustomer
             ->shouldReceive('create')->once();

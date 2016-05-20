@@ -11,14 +11,14 @@ class Referral
     /** @var  \Praxigento\Downline\Repo\Entity\ICustomer */
     protected $_repoCustomer;
     /** @var  \Praxigento\Downline\Tool\IReferral */
-    protected $_toolReferralCode;
+    protected $_toolReferral;
 
     public function __construct(
         \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
-        \Praxigento\Downline\Tool\IReferral $toolReferralCode
+        \Praxigento\Downline\Tool\IReferral $toolReferral
     ) {
         $this->_repoCustomer = $repoCustomer;
-        $this->_toolReferralCode = $toolReferralCode;
+        $this->_toolReferral = $toolReferral;
     }
 
     /**
@@ -28,7 +28,7 @@ class Referral
      */
     public function getDefaultCountryCode()
     {
-        $result = $this->_toolReferralCode->getDefaultCountryCode();
+        $result = $this->_toolReferral->getDefaultCountryCode();
         return $result;
     }
 
@@ -43,7 +43,7 @@ class Referral
     {
         /* use customer ID as parent ID if parent ID is missed */
         $result = ($parentId) ? $parentId : $customerId;
-        $code = $this->_toolReferralCode->getReferralCode();
+        $code = $this->_toolReferral->getReferralCode();
         if ($code) {
             $parentDo = $this->_repoCustomer->getByReferralCode($code);
             if ($parentDo) {
