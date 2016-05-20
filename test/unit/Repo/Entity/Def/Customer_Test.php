@@ -41,6 +41,29 @@ class Customer_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->assertInstanceOf(ICustomer::class, $this->obj);
     }
 
+    public function test_getByReferralCode()
+    {
+        /** === Test Data === */
+        $CODE = 'code';
+        $CUST_ID = 321;
+        $ITEMS = [
+            [Entity::ATTR_CUSTOMER_ID => $CUST_ID]
+        ];
+        /** === Setup Mocks === */
+        // $qCode = $this->_conn->quote($code);
+        $this->mConn
+            ->shouldReceive('quote')->once()
+            ->andReturn("'$CODE'");
+        // $items = $this->_repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        $this->mRepoGeneric
+            ->shouldReceive('getEntities')->once()
+            ->andReturn($ITEMS);
+        // $result = $this->_createEntityInstance($data);
+        /** === Call and asserts  === */
+        $res = $this->obj->getByReferralCode($CODE);
+        $this->assertEquals($CUST_ID, $res->getCustomerId());
+    }
+
     public function test_updateChildrenPath_negative()
     {
         /** === Test Data === */

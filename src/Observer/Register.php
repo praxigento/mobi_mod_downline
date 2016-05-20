@@ -2,7 +2,6 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-
 namespace Praxigento\Downline\Observer;
 
 use Magento\Framework\Event\Observer;
@@ -36,7 +35,7 @@ class Register implements ObserverInterface
             /* this is newly saved customer, register it into downline */
             $req = new \Praxigento\Downline\Service\Customer\Request\Add();
             $req->setCustomerId($idAfter);
-            $resp = $this->_callCustomer->add($req);
+            $this->_callCustomer->add($req);
         }
         return;
     }
