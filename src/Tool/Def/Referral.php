@@ -16,21 +16,18 @@ class Referral implements IReferral
     const REG_REFERRAL_CODE = 'prxgtDwnlReferral';
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */
     protected $_cookieManager;
+    /** @var \Magento\Framework\Registry */
     protected $_registry;
-    /** @var \Magento\Framework\Session\SessionManagerInterface */
-    protected $_sessionManager;
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
 
     public function __construct(
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Session\SessionManagerInterface $sessionManager,
         \Praxigento\Core\Tool\IDate $toolDate
     ) {
         $this->_cookieManager = $cookieManager;
         $this->_registry = $registry;
-        $this->_sessionManager = $sessionManager;
         $this->_toolDate = $toolDate;
     }
 
@@ -43,17 +40,6 @@ class Referral implements IReferral
     public function getReferralCode()
     {
         $result = $this->_registry->registry(static::REG_REFERRAL_CODE);
-        return $result;
-    }
-
-    /** @inheritdoc */
-    public function getReferredParent($customerId)
-    {
-        $result = $customerId;
-        $code = $this->getReferralCode();
-        if ($code) {
-
-        }
         return $result;
     }
 
@@ -74,7 +60,10 @@ class Referral implements IReferral
             $getVar &&
             ($getVar != $voCookie->getCode())
         ) {
+            $tsSaved = $this->_toolDate->getUtcNow();
+            $saved = $tsSaved->format('Ymd');
             $voCookie->setCode($getVar);
+            $voCookie->setDateSaved($saved);
             $cookie = $voCookie->generateCookieValue();
             $meta = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
             $meta->setPath('/');

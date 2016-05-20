@@ -24,14 +24,6 @@ interface IReferral
     public function getReferralCode();
 
     /**
-     * Get parent ID based on referral code (or default parent ID)
-     *
-     * @param int $customerId current customer ID (for root nodes parent ID equals to customer ID)
-     * @return int
-     */
-    public function getReferredParent($customerId);
-
-    /**
      * Analyze checkout coupon and save referral code into the registry.
      *
      * @param string $coupon
