@@ -35,4 +35,12 @@ interface IReferral
      * @param string $getVar
      */
     public function processHttpRequest($getVar);
+
+    /**
+     * Replace referral code in registry.
+     *
+     * @param $code
+     * @return mixed
+     */
+    public function replaceCodeInRegistry($code);
 }

@@ -46,7 +46,7 @@ class Referral implements IReferral
     /** @inheritdoc */
     public function processCoupon($coupon)
     {
-        // TODO: Implement processCoupon() method.
+        $this->replaceCodeInRegistry($coupon);
     }
 
     /** @inheritdoc */
