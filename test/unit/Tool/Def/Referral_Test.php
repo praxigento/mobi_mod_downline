@@ -69,7 +69,14 @@ class Referral_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         /** === Test Data === */
         $COUPON = 'coupon';
         /** === Setup Mocks === */
-        // is not implemented yet
+        $this->obj = \Mockery::mock(Referral::class . '[replaceCodeInRegistry]', [
+            $this->mCookieManager,
+            $this->mRegistry,
+            $this->mToolDate
+        ]);
+        //  $this->replaceCodeInRegistry($coupon);
+        $this->obj
+            ->shouldReceive('replaceCodeInRegistry')->once();
         /** === Call and asserts  === */
         $this->obj->processCoupon($COUPON);
     }
