@@ -12,10 +12,21 @@ include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
 class CalcSimple_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
+    /** @var  \Mockery\MockInterface */
+    private $mToolPeriod;
+    /** @var  CalcSimple */
+    private $obj;
+
     protected function setUp()
     {
         parent::setUp();
-        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
+        /** create mocks */
+        $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
+        /** setup mocks for constructor */
+        /** create object to test */
+        $this->obj = new CalcSimple(
+            $this->mToolPeriod
+        );
     }
 
     public function test_calcSnapshots()
@@ -73,22 +84,14 @@ class CalcSimple_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
                 Change::ATTR_DATE_CHANGED => '2015-12-07 12:04:00'
             ],
         ];
-        /** === Mocks === */
-        $mToolPeriod = $this->_mockFor(\Praxigento\Core\Tool\IPeriod::class);
-        // $dsChanged = $toolPeriod->getPeriodCurrent($tsChanged);
-        $mToolPeriod
-            ->expects($this->any())
-            ->method('getPeriodCurrent')
-            ->willReturn('20151207');
-
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $sub CalcSimple */
-        $sub = new CalcSimple($mToolPeriod);
-        $res = $sub->calcSnapshots($CURRENT_STATE, $CHANGES);
-
+        $PERIOD = '20151207';
+        /** === Setup Mocks === */
+        $this->mToolPeriod
+            ->shouldReceive('getPeriodCurrent')->once()
+            ->andReturn($PERIOD);
+        /** === Call and asserts  === */
+        $res = $this->obj->calcSnapshots($CURRENT_STATE, $CHANGES);
+        $this->assertTrue(is_array($res));
     }
 
 }

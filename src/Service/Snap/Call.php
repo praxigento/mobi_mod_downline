@@ -12,15 +12,11 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 {
     /** @var \Praxigento\Core\Repo\ITransactionManager */
     protected $_manTrans;
-
     /** @var \Praxigento\Downline\Repo\Entity\IChange */
     protected $_repoChange;
-
     /** @var \Praxigento\Downline\Repo\Entity\ISnap */
     protected $_repoSnap;
-    /**
-     * @var Sub\CalcSimple
-     */
+    /** @var Sub\CalcSimple */
     protected $_subCalc;
     /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;

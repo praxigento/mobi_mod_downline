@@ -11,13 +11,17 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
 
     /** @var  Call */
-    private $call;
+    private $obj;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
-        $this->call = new Call();
+        /** create mocks */
+        $this->mLogger = $this->_mockLogger();
+        /** create object to test */
+        $this->obj = new Call(
+            $this->mLogger
+        );
     }
 
     public function test_byId()
@@ -33,11 +37,16 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $req = new Request\ById();
         $req->setAsId($AS_ID);
         $req->setDataToMap($DATA);
-        $resp = $this->call->byId($req);
+        $resp = $this->obj->byId($req);
         $this->assertTrue($resp->isSucceed());
         $mapped = $resp->getMapped();
         $this->assertTrue(is_array($mapped));
         $this->assertEquals($OTHER, $mapped[$ID][$AS_OTHER]);
+    }
+
+    public function test_constructor()
+    {
+        $this->assertInstanceOf(\Praxigento\Downline\Service\IMap::class, $this->obj);
     }
 
     public function test_treeByDepth()
@@ -60,7 +69,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $req->setAsCustomerId($AS_CUST_ID);
         $req->setAsDepth($AS_DEPTH);
         $req->setShouldReversed($SHOULD_REVERSE);
-        $resp = $this->call->treeByDepth($req);
+        $resp = $this->obj->treeByDepth($req);
         $this->assertTrue($resp->isSucceed());
         $mapped = $resp->getMapped();
         $this->assertTrue(is_array($mapped));
@@ -87,7 +96,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $req->setDataToMap($DATA);
         $req->setAsCustomerId($AS_CUST_ID);
         $req->setAsParentId($AS_PARENT_ID);
-        $resp = $this->call->treeByTeams($req);
+        $resp = $this->obj->treeByTeams($req);
         $this->assertTrue($resp->isSucceed());
         $mapped = $resp->getMapped();
         $this->assertTrue(is_array($mapped));
