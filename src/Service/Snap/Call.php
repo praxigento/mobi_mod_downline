@@ -194,6 +194,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         if ($snapMaxDate) {
             /* there is snapshots data */
             $result->setData([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
+            $result->markSucceed();
         } else {
             /* there is no snapshot data yet, get change log minimal date  */
             $changelogMinDate = $this->_repoChange->getChangelogMinDate();

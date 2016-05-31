@@ -45,13 +45,16 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     */
-    public function test_calc_exception()
+    public function test_calc()
     {
         /** === Test Data === */
         $DS_TO = '20151207';
+        $DS_LAST = 'the last datestamp';
+        $SNAPSHOT = 'snapshot';
+        $TS_FROM = 'from';
+        $TS_TO = 'to';
+        $CHANGE_LOG = 'change log';
+        $UPDATES = 'updates';
         /** === Setup Mocks === */
         $this->obj = \Mockery::mock(
             Call::class . '[getLastDate]',
@@ -70,48 +73,38 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
             ->shouldReceive('transactionBegin')->once()
             ->andReturn($mTrans);
         // $respLast = $this->getLastDate($reqLast);
+        $mRespLast = new \Praxigento\Downline\Service\Snap\Response\GetLastDate();
         $this->obj
             ->shouldReceive('getLastDate')->once()
-            ->andThrow(new \Exception());
-        // $this->_manTrans->transactionClose($trans);
+            ->andReturn($mRespLast);
+        // $lastDatestamp = $respLast->getLastDate();
+        $mRespLast->setLastDate($DS_LAST);
+        // $snapshot = $this->_repoSnap->getStateOnDate($lastDatestamp);
+        $this->mRepoSnap
+            ->shouldReceive('getStateOnDate')->once()
+            ->andReturn($SNAPSHOT);
+        // $tsFrom = $this->_toolPeriod->getTimestampNextFrom($lastDatestamp);
+        $this->mToolPeriod
+            ->shouldReceive('getTimestampNextFrom')->once()
+            ->andReturn($TS_FROM);
+        // $tsTo = $this->_toolPeriod->getTimestampTo($periodTo);
+        $this->mToolPeriod
+            ->shouldReceive('getTimestampTo')->once()
+            ->andReturn($TS_TO);
+        // $changelog = $this->_repoChange->getChangesForPeriod($tsFrom, $tsTo);
+        $this->mRepoChange
+            ->shouldReceive('getChangesForPeriod')->once()
+            ->andReturn($CHANGE_LOG);
+        // $updates = $this->_subCalc->calcSnapshots($snapshot, $changelog);
+        $this->mSubCalc
+            ->shouldReceive('calcSnapshots')->once()
+            ->andReturn($UPDATES);
+        // $this->_repoSnap->saveCalculatedUpdates($updates);
+        $this->mRepoSnap
+            ->shouldReceive('saveCalculatedUpdates')->once();
+        // $this->_manTrans->transactionCommit($trans);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
-        /** === Call and asserts  === */
-        $req = new Request\Calc();
-        $req->setDatestampTo($DS_TO);
-        $resp = $this->obj->calc($req);
-        $this->assertFalse($resp->isSucceed());
-    }
-
-    public function test_calc_withGetLastDate()
-    {
-        /** === Test Data === */
-        $DS_TO = '20151207';
-        $DS_MAX = '20151206';
-        $SNAPSHOT = [];
-        $CHANGELOG = [];
-        $UPDATES = [];
-        /** === Setup Mocks === */
-        $this->obj = \Mockery::mock(
-            Call::class . '[getLastDate]',
-            [
-                $this->mLogger,
-                $this->mManTrans,
-                $this->mToolPeriod,
-                $this->mRepoChange,
-                $this->mRepoSnap,
-                $this->mSubCalc
-            ]
-        );
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
-        $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
-        // $respLast = $this->getLastDate($reqLast);
-        $this->obj
-            ->shouldReceive('getLastDate')->once()
-            ->andThrow(new \Exception());
+            ->shouldReceive('transactionCommit')->once();
         // $this->_manTrans->transactionClose($trans);
         $this->mManTrans
             ->shouldReceive('transactionClose')->once();
@@ -128,28 +121,10 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->assertInstanceOf(Call::class, $this->obj);
     }
 
-    public function test_extendMinimal()
+    public function test_expandMinimal()
     {
         /** === Test Data === */
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolPeriod = $this->_mockFor('Praxigento\Core\Tool\IPeriod');
-        $mToolbox = $this->_mockToolbox(null, null, null, $mToolPeriod);
-        $mCallRepo = $this->_mockCallRepo();
-        $mSubDb = $this->_mockFor('Praxigento\Downline\Service\Snap\Sub\Db');
-        $mSubCalc = $this->_mockFor('Praxigento\Downline\Service\Snap\Sub\CalcSimple');
-
-        //
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo, $mSubDb, $mSubCalc);
-        $req = new Request\ExpandMinimal();
-        $req->setTree([
+        $TREE = [
             2 => 1,
             3 => 1,
             4 => 2,
@@ -162,94 +137,78 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
             1 => 1,
             12 => 10,
             12 => 121
-        ]);
-        $resp = $call->expandMinimal($req);
+        ];
+        /** === Setup Mocks === */
+        /** === Call and asserts  === */
+        $req = new Request\ExpandMinimal();
+        $req->setTree($TREE);
+        $resp = $this->obj->expandMinimal($req);
         $this->assertTrue($resp->isSucceed());
         $snapData = $resp->getSnapData();
         $this->assertTrue(is_array($snapData));
+    }
+
+    public function test_getLastDate_isSnapshot()
+    {
+        /** === Test Data === */
+        $DS_SNAP_MAX = '20151206';
+        /** === Setup Mocks === */
+        // $snapMaxDate = $this->_repoSnap->getMaxDatestamp();
+        $this->mRepoSnap
+            ->shouldReceive('getMaxDatestamp')->once()
+            ->andReturn($DS_SNAP_MAX);
+        /** === Call and asserts  === */
+        $req = new Request\GetLastDate();
+        $resp = $this->obj->getLastDate($req);
+        $this->assertTrue($resp->isSucceed());
+        $this->assertEquals($DS_SNAP_MAX, $resp->getLastDate());
     }
 
     public function test_getLastDate_noSnapshot()
     {
         /** === Test Data === */
         $TS_MIN_DATE = '2015-12-07 10:00:00';
-        $DS_CURRENT = '20151207';
-        $DS_PREV = '20151206';
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolPeriod = $this->_mockFor('Praxigento\Core\Tool\IPeriod');
-        $mToolbox = $this->_mockToolbox(null, null, null, $mToolPeriod);
-        $mCallRepo = $this->_mockCallRepo();
-        $mSubDb = $this->_mockFor('Praxigento\Downline\Service\Snap\Sub\Db');
-        $mSubCalc = $this->_mockFor('Praxigento\Downline\Service\Snap\Sub\CalcSimple');
-
-        // $snapMaxDate = $this->_subDb->getSnapMaxDatestamp();
-        $mSubDb
-            ->expects($this->once())
-            ->method('getSnapMaxDatestamp')
-            ->willReturn(null);
-        // $changelogMinDate = $this->_subDb->getChangelogMinDate();
-        $mSubDb
-            ->expects($this->once())
-            ->method('getChangelogMinDate')
-            ->willReturn($TS_MIN_DATE);
-        // $period = $toolPeriod->getPeriodCurrent($changelogMinDate);
-        $mToolPeriod
-            ->expects($this->once())
-            ->method('getPeriodCurrent')
-            ->with($this->equalTo($TS_MIN_DATE))
-            ->willReturn($DS_CURRENT);
-        // $dayBefore = $toolPeriod->getPeriodPrev($period);
-        $mToolPeriod
-            ->expects($this->once())
-            ->method('getPeriodPrev')
-            ->with($this->equalTo($DS_CURRENT))
-            ->willReturn($DS_PREV);
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo, $mSubDb, $mSubCalc);
+        $PERIOD = 'period';
+        $DS_DAY_BEFORE = '20151206';
+        /** === Setup Mocks === */
+        // $snapMaxDate = $this->_repoSnap->getMaxDatestamp();
+        $this->mRepoSnap
+            ->shouldReceive('getMaxDatestamp')->once()
+            ->andReturn(null);
+        // $changelogMinDate = $this->_repoChange->getChangelogMinDate();
+        $this->mRepoChange
+            ->shouldReceive('getChangelogMinDate')->once()
+            ->andReturn($TS_MIN_DATE);
+        // $period = $this->_toolPeriod->getPeriodCurrent($changelogMinDate);
+        $this->mToolPeriod
+            ->shouldReceive('getPeriodCurrent')->once()
+            ->andReturn($PERIOD);
+        // $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
+        $this->mToolPeriod
+            ->shouldReceive('getPeriodPrev')->once()
+            ->andReturn($DS_DAY_BEFORE);
+        /** === Call and asserts  === */
         $req = new Request\GetLastDate();
-        $resp = $call->getLastDate($req);
+        $resp = $this->obj->getLastDate($req);
         $this->assertTrue($resp->isSucceed());
-        $this->assertEquals($DS_PREV, $resp->getLastDate());
+        $this->assertEquals($DS_DAY_BEFORE, $resp->getLastDate());
     }
 
     public function test_getStateOnDate()
     {
         /** === Test Data === */
         $DS = '20151206';
-        $ROWS = [];
-        /** === Mocks === */
-        $mLogger = $this->_mockLogger();
-        $mConn = $this->_mockConnection();
-        $mDba = $this->_mockDbAdapter(null, $mConn);
-        $mToolPeriod = $this->_mockFor('Praxigento\Core\Tool\IPeriod');
-        $mToolbox = $this->_mockToolbox(null, null, null, $mToolPeriod);
-        $mCallRepo = $this->_mockCallRepo();
-        $mSubDb = $this->_mockFor('Praxigento\Downline\Service\Snap\Sub\Db');
-        $mSubCalc = $this->_mockFor('Praxigento\Downline\Service\Snap\Sub\CalcSimple');
-
-        // $rows = $this->_subDb->getStateOnDate($dateOn);
-        $mSubDb
-            ->expects($this->once())
-            ->method('getStateOnDate')
-            ->with($this->equalTo($DS))
-            ->willReturn($ROWS);
-        /**
-         * Prepare request and perform call.
-         */
-        /** === Test itself === */
-        /** @var  $call Call */
-        $call = new Call($mLogger, $mDba, $mToolbox, $mCallRepo, $mSubDb, $mSubCalc);
+        $ROWS = 'rows';
+        /** === Setup Mocks === */
+        // $rows = $this->_repoSnap->getStateOnDate($dateOn);
+        $this->mRepoSnap
+            ->shouldReceive('getStateOnDate')->once()
+            ->andReturn($ROWS);
+        /** === Call and asserts  === */
         $req = new Request\GetStateOnDate();
         $req->setDatestamp($DS);
-        $resp = $call->getStateOnDate($req);
+        $resp = $this->obj->getStateOnDate($req);
         $this->assertTrue($resp->isSucceed());
-        $this->assertTrue(is_array($resp->getData()));
+        $this->assertEquals($ROWS, $resp->getData());
     }
 }

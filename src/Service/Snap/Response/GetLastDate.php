@@ -5,11 +5,18 @@
 namespace Praxigento\Downline\Service\Snap\Response;
 
 
-class GetLastDate extends \Praxigento\Core\Service\Base\Response {
+class GetLastDate extends \Praxigento\Core\Service\Base\Response
+{
     const LAST_DATE = 'last_date';
 
-    public function getLastDate() {
+    public function getLastDate()
+    {
         $result = $this->getData(self::LAST_DATE);
         return $result;
+    }
+
+    public function setLastDate($data)
+    {
+        $this->setData(self::LAST_DATE, $data);
     }
 }
