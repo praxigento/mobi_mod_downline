@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+
+    <columns name="customer_columns">
+        <column name="prxgtDwnlCustomerRef">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">MLM ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="prxgtDwnlParentRef">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Parent ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="prxgtDwnlCustomerDepth">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Depth</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+
+</listing>

@@ -4,6 +4,7 @@
     <module name="Praxigento_Downline" setup_version="0.1.0">
         <sequence>
             <module name="Praxigento_Accounting"/>
+            <module name="Magento_Customer"/>
         </sequence>
     </module>
 </config>

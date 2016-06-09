@@ -3,8 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="customer_save_after_data_object">
+        <!-- Register downline on new customer create event. -->
         <observer
                 name="praxigento_donwlilne_on_customer_save_after_data_object"
-                instance="Praxigento\Downline\Observer\Register"/>
+                instance="Praxigento\Downline\Observer\CustomerSaveAfterDataObject"/>
+    </event>
+    <event name="core_collection_abstract_load_before">
+        <!-- Add additional attributes to the Customer Grid in adminhtml. -->
+        <observer
+                name="praxigento_donwlilne_on_core_collection_abstract_load_before"
+                instance="Praxigento\Downline\Observer\CoreCollectionAbstractLoadBefore"/>
     </event>
 </config>

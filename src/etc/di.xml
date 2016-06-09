@@ -4,25 +4,27 @@
 
     <!-- Repo -->
     <preference for="Praxigento\Downline\Repo\Entity\IChange"
-                type="Praxigento\Downline\Repo\Entity\Def\Change"/>
+            type="Praxigento\Downline\Repo\Entity\Def\Change"/>
     <preference for="Praxigento\Downline\Repo\Entity\ICustomer"
-                type="Praxigento\Downline\Repo\Entity\Def\Customer"/>
+            type="Praxigento\Downline\Repo\Entity\Def\Customer"/>
     <preference for="Praxigento\Downline\Repo\Entity\ISnap"
-                type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
+            type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
+    <preference for="Praxigento\Downline\Repo\Partial\ICustomerGrid"
+            type="Praxigento\Downline\Repo\Partial\Def\CustomerGrid"/>
 
     <!-- Services -->
     <preference for="Praxigento\Downline\Service\ICustomer"
-                type="Praxigento\Downline\Service\Customer\Call"/>
+            type="Praxigento\Downline\Service\Customer\Call"/>
     <preference for="Praxigento\Downline\Service\IMap"
-                type="Praxigento\Downline\Service\Map\Call"/>
+            type="Praxigento\Downline\Service\Map\Call"/>
     <preference for="Praxigento\Downline\Service\ISnap"
-                type="Praxigento\Downline\Service\Snap\Call"/>
+            type="Praxigento\Downline\Service\Snap\Call"/>
 
     <!-- Tools -->
     <preference for="\Praxigento\Downline\Tool\IReferral"
-                type="Praxigento\Downline\Tool\Def\Referral"/>
+            type="Praxigento\Downline\Tool\Def\Referral"/>
     <preference for="Praxigento\Downline\Tool\ITree"
-                type="Praxigento\Downline\Tool\Def\Tree"/>
+            type="Praxigento\Downline\Tool\Def\Tree"/>
 
     <!-- ******* -->
     <!-- PLUGINS -->

@@ -11,7 +11,7 @@ class Register_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
     /** @var  \Mockery\MockInterface */
     private $mCallCustomer;
-    /** @var  Register */
+    /** @var  CustomerSaveAfterDataObject */
     private $obj;
 
     public function setUp()
@@ -20,7 +20,7 @@ class Register_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         /** create mocks */
         $this->mCallCustomer = $this->_mock(\Praxigento\Downline\Service\ICustomer::class);
         /** create object to test */
-        $this->obj = new Register(
+        $this->obj = new CustomerSaveAfterDataObject(
             $this->mCallCustomer
         );
     }
@@ -28,7 +28,7 @@ class Register_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(Register::class, $this->obj);
+        $this->assertInstanceOf(CustomerSaveAfterDataObject::class, $this->obj);
     }
 
     public function test_execute()

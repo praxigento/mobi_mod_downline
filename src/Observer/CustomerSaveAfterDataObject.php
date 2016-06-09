@@ -12,7 +12,7 @@ use Magento\Framework\Event\ObserverInterface;
  *
  * @package Praxigento\Downline\Observer
  */
-class Register implements ObserverInterface
+class CustomerSaveAfterDataObject implements ObserverInterface
 {
     /** @var \Praxigento\Downline\Service\ICustomer */
     protected $_callCustomer;
@@ -35,6 +35,8 @@ class Register implements ObserverInterface
             /* this is newly saved customer, register it into downline */
             $req = new \Praxigento\Downline\Service\Customer\Request\Add();
             $req->setCustomerId($idAfter);
+            /* TODO: reference should be generated */
+            $req->setReference($idAfter);
             $this->_callCustomer->add($req);
         }
         return;
