@@ -11,6 +11,34 @@ use Praxigento\Downline\Repo\Partial\ICustomerGrid;
 
 class CustomerGrid implements ICustomerGrid
 {
+    protected function _replaceAliaseInWhere($where, $fieldAlias, $tableAlias, $fieldName)
+    {
+        $search = "`$fieldAlias`";
+        $replace = "`$tableAlias`.`$fieldName`";
+        $result = str_replace($search, $replace, $where);
+        return $result;
+    }
+
+    /**
+     * @param array $where
+     */
+    protected function _replaceAllAliasesInWhere($where)
+    {
+        $result = [];
+        foreach ($where as $item) {
+            $item = $this->_replaceAliaseInWhere($item, self::AS_FLD_CUSTOMER_DEPTH, self::AS_TBL_CUST,
+                Customer::ATTR_DEPTH);
+            $item = $this->_replaceAliaseInWhere($item, self::AS_FLD_CUSTOMER_REF, self::AS_TBL_CUST,
+                Customer::ATTR_HUMAN_REF);
+            $item = $this->_replaceAliaseInWhere($item, self::AS_FLD_PARENT_ID, self::AS_TBL_CUST,
+                Customer::ATTR_PARENT_ID);
+            $item = $this->_replaceAliaseInWhere($item, self::AS_FLD_PARENT_REF, self::AS_TBL_PARENT_CUST,
+                Customer::ATTR_HUMAN_REF);
+            $result[] = $item;
+        }
+        return $result;
+    }
+
     /** @inheritdoc */
     public function populateSelect($query)
     {
@@ -34,6 +62,10 @@ class CustomerGrid implements ICustomerGrid
         ];
         $query->joinLeft($tbl, $on, $cols);
         $sql = (string)$query;
+        /* process WHERE part */
+        $where = $query->getPart('where');
+        $replaced = $this->_replaceAllAliasesInWhere($where);
+        $query->setPart('where', $replaced);
         return $query;
     }
 
