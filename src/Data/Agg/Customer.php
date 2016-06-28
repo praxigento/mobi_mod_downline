@@ -14,8 +14,7 @@ class Customer extends DataObject
      * Aliases for data attributes.
      */
     const AS_PARENT_ID = 'ParentId';
-
-    /**#@-*/
+    /**#@- */
 
     public function getParentId()
     {
