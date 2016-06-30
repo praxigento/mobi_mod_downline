@@ -10,7 +10,7 @@ use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\ObjectManagerInterface;
 use Praxigento\Core\Repo\Def\Aggregate as BaseAggRepo;
 use Praxigento\Core\Repo\IGeneric as IGenericRepo;
-use Praxigento\Core\Repo\ITransactionManager;
+use Praxigento\Core\Repo\Transaction\IManager;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Agg\Customer as AggCustomer;
 use Praxigento\Downline\Data\Entity\Customer as EntityCustomer;
@@ -26,7 +26,7 @@ class Customer extends BaseAggRepo implements ICustomer
     protected $_factorySelect;
     /** @var  ObjectManagerInterface */
     protected $_manObj;
-    /** @var  \Praxigento\Core\Repo\ITransactionManager */
+    /** @var  \Praxigento\Core\Repo\Transaction\IManager */
     protected $_manTrans;
     /** @var  \Praxigento\Warehouse\Repo\Entity\IWarehouse */
     protected $_repoEntityWarehouse;
@@ -37,7 +37,7 @@ class Customer extends BaseAggRepo implements ICustomer
 
     public function __construct(
         ObjectManagerInterface $manObj,
-        ITransactionManager $manTrans,
+        IManager $manTrans,
         ResourceConnection $resource,
         IGenericRepo $repoGeneric,
         RepoEntityWarehouse $repoEntityWarehouse,

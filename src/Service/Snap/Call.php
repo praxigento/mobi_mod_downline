@@ -10,7 +10,7 @@ use Praxigento\Downline\Service\ISnap;
 
 class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 {
-    /** @var \Praxigento\Core\Repo\ITransactionManager */
+    /** @var \Praxigento\Core\Repo\Transaction\IManager */
     protected $_manTrans;
     /** @var \Praxigento\Downline\Repo\Entity\IChange */
     protected $_repoChange;
@@ -23,7 +23,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Core\Repo\ITransactionManager $manTrans,
+        \Praxigento\Core\Repo\Transaction\IManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\Entity\IChange $repoChange,
         \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
