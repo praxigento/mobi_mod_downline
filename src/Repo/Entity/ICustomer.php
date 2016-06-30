@@ -4,10 +4,10 @@
  */
 namespace Praxigento\Downline\Repo\Entity;
 
-use Praxigento\Core\Repo\IBaseRepo;
+use Praxigento\Core\Repo\IBaseCrud;
 use Praxigento\Downline\Data\Entity\Customer as Entity;
 
-interface ICustomer extends IBaseRepo
+interface ICustomer extends IBaseCrud
 {
     /**
      * @param array|Entity $data
