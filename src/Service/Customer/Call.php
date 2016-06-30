@@ -151,8 +151,7 @@ class Call implements ICustomer
                 $bind = [
                     Customer::ATTR_PARENT_ID => $newParentId,
                     Customer::ATTR_DEPTH => $newCustomerDepth,
-                    Customer::ATTR_PATH => $newCustomerPath,
-                    Customer::ATTR_COUNTRY_CODE => ''
+                    Customer::ATTR_PATH => $newCustomerPath
                 ];
                 $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
                 if ($updateRows == 1) {
