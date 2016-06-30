@@ -8,16 +8,13 @@ namespace Praxigento\Downline\Repo\Agg\Def;
 
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\ObjectManagerInterface;
-use Praxigento\Core\Repo\Def\Aggregate as BaseAggRepo;
 use Praxigento\Core\Repo\IGeneric as IGenericRepo;
 use Praxigento\Core\Repo\Transaction\IManager;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Agg\Customer as AggCustomer;
-use Praxigento\Downline\Data\Entity\Customer as EntityCustomer;
-use Praxigento\Downline\Repo\Agg\ICustomer;
-use Praxigento\Downline\Repo\Entity\ICustomer as RepoEntityCustomer;
 
-class Customer extends BaseAggRepo implements ICustomer
+class Customer
+    extends \Praxigento\Core\Repo\Def\BaseCrud
+    implements \Praxigento\Downline\Repo\Agg\ICustomer
 {
 
     /** @var  \Magento\Framework\DB\Adapter\AdapterInterface */

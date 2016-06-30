@@ -4,10 +4,10 @@
  */
 namespace Praxigento\Downline\Repo\Agg;
 
-use Praxigento\Core\Repo\IAggregate;
+use Praxigento\Core\Repo\IBaseCrud;
 use Praxigento\Downline\Data\Agg\Customer as AggCustomer;
 
-interface IWarehouse extends IAggregate
+interface ICustomer extends IAggregate
 {
     const AS_DWNL_CUST = 'pdc';
     const AS_MAGE_CUST = 'cgf';
