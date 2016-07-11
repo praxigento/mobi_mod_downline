@@ -17,7 +17,7 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
     /** @var  \Mockery\MockInterface */
     private $mRepoGeneric;
     /** @var  \Mockery\MockInterface */
-    private $mRsrc;
+    private $mResource;
     /** @var  Snap */
     private $obj;
 
@@ -26,12 +26,11 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         parent::setUp();
         /** create mocks */
         $this->mConn = $this->_mockConn();
+        $this->mResource = $this->_mockResourceConnection($this->mConn);
         $this->mRepoGeneric = $this->_mockRepoGeneric();
-        /** setup mocks for constructor */
-        $this->mRsrc = $this->_mockResourceConnection($this->mConn);
         /** create object to test */
         $this->obj = new Snap(
-            $this->mRsrc,
+            $this->mResource,
             $this->mRepoGeneric,
             Entity::class
         );
@@ -49,8 +48,8 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $TABLE = 'table';
         $RESULT = 'result';
         /** === Setup Mocks === */
-        // $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
-        $this->mConn
+        // $tblSnap = $this->_resource->getTableName(Snap::ENTITY_NAME);
+        $this->mResource
             ->shouldReceive('getTableName')->once()
             ->andReturn($TABLE);
         // $query = $this->_conn->select();
@@ -77,8 +76,8 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $ROW = [Entity::ATTR_CUSTOMER_ID => $CUST_ID];
         $ROWS = [$ROW];
         /** === Setup Mocks === */
-        // $tblSnap = $this->_conn->getTableName(Snap::ENTITY_NAME);
-        $this->mConn
+        // $tblSnap = $this->_resource->getTableName(Snap::ENTITY_NAME);
+        $this->mResource
             ->shouldReceive('getTableName')->once()
             ->andReturn($TBL_SNAP);
         // $q4Max = $this->_conn->select();
@@ -106,7 +105,7 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         ];
         $this->obj = \Mockery::mock(
             Snap::class . '[create]',
-            [$this->mRsrc, $this->mRepoGeneric, Entity::class]);
+            [$this->mResource, $this->mRepoGeneric, Entity::class]);
         /** === Setup Mocks === */
         // $this->create($data);
         $this->obj

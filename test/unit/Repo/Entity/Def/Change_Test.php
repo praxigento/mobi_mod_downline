@@ -15,6 +15,8 @@ class Change_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
     /** @var  \Mockery\MockInterface */
     private $mConn;
     /** @var  \Mockery\MockInterface */
+    private $mResource;
+    /** @var  \Mockery\MockInterface */
     private $mRepoGeneric;
     /** @var  Change */
     private $obj;
@@ -24,12 +26,12 @@ class Change_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         parent::setUp();
         /** create mocks */
         $this->mConn = $this->_mockConn();
+        $this->mResource = $this->_mockResourceConnection($this->mConn);
         $this->mRepoGeneric = $this->_mockRepoGeneric();
         /** setup mocks for constructor */
-        $mRsrc = $this->_mockResourceConnection($this->mConn);
         /** create object to test */
         $this->obj = new Change(
-            $mRsrc,
+            $this->mResource,
             $this->mRepoGeneric,
             Entity::class
         );
@@ -47,8 +49,8 @@ class Change_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $TABLE = 'tbl';
         $RESULT = 'result';
         /** === Setup Mocks === */
-        //         $tblChange = $this->_conn->getTableName(Change::ENTITY_NAME);
-        $this->mConn
+        //         $tblChange = $this->_resource->getTableName(Change::ENTITY_NAME);
+        $this->mResource
             ->shouldReceive('getTableName')->once()
             ->andReturn($TABLE);
         // $query = $this->_conn->select();
