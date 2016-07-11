@@ -9,8 +9,6 @@
             type="Praxigento\Downline\Repo\Entity\Def\Customer"/>
     <preference for="Praxigento\Downline\Repo\Entity\ISnap"
             type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
-    <preference for="Praxigento\Downline\Repo\Partial\ICustomerGrid"
-            type="Praxigento\Downline\Repo\Partial\Def\CustomerGrid"/>
 
     <!-- Services -->
     <preference for="Praxigento\Downline\Service\ICustomer"
@@ -33,6 +31,14 @@
         <plugin
                 name="praxigento_downline_front_controller_referral"
                 type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin"
+                sortOrder="100"
+                disabled="false"
+        />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <plugin
+                name="praxigento_downline_data_provider_collection_factory"
+                type="Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
                 sortOrder="100"
                 disabled="false"
         />

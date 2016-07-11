@@ -8,10 +8,10 @@
                 name="praxigento_donwlilne_on_customer_save_after_data_object"
                 instance="Praxigento\Downline\Observer\CustomerSaveAfterDataObject"/>
     </event>
-    <event name="core_collection_abstract_load_before">
-        <!-- Add additional attributes to the Customer Grid in adminhtml. -->
-        <observer
-                name="praxigento_donwlilne_on_core_collection_abstract_load_before"
-                instance="Praxigento\Downline\Observer\CoreCollectionAbstractLoadBefore"/>
-    </event>
+    <!--<event name="core_collection_abstract_load_before">-->
+    <!--&lt;!&ndash; Add additional attributes to the Customer Grid in adminhtml. &ndash;&gt;-->
+    <!--<observer-->
+    <!--name="praxigento_donwlilne_on_core_collection_abstract_load_before"-->
+    <!--instance="Praxigento\Downline\Observer\CoreCollectionAbstractLoadBefore"/>-->
+    <!--</event>-->
 </config>
