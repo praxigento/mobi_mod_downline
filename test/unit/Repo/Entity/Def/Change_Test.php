@@ -76,7 +76,7 @@ class Change_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $TABLE = 'table';
         $RESULT = 'result';
         /** === Setup Mocks === */
-        // $tblChange = $this->_conn->getTableName(Change::ENTITY_NAME);
+        // $tblChange = $this->_resource->getTableName(Change::ENTITY_NAME);
         $this->mConn
             ->shouldReceive('getTableName')->once()
             ->andReturn($TABLE);

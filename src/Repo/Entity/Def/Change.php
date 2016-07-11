@@ -34,7 +34,7 @@ class Change extends BaseEntityRepo implements IEntityRepo
     {
         $result = null;
         $asChange = 'c';
-        $tblChange = $this->_conn->getTableName(Entity::ENTITY_NAME);
+        $tblChange = $this->_resource->getTableName(Entity::ENTITY_NAME);
         /* select from account */
         $query = $this->_conn->select();
         $query->from([$asChange => $tblChange], [Entity::ATTR_DATE_CHANGED]);
@@ -62,7 +62,7 @@ class Change extends BaseEntityRepo implements IEntityRepo
     public function getChangesForPeriod($timestampFrom, $timestampTo)
     {
         $asChange = 'log';
-        $tblChange = $this->_conn->getTableName(Entity::ENTITY_NAME);
+        $tblChange = $this->_resource->getTableName(Entity::ENTITY_NAME);
         /* select from prxgt_dwnl_change */
         $query = $this->_conn->select();
         $query->from([$asChange => $tblChange]);

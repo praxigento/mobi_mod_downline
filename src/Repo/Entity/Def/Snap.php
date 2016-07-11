@@ -36,7 +36,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     {
         $result = null;
         $asSnap = 's';
-        $tblSnap = $this->_conn->getTableName(Entity::ENTITY_NAME);
+        $tblSnap = $this->_resource->getTableName(Entity::ENTITY_NAME);
         /* select from account */
         $query = $this->_conn->select();
         $query->from([$asSnap => $tblSnap], [Entity::ATTR_DATE]);
@@ -78,7 +78,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $asSnap4Max = 'snap4Max';
         $asSnap = 'snap';
         $asMax = 'snapMax';
-        $tblSnap = $this->_conn->getTableName(Entity::ENTITY_NAME);
+        $tblSnap = $this->_resource->getTableName(Entity::ENTITY_NAME);
         /* select MAX(date) from prxgt_dwnl_snap (internal select) */
         $q4Max = $this->_conn->select();
         $colDateMax = 'date_max';
