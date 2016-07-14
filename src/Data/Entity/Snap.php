@@ -4,9 +4,8 @@
  */
 namespace Praxigento\Downline\Data\Entity;
 
-use Praxigento\Core\Data\Entity\Base as EntityBase;
-
-class Snap extends EntityBase
+class Snap
+    extends \Praxigento\Core\Data\Entity\Base
 {
     const ATTR_CUSTOMER_ID = 'customer_id';
     const ATTR_DATE = 'date';
@@ -40,11 +39,6 @@ class Snap extends EntityBase
     {
         $result = parent::getData(self::ATTR_DEPTH);
         return $result;
-    }
-
-    public function getEntityName()
-    {
-        return self::ENTITY_NAME;
     }
 
     /**

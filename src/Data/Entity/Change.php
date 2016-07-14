@@ -4,9 +4,8 @@
  */
 namespace Praxigento\Downline\Data\Entity;
 
-use Praxigento\Core\Data\Entity\Base as EntityBase;
-
-class Change extends EntityBase
+class Change
+    extends \Praxigento\Core\Data\Entity\Base
 {
     const ATTR_CUSTOMER_ID = 'customer_id';
     const ATTR_DATE_CHANGED = 'date_changed';
@@ -30,11 +29,6 @@ class Change extends EntityBase
     {
         $result = parent::getData(self::ATTR_DATE_CHANGED);
         return $result;
-    }
-
-    public function getEntityName()
-    {
-        return self::ENTITY_NAME;
     }
 
     /**

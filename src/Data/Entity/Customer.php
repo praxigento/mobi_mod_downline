@@ -45,11 +45,6 @@ class Customer extends EntityBase
         return $result;
     }
 
-    public function getEntityName()
-    {
-        return self::ENTITY_NAME;
-    }
-
     /**
      * @return string
      */
