@@ -228,10 +228,15 @@ class Main_IntegrationTest extends BaseIntegrationTest
             $this->_createMageCustomers(13);
             $this->_createDownlineCustomers(self::DATE_PERIOD_BEGIN, true);
             $this->_calcSnapshots();
-            $this->_changeC10ParentFromC7ToC9();
-            $this->_changeC10ParentFromC9ToC7();
-            $this->_changeC13ToRoot();
-            $this->_checkSnapsForC13();
+
+            /** @var \Praxigento\Downline\Repo\Entity\IChange $repoChages */
+            $repoChages = $this->_manObj->get(\Praxigento\Downline\Repo\Entity\IChange::class);
+            $all = $repoChages->get();
+// MOBI-337
+//            $this->_changeC10ParentFromC7ToC9();
+//            $this->_changeC10ParentFromC9ToC7();
+//            $this->_changeC13ToRoot();
+//            $this->_checkSnapsForC13();
         } finally {
             // $this->_conn->commit();
             $this->_conn->rollBack();
