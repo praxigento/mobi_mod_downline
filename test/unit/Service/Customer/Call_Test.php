@@ -64,11 +64,11 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $DO_CUST->setDepth($DEPTH);
         $COUNTRY_CODE = 'LV';
         /** === Setup Mocks === */
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
         $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
         // $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
         $this->mSubReferral
             ->shouldReceive('getReferredParentId')->once()
@@ -81,9 +81,9 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->mRepoChange
             ->shouldReceive('create')->once()
             ->andThrow(new \Exception());
-        // $this->_manTrans->transactionClose($trans);
+        // $this->_manTrans->end($def);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
+            ->shouldReceive('end')->once();
         /** === Call and asserts  === */
         $req = new Request\Add();
         $req->setCustomerId($CUSTOMER_ID);
@@ -105,11 +105,11 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $ID_INSERTED_LOG = 2048;
         $COUNTRY_CODE = 'LV';
         /** === Setup Mocks === */
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
         $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
         // $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
         $this->mSubReferral
             ->shouldReceive('getReferredParentId')->once()
@@ -125,12 +125,12 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->mRepoChange
             ->shouldReceive('create')->once()
             ->andReturn($ID_INSERTED_LOG);
-        // $this->_manTrans->transactionCommit($trans);
+        // $this->_manTrans->commit($def);
         $this->mManTrans
-            ->shouldReceive('transactionCommit')->once();
-        // $this->_manTrans->transactionClose($trans);
+            ->shouldReceive('commit')->once();
+        // $this->_manTrans->end($def);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
+            ->shouldReceive('end')->once();
         /** === Call and asserts  === */
         $req = new Request\Add();
         $req->setCustomerId($CUSTOMER_ID);
@@ -160,11 +160,11 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $DO_PARENT->setPath($PATH_NEW);
         $DO_PARENT->setDepth($DEPTH_NEW);
         /** === Setup Mocks === */
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
         $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
         // $data = $this->_repoCustomer->getById($customerId);
         $this->mRepoCustomer
             ->shouldReceive('getById')->once()
@@ -185,12 +185,12 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->mRepoChange
             ->shouldReceive('create')->once()
             ->andReturn(433);
-        // $this->_manTrans->transactionCommit($trans);
+        // $this->_manTrans->commit($def);
         $this->mManTrans
-            ->shouldReceive('transactionCommit')->once();
-        // $this->_manTrans->transactionClose($trans);
+            ->shouldReceive('commit')->once();
+        // $this->_manTrans->end($def);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
+            ->shouldReceive('end')->once();
         /** === Call and asserts  === */
         $req = new Request\ChangeParent();
         $req->setCustomerId($CUSTOMER_ID);
@@ -214,21 +214,21 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $DO_CUST->setPath($PATH_CUR);
         $DO_CUST->setDepth($DEPTH_CUR);
         /** === Setup Mocks === */
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
         $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
         // $data = $this->_repoCustomer->getById($customerId);
         $this->mRepoCustomer
             ->shouldReceive('getById')->once()
             ->andReturn($DO_CUST);
-        // $this->_manTrans->transactionCommit($trans);
+        // $this->_manTrans->commit($def);
         $this->mManTrans
-            ->shouldReceive('transactionCommit')->once();
-        // $this->_manTrans->transactionClose($trans);
+            ->shouldReceive('commit')->once();
+        // $this->_manTrans->end($def);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
+            ->shouldReceive('end')->once();
         /** === Call and asserts  === */
         $req = new Request\ChangeParent();
         $req->setCustomerId($CUSTOMER_ID);
@@ -257,11 +257,11 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $DO_PARENT->setPath($PATH_NEW);
         $DO_PARENT->setDepth($DEPTH_NEW);
         /** === Setup Mocks === */
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
         $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
         // $data = $this->_repoCustomer->getById($customerId);
         $this->mRepoCustomer
             ->shouldReceive('getById')->once()
@@ -282,12 +282,12 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->mRepoChange
             ->shouldReceive('create')->once()
             ->andReturn(433);
-        // $this->_manTrans->transactionCommit($trans);
+        // $this->_manTrans->commit($def);
         $this->mManTrans
-            ->shouldReceive('transactionCommit')->once();
-        // $this->_manTrans->transactionClose($trans);
+            ->shouldReceive('commit')->once();
+        // $this->_manTrans->end($def);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
+            ->shouldReceive('end')->once();
         /** === Call and asserts  === */
         $req = new Request\ChangeParent();
         $req->setCustomerId($CUSTOMER_ID);

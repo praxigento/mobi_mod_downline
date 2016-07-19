@@ -67,11 +67,11 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
                 $this->mSubCalc
             ]
         );
-        // $trans = $this->_manTrans->transactionBegin();
-        $mTrans = $this->_mockTransactionDefinition();
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
         $this->mManTrans
-            ->shouldReceive('transactionBegin')->once()
-            ->andReturn($mTrans);
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
         // $respLast = $this->getLastDate($reqLast);
         $mRespLast = new \Praxigento\Downline\Service\Snap\Response\GetLastDate();
         $this->obj
@@ -102,12 +102,12 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         // $this->_repoSnap->saveCalculatedUpdates($updates);
         $this->mRepoSnap
             ->shouldReceive('saveCalculatedUpdates')->once();
-        // $this->_manTrans->transactionCommit($trans);
+        // $this->_manTrans->commit($def);
         $this->mManTrans
-            ->shouldReceive('transactionCommit')->once();
-        // $this->_manTrans->transactionClose($trans);
+            ->shouldReceive('commit')->once();
+        // $this->_manTrans->end($def);
         $this->mManTrans
-            ->shouldReceive('transactionClose')->once();
+            ->shouldReceive('end')->once();
         /** === Call and asserts  === */
         $req = new Request\Calc();
         $req->setDatestampTo($DS_TO);

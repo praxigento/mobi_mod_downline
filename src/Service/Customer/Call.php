@@ -13,7 +13,7 @@ class Call implements ICustomer
 {
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
-    /** @var \Praxigento\Core\Repo\Transaction\IManager */
+    /** @var \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
     /** @var  \Praxigento\Downline\Repo\Entity\IChange */
     protected $_repoChange;
@@ -26,7 +26,7 @@ class Call implements ICustomer
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Core\Repo\Transaction\IManager $manTrans,
+        \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Repo\IGeneric $repoGeneric,
         \Praxigento\Downline\Repo\Entity\IChange $repoChange,
         \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
@@ -56,7 +56,7 @@ class Call implements ICustomer
         $countryCode = $request->getCountryCode();
         $date = $request->getDate();
         $this->_logger->info("Add new customer #$customerId with parent #$parentId to downline tree.");
-        $trans = $this->_manTrans->transactionBegin();
+        $def = $this->_manTrans->begin();
         try {
             /* define referred parent */
             $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
@@ -104,11 +104,11 @@ class Call implements ICustomer
                 $this->_logger->debug("New change log record #$idLog is inserted (customer: $customerId, parent: $parentId, date: $formatted).");
                 $result->setData($toAdd);
                 $result->markSucceed();
-                $this->_manTrans->transactionCommit($trans);
+                $this->_manTrans->commit($def);
                 $this->_logger->info("New customer #$customerId with parent #$parentId is added to downline tree.");
             }
         } finally {
-            $this->_manTrans->transactionClose($trans);
+            $this->_manTrans->end($def);
         }
 
         return $result;
@@ -122,7 +122,7 @@ class Call implements ICustomer
         $newParentId = $request->getNewParentId();
         $formatted = $request->getDate();
         $this->_logger->info("Set up new parent #$newParentId for customer #$customerId.");
-        $trans = $this->_manTrans->transactionBegin();
+        $def = $this->_manTrans->begin();
         try {
             /* get customer's downline  data */
             $data = $this->_repoCustomer->getById($customerId);
@@ -132,7 +132,7 @@ class Call implements ICustomer
             if ($currParentId == $newParentId) {
                 /* nothing to change */
                 $result->markSucceed();
-                $this->_manTrans->transactionCommit($trans);
+                $this->_manTrans->commit($def);
                 $this->_logger->notice("Current parent is the same as new one. Nothing to do.");
             } else {
                 if ($customerId == $newParentId) {
@@ -171,14 +171,14 @@ class Call implements ICustomer
                     $insertedId = $this->_repoChange->create($bind);
                     if ($insertedId) {
                         $this->_logger->info("New change log record #$insertedId is inserted (customer: $customerId, parent: $newParentId, date: $formatted).");
-                        $this->_manTrans->transactionCommit($trans);
+                        $this->_manTrans->commit($def);
                         $result->markSucceed();
                         $this->_logger->info("New parent #$newParentId for customer #$customerId is set.");
                     }
                 }
             }
         } finally {
-            $this->_manTrans->transactionClose($trans);
+            $this->_manTrans->end($def);
         }
         return $result;
     }

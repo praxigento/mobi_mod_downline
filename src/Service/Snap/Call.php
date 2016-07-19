@@ -10,7 +10,7 @@ use Praxigento\Downline\Service\ISnap;
 
 class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 {
-    /** @var \Praxigento\Core\Repo\Transaction\IManager */
+    /** @var \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
     /** @var \Praxigento\Downline\Repo\Entity\IChange */
     protected $_repoChange;
@@ -23,7 +23,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Core\Repo\Transaction\IManager $manTrans,
+        \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\Entity\IChange $repoChange,
         \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
@@ -89,7 +89,7 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
         $result = new Response\Calc();
         $this->_logger->info("New downline snapshot calculation is requested.");
         $periodTo = $request->getDatestampTo();
-        $trans = $this->_manTrans->transactionBegin();
+        $def = $this->_manTrans->begin();
         try {
             /* get the last date with calculated snapshots */
             $reqLast = new Request\GetLastDate();
@@ -106,10 +106,10 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
             $updates = $this->_subCalc->calcSnapshots($snapshot, $changelog);
             /* save new snapshots in DB */
             $this->_repoSnap->saveCalculatedUpdates($updates);
-            $this->_manTrans->transactionCommit($trans);
+            $this->_manTrans->commit($def);
             $result->markSucceed();
         } finally {
-            $this->_manTrans->transactionClose($trans);
+            $this->_manTrans->end($def);
         }
         return $result;
     }
