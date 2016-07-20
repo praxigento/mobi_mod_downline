@@ -1,46 +1,28 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <!-- Repo -->
-    <preference for="Praxigento\Downline\Repo\Entity\IChange"
-            type="Praxigento\Downline\Repo\Entity\Def\Change"/>
-    <preference for="Praxigento\Downline\Repo\Entity\ICustomer"
-            type="Praxigento\Downline\Repo\Entity\Def\Customer"/>
-    <preference for="Praxigento\Downline\Repo\Entity\ISnap"
-            type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
+    <preference for="Praxigento\Downline\Repo\Entity\IChange" type="Praxigento\Downline\Repo\Entity\Def\Change"/>
+    <preference for="Praxigento\Downline\Repo\Entity\ICustomer" type="Praxigento\Downline\Repo\Entity\Def\Customer"/>
+    <preference for="Praxigento\Downline\Repo\Entity\ISnap" type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
 
     <!-- Services -->
-    <preference for="Praxigento\Downline\Service\ICustomer"
-            type="Praxigento\Downline\Service\Customer\Call"/>
-    <preference for="Praxigento\Downline\Service\IMap"
-            type="Praxigento\Downline\Service\Map\Call"/>
-    <preference for="Praxigento\Downline\Service\ISnap"
-            type="Praxigento\Downline\Service\Snap\Call"/>
+    <preference for="Praxigento\Downline\Service\ICustomer" type="Praxigento\Downline\Service\Customer\Call"/>
+    <preference for="Praxigento\Downline\Service\IMap" type="Praxigento\Downline\Service\Map\Call"/>
+    <preference for="Praxigento\Downline\Service\ISnap" type="Praxigento\Downline\Service\Snap\Call"/>
 
     <!-- Tools -->
-    <preference for="\Praxigento\Downline\Tool\IReferral"
-            type="Praxigento\Downline\Tool\Def\Referral"/>
-    <preference for="Praxigento\Downline\Tool\ITree"
-            type="Praxigento\Downline\Tool\Def\Tree"/>
+    <preference for="\Praxigento\Downline\Tool\IReferral" type="Praxigento\Downline\Tool\Def\Referral"/>
+    <preference for="Praxigento\Downline\Tool\ITree" type="Praxigento\Downline\Tool\Def\Tree"/>
 
     <!-- ******* -->
     <!-- PLUGINS -->
     <!-- ******* -->
     <type name="Magento\Framework\App\FrontControllerInterface">
-        <plugin
-                name="praxigento_downline_front_controller_referral"
-                type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin"
-                sortOrder="100"
-                disabled="false"
-        />
+        <plugin name="praxigento_downline_front_controller_referral" type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin" sortOrder="100" disabled="false"/>
     </type>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <plugin
-                name="praxigento_downline_data_provider_collection_factory"
-                type="Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
-                sortOrder="100"
-                disabled="false"
-        />
+        <!-- Add custom columns to the customer grid -->
+        <plugin name="praxigento_downline_data_provider_collection_factory" type="Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory" sortOrder="100" disabled="false"/>
     </type>
 </config>
