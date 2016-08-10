@@ -4,10 +4,10 @@
  */
 namespace Praxigento\Downline\Repo\Entity;
 
-use Praxigento\Core\Repo\IBaseCrud;
+use Praxigento\Core\Repo\ICrud;
 use Praxigento\Downline\Data\Entity\Snap as Entity;
 
-interface ISnap extends IBaseCrud
+interface ISnap extends ICrud
 {
     /**
      * @param array|Entity $data

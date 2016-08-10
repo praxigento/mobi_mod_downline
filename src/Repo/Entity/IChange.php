@@ -4,10 +4,10 @@
  */
 namespace Praxigento\Downline\Repo\Entity;
 
-use Praxigento\Core\Repo\IBaseCrud;
+use Praxigento\Core\Repo\ICrud;
 use Praxigento\Downline\Data\Entity\Change as Entity;
 
-interface IChange extends IBaseCrud
+interface IChange extends ICrud
 {
     /**
      * @param array|Entity $data

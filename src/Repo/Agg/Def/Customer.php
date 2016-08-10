@@ -13,7 +13,7 @@ use Praxigento\Core\Transaction\Database\IManager;
 use Praxigento\Downline\Config as Cfg;
 
 class Customer
-    extends \Praxigento\Core\Repo\Def\BaseCrud
+    extends \Praxigento\Core\Repo\Def\Crud
     implements \Praxigento\Downline\Repo\Agg\ICustomer
 {
 

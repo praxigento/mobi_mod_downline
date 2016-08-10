@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Repo\Agg;
 
-use Praxigento\Core\Repo\IBaseCrud;
+use Praxigento\Core\Repo\ICrud;
 use Praxigento\Downline\Data\Agg\Customer as AggCustomer;
 
 interface ICustomer extends IAggregate
