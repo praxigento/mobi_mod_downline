@@ -2,8 +2,9 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-
 namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider;
+
+use Praxigento\Odoo\Config as Cfg;
 
 class CollectionFactory
 {
@@ -30,7 +31,7 @@ class CollectionFactory
         $requestName
     ) {
         $result = $proceed($requestName);
-        if ($requestName == 'customer_listing_data_source') {
+        if ($requestName == Cfg::DS_CUSTOMERS_GRID) {
             if ($result instanceof \Magento\Customer\Model\ResourceModel\Grid\Collection) {
                 /* add JOINS to the select query */
                 $this->_subQueryModifier->populateSelect($result);

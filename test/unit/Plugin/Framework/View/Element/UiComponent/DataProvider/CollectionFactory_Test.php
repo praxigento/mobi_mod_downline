@@ -30,7 +30,7 @@ class CollectionFactory_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
     public function test_aroundGetReport()
     {
         /** === Test Data === */
-        $REQUEST_NAME = 'customer_listing_data_source';
+        $REQUEST_NAME = \Praxigento\Core\Config::DS_CUSTOMERS_GRID;
         /** === Setup Mocks === */
         $mResult = $this->_mock(\Magento\Customer\Model\ResourceModel\Grid\Collection::class);
         $mProceed = function () use ($mResult) {
