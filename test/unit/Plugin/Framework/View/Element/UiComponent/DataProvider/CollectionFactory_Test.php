@@ -10,10 +10,10 @@ class CollectionFactory_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 {
     /** @var  \Mockery\MockInterface */
     private $mSubQueryModifier;
-    /** @var  CollectionFactory */
-    private $obj;
     /** @var  \Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory */
     private $mSubject;
+    /** @var  CollectionFactory */
+    private $obj;
 
     public function setUp()
     {
@@ -25,11 +25,6 @@ class CollectionFactory_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $this->obj = new CollectionFactory(
             $this->mSubQueryModifier
         );
-    }
-
-    public function test_constructor()
-    {
-        $this->assertInstanceOf(CollectionFactory::class, $this->obj);
     }
 
     public function test_aroundGetReport()
@@ -54,5 +49,10 @@ class CollectionFactory_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
             $REQUEST_NAME
         );
         $this->assertTrue($res instanceof \Magento\Customer\Model\ResourceModel\Grid\Collection);
+    }
+
+    public function test_constructor()
+    {
+        $this->assertInstanceOf(CollectionFactory::class, $this->obj);
     }
 }
