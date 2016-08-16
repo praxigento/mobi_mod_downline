@@ -11,9 +11,9 @@ class CollectionFactory
     protected $_subQueryModifier;
 
     public function __construct(
-        Sub\QueryModifier $subQueryModufier
+        Sub\QueryModifier $subQueryModifier
     ) {
-        $this->_subQueryModifier = $subQueryModufier;
+        $this->_subQueryModifier = $subQueryModifier;
     }
 
     /**
