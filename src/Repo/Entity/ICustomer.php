@@ -4,26 +4,24 @@
  */
 namespace Praxigento\Downline\Repo\Entity;
 
-use Praxigento\Core\Repo\ICrud;
-use Praxigento\Downline\Data\Entity\Customer as Entity;
-
-interface ICustomer extends ICrud
+interface ICustomer
+    extends \Praxigento\Core\Repo\ICrud
 {
     /**
-     * @param array|Entity $data
+     * @param \Praxigento\Downline\Data\Entity\Customer|array $data
      * @return int
      */
     public function create($data);
 
     /**
      * @param int $id
-     * @return Entity|bool
+     * @return \Praxigento\Downline\Data\Entity\Customer|bool
      */
     public function getById($id);
 
     /**
      * @param string $code
-     * @return Entity|null
+     * @return \Praxigento\Downline\Data\Entity\Customer|null
      */
     public function getByReferralCode($code);
 
