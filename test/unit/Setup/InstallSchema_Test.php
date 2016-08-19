@@ -48,16 +48,16 @@ class InstallSchema_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $mDemPackage = $this->_mock(DataObject::class);
         $this->mToolDem
             ->shouldReceive('readDemPackage')->once()
-            ->withArgs([anything(), '/dBEAR/package/Praxigento/package/Downline'])
+            ->withArgs([\Mockery::any(), '/dBEAR/package/Praxigento/package/Downline'])
             ->andReturn($mDemPackage);
         // $demEntity = $demPackage->getData('package/Type/entity/Asset');
         $mDemPackage->shouldReceive('getData');
         //
         // $this->_toolDem->createEntity($entityAlias, $demEntity);
         //
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Customer::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Change::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Snap::ENTITY_NAME, anything()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Customer::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Change::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Snap::ENTITY_NAME, \Mockery::any()]);
         // $setup->endSetup();
         $this->mSetup
             ->shouldReceive('endSetup')->once();
