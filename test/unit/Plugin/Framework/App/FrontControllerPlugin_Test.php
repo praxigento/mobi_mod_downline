@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Plugin\Framework\App;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class FrontControllerPlugin_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
+class FrontControllerPlugin_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
 {
     /** @var  \Mockery\MockInterface */
     private $mToolReferralCode;

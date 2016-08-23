@@ -6,7 +6,7 @@ namespace Praxigento\Downline\Tool\Def;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Tree_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
+class Tree_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
 {
     /** @var  Tree */
     private $obj;

@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Data\Entity;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Snap_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
+class Snap_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
 {
     /** @var  Snap */
     private $obj;

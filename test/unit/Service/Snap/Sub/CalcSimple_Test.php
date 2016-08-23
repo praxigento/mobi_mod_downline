@@ -10,7 +10,7 @@ use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class CalcSimple_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
+class CalcSimple_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
 {
     /** @var  \Mockery\MockInterface */
     private $mToolPeriod;
