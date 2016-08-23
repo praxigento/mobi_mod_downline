@@ -87,7 +87,7 @@ class CalcSimple_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $PERIOD = '20151207';
         /** === Setup Mocks === */
         $this->mToolPeriod
-            ->shouldReceive('getPeriodCurrent')->once()
+            ->shouldReceive('getPeriodCurrent')->times(5)
             ->andReturn($PERIOD);
         /** === Call and asserts  === */
         $res = $this->obj->calcSnapshots($CURRENT_STATE, $CHANGES);

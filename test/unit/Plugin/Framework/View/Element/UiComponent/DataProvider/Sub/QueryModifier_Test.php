@@ -47,6 +47,7 @@ class QueryModifier_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     public function test_populateSelect()
     {
         /** === Test Data === */
+        $TBL_CUSTOMER = 'customer table';
         $mCollection = $this->_mock(\Magento\Customer\Model\ResourceModel\Grid\Collection::class);
         /** === Setup Mocks === */
         // $select = $collection->getSelect();
@@ -54,6 +55,13 @@ class QueryModifier_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $mCollection
             ->shouldReceive('getSelect')->once()
             ->andReturn($mSelect);
+        // $tbl = [self::AS_TBL_CUST => $this->_resource->getTableName(Customer::ENTITY_NAME)];
+        // $tbl = [self::AS_TBL_PARENT_CUST => $this->_resource->getTableName(Customer::ENTITY_NAME)];
+        $this->mResource
+            ->shouldReceive('getTableName')->twice()
+            ->with(\Praxigento\Downline\Data\Entity\Customer::ENTITY_NAME)
+            ->andReturn($TBL_CUSTOMER);
+
         /** === Call and asserts  === */
         $this->obj->populateSelect($mCollection);
     }

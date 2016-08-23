@@ -10,24 +10,23 @@ use Praxigento\Downline\Repo\Entity\ISnap;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Snap_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
+class Snap_UnitTest
+    extends \Praxigento\Core\Test\BaseCase\Repo\Entity
 {
-    /** @var  \Mockery\MockInterface */
-    private $mConn;
-    /** @var  \Mockery\MockInterface */
-    private $mRepoGeneric;
-    /** @var  \Mockery\MockInterface */
-    private $mResource;
     /** @var  Snap */
     private $obj;
+    /** @var array Constructor arguments for object mocking */
+    private $objArgs = [];
 
     public function setUp()
     {
         parent::setUp();
-        /** create mocks */
-        $this->mConn = $this->_mockConn();
-        $this->mResource = $this->_mockResourceConnection($this->mConn);
-        $this->mRepoGeneric = $this->_mockRepoGeneric();
+        /** reset args. to create mock of the tested object */
+        $this->objArgs = [
+            $this->mResource,
+            $this->mRepoGeneric,
+            Entity::class
+        ];
         /** create object to test */
         $this->obj = new Snap(
             $this->mResource,
@@ -86,6 +85,12 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->shouldReceive('select')->once()
             ->andReturn($mQ4Max);
         $mQ4Max->shouldReceive('from', 'where', 'order', 'group', 'joinLeft');
+        // $query = $this->_conn->select();
+        $mQuery = $this->_mockDbSelect();
+        $mQuery->shouldReceive('from', 'where', 'joinLeft');
+        $this->mConn
+            ->shouldReceive('select')->once()
+            ->andReturn($mQuery);
         // $rows = $this->_conn->fetchAll($query, $bind);
         $this->mConn
             ->shouldReceive('fetchAll')->once()
@@ -103,9 +108,10 @@ class Snap_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
                 ['update1']
             ]
         ];
-        $this->obj = \Mockery::mock(
-            Snap::class . '[create]',
-            [$this->mResource, $this->mRepoGeneric, Entity::class]);
+        /** === Mock object itself === */
+        $this->mResource->shouldReceive('getConnection')->once()
+            ->andReturn($this->mConn); // second constructor initialization
+        $this->obj = \Mockery::mock(Snap::class . '[create]', $this->objArgs);
         /** === Setup Mocks === */
         // $this->create($data);
         $this->obj

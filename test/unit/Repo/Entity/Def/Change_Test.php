@@ -10,14 +10,9 @@ use Praxigento\Downline\Repo\Entity\IChange;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Change_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
+class Change_UnitTest
+    extends \Praxigento\Core\Test\BaseCase\Repo\Entity
 {
-    /** @var  \Mockery\MockInterface */
-    private $mConn;
-    /** @var  \Mockery\MockInterface */
-    private $mResource;
-    /** @var  \Mockery\MockInterface */
-    private $mRepoGeneric;
     /** @var  Change */
     private $obj;
 
@@ -25,10 +20,6 @@ class Change_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     {
         parent::setUp();
         /** create mocks */
-        $this->mConn = $this->_mockConn();
-        $this->mResource = $this->_mockResourceConnection($this->mConn);
-        $this->mRepoGeneric = $this->_mockRepoGeneric();
-        /** setup mocks for constructor */
         /** create object to test */
         $this->obj = new Change(
             $this->mResource,
@@ -79,8 +70,9 @@ class Change_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $RESULT = 'result';
         /** === Setup Mocks === */
         // $tblChange = $this->_resource->getTableName(Change::ENTITY_NAME);
-        $this->mConn
+        $this->mResource
             ->shouldReceive('getTableName')->once()
+            ->with(\Praxigento\Downline\Data\Entity\Change::ENTITY_NAME)
             ->andReturn($TABLE);
         // $query = $this->_conn->select();
         $mQuery = $this->_mockDbSelect();

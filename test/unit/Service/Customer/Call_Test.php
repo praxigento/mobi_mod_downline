@@ -79,7 +79,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->andReturn($DO_CUST);
         // $idLog = $this->_repoChange->create($toLog);
         $this->mRepoChange
-            ->shouldReceive('create')->once()
+            ->shouldReceive('create')
             ->andThrow(new \Exception());
         // $this->_manTrans->end($def);
         $this->mManTrans
@@ -266,10 +266,6 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mRepoCustomer
             ->shouldReceive('getById')->once()
             ->andReturn($DO_CUST);
-        // $newParentData = $this->_repoCustomer->getById($newParentId);
-        $this->mRepoCustomer
-            ->shouldReceive('getById')->once()
-            ->andReturn($DO_PARENT);
         // $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
         $this->mRepoCustomer
             ->shouldReceive('updateById')->once()
