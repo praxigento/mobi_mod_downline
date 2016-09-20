@@ -2,9 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-
 namespace Praxigento\Downline\Repo\Agg\Def;
-
 
 class Account
     extends \Praxigento\Accounting\Repo\Agg\Def\Account
@@ -12,9 +10,10 @@ class Account
 {
 
     public function __construct(
+        \Magento\Framework\App\ResourceConnection $resource,
         Account\SelectFactory $factorySelect
     ) {
-        parent::__construct($factorySelect);
+        parent::__construct($resource, $factorySelect);
     }
 
 }
