@@ -109,8 +109,6 @@ class Snap_UnitTest
             ]
         ];
         /** === Mock object itself === */
-        $this->mResource->shouldReceive('getConnection')->once()
-            ->andReturn($this->mConn); // second constructor initialization
         $this->obj = \Mockery::mock(Snap::class . '[create]', $this->objArgs);
         /** === Setup Mocks === */
         // $this->create($data);
