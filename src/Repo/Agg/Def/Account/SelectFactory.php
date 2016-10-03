@@ -9,6 +9,9 @@ use Praxigento\Downline\Data\Agg\Account as AggEntity;
 use Praxigento\Downline\Data\Entity\Customer as EntityCustomer;
 use Praxigento\Downline\Repo\Agg\IAccount as AggRepo;
 
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
 class SelectFactory
     extends \Praxigento\Accounting\Repo\Agg\Def\Account\SelectFactory
 {
@@ -21,15 +24,14 @@ class SelectFactory
         //
         $tblDwnl = [$asDwnl => $this->_resource->getTableName(EntityCustomer::ENTITY_NAME)];
         /* LEFT JOIN prxgt_dwnl_customer */
-        $on = $asDwnl . '.' . EntityCustomer::ATTR_CUSTOMER_ID . '=' . $asAcc . '.' . EntityAccount::ATTR_CUST_ID;
+        $cond = $asDwnl . '.' . EntityCustomer::ATTR_CUSTOMER_ID . '=' . $asAcc . '.' . EntityAccount::ATTR_CUST_ID;
         $cols = [
             AggEntity::AS_REF => EntityCustomer::ATTR_HUMAN_REF
         ];
-        $select->joinLeft($tblDwnl, $on, $cols);
+        $select->joinLeft($tblDwnl, $cond, $cols);
         return $select;
     }
 
-    /** @inheritdoc */
     public function getQueryToSelectCount()
     {
         $result = parent::getQueryToSelectCount();
@@ -37,7 +39,6 @@ class SelectFactory
         return $result;
     }
 
-    /** @inheritdoc */
     public function getQueryToSelect()
     {
         $result = parent::getQueryToSelect();
