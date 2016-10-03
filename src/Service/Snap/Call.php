@@ -6,9 +6,15 @@ namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Snap;
-use Praxigento\Downline\Service\ISnap;
 
-class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
+/**
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
+class Call
+    extends \Praxigento\Core\Service\Base\Call
+    implements \Praxigento\Downline\Service\ISnap
 {
     /** @var \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
@@ -23,13 +29,14 @@ class Call extends \Praxigento\Core\Service\Base\Call implements ISnap
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\Entity\IChange $repoChange,
         \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
         Sub\CalcSimple $subCalc
     ) {
-        parent::__construct($logger);
+        parent::__construct($logger, $manObj);
         $this->_manTrans = $manTrans;
         $this->_toolPeriod = $toolPeriod;
         $this->_repoChange = $repoChange;
