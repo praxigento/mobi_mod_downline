@@ -4,9 +4,9 @@
  */
 namespace Praxigento\Downline\Repo\Agg\Def\Account;
 
-use Praxigento\Accounting\Data\Entity\Account as EntityAccount;
+use Praxigento\Accounting\Data\Entity\Account as EAccount;
 use Praxigento\Downline\Data\Agg\Account as AggEntity;
-use Praxigento\Downline\Data\Entity\Customer as EntityCustomer;
+use Praxigento\Downline\Data\Entity\Customer as ECustomer;
 use Praxigento\Downline\Repo\Agg\IAccount as AggRepo;
 
 /**
@@ -22,11 +22,11 @@ class SelectFactory
         $asAcc = AggRepo::AS_ACCOUNT;
         $asDwnl = AggRepo::AS_DOWNLINE;
         //
-        $tblDwnl = [$asDwnl => $this->_resource->getTableName(EntityCustomer::ENTITY_NAME)];
+        $tblDwnl = [$asDwnl => $this->_resource->getTableName(ECustomer::ENTITY_NAME)];
         /* LEFT JOIN prxgt_dwnl_customer */
-        $cond = $asDwnl . '.' . EntityCustomer::ATTR_CUSTOMER_ID . '=' . $asAcc . '.' . EntityAccount::ATTR_CUST_ID;
+        $cond = $asDwnl . '.' . ECustomer::ATTR_CUSTOMER_ID . '=' . $asAcc . '.' . EAccount::ATTR_CUST_ID;
         $cols = [
-            AggEntity::AS_REF => EntityCustomer::ATTR_HUMAN_REF
+            AggEntity::AS_REF => ECustomer::ATTR_HUMAN_REF
         ];
         $select->joinLeft($tblDwnl, $cond, $cols);
         return $select;
