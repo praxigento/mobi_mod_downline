@@ -11,6 +11,7 @@ class Customer extends EntityBase
     const ATTR_COUNTRY_CODE = 'country_code';
     const ATTR_CUSTOMER_ID = 'customer_id';
     const ATTR_DEPTH = 'depth';
+    /* TODO: rename to MLM ID */
     const ATTR_HUMAN_REF = 'human_ref';
     const ATTR_PARENT_ID = 'parent_id';
     const ATTR_PATH = 'path';

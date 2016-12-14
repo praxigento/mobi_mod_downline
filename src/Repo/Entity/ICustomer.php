@@ -26,6 +26,12 @@ interface ICustomer
     public function getByReferralCode($code);
 
     /**
+     * @param string $mlmId
+     * @return \Praxigento\Downline\Data\Entity\Customer|null
+     */
+    public function getByMlmId($mlmId);
+
+    /**
      * Replace path for all children ('/1/3/6/%' => '/1/2/5/6/%') and depth.
      *
      * @param string $path Path to search and replace (/1/3/6/)
