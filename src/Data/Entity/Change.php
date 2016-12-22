@@ -18,7 +18,7 @@ class Change
      */
     public function getCustomerId()
     {
-        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::ATTR_CUSTOMER_ID);
         return $result;
     }
 
@@ -27,7 +27,7 @@ class Change
      */
     public function getDateChanged()
     {
-        $result = parent::getData(self::ATTR_DATE_CHANGED);
+        $result = parent::get(self::ATTR_DATE_CHANGED);
         return $result;
     }
 
@@ -36,7 +36,7 @@ class Change
      */
     public function getId()
     {
-        $result = parent::getData(self::ATTR_ID);
+        $result = parent::get(self::ATTR_ID);
         return $result;
     }
 
@@ -45,7 +45,7 @@ class Change
      */
     public function getParentId()
     {
-        $result = parent::getData(self::ATTR_PARENT_ID);
+        $result = parent::get(self::ATTR_PARENT_ID);
         return $result;
     }
 
@@ -59,7 +59,7 @@ class Change
      */
     public function setCustomerId($data)
     {
-        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::ATTR_CUSTOMER_ID, $data);
     }
 
     /**
@@ -67,7 +67,7 @@ class Change
      */
     public function setDateChanged($data)
     {
-        parent::setData(self::ATTR_DATE_CHANGED, $data);
+        parent::set(self::ATTR_DATE_CHANGED, $data);
     }
 
     /**
@@ -75,7 +75,7 @@ class Change
      */
     public function setId($data)
     {
-        parent::setData(self::ATTR_ID, $data);
+        parent::set(self::ATTR_ID, $data);
     }
 
     /**
@@ -83,6 +83,6 @@ class Change
      */
     public function setParentId($data)
     {
-        parent::setData(self::ATTR_PARENT_ID, $data);
+        parent::set(self::ATTR_PARENT_ID, $data);
     }
 }

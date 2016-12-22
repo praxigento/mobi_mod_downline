@@ -200,7 +200,7 @@ class Call
         $snapMaxDate = $this->_repoSnap->getMaxDatestamp();
         if ($snapMaxDate) {
             /* there is snapshots data */
-            $result->setData([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
+            $result->set([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
             $result->markSucceed();
         } else {
             /* there is no snapshot data yet, get change log minimal date  */
@@ -209,7 +209,7 @@ class Call
                 $period = $this->_toolPeriod->getPeriodCurrent($changelogMinDate);
                 $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
                 $this->_logger->info("The last date for downline snapshot is '$dayBefore'.");
-                $result->setData([Response\GetLastDate::LAST_DATE => $dayBefore]);
+                $result->set([Response\GetLastDate::LAST_DATE => $dayBefore]);
                 $result->markSucceed();
             }
         }
@@ -230,7 +230,7 @@ class Call
         $this->_logger->info("'Get Downline Tree state' operation is requested.");
         $dateOn = $request->getDatestamp();
         $rows = $this->_repoSnap->getStateOnDate($dateOn);
-        $result->setData($rows);
+        $result->set($rows);
         $result->markSucceed();
         $this->_logger->info("'Get Downline Tree state' operation is completed.");
         return $result;

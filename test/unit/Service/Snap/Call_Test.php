@@ -215,6 +215,6 @@ class Call_UnitTest
         $req->setDatestamp($dstamp);
         $resp = $this->obj->getStateOnDate($req);
         $this->assertTrue($resp->isSucceed());
-        $this->assertEquals($rows, $resp->getData());
+        $this->assertEquals($rows, $resp->get());
     }
 }

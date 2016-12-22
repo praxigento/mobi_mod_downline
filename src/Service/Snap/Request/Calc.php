@@ -14,11 +14,11 @@ class Calc extends \Praxigento\Core\Service\Base\Request {
     const DATE_STAMP_TO = 'datestamp_to';
 
     public function getDatestampTo() {
-        $result = $this->getData(self::DATE_STAMP_TO);
+        $result = $this->get(self::DATE_STAMP_TO);
         return $result;
     }
 
     public function setDatestampTo($data) {
-        $this->setData(self::DATE_STAMP_TO, $data);
+        $this->set(self::DATE_STAMP_TO, $data);
     }
 }

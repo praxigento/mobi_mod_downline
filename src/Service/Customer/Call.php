@@ -102,7 +102,7 @@ class Call implements ICustomer
             if ($idLog) {
                 $this->_logger->debug("Downline changes are logged in registry with date: $formatted.");
                 $this->_logger->debug("New change log record #$idLog is inserted (customer: $customerId, parent: $parentId, date: $formatted).");
-                $result->setData($toAdd);
+                $result->set($toAdd);
                 $result->markSucceed();
                 $this->_manTrans->commit($def);
                 $this->_logger->info("New customer #$customerId with parent #$parentId is added to downline tree.");

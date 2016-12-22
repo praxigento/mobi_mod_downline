@@ -19,7 +19,7 @@ class Snap
      */
     public function getCustomerId()
     {
-        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::ATTR_CUSTOMER_ID);
         return $result;
     }
 
@@ -28,7 +28,7 @@ class Snap
      */
     public function getDate()
     {
-        $result = parent::getData(self::ATTR_DATE);
+        $result = parent::get(self::ATTR_DATE);
         return $result;
     }
 
@@ -37,7 +37,7 @@ class Snap
      */
     public function getDepth()
     {
-        $result = parent::getData(self::ATTR_DEPTH);
+        $result = parent::get(self::ATTR_DEPTH);
         return $result;
     }
 
@@ -46,7 +46,7 @@ class Snap
      */
     public function getParentId()
     {
-        $result = parent::getData(self::ATTR_PARENT_ID);
+        $result = parent::get(self::ATTR_PARENT_ID);
         return $result;
     }
 
@@ -55,7 +55,7 @@ class Snap
      */
     public function getPath()
     {
-        $result = parent::getData(self::ATTR_PATH);
+        $result = parent::get(self::ATTR_PATH);
         return $result;
     }
 
@@ -69,7 +69,7 @@ class Snap
      */
     public function setCustomerId($data)
     {
-        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::ATTR_CUSTOMER_ID, $data);
     }
 
     /**
@@ -77,7 +77,7 @@ class Snap
      */
     public function setDate($data)
     {
-        parent::setData(self::ATTR_DATE, $data);
+        parent::set(self::ATTR_DATE, $data);
     }
 
     /**
@@ -85,7 +85,7 @@ class Snap
      */
     public function setDepth($data)
     {
-        parent::setData(self::ATTR_DEPTH, $data);
+        parent::set(self::ATTR_DEPTH, $data);
     }
 
     /**
@@ -93,7 +93,7 @@ class Snap
      */
     public function setParentId($data)
     {
-        parent::setData(self::ATTR_PARENT_ID, $data);
+        parent::set(self::ATTR_PARENT_ID, $data);
     }
 
     /**
@@ -101,6 +101,6 @@ class Snap
      */
     public function setPath($data)
     {
-        parent::setData(self::ATTR_PATH, $data);
+        parent::set(self::ATTR_PATH, $data);
     }
 }

@@ -18,13 +18,13 @@ class Account
     /** @return string */
     public function getReference()
     {
-        $result = parent::getData(self::AS_REF);
+        $result = parent::get(self::AS_REF);
         return $result;
     }
 
     public function setReference($data)
     {
-        parent::setData(self::AS_REF, $data);
+        parent::set(self::AS_REF, $data);
     }
 
 }

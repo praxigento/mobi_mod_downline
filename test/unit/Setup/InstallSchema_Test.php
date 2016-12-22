@@ -39,7 +39,7 @@ class InstallSchema_UnitTest extends \Praxigento\Core\Test\BaseCase\Setup\Schema
             ->shouldReceive('readDemPackage')->once()
             ->withArgs([\Mockery::any(), '/dBEAR/package/Praxigento/package/Downline'])
             ->andReturn($mDemPackage);
-        // $demEntity = $demPackage->getData('package/Type/entity/Asset');
+        // $demEntity = $demPackage->get('package/Type/entity/Asset');
         $mDemPackage->shouldReceive('getData');
         //
         // $this->_toolDem->createEntity($entityAlias, $demEntity);

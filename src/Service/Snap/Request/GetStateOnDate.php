@@ -15,11 +15,11 @@ class GetStateOnDate extends \Praxigento\Core\Service\Base\Request {
     const DATE_STAMP = 'datestamp';
 
     public function getDatestamp() {
-        $result = $this->getData(self::DATE_STAMP);
+        $result = $this->get(self::DATE_STAMP);
         return $result;
     }
 
     public function setDatestamp($data) {
-        $this->setData(self::DATE_STAMP, $data);
+        $this->set(self::DATE_STAMP, $data);
     }
 }

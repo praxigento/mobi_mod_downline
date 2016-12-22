@@ -24,7 +24,7 @@ class Customer extends EntityBase
      */
     public function getCountryCode()
     {
-        $result = parent::getData(self::ATTR_COUNTRY_CODE);
+        $result = parent::get(self::ATTR_COUNTRY_CODE);
         return $result;
     }
 
@@ -33,7 +33,7 @@ class Customer extends EntityBase
      */
     public function getCustomerId()
     {
-        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::ATTR_CUSTOMER_ID);
         return $result;
     }
 
@@ -42,7 +42,7 @@ class Customer extends EntityBase
      */
     public function getDepth()
     {
-        $result = parent::getData(self::ATTR_DEPTH);
+        $result = parent::get(self::ATTR_DEPTH);
         return $result;
     }
 
@@ -51,7 +51,7 @@ class Customer extends EntityBase
      */
     public function getHumanRef()
     {
-        $result = parent::getData(self::ATTR_HUMAN_REF);
+        $result = parent::get(self::ATTR_HUMAN_REF);
         return $result;
     }
 
@@ -60,7 +60,7 @@ class Customer extends EntityBase
      */
     public function getParentId()
     {
-        $result = parent::getData(self::ATTR_PARENT_ID);
+        $result = parent::get(self::ATTR_PARENT_ID);
         return $result;
     }
 
@@ -69,7 +69,7 @@ class Customer extends EntityBase
      */
     public function getPath()
     {
-        $result = parent::getData(self::ATTR_PATH);
+        $result = parent::get(self::ATTR_PATH);
         return $result;
     }
 
@@ -83,7 +83,7 @@ class Customer extends EntityBase
      */
     public function getReferralCode()
     {
-        $result = parent::getData(self::ATTR_REFERRAL_CODE);
+        $result = parent::get(self::ATTR_REFERRAL_CODE);
         return $result;
     }
 
@@ -92,7 +92,7 @@ class Customer extends EntityBase
      */
     public function setCountryCode($data)
     {
-        parent::setData(self::ATTR_COUNTRY_CODE, $data);
+        parent::set(self::ATTR_COUNTRY_CODE, $data);
     }
 
     /**
@@ -100,7 +100,7 @@ class Customer extends EntityBase
      */
     public function setCustomerId($data)
     {
-        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::ATTR_CUSTOMER_ID, $data);
     }
 
     /**
@@ -108,7 +108,7 @@ class Customer extends EntityBase
      */
     public function setDepth($data)
     {
-        parent::setData(self::ATTR_DEPTH, $data);
+        parent::set(self::ATTR_DEPTH, $data);
     }
 
     /**
@@ -116,7 +116,7 @@ class Customer extends EntityBase
      */
     public function setHumanRef($data)
     {
-        parent::setData(self::ATTR_HUMAN_REF, $data);
+        parent::set(self::ATTR_HUMAN_REF, $data);
     }
 
     /**
@@ -124,7 +124,7 @@ class Customer extends EntityBase
      */
     public function setParentId($data)
     {
-        parent::setData(self::ATTR_PARENT_ID, $data);
+        parent::set(self::ATTR_PARENT_ID, $data);
     }
 
     /**
@@ -132,7 +132,7 @@ class Customer extends EntityBase
      */
     public function setPath($data)
     {
-        parent::setData(self::ATTR_PATH, $data);
+        parent::set(self::ATTR_PATH, $data);
     }
 
     /**
@@ -140,7 +140,7 @@ class Customer extends EntityBase
      */
     public function setReferralCode($data)
     {
-        parent::setData(self::ATTR_REFERRAL_CODE, $data);
+        parent::set(self::ATTR_REFERRAL_CODE, $data);
     }
 
 }

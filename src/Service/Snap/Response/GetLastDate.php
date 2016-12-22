@@ -11,12 +11,12 @@ class GetLastDate extends \Praxigento\Core\Service\Base\Response
 
     public function getLastDate()
     {
-        $result = $this->getData(self::LAST_DATE);
+        $result = $this->get(self::LAST_DATE);
         return $result;
     }
 
     public function setLastDate($data)
     {
-        $this->setData(self::LAST_DATE, $data);
+        $this->set(self::LAST_DATE, $data);
     }
 }
