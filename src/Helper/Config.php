@@ -6,19 +6,17 @@ namespace Praxigento\Downline\Helper;
 
 /**
  * Helper to get configuration parameters related to the module.
- *
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class Config
 {
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
-    protected $_scopeConfig;
+    protected $scopeConfig;
 
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_scopeConfig = $scopeConfig;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -27,7 +25,7 @@ class Config
      */
     public function getReferralsRootAnonymous()
     {
-        $result = $this->_scopeConfig->getValue('praxigento_downline/referrals/root_anonymous');
+        $result = $this->scopeConfig->getValue('praxigento_downline/referrals/root_anonymous');
         $result = filter_var($result, FILTER_VALIDATE_INT);
         return $result;
     }

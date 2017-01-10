@@ -6,7 +6,7 @@
         <section id="praxigento_downline" translate="label"
                 sortOrder="1024" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Downline</label>
-            <tab>customer</tab>
+            <tab>praxigento_mobi</tab>
             <resource>Magento_Customer::config_customer</resource>
             <group id="referrals" translate="label" type="text"
                     sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
