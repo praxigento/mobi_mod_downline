@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="praxigento_downline" translate="label"
+                sortOrder="1024" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Downline</label>
+            <tab>customer</tab>
+            <resource>Magento_Customer::config_customer</resource>
+            <group id="referrals" translate="label" type="text"
+                    sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Referrals</label>
+                <field id="root_anonymous" translate="label comment tooltip" type="text"
+                        sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Root for Anonymous</label>
+                    <comment>ID of the root customer for anonymous customers.</comment>
+                    <tooltip>All anonymous will be root nodes in the customer tree if this option is empty.</tooltip>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
