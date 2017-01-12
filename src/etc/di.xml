@@ -20,8 +20,8 @@
     <!-- PLUGINS -->
     <!-- ******* -->
     <type name="Magento\Framework\App\FrontControllerInterface">
-        <!-- analyze referral codes in requests -->
-        <plugin name="praxigento_downline_front_controller_referral" type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin" sortOrder="100" disabled="false"/>
+        <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins) -->
+        <plugin name="praxigento_downline_front_controller_referral" type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin" sortOrder="-100" disabled="false"/>
     </type>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <!-- Add custom columns to the customer grid -->
