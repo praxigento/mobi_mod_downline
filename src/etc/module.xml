@@ -5,6 +5,8 @@
         <sequence>
             <module name="Praxigento_Accounting"/>
             <module name="Magento_Customer"/>
+            <!-- analyze refrral code before cache -->
+            <module name="Magento_PageCache"/>
         </sequence>
     </module>
 </config>

@@ -13,12 +13,12 @@ class FrontControllerPlugin
     /** Name of the HTTP GET variable for referral code */
     const REQ_REFERRAL = 'prxgtDwnlReferral';
     /** @var \Praxigento\Downline\Tool\IReferral */
-    protected $_toolReferralCode;
+    protected $toolReferralCode;
 
     public function __construct(
         \Praxigento\Downline\Tool\IReferral $toolReferralCode
     ) {
-        $this->_toolReferralCode = $toolReferralCode;
+        $this->toolReferralCode = $toolReferralCode;
     }
 
     /**
@@ -32,6 +32,6 @@ class FrontControllerPlugin
         \Magento\Framework\App\RequestInterface $request
     ) {
         $reqCode = $request->getParam(static::REQ_REFERRAL);
-        $this->_toolReferralCode->processHttpRequest($reqCode);
+        $this->toolReferralCode->processHttpRequest($reqCode);
     }
 }
