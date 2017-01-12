@@ -36,15 +36,15 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     {
         $result = null;
         $asSnap = 's';
-        $tblSnap = $this->_resource->getTableName(Entity::ENTITY_NAME);
+        $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
         /* select from account */
-        $query = $this->_conn->select();
+        $query = $this->conn->select();
         $query->from([$asSnap => $tblSnap], [Entity::ATTR_DATE]);
         /* order by */
         $query->order([$asSnap . '.' . Entity::ATTR_DATE . ' DESC']);
         /* perform query */
         // $sql = (string)$query;
-        $result = $this->_conn->fetchOne($query);
+        $result = $this->conn->fetchOne($query);
         return $result;
     }
 
@@ -78,9 +78,9 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $asSnap4Max = 'snap4Max';
         $asSnap = 'snap';
         $asMax = 'snapMax';
-        $tblSnap = $this->_resource->getTableName(Entity::ENTITY_NAME);
+        $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
         /* select MAX(date) from prxgt_dwnl_snap (internal select) */
-        $q4Max = $this->_conn->select();
+        $q4Max = $this->conn->select();
         $colDateMax = 'date_max';
         $expMaxDate = new Expression('MAX(`' . $asSnap4Max . '`.`' . Entity::ATTR_DATE . '`)');
         $q4Max->from([$asSnap4Max => $tblSnap], [Entity::ATTR_CUSTOMER_ID, $colDateMax => $expMaxDate]);
@@ -88,7 +88,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $q4Max->where($asSnap4Max . '.' . Entity::ATTR_DATE . '<=:date');
         $bind['date'] = $datestamp;
         /* select from prxgt_dwnl_snap */
-        $query = $this->_conn->select();
+        $query = $this->conn->select();
         $query->from([$asSnap => $tblSnap], [
             Entity::ATTR_CUSTOMER_ID,
             Entity::ATTR_PARENT_ID,
@@ -102,7 +102,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         /* where */
         $query->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
         // $sql = (string)$query;
-        $rows = $this->_conn->fetchAll($query, $bind);
+        $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {
                 $result[$one[Entity::ATTR_CUSTOMER_ID]] = $one;

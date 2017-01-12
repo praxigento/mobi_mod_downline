@@ -25,7 +25,7 @@ class Customer extends BaseEntityRepo implements IEntityRepo
     {
         $result = null;
         $cols = null;
-        $qCode = $this->_conn->quote($code);
+        $qCode = $this->conn->quote($code);
         $where = Entity::ATTR_REFERRAL_CODE . '=' . $qCode;
         $items = $this->_repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
@@ -42,7 +42,7 @@ class Customer extends BaseEntityRepo implements IEntityRepo
     {
         $result = null;
         $cols = null;
-        $qCode = $this->_conn->quote($mlmId);
+        $qCode = $this->conn->quote($mlmId);
         $where = Entity::ATTR_HUMAN_REF . '=' . $qCode;
         $items = $this->_repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
@@ -57,9 +57,9 @@ class Customer extends BaseEntityRepo implements IEntityRepo
 
     public function updateChildrenPath($path, $replace, $depthDelta)
     {
-        $qPath = $this->_conn->quote($path);
-        $qPathMask = $this->_conn->quote($path . '%');
-        $qReplace = $this->_conn->quote($replace);
+        $qPath = $this->conn->quote($path);
+        $qPathMask = $this->conn->quote($path . '%');
+        $qReplace = $this->conn->quote($replace);
         $sqlDepth = ($depthDelta > 0) ?
             Entity::ATTR_DEPTH . '+' . abs($depthDelta) :
             Entity::ATTR_DEPTH . '-' . abs($depthDelta);

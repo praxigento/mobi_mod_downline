@@ -34,14 +34,14 @@ class Change extends BaseEntityRepo implements IEntityRepo
     {
         $result = null;
         $asChange = 'c';
-        $tblChange = $this->_resource->getTableName(Entity::ENTITY_NAME);
+        $tblChange = $this->resource->getTableName(Entity::ENTITY_NAME);
         /* select from account */
-        $query = $this->_conn->select();
+        $query = $this->conn->select();
         $query->from([$asChange => $tblChange], [Entity::ATTR_DATE_CHANGED]);
         /* order by */
         $query->order([$asChange . '.' . Entity::ATTR_DATE_CHANGED . ' ASC']);
         /* perform query */
-        $result = $this->_conn->fetchOne($query);
+        $result = $this->conn->fetchOne($query);
         return $result;
     }
 
@@ -62,9 +62,9 @@ class Change extends BaseEntityRepo implements IEntityRepo
     public function getChangesForPeriod($timestampFrom, $timestampTo)
     {
         $asChange = 'log';
-        $tblChange = $this->_resource->getTableName(Entity::ENTITY_NAME);
+        $tblChange = $this->resource->getTableName(Entity::ENTITY_NAME);
         /* select from prxgt_dwnl_change */
-        $query = $this->_conn->select();
+        $query = $this->conn->select();
         $query->from([$asChange => $tblChange]);
         /* where */
         $query->where($asChange . '.' . Entity::ATTR_DATE_CHANGED . '>=:date_from');
@@ -81,7 +81,7 @@ class Change extends BaseEntityRepo implements IEntityRepo
             $asChange . '.' . Entity::ATTR_DATE_CHANGED . ' ASC',
             $asChange . '.' . Entity::ATTR_CUSTOMER_ID . ' ASC'
         ]);
-        $result = $this->_conn->fetchAll($query, $bind);
+        $result = $this->conn->fetchAll($query, $bind);
         return $result;
     }
 
