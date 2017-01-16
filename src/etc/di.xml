@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <!-- Repo -->
     <preference for="\Praxigento\Downline\Repo\Agg\IAccount" type="\Praxigento\Downline\Repo\Agg\Def\Account"/>
@@ -19,12 +21,22 @@
     <!-- ******* -->
     <!-- PLUGINS -->
     <!-- ******* -->
-    <type name="Magento\Framework\App\FrontControllerInterface">
-        <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins) -->
-        <plugin name="praxigento_downline_front_controller_referral" type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin" sortOrder="-100" disabled="false"/>
+    <type name="\Magento\Customer\Model\Customer">
+        <!-- define default group ID for referral customers -->
+        <plugin name="praxigento_downline"
+                type="\Praxigento\Downline\Plugin\Customer\Model\Customer"
+                sortOrder="100" disabled="false"/>
     </type>
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <type name="\Magento\Framework\App\FrontControllerInterface">
+        <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins, see "sortOrder") -->
+        <plugin name="praxigento_downline"
+                type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin"
+                sortOrder="-100" disabled="false"/>
+    </type>
+    <type name="\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <!-- Add custom columns to the customer grid -->
-        <plugin name="praxigento_downline_data_provider_collection_factory" type="Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory" sortOrder="100" disabled="false"/>
+        <plugin name="praxigento_downline"
+                type="\Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
+                sortOrder="100" disabled="false"/>
     </type>
 </config>

@@ -17,6 +17,12 @@
                     <comment>ID of the root customer for anonymous customers.</comment>
                     <tooltip>All anonymous will be root nodes in the customer tree if this option is empty.</tooltip>
                 </field>
+                <field id="group_referrals" translate="label comment tooltip" type="select"
+                        sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Referral Anonymous</label>
+                    <comment>Default group for newly registered referral customers.</comment>
+                    <source_model>\Magento\Customer\Model\Config\Source\Group</source_model>
+                </field>
             </group>
         </section>
     </system>

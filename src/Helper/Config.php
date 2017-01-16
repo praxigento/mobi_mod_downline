@@ -20,6 +20,18 @@ class Config
     }
 
     /**
+     * ID for signup group of the referral customers.
+     * @return int
+     *
+     */
+    public function getReferralsGroupReferrals()
+    {
+        $result = $this->scopeConfig->getValue('praxigento_downline/referrals/group_referrals');
+        $result = filter_var($result, FILTER_VALIDATE_INT);
+        return $result;
+    }
+
+    /**
      * Customer ID (internal) for root customer to be parent for all anonymous.
      * @return int|false return 'false' if option is not set.
      */
