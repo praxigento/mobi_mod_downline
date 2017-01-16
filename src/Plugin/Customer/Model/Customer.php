@@ -7,6 +7,7 @@ namespace Praxigento\Downline\Plugin\Customer\Model;
 
 class Customer
 {
+    /** @var \Praxigento\Downline\Helper\Config  */
     protected $hlpConfig;
     /** @var \Praxigento\Downline\Tool\IReferral */
     protected $hlpReferral;
