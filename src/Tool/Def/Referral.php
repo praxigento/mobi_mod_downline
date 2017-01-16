@@ -14,21 +14,25 @@ class Referral implements IReferral
     const COOKIE_REFERRAL_CODE = 'prxgtDwnlReferral';
     /** Key in registry to save referral code */
     const REG_REFERRAL_CODE = 'prxgtDwnlReferral';
+    /** @var \Praxigento\Core\Fw\Logger\App */
+    protected $logger;
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */
-    protected $_cookieManager;
+    protected $manCookie;
     /** @var \Magento\Framework\Registry */
-    protected $_registry;
+    protected $registry;
     /** @var \Praxigento\Core\Tool\IDate */
-    protected $_toolDate;
+    protected $toolDate;
 
     public function __construct(
+        \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
         \Praxigento\Core\Tool\IDate $toolDate
     ) {
-        $this->_cookieManager = $cookieManager;
-        $this->_registry = $registry;
-        $this->_toolDate = $toolDate;
+        $this->logger = $logger;
+        $this->manCookie = $cookieManager;
+        $this->registry = $registry;
+        $this->toolDate = $toolDate;
     }
 
     public function getDefaultCountryCode()
@@ -36,50 +40,57 @@ class Referral implements IReferral
         return 'LV';
     }
 
-    /** @inheritdoc */
     public function getReferralCode()
     {
-        $result = $this->_registry->registry(static::REG_REFERRAL_CODE);
+        $result = $this->registry->registry(static::REG_REFERRAL_CODE);
+        if ($result) $this->logger->info("There is referral code ($result) in the Magento registry.");
         return $result;
     }
 
-    /** @inheritdoc */
     public function processCoupon($coupon)
     {
         $this->replaceCodeInRegistry($coupon);
     }
 
-    /** @inheritdoc */
-    public function processHttpRequest($getVar)
+    public function processHttpRequest($codeGetVar)
     {
         /* get code from cookie */
-        $cookie = $this->_cookieManager->getCookie(static::COOKIE_REFERRAL_CODE);
+        $this->logger->info("Process HTTP request.");
+        $this->logger->info("Cookie:" + var_export($_COOKIE, true));
+        $cookie = $this->manCookie->getCookie(static::COOKIE_REFERRAL_CODE);
+        $this->logger->info("Cookie: " . (string)$cookie . ".");
         $voCookie = new ReferralCookie($cookie);
+        $codeCookie = $voCookie->getCode();
+        $this->logger->info("Cookie code: " . (string)$codeCookie . ".");
         /* replace cookie value if GET code is not equal to cookie value */
         if (
-            $getVar &&
-            ($getVar != $voCookie->getCode())
+            $codeGetVar &&
+            ($codeGetVar != $codeCookie)
         ) {
-            $tsSaved = $this->_toolDate->getUtcNow();
+            $tsSaved = $this->toolDate->getUtcNow();
             $saved = $tsSaved->format('Ymd');
-            $voCookie->setCode($getVar);
+            $voCookie->setCode($codeGetVar);
             $voCookie->setDateSaved($saved);
             $cookie = $voCookie->generateCookieValue();
             $meta = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
             $meta->setPath('/');
             $meta->setDurationOneYear();
-            $this->_cookieManager->setPublicCookie(static::COOKIE_REFERRAL_CODE, $cookie, $meta);
+            $this->manCookie->setPublicCookie(static::COOKIE_REFERRAL_CODE, $cookie, $meta);
         }
         /* save referral code into the registry */
         $code = $voCookie->getCode();
-        $this->replaceCodeInRegistry($code);
+        if ($code) {
+            $this->logger->info("There is referral code ($code) in the HTTP request (GET or cookie).");
+            $this->replaceCodeInRegistry($code);
+        }
     }
 
     public function replaceCodeInRegistry($code)
     {
-        if ($this->_registry->registry(static::REG_REFERRAL_CODE)) {
-            $this->_registry->unregister(static::REG_REFERRAL_CODE);
+        if ($this->registry->registry(static::REG_REFERRAL_CODE)) {
+            $this->registry->unregister(static::REG_REFERRAL_CODE);
         }
-        $this->_registry->register(static::REG_REFERRAL_CODE, $code);
+        $this->registry->register(static::REG_REFERRAL_CODE, $code);
+        $this->logger->info("New code ($code) is saved in the Magento registry.");
     }
 }

@@ -32,9 +32,9 @@ interface IReferral
 
     /**
      * Analyze GET variable, setup cookie and save
-     * @param string $getVar
+     * @param string $codeGetVar
      */
-    public function processHttpRequest($getVar);
+    public function processHttpRequest($codeGetVar);
 
     /**
      * Replace referral code in registry.
