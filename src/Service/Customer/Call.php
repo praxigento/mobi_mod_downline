@@ -59,7 +59,9 @@ class Call implements ICustomer
         $def = $this->_manTrans->begin();
         try {
             /* define referred parent */
-            $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
+            if (is_null($parentId)) {
+                $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
+            }
             if ($customerId == $parentId) {
                 /* add root node */
                 $this->_logger->info("This is root node (customer id is equal to parent id).");
