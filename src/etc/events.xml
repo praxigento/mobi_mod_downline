@@ -5,7 +5,7 @@
     <event name="customer_save_after_data_object">
         <!-- Register downline on new customer create event. -->
         <observer
-                name="praxigento_donwlilne_on_customer_save_after_data_object"
+                name="praxigento_donwlilne_observer"
                 instance="Praxigento\Downline\Observer\CustomerSaveAfterDataObject"/>
     </event>
     <!--<event name="core_collection_abstract_load_before">-->

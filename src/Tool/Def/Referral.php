@@ -55,13 +55,10 @@ class Referral implements IReferral
     public function processHttpRequest($codeGetVar)
     {
         /* get code from cookie */
-        $this->logger->info("Process HTTP request.");
-        $this->logger->info("Cookie:" + var_export($_COOKIE, true));
         $cookie = $this->manCookie->getCookie(static::COOKIE_REFERRAL_CODE);
-        $this->logger->info("Cookie: " . (string)$cookie . ".");
+        $this->logger->info("Referral code cookie: " . (string)$cookie . ".");
         $voCookie = new ReferralCookie($cookie);
         $codeCookie = $voCookie->getCode();
-        $this->logger->info("Cookie code: " . (string)$codeCookie . ".");
         /* replace cookie value if GET code is not equal to cookie value */
         if (
             $codeGetVar &&
