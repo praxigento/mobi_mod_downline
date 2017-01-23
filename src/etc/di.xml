@@ -27,16 +27,33 @@
                 type="\Praxigento\Downline\Plugin\Customer\Model\Customer"
                 sortOrder="100" disabled="false"/>
     </type>
+
+    <type name="\Magento\Customer\Model\GroupManagement">
+        <!-- replace anonymous group for referrals -->
+        <plugin name="praxigento_warehouse_plugin"
+                type="\Praxigento\Downline\Plugin\Customer\Model\GroupManagement"
+                sortOrder="100" disabled="false"/>
+    </type>
+
+    <type name="\Magento\Customer\Model\Session">
+        <!-- replace anonymous group for referrals -->
+        <plugin name="praxigento_warehouse_plugin"
+                type="\Praxigento\Downline\Plugin\Customer\Model\Session"
+                sortOrder="100" disabled="false"/>
+    </type>
+
     <type name="\Magento\Framework\App\FrontControllerInterface">
         <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins, see "sortOrder") -->
         <plugin name="praxigento_downline"
                 type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin"
                 sortOrder="-100" disabled="false"/>
     </type>
+
     <type name="\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <!-- Add custom columns to the customer grid -->
         <plugin name="praxigento_downline"
                 type="\Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
                 sortOrder="100" disabled="false"/>
     </type>
+
 </config>
