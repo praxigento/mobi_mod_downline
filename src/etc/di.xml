@@ -2,6 +2,7 @@
 <config
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
     <!-- *** -->
     <!-- API -->
     <!-- *** -->
@@ -9,6 +10,19 @@
             type="\Praxigento\Downline\Api\Tree\Get\Entries"/>
     <preference for="\Praxigento\Downline\Api\Tree\Get\UplineInterface"
             type="\Praxigento\Downline\Api\Tree\Get\Upline"/>
+
+
+    <!-- ********************** -->
+    <!-- Console (CLI Commands) -->
+    <!-- ********************** -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="prxgt_downline_cmd_snaps" xsi:type="object">\Praxigento\Downline\Console\Command\Tree\Snaps</item>
+            </argument>
+        </arguments>
+    </type>
+
 
     <!-- **** -->
     <!-- Repo -->
