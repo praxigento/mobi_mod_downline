@@ -4,9 +4,6 @@
  */
 namespace Praxigento\Downline\Console\Command\Tree;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
 /**
  * Create snapshots for downline tree.
  */
@@ -28,7 +25,10 @@ class Snaps
         $this->callSnap = $callSnap;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(
+        \Symfony\Component\Console\Input\InputInterface $input,
+        \Symfony\Component\Console\Output\OutputInterface $output
+    )
     {
         $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
         $req->setDatestampTo('21001231');
