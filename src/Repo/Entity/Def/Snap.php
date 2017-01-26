@@ -13,12 +13,18 @@ use Praxigento\Downline\Repo\Entity\ISnap as IEntityRepo;
 
 class Snap extends BaseEntityRepo implements IEntityRepo
 {
+    const AS_ATTR_DATE = 'date';
+
+    /** @var \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate */
+    protected $queryOnDate;
 
     public function __construct(
         ResourceConnection $resource,
-        IRepoGeneric $repoGeneric
+        IRepoGeneric $repoGeneric,
+        \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate $queryOnDate
     ) {
         parent::__construct($resource, $repoGeneric, Entity::class);
+        $this->queryOnDate = $queryOnDate;
     }
 
     /**
@@ -45,6 +51,36 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         /* perform query */
         // $sql = (string)$query;
         $result = $this->conn->fetchOne($query);
+        return $result;
+    }
+
+    public function getQueryStateOnDate()
+    {
+        $asSnap4Max = 'snap4Max';
+        $asSnap = 'snap';
+        $asMax = 'snapMax';
+        $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
+        /* select MAX(date) from prxgt_dwnl_snap (internal select) */
+        $q4Max = $this->conn->select();
+        $colDateMax = 'date_max';
+        $expMaxDate = new Expression('MAX(`' . $asSnap4Max . '`.`' . Entity::ATTR_DATE . '`)');
+        $q4Max->from([$asSnap4Max => $tblSnap], [Entity::ATTR_CUSTOMER_ID, $colDateMax => $expMaxDate]);
+        $q4Max->group($asSnap4Max . '.' . Entity::ATTR_CUSTOMER_ID);
+        $q4Max->where($asSnap4Max . '.' . Entity::ATTR_DATE . '<=:' . self::AS_ATTR_DATE);
+        /* select from prxgt_dwnl_snap */
+        $result = $this->conn->select();
+        $result->from([$asSnap => $tblSnap], [
+            Entity::ATTR_CUSTOMER_ID,
+            Entity::ATTR_PARENT_ID,
+            Entity::ATTR_DEPTH,
+            Entity::ATTR_PATH
+        ]);
+        /* left join $q4Max */
+        $on = '(' . $asMax . '.' . Entity::ATTR_CUSTOMER_ID . '=' . $asSnap . '.' . Entity::ATTR_CUSTOMER_ID . ')';
+        $on .= ' AND (' . $asMax . '.' . $colDateMax . '=' . $asSnap . '.' . Entity::ATTR_DATE . ')';
+        $result->joinLeft([$asMax => $q4Max], $on, []);
+        /* where */
+        $result->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
         return $result;
     }
 
@@ -75,33 +111,8 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     {
         $result = [];
         $bind = [];
-        $asSnap4Max = 'snap4Max';
-        $asSnap = 'snap';
-        $asMax = 'snapMax';
-        $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
-        /* select MAX(date) from prxgt_dwnl_snap (internal select) */
-        $q4Max = $this->conn->select();
-        $colDateMax = 'date_max';
-        $expMaxDate = new Expression('MAX(`' . $asSnap4Max . '`.`' . Entity::ATTR_DATE . '`)');
-        $q4Max->from([$asSnap4Max => $tblSnap], [Entity::ATTR_CUSTOMER_ID, $colDateMax => $expMaxDate]);
-        $q4Max->group($asSnap4Max . '.' . Entity::ATTR_CUSTOMER_ID);
-        $q4Max->where($asSnap4Max . '.' . Entity::ATTR_DATE . '<=:date');
-        $bind['date'] = $datestamp;
-        /* select from prxgt_dwnl_snap */
-        $query = $this->conn->select();
-        $query->from([$asSnap => $tblSnap], [
-            Entity::ATTR_CUSTOMER_ID,
-            Entity::ATTR_PARENT_ID,
-            Entity::ATTR_DEPTH,
-            Entity::ATTR_PATH
-        ]);
-        /* left join $q4Max */
-        $on = '(' . $asMax . '.' . Entity::ATTR_CUSTOMER_ID . '=' . $asSnap . '.' . Entity::ATTR_CUSTOMER_ID . ')';
-        $on .= ' AND (' . $asMax . '.' . $colDateMax . '=' . $asSnap . '.' . Entity::ATTR_DATE . ')';
-        $query->joinLeft([$asMax => $q4Max], $on, []);
-        /* where */
-        $query->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
-        // $sql = (string)$query;
+        $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $datestamp;
+        $query = $this->queryOnDate->getSelectQuery();
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {
