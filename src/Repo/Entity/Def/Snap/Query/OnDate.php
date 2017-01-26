@@ -11,6 +11,10 @@ use Praxigento\Downline\Data\Entity\Snap as Entity;
  */
 class OnDate
 {
+    const AS_TBL_DWNL_SNAP = 'prxgtDwnlSnap';
+    const AS_TBL_DWNL_SNAP_4_MAX = 'prxgtDwnlSnap4Max';
+    const AS_TBL_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
+
     const BIND_DATE = 'date';
 
     /** @var  \Magento\Framework\DB\Adapter\AdapterInterface */
@@ -25,30 +29,35 @@ class OnDate
         $this->conn = $resource->getConnection();
     }
 
+    public function getCountQuery()
+    {
+        throw  new \Exception("Is not implemented yet.");
+    }
+
     /**
      * SELECT
-     * `snap`.`customer_id`,
-     * `snap`.`parent_id`,
-     * `snap`.`depth`,
-     * `snap`.`path`
-     * FROM `prxgt_dwnl_snap` AS `snap`
+     * `prxgtDwnlSnap`.`customer_id`,
+     * `prxgtDwnlSnap`.`parent_id`,
+     * `prxgtDwnlSnap`.`depth`,
+     * `prxgtDwnlSnap`.`path`
+     * FROM `prxgt_dwnl_snap` AS `prxgtDwnlSnap`
      * LEFT JOIN (SELECT
-     * `snap4Max`.`customer_id`,
-     * MAX(`snap4Max`.`date`) AS date_max
-     * FROM `prxgt_dwnl_snap` AS `snap4Max`
-     * WHERE (snap4Max.date <= :date)
-     * GROUP BY `snap4Max`.`customer_id`) AS `snapMax`
-     * ON (snapMax.customer_id = snap.customer_id)
-     * AND (snapMax.date_max = snap.date)
-     * WHERE (snapMax.date_max IS NOT NULL)
+     * `prxgtDwnlSnap4Max`.`customer_id`,
+     * (MAX(`prxgtDwnlSnap4Max`.`date`)) AS `date_max`
+     * FROM `prxgt_dwnl_snap` AS `prxgtDwnlSnap4Max`
+     * WHERE (prxgtDwnlSnap4Max.date <= :date)
+     * GROUP BY `prxgtDwnlSnap4Max`.`customer_id`) AS `prxgtDwnlSnapMax`
+     * ON (prxgtDwnlSnapMax.customer_id = prxgtDwnlSnap.customer_id)
+     * AND (prxgtDwnlSnapMax.date_max = prxgtDwnlSnap.date)
+     * WHERE (prxgtDwnlSnapMax.date_max IS NOT NULL)
      *
      * @return \Magento\Framework\DB\Select
      */
     public function getSelectQuery()
     {
-        $asSnap4Max = 'snap4Max';
-        $asSnap = 'snap';
-        $asMax = 'snapMax';
+        $asSnap = self::AS_TBL_DWNL_SNAP;
+        $asSnap4Max = self::AS_TBL_DWNL_SNAP_4_MAX;
+        $asMax = self::AS_TBL_DWNL_SNAP_MAX;
         $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
         /* select MAX(date) from prxgt_dwnl_snap (internal select) */
         $q4Max = $this->conn->select();
@@ -74,10 +83,5 @@ class OnDate
         /* where */
         $result->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
         return $result;
-    }
-
-    public function getCountQuery()
-    {
-        throw  new \Exception("Is not implemented yet.");
     }
 }

@@ -229,7 +229,7 @@ class Call
         $result = new Response\GetStateOnDate();
         $this->_logger->info("'Get Downline Tree state' operation is requested.");
         $dateOn = $request->getDatestamp();
-        $rows = $this->_repoSnap->getStateOnDate($dateOn);
+        $rows = $this->_repoSnap->getStateOnDateExtended($dateOn);
         $result->set($rows);
         $result->markSucceed();
         $this->_logger->info("'Get Downline Tree state' operation is completed.");

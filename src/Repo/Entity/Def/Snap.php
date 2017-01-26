@@ -7,7 +7,6 @@ namespace Praxigento\Downline\Repo\Entity\Def;
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
-use Praxigento\Core\Repo\Query\Expression;
 use Praxigento\Downline\Data\Entity\Snap as Entity;
 use Praxigento\Downline\Repo\Entity\ISnap as IEntityRepo;
 
@@ -17,14 +16,17 @@ class Snap extends BaseEntityRepo implements IEntityRepo
 
     /** @var \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate */
     protected $queryOnDate;
-
+    /** @var \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp */
+    protected $queryOnDateForDcp;
     public function __construct(
         ResourceConnection $resource,
         IRepoGeneric $repoGeneric,
-        \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate $queryOnDate
+        \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate $queryOnDate,
+        \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp $queryOnDateForDcp
     ) {
         parent::__construct($resource, $repoGeneric, Entity::class);
         $this->queryOnDate = $queryOnDate;
+        $this->queryOnDateForDcp = $queryOnDateForDcp;
     }
 
     /**
@@ -54,54 +56,8 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         return $result;
     }
 
-    public function getQueryStateOnDate()
-    {
-        $asSnap4Max = 'snap4Max';
-        $asSnap = 'snap';
-        $asMax = 'snapMax';
-        $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
-        /* select MAX(date) from prxgt_dwnl_snap (internal select) */
-        $q4Max = $this->conn->select();
-        $colDateMax = 'date_max';
-        $expMaxDate = new Expression('MAX(`' . $asSnap4Max . '`.`' . Entity::ATTR_DATE . '`)');
-        $q4Max->from([$asSnap4Max => $tblSnap], [Entity::ATTR_CUSTOMER_ID, $colDateMax => $expMaxDate]);
-        $q4Max->group($asSnap4Max . '.' . Entity::ATTR_CUSTOMER_ID);
-        $q4Max->where($asSnap4Max . '.' . Entity::ATTR_DATE . '<=:' . self::AS_ATTR_DATE);
-        /* select from prxgt_dwnl_snap */
-        $result = $this->conn->select();
-        $result->from([$asSnap => $tblSnap], [
-            Entity::ATTR_CUSTOMER_ID,
-            Entity::ATTR_PARENT_ID,
-            Entity::ATTR_DEPTH,
-            Entity::ATTR_PATH
-        ]);
-        /* left join $q4Max */
-        $on = '(' . $asMax . '.' . Entity::ATTR_CUSTOMER_ID . '=' . $asSnap . '.' . Entity::ATTR_CUSTOMER_ID . ')';
-        $on .= ' AND (' . $asMax . '.' . $colDateMax . '=' . $asSnap . '.' . Entity::ATTR_DATE . ')';
-        $result->joinLeft([$asMax => $q4Max], $on, []);
-        /* where */
-        $result->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
-        return $result;
-    }
-
     /**
      * Select downline tree state on the given datestamp.
-     *
-     * SELECT
-     * `snap`.`customer_id`,
-     * `snap`.`parent_id`,
-     * `snap`.`depth`,
-     * `snap`.`path`
-     * FROM `prxgt_dwnl_snap` AS `snap`
-     * LEFT JOIN (SELECT
-     * `snap4Max`.`customer_id`,
-     * MAX(`snap4Max`.`date`) AS date_max
-     * FROM `prxgt_dwnl_snap` AS `snap4Max`
-     * WHERE (snap4Max.date <= :date)
-     * GROUP BY `snap4Max`.`customer_id`) AS `snapMax`
-     * ON (snapMax.customer_id = snap.customer_id)
-     * AND (snapMax.date_max = snap.date)
-     * WHERE (snapMax.date_max IS NOT NULL)
      *
      * @param $datestamp string 'YYYYMMDD'
      *
@@ -113,6 +69,21 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $bind = [];
         $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $datestamp;
         $query = $this->queryOnDate->getSelectQuery();
+        $rows = $this->conn->fetchAll($query, $bind);
+        if (count($rows)) {
+            foreach ($rows as $one) {
+                $result[$one[Entity::ATTR_CUSTOMER_ID]] = $one;
+            }
+        }
+        return $result;
+    }
+
+    public function getStateOnDateExtended($datestamp)
+    {
+        $result = [];
+        $bind = [];
+        $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $datestamp;
+        $query = $this->queryOnDateForDcp->getSelectQuery();
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {

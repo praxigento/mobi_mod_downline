@@ -38,6 +38,8 @@ interface ISnap extends ICrud
      */
     public function getStateOnDate($datestamp);
 
+    public function getStateOnDateExtended($datestamp);
+
     /**
      * Insert snapshot updates. $updates is array [date][customerId] => $data
      *
