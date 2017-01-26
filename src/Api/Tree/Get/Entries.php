@@ -16,7 +16,12 @@ class Entries
         $this->callSnap = $callSnap;
     }
 
-
+    /**
+     * MOBI-592: additional commit
+     *
+     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $data
+     * @return \Praxigento\Downline\Api\Tree\Get\Entries\Request
+     */
     public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $data)
     {
         $maxDepth = $data->getMaxDepth();

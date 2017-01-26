@@ -9,6 +9,9 @@ class Upline
 {
 
     /**
+     *
+     * MOBI-592: additional commit
+     *
      * @param \Praxigento\Downline\Api\Tree\Get\Upline\Request $data
      * @return \Praxigento\Downline\Api\Tree\Get\Upline\Response
      */
