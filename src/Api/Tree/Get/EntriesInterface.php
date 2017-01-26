@@ -10,8 +10,8 @@ namespace Praxigento\Downline\Api\Tree\Get;
 interface EntriesInterface
 {
     /**
-     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $req
+     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $data
      * @return \Praxigento\Downline\Api\Tree\Get\Entries\Response
      */
-    public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $req);
+    public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $data);
 }

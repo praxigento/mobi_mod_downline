@@ -19,19 +19,23 @@ class Entries
     /**
      * MOBI-592: additional commit
      *
-     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $req
+     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $data
      * @return \Praxigento\Downline\Api\Tree\Get\Entries\Response
      */
-    public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $req)
+    public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $data)
     {
         $result = new \Praxigento\Downline\Api\Tree\Get\Entries\Response();
-        $maxDepth = $req->getMaxDepth();
-        $maxEntries = $req->getMaxEntries();
-        $period = $req->getPeriod();
-        $rootNode = $req->getRootNode();
-        $requestReturn = $req->getRequestReturn();
+        if ($data->getRequestReturn()) {
+            $result->setRequest($data);
+        }
+        $maxDepth = $data->getMaxDepth();
+        $maxEntries = $data->getMaxEntries();
+        $period = $data->getPeriod();
+        $rootNode = $data->getRootNode();
+        $requestReturn = $data->getRequestReturn();
         $reqCall = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
         $reqCall->setDatestamp($period);
+        $reqCall->setRootId($rootNode);
         $resp = $this->callSnap->getStateOnDate($reqCall);
         $rows = $resp->get();
         $entries = [];

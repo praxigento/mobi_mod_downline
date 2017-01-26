@@ -8,12 +8,7 @@ namespace Praxigento\Downline\Api\Tree\Get\Entries;
  * Request to get entries for downline tree node.
  *
  * (Define getters explicitly to use with Swagger tool)
- *
- * @method void setMaxDepth(int $data)
- * @method void setMaxEntries(int $data)
- * @method void setPeriod(string $data)
- * @method void setRequestReturn(bool $data)
- * @method void setRootNode(int $data)
+ * (Define setters explicitly to use with Magento JSON2PHP conversion tool)
  *
  */
 class Request
@@ -29,6 +24,57 @@ class Request
     {
         $result = parent::getMaxDepth();
         return $result;
+    }
+
+    /**
+     * Max depth for entries starting from request's root node.
+     *
+     * @param int $data
+     */
+    public function setMaxDepth($data)
+    {
+        parent::setMaxDepth($data);
+    }
+
+    /**
+     * Max number of entries in result set.
+     *
+     * @param int $data
+     */
+    public function setMaxEntries($data)
+    {
+        parent::setMaxEntries($data);
+    }
+
+    /**
+     * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
+     *
+     * @param string $data
+     */
+    public function setPeriod($data)
+    {
+        parent::setPeriod($data);
+    }
+
+    /**
+     * Flag to include request data in response.
+     *
+     * @param bool $data
+     */
+    public function setRequestReturn($data)
+    {
+        parent::setRequestReturn($data);
+    }
+
+    /**
+     * Customer ID for the root node. Current customer ID is used on frontend if missed. All nodes will be returned
+     * in adminhtml if missed.
+     *
+     * @param int $data
+     */
+    public function setRootNode($data)
+    {
+        parent::setRootNode($data);
     }
 
     /**

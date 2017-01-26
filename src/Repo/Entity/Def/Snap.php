@@ -78,12 +78,16 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         return $result;
     }
 
-    public function getStateOnDateExtended($datestamp)
+    public function getStateOnDateExtended($datestamp, $rootId = null)
     {
         $result = [];
         $bind = [];
         $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $datestamp;
         $query = $this->queryOnDateForDcp->getSelectQuery();
+        if (!is_null($rootId)) {
+            /* TODO: path based filter should be applied here */
+            $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $rootId;
+        }
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {
