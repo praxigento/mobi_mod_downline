@@ -14,7 +14,7 @@ class Response
     extends \Praxigento\Core\Api\Response
 {
     /**
-     * @return \Praxigento\Odoo\Api\Data\Customer\Pv\Add\Response\Data|null
+     * @return \Praxigento\Downline\Api\Tree\Get\Entries\Response\Data|null
      */
     public function getData()
     {
@@ -23,10 +23,27 @@ class Response
     }
 
     /**
-     * @param \Praxigento\Odoo\Api\Data\Customer\Pv\Add\Response\Data $data
+     * @return \Praxigento\Downline\Api\Tree\Get\Entries\Request|null
+     */
+    public function getRequest()
+    {
+        $result = parent::getRequest();
+        return $result;
+    }
+
+    /**
+     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Response\Data $data
      */
     public function setData($data)
     {
         parent::set(self::ATTR_DATA, $data);
+    }
+
+    /**
+     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $data
+     */
+    public function setRequest($data)
+    {
+        parent::setRequest($data);
     }
 }

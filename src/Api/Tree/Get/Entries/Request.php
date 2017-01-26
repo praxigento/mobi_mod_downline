@@ -12,12 +12,14 @@ namespace Praxigento\Downline\Api\Tree\Get\Entries;
  * @method void setMaxDepth(int $data)
  * @method void setMaxEntries(int $data)
  * @method void setPeriod(string $data)
+ * @method void setRequestReturn(bool $data)
  * @method void setRootNode(int $data)
  *
  */
 class Request
     extends \Flancer32\Lib\Data
 {
+
     /**
      * Max depth for entries starting from request's root node.
      *
@@ -48,6 +50,17 @@ class Request
     public function getPeriod()
     {
         $result = parent::getPeriod();
+        return $result;
+    }
+
+    /**
+     * Flag to include request data in response.
+     *
+     * @return bool|null
+     */
+    public function getRequestReturn()
+    {
+        $result = parent::getRequestReturn();
         return $result;
     }
 

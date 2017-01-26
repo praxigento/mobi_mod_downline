@@ -19,18 +19,48 @@ class Entries
     /**
      * MOBI-592: additional commit
      *
-     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $data
-     * @return \Praxigento\Downline\Api\Tree\Get\Entries\Request
+     * @param \Praxigento\Downline\Api\Tree\Get\Entries\Request $req
+     * @return \Praxigento\Downline\Api\Tree\Get\Entries\Response
      */
-    public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $data)
+    public function execute(\Praxigento\Downline\Api\Tree\Get\Entries\Request $req)
     {
-        $maxDepth = $data->getMaxDepth();
-        $maxEntries = $data->getMaxEntries();
-        $period = $data->getPeriod();
-        $rootNode = $data->getRootNode();
-        $req = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
-        $req->setDatestamp('20170131');
-        $resp = $this->callSnap->getStateOnDate($req);
-        return true;
+        $result = new \Praxigento\Downline\Api\Tree\Get\Entries\Response();
+        $maxDepth = $req->getMaxDepth();
+        $maxEntries = $req->getMaxEntries();
+        $period = $req->getPeriod();
+        $rootNode = $req->getRootNode();
+        $requestReturn = $req->getRequestReturn();
+        $reqCall = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
+        $reqCall->setDatestamp($period);
+        $resp = $this->callSnap->getStateOnDate($reqCall);
+        $rows = $resp->get();
+        $entries = [];
+        foreach ($rows as $row) {
+            $countryCode = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_CUSTOMER_ID];
+            $customerEmail = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_EMAIL];
+            $customerId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_CUSTOMER_ID];
+            $customerMlmId = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_MLM_ID];
+            $nameFirst = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_NAME_FIRST];
+            $nameLast = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_NAME_FIRST];
+            $customerName = "$nameFirst $nameLast";
+            $depthInTree = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH];
+            $parentId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_PARENT_ID];
+            $path = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_PATH];
+            $entry = new \Praxigento\Downline\Api\Data\Tree\Entry();
+            $entry->setCountryCode($countryCode);
+            $entry->setCustomerEmail($customerEmail);
+            $entry->setCustomerId($customerId);
+            $entry->setCustomerMlmId($customerMlmId);
+            $entry->setCustomerName($customerName);
+            $entry->setDepthInTree($depthInTree);
+            $entry->setParentId($parentId);
+            $entry->setPath($path);
+            $entries[$customerId] = $entry;
+        }
+        $responseData = new \Praxigento\Downline\Api\Tree\Get\Entries\Response\Data();
+        $responseData->setEntries($entries);
+        $result->setData($responseData);
+        $result->getResult()->setCode($result::CODE_SUCCESS);
+        return $result;
     }
 }
