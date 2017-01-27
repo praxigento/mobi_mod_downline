@@ -13,25 +13,9 @@ use Praxigento\Downline\Data\Entity\Snap as Snap;
  * see \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder
  */
 class Builder
+    extends \Praxigento\Core\Repo\Query\Def\Builder
 {
     const AS_TBL_DWNL_SNAP = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_TBL_DWNL_SNAP;
-
-    /** @var  \Magento\Framework\DB\Adapter\AdapterInterface */
-    protected $conn;
-    /** @var \Magento\Framework\App\ResourceConnection */
-    protected $resource;
-
-    public function __construct(
-        \Magento\Framework\App\ResourceConnection $resource
-    ) {
-        $this->resource = $resource;
-        $this->conn = $resource->getConnection();
-    }
-
-    public function getCountQuery()
-    {
-        throw  new \Exception("Is not implemented yet.");
-    }
 
     /**
      * SELECT
@@ -41,9 +25,9 @@ class Builder
      * `prxgtDwnlSnap`.`path`
      * FROM `prxgt_dwnl_customer` AS `prxgtDwnlSnap`
      *
-     * @return \Magento\Framework\DB\Select
+     * @inheritdoc
      */
-    public function getSelectQuery()
+    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {
         $asSnap = self::AS_TBL_DWNL_SNAP;
         $tblSnap = $this->resource->getTableName(Customer::ENTITY_NAME);

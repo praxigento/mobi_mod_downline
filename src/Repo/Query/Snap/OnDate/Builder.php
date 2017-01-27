@@ -7,32 +7,15 @@ namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 use Praxigento\Downline\Data\Entity\Snap as Entity;
 
 /**
- * build query to get downline tree snap on given date.
+ * Build query to get downline tree snap on given date.
  */
 class Builder
+    extends \Praxigento\Core\Repo\Query\Def\Builder
 {
     const AS_TBL_DWNL_SNAP = 'prxgtDwnlSnap';
     const AS_TBL_DWNL_SNAP_4_MAX = 'prxgtDwnlSnap4Max';
     const AS_TBL_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
-
     const BIND_DATE = 'date';
-
-    /** @var  \Magento\Framework\DB\Adapter\AdapterInterface */
-    protected $conn;
-    /** @var \Magento\Framework\App\ResourceConnection */
-    protected $resource;
-
-    public function __construct(
-        \Magento\Framework\App\ResourceConnection $resource
-    ) {
-        $this->resource = $resource;
-        $this->conn = $resource->getConnection();
-    }
-
-    public function getCountQuery()
-    {
-        throw  new \Exception("Is not implemented yet.");
-    }
 
     /**
      * BINDING:
@@ -55,9 +38,11 @@ class Builder
      * AND (prxgtDwnlSnapMax.date_max = prxgtDwnlSnap.date)
      * WHERE (prxgtDwnlSnapMax.date_max IS NOT NULL)
      *
-     * @return \Magento\Framework\DB\Select
+     * @inheritdoc
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
-    public function getSelectQuery()
+    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {
         $asSnap = self::AS_TBL_DWNL_SNAP;
         $asSnap4Max = self::AS_TBL_DWNL_SNAP_4_MAX;

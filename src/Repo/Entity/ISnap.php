@@ -22,6 +22,15 @@ interface ISnap extends ICrud
     public function getById($id);
 
     /**
+     * Get customer data snapshort on date (less or equal to).
+     *
+     * @param int $id
+     * @param string $datestamp 'YYYYMMDD'
+     * @return mixed
+     */
+    public function getByCustomerIdOnDate($id, $datestamp);
+
+    /**
      * Select MAX datestamp for downline snapshots.
      *
      * @return null|string YYYYMMDD
@@ -32,12 +41,19 @@ interface ISnap extends ICrud
     /**
      * Select downline tree state on the given datestamp.
      *
-     * @param $datestamp string 'YYYYMMDD'
+     * @param string $datestamp 'YYYYMMDD'
      *
      * @return array
      */
     public function getStateOnDate($datestamp);
 
+    /**
+     * @param $datestamp
+     * @param null $rootId
+     * @return mixed
+     *
+     * @deprecated \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder is used instead
+     */
     public function getStateOnDateExtended($datestamp, $rootId = null);
 
     /**

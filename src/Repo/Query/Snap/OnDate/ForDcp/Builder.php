@@ -12,42 +12,20 @@ use Praxigento\Downline\Config as Cfg;
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class Builder
+    extends \Praxigento\Core\Repo\Query\Def\Builder
 {
     const AS_ATTR_COUNTRY_CODE = \Praxigento\Downline\Data\Entity\Customer::ATTR_COUNTRY_CODE;
     const AS_ATTR_EMAIL = Cfg::E_CUSTOMER_A_EMAIL;
     const AS_ATTR_MLM_ID = 'mlm_id';
     const AS_ATTR_NAME_FIRST = 'name_first';
     const AS_ATTR_NAME_LAST = 'name_last';
-    const AS_TBL_DOWNLINE_CUSTOMER = 'prxgtDwnlCust';
     const AS_TBL_CUSTOMER = 'mageCust';
+    const AS_TBL_DOWNLINE_CUSTOMER = 'prxgtDwnlCust';
     const BIND_DATE = 'date';
-    /** @var  \Magento\Framework\DB\Adapter\AdapterInterface */
-    protected $conn;
-    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
-    protected $queryOnDate;
-    /** @var \Magento\Framework\App\ResourceConnection */
-    protected $resource;
 
-    public function __construct(
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $queryOnDate
-    ) {
-        $this->resource = $resource;
-        $this->conn = $resource->getConnection();
-        $this->queryOnDate = $queryOnDate;
-    }
-
-    public function getCountQuery()
+    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {
-        throw  new \Exception("Is not implemented yet.");
-    }
-
-    /**
-     * @return \Magento\Framework\DB\Select
-     */
-    public function getSelectQuery()
-    {
-        $result = $this->queryOnDate->getSelectQuery();
+        $result = $qbuild->getSelectQuery();
         $asDwnlCust = self::AS_TBL_DOWNLINE_CUSTOMER;
         $asDwnlSnap = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_TBL_DWNL_SNAP;
         $asCust = self::AS_TBL_CUSTOMER;

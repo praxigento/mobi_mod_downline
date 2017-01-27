@@ -18,6 +18,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     protected $queryOnDate;
     /** @var \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp */
     protected $queryOnDateForDcp;
+
     public function __construct(
         ResourceConnection $resource,
         IRepoGeneric $repoGeneric,
@@ -27,6 +28,37 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         parent::__construct($resource, $repoGeneric, Entity::class);
         $this->queryOnDate = $queryOnDate;
         $this->queryOnDateForDcp = $queryOnDateForDcp;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     */
+    public function getByCustomerIdOnDate($id, $datestamp)
+    {
+        $result = null;
+        $tbl = $this->resource->getTableName(Entity::ENTITY_NAME);
+        $query = $this->conn->select();
+        $query->from($tbl);
+        $bind = [];
+        /* where */
+        $where = Entity::ATTR_CUSTOMER_ID . '= :id';
+        $bind['id'] = (int)$id;
+        $query->where($where);
+        $where = Entity::ATTR_DATE . '<= :date';
+        $bind['date'] = $datestamp;
+        $query->where($where);
+        /* order by */
+        $query->order(Entity::ATTR_DATE . ' DESC');
+        /* get one only record */
+        $query->limit(1);
+        /* perform query */
+        $result = $this->conn->fetchRow($query, $bind);
+        if ($result) {
+            $result = $this->_createEntityInstance($result);
+        }
+        return $result;
     }
 
     /**

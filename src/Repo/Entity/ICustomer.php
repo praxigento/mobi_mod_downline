@@ -16,6 +16,8 @@ interface ICustomer
     /**
      * @param int $id
      * @return \Praxigento\Downline\Data\Entity\Customer|bool
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getById($id);
 

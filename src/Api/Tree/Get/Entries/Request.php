@@ -37,16 +37,6 @@ class Request
     }
 
     /**
-     * Max number of entries in result set.
-     *
-     * @param int $data
-     */
-    public function setMaxEntries($data)
-    {
-        parent::setMaxEntries($data);
-    }
-
-    /**
      * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
      *
      * @param string $data
@@ -75,17 +65,6 @@ class Request
     public function setRootNode($data)
     {
         parent::setRootNode($data);
-    }
-
-    /**
-     * Max number of entries in result set.
-     *
-     * @return int|null
-     */
-    public function getMaxEntries()
-    {
-        $result = parent::getMaxEntries();
-        return $result;
     }
 
     /**
