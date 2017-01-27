@@ -18,6 +18,8 @@ interface ISnap extends ICrud
     /**
      * @param int $id
      * @return Entity|bool
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getById($id);
 
@@ -27,6 +29,8 @@ interface ISnap extends ICrud
      * @param int $id
      * @param string $datestamp 'YYYYMMDD'
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getByCustomerIdOnDate($id, $datestamp);
 
@@ -46,15 +50,6 @@ interface ISnap extends ICrud
      * @return array
      */
     public function getStateOnDate($datestamp);
-
-    /**
-     * @param $datestamp
-     * @param null $rootId
-     * @return mixed
-     *
-     * @deprecated \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder is used instead
-     */
-    public function getStateOnDateExtended($datestamp, $rootId = null);
 
     /**
      * Insert snapshot updates. $updates is array [date][customerId] => $data

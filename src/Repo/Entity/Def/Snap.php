@@ -14,20 +14,16 @@ class Snap extends BaseEntityRepo implements IEntityRepo
 {
     const AS_ATTR_DATE = 'date';
 
-    /** @var \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate */
-    protected $queryOnDate;
-    /** @var \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp */
-    protected $queryOnDateForDcp;
+    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
+    protected $qbuildSnapOnDate;
 
     public function __construct(
         ResourceConnection $resource,
         IRepoGeneric $repoGeneric,
-        \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate $queryOnDate,
-        \Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp $queryOnDateForDcp
+        \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qbuildSnapOnDate
     ) {
         parent::__construct($resource, $repoGeneric, Entity::class);
-        $this->queryOnDate = $queryOnDate;
-        $this->queryOnDateForDcp = $queryOnDateForDcp;
+        $this->qbuildSnapOnDate = $qbuildSnapOnDate;
     }
 
     /**
@@ -100,26 +96,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $result = [];
         $bind = [];
         $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $datestamp;
-        $query = $this->queryOnDate->getSelectQuery();
-        $rows = $this->conn->fetchAll($query, $bind);
-        if (count($rows)) {
-            foreach ($rows as $one) {
-                $result[$one[Entity::ATTR_CUSTOMER_ID]] = $one;
-            }
-        }
-        return $result;
-    }
-
-    public function getStateOnDateExtended($datestamp, $rootId = null)
-    {
-        $result = [];
-        $bind = [];
-        $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $datestamp;
-        $query = $this->queryOnDateForDcp->getSelectQuery();
-        if (!is_null($rootId)) {
-            /* TODO: path based filter should be applied here */
-            $bind[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDate::BIND_DATE] = $rootId;
-        }
+        $query = $this->qbuildSnapOnDate->getSelectQuery();
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {

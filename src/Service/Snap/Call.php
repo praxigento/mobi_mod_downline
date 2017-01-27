@@ -232,8 +232,7 @@ class Call
         if (is_null($dateOn)) {
             $dateOn = $this->_toolPeriod->getPeriodCurrent();
         }
-        $rootId = $request->getRootId();
-        $rows = $this->_repoSnap->getStateOnDateExtended($dateOn, $rootId);
+        $rows = $this->_repoSnap->getStateOnDate($dateOn);
         $result->set($rows);
         $result->markSucceed();
         $this->_logger->info("'Get Downline Tree state' operation is completed.");
