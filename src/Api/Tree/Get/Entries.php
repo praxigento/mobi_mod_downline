@@ -28,16 +28,21 @@ class Entries
         if ($data->getRequestReturn()) {
             $result->setRequest($data);
         }
+        /* extract request attributes */
         $maxDepth = $data->getMaxDepth();
         $maxEntries = $data->getMaxEntries();
         $period = $data->getPeriod();
         $rootNode = $data->getRootNode();
-        $requestReturn = $data->getRequestReturn();
-        $reqCall = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
-        $reqCall->setDatestamp($period);
-        $reqCall->setRootId($rootNode);
-        $resp = $this->callSnap->getStateOnDate($reqCall);
-        $rows = $resp->get();
+        /* if $period is missed get base query for prxgt_dwnl_customer */
+        /* else - get base query for the snap */
+        /* if $rootNode is defined - get customer/snap data for parent's path */
+
+
+//        $reqCall = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
+//        $reqCall->setDatestamp($period);
+//        $reqCall->setRootId($rootNode);
+//        $resp = $this->callSnap->getStateOnDate($reqCall);
+//        $rows = $resp->get();
         $entries = [];
         foreach ($rows as $row) {
             $countryCode = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_CUSTOMER_ID];
