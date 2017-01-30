@@ -97,11 +97,11 @@ class Entries
         $entries = [];
         foreach ($rows as $row) {
             $countryCode = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_CUSTOMER_ID];
-            $customerEmail = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_EMAIL];
+            $customerEmail = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_EMAIL];
             $customerId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_CUSTOMER_ID];
-            $customerMlmId = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_MLM_ID];
-            $nameFirst = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_NAME_FIRST];
-            $nameLast = $row[\Praxigento\Downline\Repo\Entity\Def\Snap\Query\OnDateForDcp::AS_ATTR_NAME_FIRST];
+            $customerMlmId = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_MLM_ID];
+            $nameFirst = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_NAME_FIRST];
+            $nameLast = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_NAME_FIRST];
             $customerName = "$nameFirst $nameLast";
             $depthInTree = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH];
             $parentId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_PARENT_ID];
