@@ -101,7 +101,7 @@ class Entries
             $customerId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_CUSTOMER_ID];
             $customerMlmId = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_MLM_ID];
             $nameFirst = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_NAME_FIRST];
-            $nameLast = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_NAME_FIRST];
+            $nameLast = $row[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::AS_ATTR_NAME_LAST];
             $customerName = "$nameFirst $nameLast";
             $depthInTree = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH];
             $parentId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_PARENT_ID];

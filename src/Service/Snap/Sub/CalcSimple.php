@@ -108,6 +108,9 @@ class CalcSimple
                     ];
                 } else {
                     /* this is NOT root node customer */
+                    if (!isset($currentState[$parentId])) {
+                        $yo = 'pta!';
+                    }
                     $parent = $currentState[$parentId];
                     $customer = [
                         Snap::ATTR_DATE => $dsChanged,
