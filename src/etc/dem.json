@@ -69,7 +69,7 @@
                       "entity": {"completeAlias": "customer_entity"},
                       "aliases": ["entity_id"]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "action": {"delete": "cascade", "update": "restrict"}
                   },
                   "toSelfAsParent": {
                     "own": {"aliases": ["parent_id"]},
