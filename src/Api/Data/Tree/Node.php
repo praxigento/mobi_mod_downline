@@ -18,7 +18,7 @@ namespace Praxigento\Downline\Api\Data\Tree;
  * @method void setPath(string $data)
  *
  */
-class Entry
+class Node
     extends \Flancer32\Lib\Data
 {
     /**

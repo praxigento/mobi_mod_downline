@@ -12,19 +12,19 @@ class Data
     extends \Flancer32\Lib\Data
 {
     /**
-     * @return \Praxigento\Downline\Api\Data\Tree\Entry[]|null
+     * @return \Praxigento\Downline\Api\Data\Tree\Node[]|null
      */
-    public function getEntries()
+    public function getNodes()
     {
-        $result = parent::getEntries();
+        $result = parent::getNodes();
         return $result;
     }
 
     /**
-     * @param \Praxigento\Downline\Api\Data\Tree\Entry[] $data
+     * @param \Praxigento\Downline\Api\Data\Tree\Node[] $data
      */
-    public function setEntries($data)
+    public function setNodes($data)
     {
-        parent::setEntries($data);
+        parent::setNodes($data);
     }
 }

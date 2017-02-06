@@ -8,7 +8,7 @@ class Data
     extends \Flancer32\Lib\Data
 {
     /**
-     * @return \Praxigento\Downline\Api\Data\Tree\Entry[]|null
+     * @return \Praxigento\Downline\Api\Data\Tree\Node[]|null
      */
     public function getEntries()
     {
@@ -17,7 +17,7 @@ class Data
     }
 
     /**
-     * @param \Praxigento\Downline\Api\Data\Tree\Entry[] $data
+     * @param \Praxigento\Downline\Api\Data\Tree\Node[] $data
      */
     public function setEntries($data)
     {

@@ -106,7 +106,7 @@ class Get
             $depthInTree = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH];
             $parentId = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_PARENT_ID];
             $path = $row[\Praxigento\Downline\Data\Entity\Snap::ATTR_PATH];
-            $entry = new \Praxigento\Downline\Api\Data\Tree\Entry();
+            $entry = new \Praxigento\Downline\Api\Data\Tree\Node();
             $entry->setCountryCode($countryCode);
             $entry->setCustomerEmail($customerEmail);
             $entry->setCustomerId($customerId);
@@ -118,7 +118,7 @@ class Get
             $entries[$customerId] = $entry;
         }
         $responseData = new \Praxigento\Downline\Api\Tree\Get\Response\Data();
-        $responseData->setEntries($entries);
+        $responseData->setNodes($entries);
         $result->setData($responseData);
         $result->getResult()->setCode($result::CODE_SUCCESS);
         return $result;
