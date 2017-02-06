@@ -1,8 +1,16 @@
 <?xml version="1.0"?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
+    <route url="/V1/prxgt/downline/tree/get" method="POST">
+        <!-- Get downline subtree (nodes). -->
+        <service class="Praxigento\Downline\Api\Tree\GetInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
     <route url="/V1/prxgt/downline/tree/get/entries" method="POST">
-        <!-- Get downline subtree entries for current customer. -->
+        <!-- Get downline subtree entries (extended information including bonus statistics). -->
         <service class="Praxigento\Downline\Api\Tree\Get\EntriesInterface" method="execute"/>
         <resources>
             <resource ref="anonymous"/>
@@ -10,7 +18,7 @@
     </route>
 
     <route url="/V1/prxgt/downline/tree/get/upline" method="POST">
-        <!-- Get upline data for current customer. -->
+        <!-- Get upline data for customer. -->
         <service class="Praxigento\Downline\Api\Tree\Get\UplineInterface" method="execute"/>
         <resources>
             <resource ref="anonymous"/>

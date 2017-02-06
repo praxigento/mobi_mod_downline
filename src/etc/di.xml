@@ -6,6 +6,8 @@
     <!-- *** -->
     <!-- API -->
     <!-- *** -->
+    <preference for="\Praxigento\Downline\Api\Tree\GetInterface"
+            type="\Praxigento\Downline\Api\Tree\Get"/>
     <preference for="\Praxigento\Downline\Api\Tree\Get\EntriesInterface"
             type="\Praxigento\Downline\Api\Tree\Get\Entries"/>
     <preference for="\Praxigento\Downline\Api\Tree\Get\UplineInterface"
