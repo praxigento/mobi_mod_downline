@@ -109,7 +109,7 @@ class CalcSimple
                 } else {
                     /* this is NOT root node customer */
                     if (!isset($currentState[$parentId])) {
-                        $yo = 'pta!';
+                        $breakPoint = 'inconsistency detected';
                     }
                     $parent = $currentState[$parentId];
                     $customer = [

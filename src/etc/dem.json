@@ -77,7 +77,7 @@
                       "entity": {"completeAlias": "prxgt_dwnl_customer"},
                       "aliases": ["customer_id"]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "action": {"delete": "cascade", "update": "restrict"}
                   },
                   "toMageCountryCode": {
                     "own": {"aliases": ["country_code"]},
