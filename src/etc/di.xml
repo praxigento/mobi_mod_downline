@@ -26,6 +26,13 @@
     </type>
 
 
+    <!-- ***** -->
+    <!-- Infra -->
+    <!-- ***** -->
+    <preference for="\Praxigento\Core\Api\IAuthenticator"
+            type="\Praxigento\Downline\Infra\Api\Authenticator"/>
+
+
     <!-- **** -->
     <!-- Repo -->
     <!-- **** -->
