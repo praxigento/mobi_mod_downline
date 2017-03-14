@@ -27,6 +27,40 @@ class Request
     }
 
     /**
+     * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
+     *
+     * @return string|null
+     */
+    public function getOnDate()
+    {
+        $result = parent::getOnDate();
+        return $result;
+    }
+
+    /**
+     * Flag to include request data in response.
+     *
+     * @return bool|null
+     */
+    public function getRequestReturn()
+    {
+        $result = parent::getRequestReturn();
+        return $result;
+    }
+
+    /**
+     * Customer ID for the root node. Current customer ID is used on frontend if missed.
+     * All nodes will be returned in adminhtml if missed.
+     *
+     * @return int|null
+     */
+    public function getRootCustId()
+    {
+        $result = parent::getRootCustId();
+        return $result;
+    }
+
+    /**
      * Max depth for nodes layers starting from request's root node.
      *
      * @param int $data
@@ -37,13 +71,13 @@ class Request
     }
 
     /**
-     * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
+     * Date to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
      *
      * @param string $data
      */
-    public function setPeriod($data)
+    public function setOnDate($data)
     {
-        parent::setPeriod($data);
+        parent::setOnDate($data);
     }
 
     /**
@@ -62,43 +96,9 @@ class Request
      *
      * @param int $data
      */
-    public function setRootNode($data)
+    public function setRootCustId($data)
     {
-        parent::setRootNode($data);
-    }
-
-    /**
-     * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
-     *
-     * @return string|null
-     */
-    public function getPeriod()
-    {
-        $result = parent::getPeriod();
-        return $result;
-    }
-
-    /**
-     * Flag to include request data in response.
-     *
-     * @return bool|null
-     */
-    public function getRequestReturn()
-    {
-        $result = parent::getRequestReturn();
-        return $result;
-    }
-
-    /**
-     * Customer ID for the root node. Current customer ID is used on frontend if missed. All nodes will be returned
-     * in adminhtml if missed.
-     *
-     * @return int|null
-     */
-    public function getRootNode()
-    {
-        $result = parent::getRootNode();
-        return $result;
+        parent::setRootCustId($data);
     }
 
 

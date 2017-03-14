@@ -3,7 +3,7 @@
 
     <route url="/V1/prxgt/downline/tree/get" method="POST">
         <!-- Get downline subtree (nodes). -->
-        <service class="Praxigento\Downline\Api\Tree\GetInterface" method="execute"/>
+        <service class="Praxigento\Downline\Api\Tree\GetInterface" method="exec"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>

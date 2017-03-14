@@ -13,5 +13,5 @@ interface GetInterface
      * @param \Praxigento\Downline\Api\Tree\Get\Request $data
      * @return \Praxigento\Downline\Api\Tree\Get\Response
      */
-    public function execute(\Praxigento\Downline\Api\Tree\Get\Request $data);
+    public function exec(\Praxigento\Downline\Api\Tree\Get\Request $data);
 }
