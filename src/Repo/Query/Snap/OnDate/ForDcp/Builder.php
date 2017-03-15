@@ -27,7 +27,7 @@ class Builder
     {
         $result = $qbuild->getSelectQuery();
         $asDwnlCust = self::AS_TBL_DOWNLINE_CUSTOMER;
-        $asDwnlSnap = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_TBL_DWNL_SNAP;
+        $asDwnlSnap = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP;
         $asCust = self::AS_TBL_CUSTOMER;
         /* LEFT JOIN prxgt_dwnl_customer pdc */
         $tblDwnlCust = [

@@ -98,7 +98,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $bind[\Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder::BIND_DATE] = $datestamp;
         $query = $this->qbuildSnapOnDate->getSelectQuery();
         $query->order(
-            \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_TBL_DWNL_SNAP . '.'
+            \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP . '.'
             . \Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH
         );
         $rows = $this->conn->fetchAll($query, $bind);

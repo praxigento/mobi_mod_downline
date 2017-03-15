@@ -10,7 +10,7 @@ class Get
     implements \Praxigento\Downline\Api\Tree\GetInterface
 {
     const BIND_MAX_DEPTH = 'maxDepth';
-    const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::BIND_DATE;
+    const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::BIND_ON_DATE;
     const BIND_PATH = 'path';
     const BIND_ROOT_CUSTOMER_ID = 'rootCustId';
 
@@ -128,7 +128,7 @@ class Get
             // customerRoot should be loaded before
             $idRoot = $customerRoot->getCustomerId();
             $pathRoot = $customerRoot->getPath();
-            $where = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_TBL_DWNL_SNAP . '.' .
+            $where = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP . '.' .
                 \Praxigento\Downline\Data\Entity\Snap::ATTR_PATH . ' LIKE :' . self::BIND_PATH;
             $bind->set(self::BIND_PATH, $pathRoot . $idRoot . Cfg::DTPS . '%');
             $query->where($where);
@@ -140,7 +140,7 @@ class Get
             } else {
                 $filterDepth = $maxDepth;
             }
-            $where = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_TBL_DWNL_SNAP . '.' .
+            $where = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP . '.' .
                 \Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH . ' < :' . self::BIND_MAX_DEPTH;
             $bind->set(self::BIND_MAX_DEPTH, $filterDepth);
             $query->where($where);

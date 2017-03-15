@@ -24,10 +24,10 @@ class Builder
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbuildAccTrans
+        \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldAccTrans
     ) {
         parent::__construct($resource);
-        $this->qbuildAccTrans = $qbuildAccTrans;
+        $this->qbuildAccTrans = $qbldAccTrans;
     }
 
     /**

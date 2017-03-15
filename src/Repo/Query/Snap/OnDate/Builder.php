@@ -4,7 +4,8 @@
  */
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
-use Praxigento\Downline\Data\Entity\Snap as Entity;
+use Praxigento\Downline\Data\Entity\Snap as Snap;
+use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
 
 /**
  * Build query to get downline tree snap on given date.
@@ -12,16 +13,32 @@ use Praxigento\Downline\Data\Entity\Snap as Entity;
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder
 {
-    const AS_TBL_DWNL_SNAP = 'prxgtDwnlSnap';
-    const AS_TBL_DWNL_SNAP_4_MAX = 'prxgtDwnlSnap4Max';
-    const AS_TBL_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
-    const BIND_DATE = 'date';
+    /** Tables aliases. */
+    const AS_DWNL_SNAP = 'prxgtDwnlSnap';
+    const AS_DWNL_SNAP_4_MAX = \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder::AS_DWNL_SNAP_4_MAX;
+    const AS_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
+
+    /** Columns aliases. */
+    const A_CUST_ID = Snap::ATTR_CUSTOMER_ID;
+    const A_DEPTH = Snap::ATTR_DEPTH;
+    const A_PARENT_ID = Snap::ATTR_PARENT_ID;
+    const A_PATH = Snap::ATTR_PATH;
+
+    /** Bound variables names */
+    const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder::BIND_ON_DATE;
+
+    /** @var  \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder */
+    protected $qbldMax;
+
+    public function __construct(
+        \Magento\Framework\App\ResourceConnection $resource,
+        \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder $qbldMax
+    ) {
+        parent::__construct($resource);
+        $this->qbldMax = $qbldMax;
+    }
 
     /**
-     * BINDING:
-     *   * date - date to get snap on;
-     *
-     *
      * SELECT
      * `prxgtDwnlSnap`.`customer_id`,
      * `prxgtDwnlSnap`.`parent_id`,
@@ -32,7 +49,7 @@ class Builder
      * `prxgtDwnlSnap4Max`.`customer_id`,
      * (MAX(`prxgtDwnlSnap4Max`.`date`)) AS `date_max`
      * FROM `prxgt_dwnl_snap` AS `prxgtDwnlSnap4Max`
-     * WHERE (prxgtDwnlSnap4Max.date <= :date)
+     * WHERE (prxgtDwnlSnap4Max.date <= :onDate)
      * GROUP BY `prxgtDwnlSnap4Max`.`customer_id`) AS `prxgtDwnlSnapMax`
      * ON (prxgtDwnlSnapMax.customer_id = prxgtDwnlSnap.customer_id)
      * AND (prxgtDwnlSnapMax.date_max = prxgtDwnlSnap.date)
@@ -44,33 +61,27 @@ class Builder
      */
     public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {
-        $asSnap = self::AS_TBL_DWNL_SNAP;
-        $asSnap4Max = self::AS_TBL_DWNL_SNAP_4_MAX;
-        $asMax = self::AS_TBL_DWNL_SNAP_MAX;
-        $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
-        /* select MAX(date) from prxgt_dwnl_snap (internal select) */
-        $q4Max = $this->conn->select();
-        $colDateMax = 'date_max';
-        $expMaxDate = new \Praxigento\Core\Repo\Query\Expression(
-            'MAX(`' . $asSnap4Max . '`.`' . Entity::ATTR_DATE . '`)'
-        );
-        $q4Max->from([$asSnap4Max => $tblSnap], [Entity::ATTR_CUSTOMER_ID, $colDateMax => $expMaxDate]);
-        $q4Max->group($asSnap4Max . '.' . Entity::ATTR_CUSTOMER_ID);
-        $q4Max->where($asSnap4Max . '.' . Entity::ATTR_DATE . '<=:' . self::BIND_DATE);
-        /* select from prxgt_dwnl_snap */
         $result = $this->conn->select();
-        $result->from([$asSnap => $tblSnap], [
-            Entity::ATTR_CUSTOMER_ID,
-            Entity::ATTR_PARENT_ID,
-            Entity::ATTR_DEPTH,
-            Entity::ATTR_PATH
-        ]);
+        /* define tables aliases */
+        $asSnap = self::AS_DWNL_SNAP;
+        $asMax = self::AS_DWNL_SNAP_MAX;
+
+        /* select from prxgt_dwnl_snap */
+        $tbl = $this->resource->getTableName(Snap::ENTITY_NAME);
+        $cols = [
+            self::A_CUST_ID => Snap::ATTR_CUSTOMER_ID,
+            self::A_PARENT_ID => Snap::ATTR_PARENT_ID,
+            self::A_DEPTH => Snap::ATTR_DEPTH,
+            self::A_PATH => Snap::ATTR_PATH
+        ];
+        $result->from([$asSnap => $tbl], $cols);
         /* left join $q4Max */
-        $on = '(' . $asMax . '.' . Entity::ATTR_CUSTOMER_ID . '=' . $asSnap . '.' . Entity::ATTR_CUSTOMER_ID . ')';
-        $on .= ' AND (' . $asMax . '.' . $colDateMax . '=' . $asSnap . '.' . Entity::ATTR_DATE . ')';
+        $q4Max = $this->qbldMax->getSelectQuery();
+        $on = '(' . $asMax . '.' . MaxBuilder::A_CUST_ID . '=' . $asSnap . '.' . Snap::ATTR_CUSTOMER_ID . ')';
+        $on .= ' AND (' . $asMax . '.' . MaxBuilder::A_DATE_MAX . '=' . $asSnap . '.' . Snap::ATTR_DATE . ')';
         $result->joinLeft([$asMax => $q4Max], $on, []);
         /* where */
-        $result->where($asMax . '.' . $colDateMax . ' IS NOT NULL');
+        $result->where($asMax . '.' . MaxBuilder::A_DATE_MAX . ' IS NOT NULL');
         return $result;
     }
 }
