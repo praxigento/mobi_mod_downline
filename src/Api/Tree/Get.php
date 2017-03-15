@@ -135,7 +135,7 @@ class Get
         }
         if (!is_null($maxDepth)) {
             if (isset($customerRoot)) {
-                /* depth started from 0, add +1 to strat from root */
+                /* depth started from 0, add +1 to start from root */
                 $filterDepth = $customerRoot->getDepth() + 1 + $maxDepth;
             } else {
                 $filterDepth = $maxDepth;

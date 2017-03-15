@@ -19,11 +19,6 @@ class Builder
     const A_DATE_MAX = 'date_max';
     const BIND_ON_DATE = 'onDate';
 
-    public function getCountQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
-    {
-        throw new \Exception('Implement if you need this query.');
-    }
-
     /**
      * SELECT
      * `prxgtDwnlSnap4Max`.`customer_id`,
