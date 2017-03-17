@@ -12,7 +12,7 @@ namespace Praxigento\Downline\Api\Tree\Get;
  *
  */
 class Request
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Api\Request\WithCond
 {
 
     /**
