@@ -9,25 +9,15 @@ class Get
     extends \Praxigento\Accounting\Api\Transaction\Get
 {
     /** @var  \Praxigento\Downline\Repo\Query\Trans\Get\Builder */
-    protected $qbldDwnlTrans;
+    protected $qbld;
 
     public function __construct(
-        \Praxigento\Core\Api\IAuthenticator $authenticator,
         \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldTrans,
+        \Praxigento\Core\Api\IAuthenticator $authenticator,
         \Praxigento\Downline\Repo\Query\Trans\Get\Builder $qbldDwnlTrans
     ) {
-        parent::__construct($authenticator, $qbldTrans);
-        $this->qbldDwnlTrans = $qbldDwnlTrans;
-    }
-
-    /**
-     * Don't use original query builder. Replace with own one.
-     *
-     * @param \Flancer32\Lib\Data $ctx
-     */
-    protected function createQuerySelect(\Flancer32\Lib\Data $ctx)
-    {
-        $query = $this->qbldDwnlTrans->getSelectQuery();
-        $ctx->set(self::CTX_QUERY, $query);
+        parent::__construct($qbldTrans, $authenticator);
+        /* replace parent $qbld by own (bad practice, I know :() */
+        $this->qbld = $qbldDwnlTrans;
     }
 }
