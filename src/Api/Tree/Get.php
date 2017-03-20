@@ -14,11 +14,13 @@ class Get
     const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::BIND_ON_DATE;
     const BIND_PATH = 'path';
     const BIND_ROOT_CUSTOMER_ID = 'rootCustId';
+
     const VAR_CUST_DEPTH = 'depth';
     const VAR_CUST_ID = 'cust_id';
     const VAR_CUST_PATH = 'path';
     const VAR_MAX_DEPTH = 'max_depth';
     const VAR_ON_DATE = 'on_date';
+
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder */
     protected $qbuildSnapActual;
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder */
@@ -31,16 +33,6 @@ class Get
     protected $repoSnap;
     /** @var \Praxigento\Core\Tool\IPeriod */
     protected $toolPeriod;
-
-    /**
-     * @param \Praxigento\Downline\Api\Tree\Get\Request $data
-     * @return \Praxigento\Downline\Api\Tree\Get\Response
-     */
-    public function exec(\Praxigento\Downline\Api\Tree\Get\Request $data)
-    {
-        $result = parent::process($data);
-        return $result;
-    }
 
     public function __construct(
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
@@ -58,6 +50,15 @@ class Get
         $this->qbuildSnapOnDate = $qbuildSnapOnDate;
     }
 
+    /**
+     * @param \Praxigento\Downline\Api\Tree\Get\Request $data
+     * @return \Praxigento\Downline\Api\Tree\Get\Response
+     */
+    public function exec(\Praxigento\Downline\Api\Tree\Get\Request $data)
+    {
+        $result = parent::process($data);
+        return $result;
+    }
 
     protected function getSelectQuery(\Flancer32\Lib\Data $ctx)
     {
@@ -133,7 +134,7 @@ class Get
         /** @var \Praxigento\Downline\Api\Tree\Get\Request $req */
         $req = $ctx->get(self::CTX_REQ);
 
-        /* get request parameters */
+        /* extract request parameters */
         $maxDepth = $req->getMaxDepth();
         $onDate = $req->getOnDate();
         $rootCustId = $req->getRootCustId();
@@ -164,6 +165,8 @@ class Get
         }
         $depth = $customerRoot->getDepth();
         $path = $customerRoot->getPath();
+
+        /* save working variables into execution context */
         $vars->set(self::VAR_CUST_ID, $rootCustId);
         $vars->set(self::VAR_CUST_DEPTH, $depth);
         $vars->set(self::VAR_CUST_PATH, $path);
