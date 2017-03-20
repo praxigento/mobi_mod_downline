@@ -60,7 +60,7 @@ class Get
         return $result;
     }
 
-    protected function getSelectQuery(\Flancer32\Lib\Data $ctx)
+    protected function createQuerySelect(\Flancer32\Lib\Data $ctx)
     {
         /* get working vars from context */
         /** @var \Flancer32\Lib\Data $bind */
