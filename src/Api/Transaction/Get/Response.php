@@ -14,7 +14,7 @@ class Response
     extends \Praxigento\Core\Api\Response
 {
     /**
-     * @return \Praxigento\Accounting\Api\Transaction\Get\Response\Data
+     * @return \Praxigento\Downline\Api\Transaction\Get\Response\Entry[]
      */
     public function getData()
     {
@@ -23,7 +23,7 @@ class Response
     }
 
     /**
-     * @param \Praxigento\Downline\Api\Transaction\Get\Response\Data $data
+     * @param \Praxigento\Downline\Api\Transaction\Get\Response\Entry[] $data
      */
     public function setData($data)
     {
