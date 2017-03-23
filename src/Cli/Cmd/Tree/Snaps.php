@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Cli\Cmd\Tree;
  * Create snapshots for downline tree.
  */
 class Snaps
-    extends \Praxigento\Core\Console\Command\Base
+    extends \Praxigento\Core\Cli\Cmd\Base
 {
     /** @var \Praxigento\Downline\Service\ISnap */
     protected $callSnap;
