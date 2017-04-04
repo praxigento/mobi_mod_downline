@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Infra\Api;
 
 use Praxigento\Downline\Config as Cfg;
@@ -17,20 +18,31 @@ class Authenticator
 
     public function __construct(
         \Magento\Customer\Model\Session $sessCustomer,
+        \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Downline\Repo\Entity\ICustomer $repoDwnlCust
     ) {
-        parent::__construct($sessCustomer);
+        parent::__construct($sessCustomer, $hlpCfg);
         $this->repoDwnlCust = $repoDwnlCust;
     }
 
 
-    public function getCurrentUserData()
+    public function getCurrentCustomerData($offer = null)
     {
-        $result = parent::getCurrentUserData();
-        $entityId = $result->get(Cfg::E_CUSTOMER_A_ENTITY_ID);
-        $dwnlData = $this->repoDwnlCust->getById($entityId);
-        $result->set(self::A_DWNL_DATA, $dwnlData);
-        return $result;
+        /* load customer data into cache using parent loader */
+        parent::getCurrentCustomerData($offer);
+        if (
+            !is_null($this->cacheCurrentCustomer) &&
+            ($this->cacheCurrentCustomer->get(self::A_DWNL_DATA) == null)
+        ) {
+            /* add donwline data to cache if missed */
+            $entityId = $this->cacheCurrentCustomer->get(Cfg::E_CUSTOMER_A_ENTITY_ID);
+            $dwnlData = new \Praxigento\Downline\Data\Entity\Customer();
+            if ($entityId) {
+                $dwnlData = $this->repoDwnlCust->getById($entityId);
+            }
+            $this->cacheCurrentCustomer->set(self::A_DWNL_DATA, $dwnlData);
+        }
+        return $this->cacheCurrentCustomer;
     }
 
 }
