@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Api\Tree;
 
 use Praxigento\Downline\Config as Cfg;
@@ -21,6 +22,8 @@ class Get
     const VAR_MAX_DEPTH = 'max_depth';
     const VAR_ON_DATE = 'on_date';
 
+    /** @var \Praxigento\Core\Api\IAuthenticator */
+    protected $authenticator;
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder */
     protected $qbuildSnapActual;
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder */
@@ -35,6 +38,7 @@ class Get
     protected $toolPeriod;
 
     public function __construct(
+        \Praxigento\Core\Api\IAuthenticator $authenticator,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
         \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
@@ -42,6 +46,7 @@ class Get
         \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder $qbuildSnapDcp,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qbuildSnapOnDate
     ) {
+        $this->authenticator = $authenticator;
         $this->toolPeriod = $toolPeriod;
         $this->repoCustomer = $repoCustomer;
         $this->repoSnap = $repoSnap;
@@ -50,14 +55,30 @@ class Get
         $this->qbuildSnapOnDate = $qbuildSnapOnDate;
     }
 
-    /**
-     * @param \Praxigento\Downline\Api\Tree\Get\Request $data
-     * @return \Praxigento\Downline\Api\Tree\Get\Response
-     */
-    public function exec(\Praxigento\Downline\Api\Tree\Get\Request $data)
+    protected function authorize(\Flancer32\Lib\Data $ctx)
     {
-        $result = parent::process($data);
-        return $result;
+        /* get working vars from context */
+        $vars = $ctx->get(self::CTX_VARS);
+        $rootCustId = $vars->get(self::VAR_CUST_ID);
+        $rootCustPath = $vars->get(self::VAR_CUST_PATH);
+
+        /* only currently logged in  customer can get account statement */
+        $currCustData = $this->authenticator->getCurrentCustomerData();
+        $currCustId = $currCustData->get(Cfg::E_CUSTOMER_A_ENTITY_ID);
+        /** @var \Praxigento\Downline\Data\Entity\Customer $currDwnlData */
+        $currDwnlData = $currCustData->get(\Praxigento\Downline\Infra\Api\Authenticator::A_DWNL_DATA);
+        $currCustPath = $currDwnlData->getPath() . $currDwnlData->getCustomerId() . Cfg::DTPS;
+
+        /* perform action */
+        $isTheSameCusts = ($rootCustId == $currCustId);
+        $isTheParent = !is_null($currCustId) && (substr($rootCustPath, 0, strlen($currCustPath)) == $currCustPath);
+        $isInDevMode = $this->authenticator->isEnabledDevMode();
+        if (($isTheSameCusts) || ($isTheParent) || $isInDevMode) {
+            // do nothing
+        } else {
+            $msg = __('You are not authorized to perform this operation.');
+            throw new \Magento\Framework\Exception\AuthorizationException($msg);
+        }
     }
 
     protected function createQuerySelect(\Flancer32\Lib\Data $ctx)
@@ -82,6 +103,16 @@ class Get
 
         /* save query to context */
         $ctx->set(self::CTX_QUERY, $query);
+    }
+
+    /**
+     * @param \Praxigento\Downline\Api\Tree\Get\Request $data
+     * @return \Praxigento\Downline\Api\Tree\Get\Response
+     */
+    public function exec(\Praxigento\Downline\Api\Tree\Get\Request $data)
+    {
+        $result = parent::process($data);
+        return $result;
     }
 
     protected function populateQuery(\Flancer32\Lib\Data $ctx)
