@@ -182,8 +182,7 @@ class Get
 
         /* root customer */
         if (is_null($rootCustId)) {
-            $user = $this->authenticator->getCurrentUserData();
-            $rootCustId = $user->get(Cfg::E_CUSTOMER_A_ENTITY_ID);
+            $rootCustId = $this->authenticator->getCurrentCustomerId();
         }
         if (is_null($onDate)) {
             /* if $onDate is missed use 'prxgt_dwnl_customer' as base for query */
