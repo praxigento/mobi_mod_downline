@@ -119,7 +119,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     {
         foreach ($updates as $date => $updatesByDate) {
             foreach ($updatesByDate as $data) {
-                $this->create($data);
+                $this->replace($data);
             }
         }
     }
