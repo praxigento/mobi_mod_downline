@@ -2,17 +2,24 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Repo\Entity\Def;
 
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
+use Praxigento\Downline\Data\Entity\Customer as ECustomer;
 use Praxigento\Downline\Data\Entity\Snap as Entity;
 use Praxigento\Downline\Repo\Entity\ISnap as IEntityRepo;
+use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBldSnap;
+use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as QBldMax;
 
 class Snap extends BaseEntityRepo implements IEntityRepo
 {
     const AS_ATTR_DATE = 'date';
+    const AS_TBL_DWNL = 'prxgtDwnlAct';
+    const A_COUNTRY = ECustomer::ATTR_COUNTRY_CODE;
+    const A_MLM_ID = ECustomer::ATTR_HUMAN_REF;
 
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
     protected $qbuildSnapOnDate;
@@ -88,17 +95,30 @@ class Snap extends BaseEntityRepo implements IEntityRepo
      * Select downline tree state on the given datestamp.
      *
      * @param $datestamp string 'YYYYMMDD'
+     * @param $addCountryCode 'true' to add actual country code for customer's attributes
      *
      * @return array
      */
-    public function getStateOnDate($datestamp)
+    public function getStateOnDate($datestamp, $addCountryCode = false)
     {
         $result = [];
         $bind = [];
-        $bind[\Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder::BIND_ON_DATE] = $datestamp;
+        $bind[QBldMax::BIND_ON_DATE] = $datestamp;
         $query = $this->qbuildSnapOnDate->getSelectQuery();
+        if ($addCountryCode) {
+            /* define tables aliases */
+            $as = self::AS_TBL_DWNL;
+            $tbl = $this->resource->getTableName(ECustomer::ENTITY_NAME);
+            $on = $as . '.' . ECustomer::ATTR_CUSTOMER_ID . '='
+                . QBldSnap::AS_DWNL_SNAP . '.' . Entity::ATTR_CUSTOMER_ID;
+            $cols = [
+                self::A_COUNTRY => ECustomer::ATTR_COUNTRY_CODE,
+                self::A_MLM_ID => ECustomer::ATTR_HUMAN_REF
+            ];
+            $query->joinLeft([$as => $tbl], $on, $cols);
+        }
         $query->order(
-            \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP . '.'
+            QBldSnap::AS_DWNL_SNAP . '.'
             . \Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH
         );
         $rows = $this->conn->fetchAll($query, $bind);

@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
@@ -229,10 +230,11 @@ class Call
         $result = new Response\GetStateOnDate();
         $this->_logger->info("'Get Downline Tree state' operation is requested.");
         $dateOn = $request->getDatestamp();
+        $addCountryCode = (bool)$request->getAddCountryCode();
         if (is_null($dateOn)) {
             $dateOn = $this->_toolPeriod->getPeriodCurrent();
         }
-        $rows = $this->_repoSnap->getStateOnDate($dateOn);
+        $rows = $this->_repoSnap->getStateOnDate($dateOn, $addCountryCode);
         $result->set($rows);
         $result->markSucceed();
         $this->_logger->info("'Get Downline Tree state' operation is completed.");
