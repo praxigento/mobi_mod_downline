@@ -3,8 +3,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
     <head>
-        <css src="https://unpkg.com/@angular/material/core/theming/prebuilt/indigo-pink.css" src_type="url"/>
+        <css src="https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css" src_type="url"/>
         <css src="https://fonts.googleapis.com/icon?family=Material+Icons" src_type="url"/>
+        <css src="/dcp/styles.bundle.css" src_type="url"/>
         <css src="Praxigento_Downline::css/dcp.css"/>
     </head>
     <body>
