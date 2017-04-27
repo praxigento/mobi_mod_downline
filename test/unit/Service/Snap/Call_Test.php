@@ -185,9 +185,9 @@ class Call_UnitTest
         $this->mRepoChange
             ->shouldReceive('getChangelogMinDate')->once()
             ->andReturn($tsMinDate);
-        // $period = $this->_toolPeriod->getPeriodCurrent($changelogMinDate);
+        // $period = $this->_toolPeriod->getPeriodCurrentOld($changelogMinDate);
         $this->mToolPeriod
-            ->shouldReceive('getPeriodCurrent')->once()
+            ->shouldReceive('getPeriodCurrentOld')->once()
             ->andReturn($period);
         // $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
         $this->mToolPeriod

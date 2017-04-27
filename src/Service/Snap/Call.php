@@ -207,7 +207,7 @@ class Call
             /* there is no snapshot data yet, get change log minimal date  */
             $changelogMinDate = $this->_repoChange->getChangelogMinDate();
             if ($changelogMinDate) {
-                $period = $this->_toolPeriod->getPeriodCurrent($changelogMinDate);
+                $period = $this->_toolPeriod->getPeriodCurrentOld($changelogMinDate);
                 $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
                 $this->_logger->info("The last date for downline snapshot is '$dayBefore'.");
                 $result->set([Response\GetLastDate::LAST_DATE => $dayBefore]);
@@ -232,7 +232,7 @@ class Call
         $dateOn = $request->getDatestamp();
         $addCountryCode = (bool)$request->getAddCountryCode();
         if (is_null($dateOn)) {
-            $dateOn = $this->_toolPeriod->getPeriodCurrent();
+            $dateOn = $this->_toolPeriod->getPeriodCurrentOld();
         }
         $rows = $this->_repoSnap->getStateOnDate($dateOn, $addCountryCode);
         $result->set($rows);

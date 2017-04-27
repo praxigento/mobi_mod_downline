@@ -44,7 +44,7 @@ class CalcSimple
             $customerId = $downCustomer[Change::ATTR_CUSTOMER_ID];
             $parentId = $downCustomer[Change::ATTR_PARENT_ID];
             $tsChanged = $downCustomer[Change::ATTR_DATE_CHANGED];
-            $dsChanged = $this->_toolPeriod->getPeriodCurrent($tsChanged);
+            $dsChanged = $this->_toolPeriod->getPeriodCurrentOld($tsChanged);
             /* $currentState contains actual state that is updated with changes */
             if (isset($currentState[$customerId])) {
                 /* this is update of the existing customer */
