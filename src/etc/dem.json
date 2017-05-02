@@ -40,7 +40,7 @@
                   },
                   "HumanReference": {
                     "alias": "human_ref",
-                    "comment": "Human readable reference.",
+                    "comment": "Human readable reference (MLM ID).",
                     "nullable": true,
                     "type": {"text": {"length": 255}}
                   },
