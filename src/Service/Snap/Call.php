@@ -95,7 +95,7 @@ class Call
     public function calc(Request\Calc $request)
     {
         $result = new Response\Calc();
-        $this->_logger->info("New downline snapshot calculation is requested.");
+        $this->logger->info("New downline snapshot calculation is requested.");
         $periodTo = $request->getDatestampTo();
         $def = $this->_manTrans->begin();
         try {
@@ -153,7 +153,7 @@ class Call
             if (!in_array($parentId, $mapCusts)) {
                 $msg = "Parent #$parentId for customer #$custId is not present in the minimal tree.";
                 $msg .= " Customer #$custId is set as orphan.";
-                $this->_logger->warning($msg);
+                $this->logger->warning($msg);
                 $mapOrphans[] = $custId;
             }
         }
@@ -196,7 +196,7 @@ class Call
     public function getLastDate(Request\GetLastDate $request)
     {
         $result = new Response\GetLastDate();
-        $this->_logger->info("'Get Last Data' operation is requested.");
+        $this->logger->info("'Get Last Data' operation is requested.");
         /* get the maximal date for existing snapshot */
         $snapMaxDate = $this->_repoSnap->getMaxDatestamp();
         if ($snapMaxDate) {
@@ -209,12 +209,12 @@ class Call
             if ($changelogMinDate) {
                 $period = $this->_toolPeriod->getPeriodCurrentOld($changelogMinDate);
                 $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
-                $this->_logger->info("The last date for downline snapshot is '$dayBefore'.");
+                $this->logger->info("The last date for downline snapshot is '$dayBefore'.");
                 $result->set([Response\GetLastDate::LAST_DATE => $dayBefore]);
                 $result->markSucceed();
             }
         }
-        $this->_logger->info("'Get Last Data' operation is completed.");
+        $this->logger->info("'Get Last Data' operation is completed.");
         return $result;
     }
 
@@ -228,7 +228,7 @@ class Call
     public function getStateOnDate(Request\GetStateOnDate $request)
     {
         $result = new Response\GetStateOnDate();
-        $this->_logger->info("'Get Downline Tree state' operation is requested.");
+        $this->logger->info("'Get Downline Tree state' operation is requested.");
         $dateOn = $request->getDatestamp();
         $addCountryCode = (bool)$request->getAddCountryCode();
         if (is_null($dateOn)) {
@@ -237,7 +237,7 @@ class Call
         $rows = $this->_repoSnap->getStateOnDate($dateOn, $addCountryCode);
         $result->set($rows);
         $result->markSucceed();
-        $this->_logger->info("'Get Downline Tree state' operation is completed.");
+        $this->logger->info("'Get Downline Tree state' operation is completed.");
         return $result;
     }
 }
