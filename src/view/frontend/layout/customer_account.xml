@@ -3,10 +3,22 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="customer_account_navigation">
-            <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-dcp-link">
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-dcp-downline">
                 <arguments>
-                    <argument name="path" xsi:type="string">downline/dcp/</argument>
+                    <argument name="path" xsi:type="string">downline/dcp/#/downline</argument>
                     <argument name="label" xsi:type="string" translate="true">My Downline</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-dcp-accounting">
+                <arguments>
+                    <argument name="path" xsi:type="string">downline/dcp/#/accounting</argument>
+                    <argument name="label" xsi:type="string" translate="true">My Accounting</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-dcp-checks">
+                <arguments>
+                    <argument name="path" xsi:type="string">downline/dcp/#/checks</argument>
+                    <argument name="label" xsi:type="string" translate="true">My Checks</argument>
                 </arguments>
             </block>
         </referenceBlock>
