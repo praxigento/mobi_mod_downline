@@ -103,4 +103,11 @@
                 sortOrder="100" disabled="false"/>
     </type>
 
+    <type name="\Magento\Framework\Url">
+        <!-- MOBI-731: don't remove DCP SPA states from Magento frontend navigator (customer account) -->
+        <plugin name="praxigento_downline"
+                type="\Praxigento\Downline\Plugin\Framework\Url"
+                sortOrder="100" disabled="false"/>
+    </type>
+
 </config>
