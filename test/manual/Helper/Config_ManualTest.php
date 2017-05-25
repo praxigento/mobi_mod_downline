@@ -15,7 +15,7 @@ class Config_ManualTest
         /** === Test Data === */
         /** === Call and asserts  === */
         /** @var Config $obj */
-        $obj = $this->_manObj->create(Config::class);
+        $obj = $this->manObj->create(Config::class);
         $res = $obj->getReferralsRootAnonymous();
         $this->assertFalse($res);
     }
