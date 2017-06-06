@@ -184,7 +184,8 @@ class Get
         }
 
         /* root customer */
-        if (is_null($rootCustId)) {
+        $isLiveMode = !$this->hlpCfg->getApiAuthenticationEnabledDevMode();
+        if (is_null($rootCustId) || $isLiveMode) {
             $rootCustId = $this->authenticator->getCurrentCustomerId();
         }
         if (is_null($onDate)) {
