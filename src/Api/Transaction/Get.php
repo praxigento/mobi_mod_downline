@@ -15,10 +15,11 @@ class Get
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldTrans,
+        \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Core\Api\IAuthenticator $authenticator,
         \Praxigento\Downline\Repo\Query\Trans\Get\Builder $qbldDwnlTrans
     ) {
-        parent::__construct($manObj, $qbldTrans, $authenticator);
+        parent::__construct($manObj, $qbldTrans, $hlpCfg, $authenticator);
         /* replace parent $qbld by own (bad practice, I know :() */
         $this->qbld = $qbldDwnlTrans;
     }

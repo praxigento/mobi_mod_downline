@@ -39,6 +39,7 @@ class Get
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $manObj,
+        \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Core\Api\IAuthenticator $authenticator,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
@@ -47,7 +48,7 @@ class Get
         \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder $qbuildSnapDcp,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qbuildSnapOnDate
     ) {
-        parent::__construct($manObj, null);
+        parent::__construct($manObj, null, $hlpCfg);
         $this->authenticator = $authenticator;
         $this->toolPeriod = $toolPeriod;
         $this->repoCustomer = $repoCustomer;

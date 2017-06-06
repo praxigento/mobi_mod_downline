@@ -17,7 +17,7 @@ interface ISnap extends ICrud
     public function create($data);
 
     /**
-     * Get customer data snapshort on date (less or equal to).
+     * Get customer data snapshot on date (less or equal to).
      *
      * @param int $id
      * @param string $datestamp 'YYYYMMDD'
