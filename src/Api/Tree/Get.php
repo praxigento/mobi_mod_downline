@@ -195,7 +195,7 @@ class Get
         } else {
             /* else - use 'prxgt_dwnl_snap' as base for query*/
             /* get root customer from snaps */
-            $customerRoot = $this->repoSnap->getByCustomerIdOnDate($rootCustId, $onDate);
+            $customerRoot = $this->repoSnap->getByCustomerIdOnDate($rootCustId, $lastDate);
         }
         $depth = $customerRoot->getDepth();
         $path = $customerRoot->getPath();
