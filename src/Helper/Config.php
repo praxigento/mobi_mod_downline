@@ -20,13 +20,25 @@ class Config
     }
 
     /**
-     * ID for signup group of the referral customers.
+     * Group ID for referral customers.
      * @return int
      *
      */
     public function getReferralsGroupReferrals()
     {
         $result = $this->scopeConfig->getValue('praxigento_downline/referrals/group_referrals');
+        $result = filter_var($result, FILTER_VALIDATE_INT);
+        return $result;
+    }
+
+    /**
+     * ID for signup group of the referral customers.
+     * @return int
+     *
+     */
+    public function getReferralsGroupReferralsRegistered()
+    {
+        $result = $this->scopeConfig->getValue('praxigento_downline/referrals/group_referrals_registered');
         $result = filter_var($result, FILTER_VALIDATE_INT);
         return $result;
     }

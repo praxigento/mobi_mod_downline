@@ -20,7 +20,15 @@
                 <field id="group_referrals" translate="label comment tooltip" type="select"
                         sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Referral Anonymous</label>
-                    <comment>Default group for newly registered referral customers.</comment>
+                    <comment>All referral anonymous will be assigned ti this group, not to 'NOT LOGGED IN' group.</comment>
+                    <source_model>\Magento\Customer\Model\Config\Source\Group</source_model>
+                </field>
+                <field id="group_referrals_registered" translate="label comment tooltip" type="select"
+                        sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Referral Registered</label>
+                    <comment>Default group for newly registered referral customers. Not referral customers will be
+                        assigned to the default magento group (see "Customers / Customer Configuration Create New
+                        Account Options / Default Group").</comment>
                     <source_model>\Magento\Customer\Model\Config\Source\Group</source_model>
                 </field>
             </group>

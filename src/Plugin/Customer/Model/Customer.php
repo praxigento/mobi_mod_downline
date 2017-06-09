@@ -35,12 +35,10 @@ class Customer
             /* check referral code in registry */
             $code = $this->hlpReferral->getReferralCode();
             if ($code) {
-                /* and setup referral group if missed */
-                $groupId = $this->hlpConfig->getReferralsGroupReferrals();
+                /* and setup default group for registered retails if missed */
+                $groupId = $this->hlpConfig->getReferralsGroupReferralsRegistered();
                 $subject->setData('group_id', $groupId);
                 $this->logger->info("There is referral code ($code) in the Mage registry. Referral group ($groupId) is used as default for new customer.");
-            } else {
-                $this->logger->info("There is no group ID for customer and no referral code in the Mage registry.");
             }
         }
         /* call parent to proceed other plugins */

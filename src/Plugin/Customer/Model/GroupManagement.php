@@ -25,7 +25,7 @@ class GroupManagement
     }
 
     /**
-     * Get refarral group data instead of anonymous group.
+     * Get referral group data instead of anonymous group.
      *
      * @param \Magento\Customer\Model\GroupManagement $subject
      * @param \Closure $proceed
