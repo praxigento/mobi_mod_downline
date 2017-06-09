@@ -43,7 +43,6 @@ class Referral implements IReferral
     public function getReferralCode()
     {
         $result = $this->registry->registry(static::REG_REFERRAL_CODE);
-        if ($result) $this->logger->info("There is referral code ($result) in the Magento registry.");
         return $result;
     }
 
@@ -56,7 +55,6 @@ class Referral implements IReferral
     {
         /* get code from cookie */
         $cookie = $this->manCookie->getCookie(static::COOKIE_REFERRAL_CODE);
-        $this->logger->info("Referral code cookie: " . (string)$cookie . ".");
         $voCookie = new ReferralCookie($cookie);
         $codeCookie = $voCookie->getCode();
         /* replace cookie value if GET code is not equal to cookie value */
@@ -77,7 +75,6 @@ class Referral implements IReferral
         /* save referral code into the registry */
         $code = $voCookie->getCode();
         if ($code) {
-            $this->logger->info("There is referral code ($code) in the HTTP request (GET or cookie).");
             $this->replaceCodeInRegistry($code);
         }
     }
@@ -88,6 +85,5 @@ class Referral implements IReferral
             $this->registry->unregister(static::REG_REFERRAL_CODE);
         }
         $this->registry->register(static::REG_REFERRAL_CODE, $code);
-        $this->logger->info("New code ($code) is saved in the Magento registry.");
     }
 }
