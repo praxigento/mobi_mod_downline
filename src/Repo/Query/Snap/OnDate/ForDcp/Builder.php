@@ -24,8 +24,6 @@ class Builder
     const A_NAME_FIRST = 'name_first';
     const A_NAME_LAST = 'name_last';
     const A_NAME_MIDDLE = 'name_middle';
-    /** Bound variables names */
-    const BIND_DATE = 'date';
 
     public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {
