@@ -5,6 +5,7 @@
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp;
 
 use Praxigento\Downline\Config as Cfg;
+use Praxigento\Downline\Repo\Data\Agg\Downline as AggDwnl;
 
 /**
  * Build query to get downline tree snap on given date with additional attributes for DCP.
@@ -18,12 +19,12 @@ class Builder
     const AS_CUSTOMER = 'mageCust';
     const AS_DOWNLINE_CUSTOMER = 'prxgtDwnlCust';
     /** Columns aliases. */
-    const A_COUNTRY_CODE = \Praxigento\Downline\Data\Entity\Customer::ATTR_COUNTRY_CODE;
-    const A_EMAIL = Cfg::E_CUSTOMER_A_EMAIL;
-    const A_MLM_ID = 'mlm_id';
-    const A_NAME_FIRST = 'name_first';
-    const A_NAME_LAST = 'name_last';
-    const A_NAME_MIDDLE = 'name_middle';
+    const A_COUNTRY_CODE = AggDwnl::A_COUNTRY;
+    const A_EMAIL = AggDwnl::A_EMAIL;
+    const A_MLM_ID = AggDwnl::A_MLM_ID;
+    const A_NAME_FIRST = AggDwnl::A_NAME_FIRST;
+    const A_NAME_LAST = AggDwnl::A_NAME_LAST;
+    const A_NAME_MIDDLE = AggDwnl::A_NAME_MIDDLE;
 
     public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {

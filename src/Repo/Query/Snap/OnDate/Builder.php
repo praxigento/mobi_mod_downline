@@ -5,6 +5,7 @@
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
 use Praxigento\Downline\Data\Entity\Snap as Snap;
+use Praxigento\Downline\Repo\Data\Agg\Downline as AggDwnl;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
 
 /**
@@ -15,17 +16,17 @@ class Builder
 {
     /** Tables aliases. */
     const AS_DWNL_SNAP = 'prxgtDwnlSnap';
-    const AS_DWNL_SNAP_4_MAX = \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder::AS_DWNL_SNAP_4_MAX;
+    const AS_DWNL_SNAP_4_MAX = MaxBuilder::AS_DWNL_SNAP_4_MAX;
     const AS_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
 
     /** Columns aliases. */
-    const A_CUST_ID = Snap::ATTR_CUSTOMER_ID;
-    const A_DEPTH = Snap::ATTR_DEPTH;
-    const A_PARENT_ID = Snap::ATTR_PARENT_ID;
-    const A_PATH = Snap::ATTR_PATH;
+    const A_CUST_ID = AggDwnl::A_CUSTOMER_REF;
+    const A_DEPTH = AggDwnl::A_DEPTH;
+    const A_PARENT_ID = AggDwnl::A_PARENT_REF;
+    const A_PATH = AggDwnl::A_PATH;
 
     /** Bound variables names */
-    const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder::BIND_ON_DATE;
+    const BIND_ON_DATE = MaxBuilder::BIND_ON_DATE;
 
     /** @var  \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder */
     protected $qbldMax;
