@@ -75,16 +75,14 @@ class CalcSimple
                 $key = $currPath . $customerId . Cfg::DTPS;
                 $depthDelta = $newDepth - $currDepth;
                 $pathReplace = $newPath . $customerId . Cfg::DTPS;
-                foreach ($currentState as $downCustomer) {
-                    $downPath = $downCustomer[Snap::ATTR_PATH];
+                foreach ($currentState as $snapCustomer) {
+                    $downPath = $snapCustomer[ASnap::A_PATH];
                     if (false !== strrpos($downPath, $key, -strlen($downPath))) {
                         /* this is customer from downlilne, we need to change depth & path */
-                        $downCustId = $downCustomer[ASnap::A_CUST_ID];
-                        $downParentId = $downCustomer[ASnap::A_PARENT_ID];
-                        $downNewDepth = $downCustomer[ASnap::A_DEPTH] + $depthDelta;
-                        $downNewPath = str_replace($key, $pathReplace, $downCustomer[ASnap::A_PATH]);
-                        $downCustomer[ASnap::A_DEPTH] = $downNewDepth;
-                        $downCustomer[ASnap::A_PATH] = $downNewPath;
+                        $downCustId = $snapCustomer[ASnap::A_CUST_ID];
+                        $downParentId = $snapCustomer[ASnap::A_PARENT_ID];
+                        $downNewDepth = $snapCustomer[ASnap::A_DEPTH] + $depthDelta;
+                        $downNewPath = str_replace($key, $pathReplace, $snapCustomer[ASnap::A_PATH]);
                         /* add to result updates */
                         $result[$dsChanged][$downCustId] = [
                             Snap::ATTR_DATE => $dsChanged,
