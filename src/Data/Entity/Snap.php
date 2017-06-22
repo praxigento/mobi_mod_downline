@@ -7,10 +7,10 @@ namespace Praxigento\Downline\Data\Entity;
 class Snap
     extends \Praxigento\Core\Data\Entity\Base
 {
-    const ATTR_CUSTOMER_ID = 'customer_id';
+    const ATTR_CUSTOMER_ID = 'customer_ref';
     const ATTR_DATE = 'date';
     const ATTR_DEPTH = 'depth';
-    const ATTR_PARENT_ID = 'parent_id';
+    const ATTR_PARENT_ID = 'parent_ref';
     const ATTR_PATH = 'path';
     const ENTITY_NAME = 'prxgt_dwnl_snap';
 

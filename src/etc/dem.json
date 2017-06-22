@@ -14,13 +14,13 @@
                 "comment": "Additional customer attributes related to downline tree.",
                 "attribute": {
                   "CustomerId": {
-                    "alias": "customer_id",
+                    "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
                     "type": {"integer": {"unsigned": true}}
                   },
                   "ParentId": {
-                    "alias": "parent_id",
+                    "alias": "parent_ref",
                     "comment": "Reference to the customer's parent.",
                     "nullable": false,
                     "type": {"integer": {"unsigned": true}}
@@ -38,9 +38,9 @@
                     "nullable": false,
                     "type": {"text": {"length": 255}}
                   },
-                  "HumanReference": {
-                    "alias": "human_ref",
-                    "comment": "Human readable reference (MLM ID).",
+                  "MlmId": {
+                    "alias": "mlm_id",
+                    "comment": "MLM ID (human readable reference).",
                     "nullable": true,
                     "type": {"text": {"length": 255}}
                   },
@@ -58,13 +58,13 @@
                   }
                 },
                 "index": {
-                  "PK": {"type": "primary", "aliases": ["customer_id"]},
+                  "PK": {"type": "primary", "aliases": ["customer_ref"]},
                   "uniqueHumanReference": {"type": "unique", "aliases": ["human_ref"]},
                   "uniqueReferralCode": {"type": "unique", "aliases": ["referral_code"]}
                 },
                 "relation": {
                   "toMageCustomer": {
-                    "own": {"aliases": ["customer_id"]},
+                    "own": {"aliases": ["customer_ref"]},
                     "reference": {
                       "entity": {"completeAlias": "customer_entity"},
                       "aliases": ["entity_id"]
@@ -72,10 +72,10 @@
                     "action": {"delete": "cascade", "update": "restrict"}
                   },
                   "toSelfAsParent": {
-                    "own": {"aliases": ["parent_id"]},
+                    "own": {"aliases": ["parent_ref"]},
                     "reference": {
                       "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_id"]
+                      "aliases": ["customer_ref"]
                     },
                     "action": {"delete": "cascade", "update": "restrict"}
                   },
@@ -106,13 +106,13 @@
                     "type": {"datetime": {}}
                   },
                   "CustomerId": {
-                    "alias": "customer_id",
+                    "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
                     "type": {"integer": {"unsigned": true}}
                   },
                   "ParentId": {
-                    "alias": "parent_id",
+                    "alias": "parent_ref",
                     "comment": "Reference to the customer's parent.",
                     "nullable": false,
                     "type": {"integer": {"unsigned": true}}
@@ -123,18 +123,18 @@
                 },
                 "relation": {
                   "toDownlineCustomer": {
-                    "own": {"aliases": ["customer_id"]},
+                    "own": {"aliases": ["customer_ref"]},
                     "reference": {
                       "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_id"]
+                      "aliases": ["customer_ref"]
                     },
                     "action": {"delete": "restrict", "update": "restrict"}
                   },
                   "toDownlineCustomerAsParent": {
-                    "own": {"aliases": ["parent_id"]},
+                    "own": {"aliases": ["parent_ref"]},
                     "reference": {
                       "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_id"]
+                      "aliases": ["customer_ref"]
                     },
                     "action": {"delete": "restrict", "update": "restrict"}
                   }
@@ -151,13 +151,13 @@
                     "type": {"text": {"length": 8}}
                   },
                   "CustomerId": {
-                    "alias": "customer_id",
+                    "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
                     "type": {"integer": {"unsigned": true}}
                   },
                   "ParentId": {
-                    "alias": "parent_id",
+                    "alias": "parent_ref",
                     "comment": "Reference to the customer's parent.",
                     "nullable": false,
                     "type": {"integer": {"unsigned": true}}
@@ -177,22 +177,22 @@
                   }
                 },
                 "index": {
-                  "PK": {"type": "primary", "aliases": ["date", "customer_id"]}
+                  "PK": {"type": "primary", "aliases": ["date", "customer_ref"]}
                 },
                 "relation": {
                   "toDownlineCustomer": {
-                    "own": {"aliases": ["customer_id"]},
+                    "own": {"aliases": ["customer_ref"]},
                     "reference": {
                       "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_id"]
+                      "aliases": ["customer_ref"]
                     },
                     "action": {"delete": "restrict", "update": "restrict"}
                   },
                   "toDownlineCustomerAsParent": {
-                    "own": {"aliases": ["parent_id"]},
+                    "own": {"aliases": ["parent_ref"]},
                     "reference": {
                       "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_id"]
+                      "aliases": ["customer_ref"]
                     },
                     "action": {"delete": "restrict", "update": "restrict"}
                   }

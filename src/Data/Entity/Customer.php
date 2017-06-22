@@ -9,11 +9,11 @@ use Praxigento\Core\Data\Entity\Base as EntityBase;
 class Customer extends EntityBase
 {
     const ATTR_COUNTRY_CODE = 'country_code';
-    const ATTR_CUSTOMER_ID = 'customer_id';
+    const ATTR_CUSTOMER_ID = 'customer_ref';
     const ATTR_DEPTH = 'depth';
     /* TODO: rename to MLM ID */
-    const ATTR_HUMAN_REF = 'human_ref';
-    const ATTR_PARENT_ID = 'parent_id';
+    const ATTR_HUMAN_REF = 'mlm_id';
+    const ATTR_PARENT_ID = 'parent_ref';
     const ATTR_PATH = 'path';
     const ATTR_REFERRAL_CODE = 'referral_code';
     const ENTITY_NAME = 'prxgt_dwnl_customer';

@@ -7,10 +7,10 @@ namespace Praxigento\Downline\Data\Entity;
 class Change
     extends \Praxigento\Core\Data\Entity\Base
 {
-    const ATTR_CUSTOMER_ID = 'customer_id';
+    const ATTR_CUSTOMER_ID = 'customer_ref';
     const ATTR_DATE_CHANGED = 'date_changed';
     const ATTR_ID = 'id';
-    const ATTR_PARENT_ID = 'parent_id';
+    const ATTR_PARENT_ID = 'parent_ref';
     const ENTITY_NAME = 'prxgt_dwnl_change';
 
     /**
