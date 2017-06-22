@@ -124,7 +124,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
             foreach ($rows as $one) {
-                $result[$one[Entity::ATTR_CUSTOMER_ID]] = $one;
+                $result[$one[\Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::A_CUST_ID]] = $one;
             }
         }
         return $result;
