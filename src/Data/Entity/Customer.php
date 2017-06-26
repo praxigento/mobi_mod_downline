@@ -4,9 +4,8 @@
  */
 namespace Praxigento\Downline\Data\Entity;
 
-use Praxigento\Core\Data\Entity\Base as EntityBase;
-
-class Customer extends EntityBase
+class Customer
+    extends \Praxigento\Core\Data\Entity\Base
 {
     const ATTR_COUNTRY_CODE = 'country_code';
     const ATTR_CUSTOMER_ID = 'customer_ref';
