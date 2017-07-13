@@ -59,7 +59,7 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         /* perform query */
         $result = $this->conn->fetchRow($query, $bind);
         if ($result) {
-            $result = $this->_createEntityInstance($result);
+            $result = $this->createEntity($result);
         }
         return $result;
     }

@@ -59,7 +59,7 @@ class Snap
         return $result;
     }
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_DATE, self::ATTR_CUSTOMER_ID];
     }

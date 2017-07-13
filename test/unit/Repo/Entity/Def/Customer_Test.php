@@ -50,7 +50,7 @@ class Customer_UnitTest
         $this->mRepoGeneric
             ->shouldReceive('getEntities')->once()
             ->andReturn($ITEMS);
-        // $result = $this->_createEntityInstance($data);
+        // $result = $this->createEntity($data);
         /** === Call and asserts  === */
         $res = $this->obj->getByReferralCode($CODE);
         $this->assertEquals($CUST_ID, $res->getCustomerId());
