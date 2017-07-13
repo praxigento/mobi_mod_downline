@@ -27,13 +27,13 @@ class Customer extends BaseEntityRepo implements IEntityRepo
         $cols = null;
         $qCode = $this->conn->quote($code);
         $where = Entity::ATTR_REFERRAL_CODE . '=' . $qCode;
-        $items = $this->_repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&
             (count($items) == 1)
         ) {
             $data = reset($items);
-            $result = $this->_createEntityInstance($data);
+            $result = $this->createEntity($data);
         }
         return $result;
     }
@@ -44,13 +44,13 @@ class Customer extends BaseEntityRepo implements IEntityRepo
         $cols = null;
         $qCode = $this->conn->quote($mlmId);
         $where = Entity::ATTR_HUMAN_REF . '=' . $qCode;
-        $items = $this->_repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&
             (count($items) == 1)
         ) {
             $data = reset($items);
-            $result = $this->_createEntityInstance($data);
+            $result = $this->createEntity($data);
         }
         return $result;
     }
@@ -69,7 +69,7 @@ class Customer extends BaseEntityRepo implements IEntityRepo
             Entity::ATTR_PATH => $sqlPath
         ];
         $where = Entity::ATTR_PATH . " LIKE $qPathMask";
-        $result = $this->_repoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
+        $result = $this->repoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
         return $result;
     }
 }
