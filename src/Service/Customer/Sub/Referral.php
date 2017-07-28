@@ -12,14 +12,14 @@ class Referral
     protected $hlpConfig;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
-    /** @var  \Praxigento\Downline\Repo\Entity\ICustomer */
+    /** @var  \Praxigento\Downline\Repo\Entity\Def\Customer */
     protected $repoCustomer;
     /** @var  \Praxigento\Downline\Tool\IReferral */
     protected $toolReferral;
 
     public function __construct(
         \Praxigento\Core\Fw\Logger\App $logger,
-        \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
+        \Praxigento\Downline\Repo\Entity\Def\Customer $repoCustomer,
         \Praxigento\Downline\Tool\IReferral $toolReferral,
         \Praxigento\Downline\Helper\Config $hlpConfi
     ) {

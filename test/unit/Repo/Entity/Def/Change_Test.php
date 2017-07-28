@@ -5,7 +5,6 @@
 namespace Praxigento\Downline\Repo\Entity\Def;
 
 use Praxigento\Downline\Data\Entity\Change as Entity;
-use Praxigento\Downline\Repo\Entity\IChange;
 
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
@@ -31,7 +30,7 @@ class Change_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(IChange::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\Downline\Repo\Entity\Def\Change::class, $this->obj);
     }
 
     public function test_getChangelogMinDate()

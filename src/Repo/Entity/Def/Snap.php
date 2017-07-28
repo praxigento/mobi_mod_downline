@@ -10,11 +10,10 @@ use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
 use Praxigento\Downline\Data\Entity\Customer as ECustomer;
 use Praxigento\Downline\Data\Entity\Snap as Entity;
-use Praxigento\Downline\Repo\Entity\ISnap as IEntityRepo;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBldSnap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as QBldMax;
 
-class Snap extends BaseEntityRepo implements IEntityRepo
+class Snap extends BaseEntityRepo
 {
     const AS_ATTR_DATE = 'date';
     const AS_TBL_DWNL = 'prxgtDwnlAct';
@@ -34,7 +33,21 @@ class Snap extends BaseEntityRepo implements IEntityRepo
     }
 
     /**
-     * @inheritdoc
+     * @param array|\Praxigento\Downline\Data\Entity\Snap $data
+     * @return int
+     */
+    public function create($data)
+    {
+        $result = parent::create($data);
+        return $result;
+    }
+
+    /**
+     * Get customer data snapshot on date (less or equal to).
+     *
+     * @param int $id
+     * @param string $datestamp 'YYYYMMDD'
+     * @return mixed
      *
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
@@ -61,6 +74,18 @@ class Snap extends BaseEntityRepo implements IEntityRepo
         if ($result) {
             $result = $this->createEntity($result);
         }
+        return $result;
+    }
+
+    /**
+     * @param int $id
+     * @return \Praxigento\Downline\Data\Entity\Snap|bool
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     */
+    public function getById($id)
+    {
+        $result = parent::getById($id);
         return $result;
     }
 

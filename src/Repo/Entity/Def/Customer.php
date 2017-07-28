@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Repo\Entity\Def;
 
 use Magento\Framework\App\ResourceConnection;
@@ -9,35 +10,44 @@ use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
 use Praxigento\Downline\Data\Entity\Customer as Entity;
 use Praxigento\Downline\Repo\Entity\Delta;
-use Praxigento\Downline\Repo\Entity\ICustomer as IEntityRepo;
 
-class Customer extends BaseEntityRepo implements IEntityRepo
+class Customer extends BaseEntityRepo
 {
 
     public function __construct(
         ResourceConnection $resource,
         IRepoGeneric $repoGeneric
-    ) {
+    )
+    {
         parent::__construct($resource, $repoGeneric, Entity::class);
     }
 
-    public function getByReferralCode($code)
+    /**
+     * @param \Praxigento\Downline\Data\Entity\Customer|array $data
+     * @return int
+     */
+    public function create($data)
     {
-        $result = null;
-        $cols = null;
-        $qCode = $this->conn->quote($code);
-        $where = Entity::ATTR_REFERRAL_CODE . '=' . $qCode;
-        $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
-        if (
-            is_array($items) &&
-            (count($items) == 1)
-        ) {
-            $data = reset($items);
-            $result = $this->createEntity($data);
-        }
+        $result = parent::create($data);
         return $result;
     }
 
+    /**
+     * @param int $id
+     * @return \Praxigento\Downline\Data\Entity\Customer|bool
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     */
+    public function getById($id)
+    {
+        $result = parent::getById($id);
+        return $result;
+    }
+
+    /**
+     * @param string $mlmId
+     * @return \Praxigento\Downline\Data\Entity\Customer|null
+     */
     public function getByMlmId($mlmId)
     {
         $result = null;
@@ -55,6 +65,35 @@ class Customer extends BaseEntityRepo implements IEntityRepo
         return $result;
     }
 
+    /**
+     * @param string $code
+     * @return \Praxigento\Downline\Data\Entity\Customer|null
+     */
+    public function getByReferralCode($code)
+    {
+        $result = null;
+        $cols = null;
+        $qCode = $this->conn->quote($code);
+        $where = Entity::ATTR_REFERRAL_CODE . '=' . $qCode;
+        $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        if (
+            is_array($items) &&
+            (count($items) == 1)
+        ) {
+            $data = reset($items);
+            $result = $this->createEntity($data);
+        }
+        return $result;
+    }
+
+    /**
+     * Replace path for all children ('/1/3/6/%' => '/1/2/5/6/%') and depth.
+     *
+     * @param string $path Path to search and replace (/1/3/6/)
+     * @param string $replace Replacement path (/1/2/5/6/)
+     * @param $depthDelta Delta for depth changes
+     * @return int number of the changed rows
+     */
     public function updateChildrenPath($path, $replace, $depthDelta)
     {
         $qPath = $this->conn->quote($path);

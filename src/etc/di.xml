@@ -40,12 +40,6 @@
     <!-- **** -->
     <preference for="\Praxigento\Downline\Repo\Agg\IAccount"
             type="\Praxigento\Downline\Repo\Agg\Def\Account"/>
-    <preference for="Praxigento\Downline\Repo\Entity\IChange"
-            type="Praxigento\Downline\Repo\Entity\Def\Change"/>
-    <preference for="Praxigento\Downline\Repo\Entity\ICustomer"
-            type="Praxigento\Downline\Repo\Entity\Def\Customer"/>
-    <preference for="Praxigento\Downline\Repo\Entity\ISnap"
-            type="Praxigento\Downline\Repo\Entity\Def\Snap"/>
 
     <!-- ******** -->
     <!-- Services -->

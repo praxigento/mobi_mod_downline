@@ -30,9 +30,9 @@ class Get
     protected $qbuildSnapDcp;
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
     protected $qbuildSnapOnDate;
-    /** @var \Praxigento\Downline\Repo\Entity\ICustomer */
+    /** @var \Praxigento\Downline\Repo\Entity\Def\Customer */
     protected $repoCustomer;
-    /** @var \Praxigento\Downline\Repo\Entity\ISnap */
+    /** @var \Praxigento\Downline\Repo\Entity\Def\Snap */
     protected $repoSnap;
     /** @var \Praxigento\Core\Tool\IPeriod */
     protected $toolPeriod;
@@ -42,8 +42,8 @@ class Get
         \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Core\Api\IAuthenticator $authenticator,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
-        \Praxigento\Downline\Repo\Entity\ICustomer $repoCustomer,
-        \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
+        \Praxigento\Downline\Repo\Entity\Def\Customer $repoCustomer,
+        \Praxigento\Downline\Repo\Entity\Def\Snap $repoSnap,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder $qbuildSnapActual,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder $qbuildSnapDcp,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qbuildSnapOnDate

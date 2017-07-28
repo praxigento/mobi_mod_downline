@@ -33,8 +33,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mLogger = $this->_mockLogger();
         $this->mManTrans = $this->_mockTransactionManager();
         $this->mRepoGeneric = $this->_mockRepoGeneric();
-        $this->mRepoChange = $this->_mock(\Praxigento\Downline\Repo\Entity\IChange::class);
-        $this->mRepoCustomer = $this->_mock(\Praxigento\Downline\Repo\Entity\ICustomer::class);
+        $this->mRepoChange = $this->_mock(\Praxigento\Downline\Repo\Entity\Def\Change::class);
+        $this->mRepoCustomer = $this->_mock(\Praxigento\Downline\Repo\Entity\Def\Customer::class);
         $this->mSubReferral = $this->_mock(Sub\Referral::class);
         /** create object to test */
         $this->obj = new Call(

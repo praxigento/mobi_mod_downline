@@ -5,8 +5,6 @@
 namespace Praxigento\Downline\Repo\Entity\Def;
 
 use Praxigento\Downline\Data\Entity\Snap as Entity;
-use Praxigento\Downline\Repo\Entity\ISnap;
-
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
@@ -38,7 +36,7 @@ class Snap_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(ISnap::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\Downline\Repo\Entity\Def\Snap::class, $this->obj);
     }
 
     public function test_getMaxDatestamp()

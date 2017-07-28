@@ -19,9 +19,9 @@ class Call
 {
     /** @var \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
-    /** @var \Praxigento\Downline\Repo\Entity\IChange */
+    /** @var \Praxigento\Downline\Repo\Entity\Def\Change */
     protected $_repoChange;
-    /** @var \Praxigento\Downline\Repo\Entity\ISnap */
+    /** @var \Praxigento\Downline\Repo\Entity\Def\Snap */
     protected $_repoSnap;
     /** @var Sub\CalcSimple */
     protected $_subCalc;
@@ -33,8 +33,8 @@ class Call
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
-        \Praxigento\Downline\Repo\Entity\IChange $repoChange,
-        \Praxigento\Downline\Repo\Entity\ISnap $repoSnap,
+        \Praxigento\Downline\Repo\Entity\Def\Change $repoChange,
+        \Praxigento\Downline\Repo\Entity\Def\Snap $repoSnap,
         Sub\CalcSimple $subCalc
     ) {
         parent::__construct($logger, $manObj);
