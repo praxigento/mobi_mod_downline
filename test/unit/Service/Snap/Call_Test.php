@@ -35,8 +35,8 @@ class Call_UnitTest
         /** create mocks */
         $this->mManTrans = $this->_mockTransactionManager();
         $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
-        $this->mRepoChange = $this->_mock(\Praxigento\Downline\Repo\Entity\Def\Change::class);
-        $this->mRepoSnap = $this->_mock(\Praxigento\Downline\Repo\Entity\Def\Snap::class);
+        $this->mRepoChange = $this->_mock(\Praxigento\Downline\Repo\Entity\Change::class);
+        $this->mRepoSnap = $this->_mock(\Praxigento\Downline\Repo\Entity\Snap::class);
         $this->mSubCalc = $this->_mock(Sub\CalcSimple::class);
         /** reset args. to create mock of the tested object */
         $this->objArgs = [

@@ -13,13 +13,13 @@ class Authenticator
 {
     const A_DWNL_DATA = 'dwnl_data';
 
-    /** @var \Praxigento\Downline\Repo\Entity\Def\Customer */
+    /** @var \Praxigento\Downline\Repo\Entity\Customer */
     protected $repoDwnlCust;
 
     public function __construct(
         \Magento\Customer\Model\Session $sessCustomer,
         \Praxigento\Core\Helper\Config $hlpCfg,
-        \Praxigento\Downline\Repo\Entity\Def\Customer $repoDwnlCust
+        \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust
     ) {
         parent::__construct($sessCustomer, $hlpCfg);
         $this->repoDwnlCust = $repoDwnlCust;

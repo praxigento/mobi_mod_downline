@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Repo\Entity\Def;
+
+namespace Praxigento\Downline\Repo\Entity;
 
 use Praxigento\Downline\Data\Entity\Change as Entity;
 
@@ -30,7 +31,7 @@ class Change_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\Downline\Repo\Entity\Def\Change::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\Downline\Repo\Entity\Change::class, $this->obj);
     }
 
     public function test_getChangelogMinDate()

@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Repo\Entity\Def;
+
+namespace Praxigento\Downline\Repo\Entity;
 
 use Praxigento\Downline\Data\Entity\Customer as Entity;
 
@@ -28,7 +29,7 @@ class Customer_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\Downline\Repo\Entity\Def\Customer::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\Downline\Repo\Entity\Customer::class, $this->obj);
     }
 
     public function test_getByReferralCode()

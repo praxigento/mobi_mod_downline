@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Repo\Entity\Def;
+namespace Praxigento\Downline\Repo\Entity;
 
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;

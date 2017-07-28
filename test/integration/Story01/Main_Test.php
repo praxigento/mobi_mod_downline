@@ -229,8 +229,8 @@ class Main_IntegrationTest extends BaseIntegrationTest
             $this->_createDownlineCustomers(self::DATE_PERIOD_BEGIN, true);
             $this->_calcSnapshots();
 
-            /** @var \Praxigento\Downline\Repo\Entity\Def\Change $repoChages */
-            $repoChages = $this->_manObj->get(\Praxigento\Downline\Repo\Entity\Def\Change::class);
+            /** @var \Praxigento\Downline\Repo\Entity\Change $repoChages */
+            $repoChages = $this->_manObj->get(\Praxigento\Downline\Repo\Entity\Change::class);
             $all = $repoChages->get();
 // MOBI-337
 //            $this->_changeC10ParentFromC7ToC9();

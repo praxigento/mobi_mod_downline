@@ -21,7 +21,7 @@ class Referral_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     {
         parent::setUp();
         /** create mocks */
-        $this->mRepoCustomer = $this->_mock(\Praxigento\Downline\Repo\Entity\Def\Customer::class);
+        $this->mRepoCustomer = $this->_mock(\Praxigento\Downline\Repo\Entity\Customer::class);
         $this->mToolReferral = $this->_mock(\Praxigento\Downline\Tool\IReferral::class);
         /** create object to test */
         $this->obj = new Referral(

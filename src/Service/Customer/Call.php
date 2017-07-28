@@ -15,9 +15,9 @@ class Call implements ICustomer
     protected $_logger;
     /** @var \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
-    /** @var  \Praxigento\Downline\Repo\Entity\Def\Change */
+    /** @var  \Praxigento\Downline\Repo\Entity\Change */
     protected $_repoChange;
-    /** @var  \Praxigento\Downline\Repo\Entity\Def\Customer */
+    /** @var  \Praxigento\Downline\Repo\Entity\Customer */
     protected $_repoCustomer;
     /** @var \Praxigento\Core\Repo\IGeneric */
     protected $_repoGeneric;
@@ -28,8 +28,8 @@ class Call implements ICustomer
         \Praxigento\Core\Fw\Logger\App $logger,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Repo\IGeneric $repoGeneric,
-        \Praxigento\Downline\Repo\Entity\Def\Change $repoChange,
-        \Praxigento\Downline\Repo\Entity\Def\Customer $repoCustomer,
+        \Praxigento\Downline\Repo\Entity\Change $repoChange,
+        \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
         Sub\Referral $subReferral
     ) {
         $this->_logger = $logger;
