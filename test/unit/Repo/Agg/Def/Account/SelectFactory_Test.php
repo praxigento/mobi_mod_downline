@@ -5,8 +5,8 @@
 namespace Praxigento\Downline\Repo\Agg\Def\Account;
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
-use Praxigento\Accounting\Data\Entity\Account as EAccount;
-use Praxigento\Accounting\Data\Entity\Type\Asset as ETypeAsset;
+use Praxigento\Accounting\Repo\Entity\Data\Account as EAccount;
+use Praxigento\Accounting\Repo\Entity\Data\Type\Asset as ETypeAsset;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Data\Entity\Customer as ECustomer;
 

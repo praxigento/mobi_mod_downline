@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Repo\Query\Trans\Get;
 
-use Praxigento\Accounting\Data\Entity\Account as Acc;
+use Praxigento\Accounting\Repo\Entity\Data\Account as Acc;
 use Praxigento\Downline\Data\Entity\Customer as Cust;
 
 /**
@@ -18,7 +18,11 @@ class Builder
      */
     const AS_CUST_CRD = 'custCrd';
     const AS_CUST_DBT = 'custDbt';
-
+    /**
+     * Attributes aliases.
+     */
+    const A_CREDIT_CUST_REF = 'creditCustRef';
+    const A_DEBIT_CUST_REF = 'debitCustRef';
     /** @var \Praxigento\Accounting\Repo\Query\Trans\Get\Builder */
     protected $qbuildAccTrans;
 
@@ -29,12 +33,6 @@ class Builder
         parent::__construct($resource);
         $this->qbuildAccTrans = $qbldAccTrans;
     }
-
-    /**
-     * Attributes aliases.
-     */
-    const A_CREDIT_CUST_REF = 'creditCustRef';
-    const A_DEBIT_CUST_REF = 'debitCustRef';
 
     /**
      * @inheritdoc

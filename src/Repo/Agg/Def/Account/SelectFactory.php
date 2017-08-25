@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Repo\Agg\Def\Account;
 
-use Praxigento\Accounting\Data\Entity\Account as EAccount;
+use Praxigento\Accounting\Repo\Entity\Data\Account as EAccount;
 use Praxigento\Downline\Data\Agg\Account as AggEntity;
 use Praxigento\Downline\Data\Entity\Customer as ECustomer;
 use Praxigento\Downline\Repo\Agg\IAccount as AggRepo;
@@ -32,16 +32,16 @@ class SelectFactory
         return $select;
     }
 
-    public function getQueryToSelectCount()
+    public function getQueryToSelect()
     {
-        $result = parent::getQueryToSelectCount();
+        $result = parent::getQueryToSelect();
         $this->_populateSelect($result);
         return $result;
     }
 
-    public function getQueryToSelect()
+    public function getQueryToSelectCount()
     {
-        $result = parent::getQueryToSelect();
+        $result = parent::getQueryToSelectCount();
         $this->_populateSelect($result);
         return $result;
     }
