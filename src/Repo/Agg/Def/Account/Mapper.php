@@ -5,8 +5,8 @@
 namespace Praxigento\Downline\Repo\Agg\Def\Account;
 
 use Praxigento\Downline\Data\Agg\Account as Agg;
-use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Repo\Agg\IAccount as Repo;
+use Praxigento\Downline\Repo\Entity\Data\Customer;
 
 class Mapper
     extends \Praxigento\Accounting\Repo\Agg\Def\Account\Mapper

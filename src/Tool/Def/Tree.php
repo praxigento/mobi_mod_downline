@@ -7,27 +7,48 @@ namespace Praxigento\Downline\Tool\Def;
 
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Entity\Snap;
+use Praxigento\Downline\Repo\Entity\Data\Snap;
 use Praxigento\Downline\Tool\ITree;
 
 class Tree implements ITree {
 
-    public function getParentsFromPath($path) {
-        $result = explode(Cfg::DTPS, $path);
-        /* remove empty elements from begin of the array */
-        if(strlen($result[0]) == 0) {
-            array_shift($result);
+    /**
+     * Recursively compose $result as array of elements:
+     * [
+     *  Snap::ATTR_CUSTOMER_ID,
+     *  Snap::ATTR_PARENT_ID,
+     *  Snap::ATTR_DEPTH,
+     *  Snap::ATTR_PATH
+     * ]
+     *
+     * @param      $result
+     * @param      $tree
+     * @param null $parentId
+     */
+    private function _composeSnapData(&$result, $tree, $parentId = null)
+    {
+        foreach ($tree as $custId => $children) {
+            if (is_null($parentId)) {
+                /* this is root node */
+                $result[$custId] = [
+                    Snap::ATTR_CUSTOMER_ID => $custId,
+                    Snap::ATTR_PARENT_ID => $custId,
+                    Snap::ATTR_DEPTH => Cfg::INIT_DEPTH,
+                    Snap::ATTR_PATH => Cfg::DTPS
+                ];
+            } else {
+                $parentData = $result[$parentId];
+                $result[$custId] = [
+                    Snap::ATTR_CUSTOMER_ID => $custId,
+                    Snap::ATTR_PARENT_ID => $parentId,
+                    Snap::ATTR_DEPTH => $parentData[Snap::ATTR_DEPTH] + 1,
+                    Snap::ATTR_PATH => $parentData[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
+                ];
+            }
+            if (sizeof($children) > 0) {
+                $this->_composeSnapData($result, $children, $custId);
+            }
         }
-        /* remove empty elements from end of the array */
-        if(strlen($result[count($result) - 1]) == 0) {
-            array_pop($result);
-        }
-        return $result;
-    }
-
-    public function getParentsFromPathReversed($path) {
-        $result = array_reverse($this->getParentsFromPath($path));
-        return $result;
     }
 
     /**
@@ -76,41 +97,23 @@ class Tree implements ITree {
         return $result;
     }
 
-    /**
-     * Recursively compose $result as array of elements:
-     * [
-     *  Snap::ATTR_CUSTOMER_ID,
-     *  Snap::ATTR_PARENT_ID,
-     *  Snap::ATTR_DEPTH,
-     *  Snap::ATTR_PATH
-     * ]
-     *
-     * @param      $result
-     * @param      $tree
-     * @param null $parentId
-     */
-    private function _composeSnapData(&$result, $tree, $parentId = null) {
-        foreach($tree as $custId => $children) {
-            if(is_null($parentId)) {
-                /* this is root node */
-                $result[$custId] = [
-                    Snap::ATTR_CUSTOMER_ID => $custId,
-                    Snap::ATTR_PARENT_ID   => $custId,
-                    Snap::ATTR_DEPTH       => Cfg::INIT_DEPTH,
-                    Snap::ATTR_PATH        => Cfg::DTPS
-                ];
-            } else {
-                $parentData = $result[$parentId];
-                $result[$custId] = [
-                    Snap::ATTR_CUSTOMER_ID => $custId,
-                    Snap::ATTR_PARENT_ID   => $parentId,
-                    Snap::ATTR_DEPTH       => $parentData[Snap::ATTR_DEPTH] + 1,
-                    Snap::ATTR_PATH        => $parentData[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
-                ];
-            }
-            if(sizeof($children) > 0) {
-                $this->_composeSnapData($result, $children, $custId);
-            }
+    public function getParentsFromPath($path)
+    {
+        $result = explode(Cfg::DTPS, $path);
+        /* remove empty elements from begin of the array */
+        if (strlen($result[0]) == 0) {
+            array_shift($result);
         }
+        /* remove empty elements from end of the array */
+        if (strlen($result[count($result) - 1]) == 0) {
+            array_pop($result);
+        }
+        return $result;
+    }
+
+    public function getParentsFromPathReversed($path)
+    {
+        $result = array_reverse($this->getParentsFromPath($path));
+        return $result;
     }
 }

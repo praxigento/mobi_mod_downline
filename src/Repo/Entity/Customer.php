@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Repo\Entity;
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
-use Praxigento\Downline\Data\Entity\Customer as Entity;
+use Praxigento\Downline\Repo\Entity\Data\Customer as Entity;
 use Praxigento\Downline\Repo\Entity\Delta;
 
 class Customer extends BaseEntityRepo
@@ -23,7 +23,7 @@ class Customer extends BaseEntityRepo
     }
 
     /**
-     * @param \Praxigento\Downline\Data\Entity\Customer|array $data
+     * @param \Praxigento\Downline\Repo\Entity\Data\Customer|array $data
      * @return int
      */
     public function create($data)
@@ -34,7 +34,7 @@ class Customer extends BaseEntityRepo
 
     /**
      * @param int $id
-     * @return \Praxigento\Downline\Data\Entity\Customer|bool
+     * @return \Praxigento\Downline\Repo\Entity\Data\Customer|bool
      *
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
@@ -46,7 +46,7 @@ class Customer extends BaseEntityRepo
 
     /**
      * @param string $mlmId
-     * @return \Praxigento\Downline\Data\Entity\Customer|null
+     * @return \Praxigento\Downline\Repo\Entity\Data\Customer|null
      */
     public function getByMlmId($mlmId)
     {
@@ -67,7 +67,7 @@ class Customer extends BaseEntityRepo
 
     /**
      * @param string $code
-     * @return \Praxigento\Downline\Data\Entity\Customer|null
+     * @return \Praxigento\Downline\Repo\Entity\Data\Customer|null
      */
     public function getByReferralCode($code)
     {

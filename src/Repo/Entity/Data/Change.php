@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Data\Entity;
+
+namespace Praxigento\Downline\Repo\Entity\Data;
 
 class Change
     extends \Praxigento\Core\Data\Entity\Base

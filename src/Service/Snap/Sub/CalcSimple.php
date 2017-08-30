@@ -9,9 +9,10 @@ namespace Praxigento\Downline\Service\Snap\Sub;
 
 use Praxigento\Core\Tool\IPeriod;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Entity\Change;
-use Praxigento\Downline\Data\Entity\Snap;
-use \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as ASnap;
+use Praxigento\Downline\Repo\Entity\Data\Change;
+use Praxigento\Downline\Repo\Entity\Data\Snap;
+use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as ASnap;
+
 class CalcSimple
 {
     /**

@@ -4,8 +4,8 @@
  */
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
-use Praxigento\Downline\Data\Entity\Snap as Snap;
 use Praxigento\Downline\Repo\Data\Agg\Downline as AggDwnl;
+use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
 
 /**

@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\Sub;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Entity\Customer;
+use Praxigento\Downline\Repo\Entity\Data\Customer;
 
 class QueryModifier
 {

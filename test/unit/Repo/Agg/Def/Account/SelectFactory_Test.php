@@ -8,7 +8,7 @@ include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
 use Praxigento\Accounting\Repo\Entity\Data\Account as EAccount;
 use Praxigento\Accounting\Repo\Entity\Data\Type\Asset as ETypeAsset;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Entity\Customer as ECustomer;
+use Praxigento\Downline\Repo\Entity\Data\Customer as ECustomer;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseClassName)

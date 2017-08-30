@@ -5,9 +5,9 @@
  */
 namespace Praxigento\Downline\Setup;
 
-use Praxigento\Downline\Data\Entity\Change;
-use Praxigento\Downline\Data\Entity\Customer;
-use Praxigento\Downline\Data\Entity\Snap;
+use Praxigento\Downline\Repo\Entity\Data\Change;
+use Praxigento\Downline\Repo\Entity\Data\Customer;
+use Praxigento\Downline\Repo\Entity\Data\Snap;
 
 class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
 {

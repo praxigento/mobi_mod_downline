@@ -6,8 +6,8 @@ namespace Praxigento\Downline\Repo\Agg\Def\Account;
 
 use Praxigento\Accounting\Repo\Entity\Data\Account as EAccount;
 use Praxigento\Downline\Data\Agg\Account as AggEntity;
-use Praxigento\Downline\Data\Entity\Customer as ECustomer;
 use Praxigento\Downline\Repo\Agg\IAccount as AggRepo;
+use Praxigento\Downline\Repo\Entity\Data\Customer as ECustomer;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

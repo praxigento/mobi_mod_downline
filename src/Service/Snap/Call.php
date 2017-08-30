@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Entity\Snap;
+use Praxigento\Downline\Repo\Entity\Data\Snap;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)

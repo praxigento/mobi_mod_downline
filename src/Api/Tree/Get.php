@@ -68,7 +68,7 @@ class Get
         /* only currently logged in  customer can get account statement */
         $currCustData = $this->authenticator->getCurrentCustomerData();
         $currCustId = $this->authenticator->getCurrentCustomerId();
-        /** @var \Praxigento\Downline\Data\Entity\Customer $currDwnlData */
+        /** @var \Praxigento\Downline\Repo\Entity\Data\Customer $currDwnlData */
         $currDwnlData = $currCustData->get(\Praxigento\Downline\Infra\Api\Authenticator::A_DWNL_DATA);
         $currCustPath = $currDwnlData->getPath() . $currDwnlData->getCustomerId() . Cfg::DTPS;
 
@@ -143,7 +143,7 @@ class Get
         /* filter snap data by root customer path */
         if (!is_null($rootCustId)) {
             $where = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP . '.' .
-                \Praxigento\Downline\Data\Entity\Snap::ATTR_PATH . ' LIKE :' . self::BIND_PATH;
+                \Praxigento\Downline\Repo\Entity\Data\Snap::ATTR_PATH . ' LIKE :' . self::BIND_PATH;
             $path = $rootCustPath . $rootCustId . Cfg::DTPS . '%';
             $bind->set(self::BIND_PATH, $path);
             $query->where($where);
@@ -154,7 +154,7 @@ class Get
             /* depth started from 0, add +1 to start from root */
             $depth = $rootCustDepth + 1 + $maxDepth;
             $where = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP . '.' .
-                \Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH . ' < :' . self::BIND_MAX_DEPTH;
+                \Praxigento\Downline\Repo\Entity\Data\Snap::ATTR_DEPTH . ' < :' . self::BIND_MAX_DEPTH;
             $bind->set(self::BIND_MAX_DEPTH, $depth);
             $query->where($where);
         }

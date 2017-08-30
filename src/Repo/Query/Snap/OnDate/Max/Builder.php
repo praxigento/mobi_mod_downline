@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate\Max;
 
-use Praxigento\Downline\Data\Entity\Snap as Snap;
+use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
 
 /**
  * Build query to get the last changed dates by customer ID for downline tree.

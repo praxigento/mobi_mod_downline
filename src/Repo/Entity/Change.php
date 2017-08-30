@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Repo\Entity;
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
-use Praxigento\Downline\Data\Entity\Change as Entity;
+use Praxigento\Downline\Repo\Entity\Data\Change as Entity;
 
 class Change extends BaseEntityRepo
 {
@@ -22,7 +22,7 @@ class Change extends BaseEntityRepo
     }
 
     /**
-     * @param array|\Praxigento\Downline\Data\Entity\Change $data
+     * @param array|\Praxigento\Downline\Repo\Entity\Data\Change $data
      * @return int
      */
     public function create($data)
@@ -33,7 +33,7 @@ class Change extends BaseEntityRepo
 
     /**
      * @param int $id
-     * @return \Praxigento\Downline\Data\Entity\Change|bool
+     * @return \Praxigento\Downline\Repo\Entity\Data\Change|bool
      */
     public function getById($id)
     {

@@ -5,8 +5,8 @@
 namespace Praxigento\Downline\Service\Customer;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Data\Entity\Change;
-use Praxigento\Downline\Data\Entity\Customer;
+use Praxigento\Downline\Repo\Entity\Data\Change;
+use Praxigento\Downline\Repo\Entity\Data\Customer;
 use Praxigento\Downline\Service\ICustomer;
 
 class Call implements ICustomer

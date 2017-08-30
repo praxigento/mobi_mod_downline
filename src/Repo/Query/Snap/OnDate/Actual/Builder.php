@@ -4,8 +4,8 @@
  */
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate\Actual;
 
-use Praxigento\Downline\Data\Entity\Customer as Customer;
-use Praxigento\Downline\Data\Entity\Snap as Snap;
+use Praxigento\Downline\Repo\Entity\Data\Customer as Customer;
+use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
 
 /**
  * Build query to get actual snap for downline tree.

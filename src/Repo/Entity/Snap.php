@@ -8,8 +8,8 @@ namespace Praxigento\Downline\Repo\Entity;
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
-use Praxigento\Downline\Data\Entity\Customer as ECustomer;
-use Praxigento\Downline\Data\Entity\Snap as Entity;
+use Praxigento\Downline\Repo\Entity\Data\Customer as ECustomer;
+use Praxigento\Downline\Repo\Entity\Data\Snap as Entity;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBldSnap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as QBldMax;
 
@@ -33,7 +33,7 @@ class Snap extends BaseEntityRepo
     }
 
     /**
-     * @param array|\Praxigento\Downline\Data\Entity\Snap $data
+     * @param array|\Praxigento\Downline\Repo\Entity\Data\Snap $data
      * @return int
      */
     public function create($data)
@@ -79,7 +79,7 @@ class Snap extends BaseEntityRepo
 
     /**
      * @param int $id
-     * @return \Praxigento\Downline\Data\Entity\Snap|bool
+     * @return \Praxigento\Downline\Repo\Entity\Data\Snap|bool
      *
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
@@ -144,7 +144,7 @@ class Snap extends BaseEntityRepo
         }
         $query->order(
             QBldSnap::AS_DWNL_SNAP . '.'
-            . \Praxigento\Downline\Data\Entity\Snap::ATTR_DEPTH
+            . \Praxigento\Downline\Repo\Entity\Data\Snap::ATTR_DEPTH
         );
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {
