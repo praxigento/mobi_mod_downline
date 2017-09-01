@@ -8,6 +8,8 @@ namespace Praxigento\Downline\Service\Snap\Request;
 /**
  * @method int getRootId()
  * @method void setRootId(int $data)
+ *
+ * @deprecated use \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder
  */
 class GetStateOnDate
     extends \Praxigento\Core\Service\Base\Request

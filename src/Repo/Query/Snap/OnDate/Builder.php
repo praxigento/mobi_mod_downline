@@ -39,6 +39,12 @@ class Builder
         $this->qbldMax = $qbldMax;
     }
 
+    public function build(\Magento\Framework\DB\Select $source = null)
+    {
+        $result = $this->getSelectQuery(); // build top level query (SELECT FROM)
+        return $result;
+    }
+
     /**
      * SELECT
      * `prxgtDwnlSnap`.`customer_id`,
