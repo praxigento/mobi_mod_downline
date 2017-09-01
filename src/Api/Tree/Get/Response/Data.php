@@ -9,7 +9,7 @@ namespace Praxigento\Downline\Api\Tree\Get\Response;
  * (Define setters explicitly to use with Magento JSON2PHP conversion tool)
  */
 class Data
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Data
 {
     /**
      * @return \Praxigento\Downline\Api\Data\Tree\Node[]|null

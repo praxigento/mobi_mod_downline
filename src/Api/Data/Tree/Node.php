@@ -19,7 +19,7 @@ namespace Praxigento\Downline\Api\Data\Tree;
  *
  */
 class Node
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Data
 {
     /**
      * @return string

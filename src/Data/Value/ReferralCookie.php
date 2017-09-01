@@ -5,7 +5,7 @@
 
 namespace Praxigento\Downline\Data\Value;
 
-use Flancer32\Lib\Data as DataObject;
+use Praxigento\Core\Data as DataObject;
 
 /**
  * Value Object for the referral cookie ('123456:20160529').

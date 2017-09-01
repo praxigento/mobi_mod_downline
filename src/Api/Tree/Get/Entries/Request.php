@@ -12,7 +12,7 @@ namespace Praxigento\Downline\Api\Tree\Get\Entries;
  *
  */
 class Request
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Data
 {
 
     /**
@@ -23,6 +23,40 @@ class Request
     public function getMaxDepth()
     {
         $result = parent::getMaxDepth();
+        return $result;
+    }
+
+    /**
+     * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
+     *
+     * @return string|null
+     */
+    public function getPeriod()
+    {
+        $result = parent::getPeriod();
+        return $result;
+    }
+
+    /**
+     * Flag to include request data in response.
+     *
+     * @return bool|null
+     */
+    public function getRequestReturn()
+    {
+        $result = parent::getRequestReturn();
+        return $result;
+    }
+
+    /**
+     * Customer ID for the root node. Current customer ID is used on frontend if missed. All nodes will be returned
+     * in adminhtml if missed.
+     *
+     * @return int|null
+     */
+    public function getRootNode()
+    {
+        $result = parent::getRootNode();
         return $result;
     }
 
@@ -65,40 +99,6 @@ class Request
     public function setRootNode($data)
     {
         parent::setRootNode($data);
-    }
-
-    /**
-     * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.
-     *
-     * @return string|null
-     */
-    public function getPeriod()
-    {
-        $result = parent::getPeriod();
-        return $result;
-    }
-
-    /**
-     * Flag to include request data in response.
-     *
-     * @return bool|null
-     */
-    public function getRequestReturn()
-    {
-        $result = parent::getRequestReturn();
-        return $result;
-    }
-
-    /**
-     * Customer ID for the root node. Current customer ID is used on frontend if missed. All nodes will be returned
-     * in adminhtml if missed.
-     *
-     * @return int|null
-     */
-    public function getRootNode()
-    {
-        $result = parent::getRootNode();
-        return $result;
     }
 
 

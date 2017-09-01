@@ -14,7 +14,7 @@ namespace Praxigento\Downline\Api\Tree\Get\Upline;
  *
  */
 class Request
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Data
 {
     /**
      * Period to get snapped data ('YYYYMM', 'YYYYMMDD'), if missed - actual data will be returned.

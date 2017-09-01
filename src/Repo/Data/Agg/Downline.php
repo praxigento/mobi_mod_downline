@@ -11,7 +11,7 @@ namespace Praxigento\Downline\Repo\Data\Agg;
  *
  */
 class Downline
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Data
 {
     const A_COUNTRY = 'country';
     const A_CUSTOMER_REF = 'customer_ref';

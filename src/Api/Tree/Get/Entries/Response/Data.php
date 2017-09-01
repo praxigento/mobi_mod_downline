@@ -5,7 +5,7 @@
 namespace Praxigento\Downline\Api\Tree\Get\Entries\Response;
 
 class Data
-    extends \Flancer32\Lib\Data
+    extends \Praxigento\Core\Data
 {
     /**
      * @return \Praxigento\Downline\Api\Data\Tree\Node[]|null

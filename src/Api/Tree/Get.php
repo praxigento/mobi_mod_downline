@@ -58,7 +58,7 @@ class Get
         $this->qbuildSnapOnDate = $qbuildSnapOnDate;
     }
 
-    protected function authorize(\Flancer32\Lib\Data $ctx)
+    protected function authorize(\Praxigento\Core\Data $ctx)
     {
         /* get working vars from context */
         $vars = $ctx->get(self::CTX_VARS);
@@ -84,12 +84,12 @@ class Get
         }
     }
 
-    protected function createQuerySelect(\Flancer32\Lib\Data $ctx)
+    protected function createQuerySelect(\Praxigento\Core\Data $ctx)
     {
         /* get working vars from context */
-        /** @var \Flancer32\Lib\Data $bind */
+        /** @var \Praxigento\Core\Data $bind */
         $bind = $ctx->get(self::CTX_BIND);
-        /** @var \Flancer32\Lib\Data $vars */
+        /** @var \Praxigento\Core\Data $vars */
         $vars = $ctx->get(self::CTX_VARS);
 
         /* analyze variables and compose query according to given conditions */
@@ -118,12 +118,12 @@ class Get
         return $result;
     }
 
-    protected function populateQuery(\Flancer32\Lib\Data $ctx)
+    protected function populateQuery(\Praxigento\Core\Data $ctx)
     {
         /* get working vars from context */
-        /** @var \Flancer32\Lib\Data $bind */
+        /** @var \Praxigento\Core\Data $bind */
         $bind = $ctx->get(self::CTX_BIND);
-        /** @var \Flancer32\Lib\Data $vars */
+        /** @var \Praxigento\Core\Data $vars */
         $vars = $ctx->get(self::CTX_VARS);
         /** @var \Magento\Framework\DB\Select $query */
         $query = $ctx->get(self::CTX_QUERY);
@@ -160,10 +160,10 @@ class Get
         }
     }
 
-    protected function prepareQueryParameters(\Flancer32\Lib\Data $ctx)
+    protected function prepareQueryParameters(\Praxigento\Core\Data $ctx)
     {
         /* get working vars from context */
-        /** @var \Flancer32\Lib\Data $vars */
+        /** @var \Praxigento\Core\Data $vars */
         $vars = $ctx->get(self::CTX_VARS);
         /** @var \Praxigento\Downline\Api\Tree\Get\Request $req */
         $req = $ctx->get(self::CTX_REQ);
