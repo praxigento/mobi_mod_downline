@@ -25,7 +25,7 @@ class Tree implements ITree {
      * @param      $tree
      * @param null $parentId
      */
-    private function _composeSnapData(&$result, $tree, $parentId = null)
+    private function composeSnapData(&$result, $tree, $parentId = null)
     {
         foreach ($tree as $custId => $children) {
             if (is_null($parentId)) {
@@ -46,7 +46,7 @@ class Tree implements ITree {
                 ];
             }
             if (sizeof($children) > 0) {
-                $this->_composeSnapData($result, $children, $custId);
+                $this->composeSnapData($result, $children, $custId);
             }
         }
     }
@@ -64,8 +64,7 @@ class Tree implements ITree {
          */
         $mapOrphans = [ ];
         foreach($tree as $customerId => $item) {
-            /* get parentId by first or second variant */
-            $parentId = !is_array($item) ? $item : $item[$keyParent];
+            $parentId = $this->getParentId($item, $keyParent);
             if(!isset($tree[$parentId])) {
                 $mapOrphans[] = $customerId;
             }
@@ -74,8 +73,7 @@ class Tree implements ITree {
         $flat = [ ];
         $treeExp = [ ];
         foreach($tree as $customerId => $item) {
-            /* get parentId by first or second variant */
-            $parentId = !is_array($item) ? $item : $item[$keyParent];
+            $parentId = $this->getParentId($item, $keyParent);
             /* filter orphans */
             if(in_array($customerId, $mapOrphans)) {
                 $parentId = $customerId;
@@ -93,7 +91,26 @@ class Tree implements ITree {
         }
         /* populate tree with depth/path/... and compose array to insert into DB  */
         $result = [ ];
-        $this->_composeSnapData($result, $treeExp);
+        $this->composeSnapData($result, $treeExp);
+        return $result;
+    }
+
+    /**
+     * Get Parent ID from entry. Entry can be integer, array or Data Object.
+     *
+     * @param int|array|\Praxigento\Core\Data $item
+     * @param string $key
+     * @return int
+     */
+    private function getParentId($item, $key)
+    {
+        if (is_array($item)) {
+            $result = $item[$key];
+        } elseif ($item instanceof \Praxigento\Core\Data) {
+            $result = $item->get($key);
+        } else {
+            $result = $item;
+        }
         return $result;
     }
 

@@ -143,12 +143,22 @@ class Call
          */
         $mapCusts = []; // registry for all customers.
         foreach ($treeIn as $ndx => $item) {
-            $custId = is_null($keyCustomerId) ? $ndx : $item[$keyCustomerId];
+            if(is_null($keyCustomerId)) {
+
+                $custId = $ndx;
+            } else {
+                $custId = is_array($item) ? $item[$keyCustomerId] : $item->get($keyCustomerId);
+            }
             $mapCusts[] = $custId;
         }
         $mapOrphans = []; // registry for orphan customers.
         foreach ($treeIn as $ndx => $item) {
-            $custId = is_null($keyCustomerId) ? $ndx : $item[$keyCustomerId];
+            if(is_null($keyCustomerId)) {
+                $custId = $ndx;
+            } else {
+                $custId = is_array($item) ? $item[$keyCustomerId] : $item->get($keyCustomerId);
+            }
+
             $parentId = !is_array($item) ? $item : $item[$keyParentId];
             if (!in_array($parentId, $mapCusts)) {
                 $msg = "Parent #$parentId for customer #$custId is not present in the minimal tree.";
