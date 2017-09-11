@@ -15,7 +15,7 @@ class Mapper
     public function __construct()
     {
         parent::__construct();
-        $this->_map[Agg::AS_REF] = Repo::AS_DOWNLINE . '.' . Customer::ATTR_HUMAN_REF;
+        $this->map[Agg::AS_REF] = Repo::AS_DOWNLINE . '.' . Customer::ATTR_HUMAN_REF;
     }
 
 }
