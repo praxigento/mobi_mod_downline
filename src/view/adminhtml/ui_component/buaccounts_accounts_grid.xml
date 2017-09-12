@@ -6,9 +6,11 @@
     <!-- **************************************************** -->
     <dataSource name="accounts_accounts_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">\Praxigento\Downline\Ui\DataProvider\Account</argument>
+            <argument name="class" xsi:type="string">\Praxigento\Core\Ui\DataProvider\Grid\Base</argument>
             <argument name="name" xsi:type="string">accounts_accounts_grid_data_source</argument>
+            <argument name="gridQueryBuilder" xsi:type="object">\Praxigento\Accounting\Ui\DataProvider\Grid\Account\QueryBuilder</argument>
         </argument>
+
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
