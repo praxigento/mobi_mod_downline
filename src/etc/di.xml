@@ -34,13 +34,6 @@
     <preference for="\Praxigento\Core\Api\IAuthenticator"
             type="\Praxigento\Downline\Infra\Api\Authenticator"/>
 
-
-    <!-- **** -->
-    <!-- Repo -->
-    <!-- **** -->
-    <preference for="\Praxigento\Downline\Repo\Agg\IAccount"
-            type="\Praxigento\Downline\Repo\Agg\Def\Account"/>
-
     <!-- ******** -->
     <!-- Services -->
     <!-- ******** -->
