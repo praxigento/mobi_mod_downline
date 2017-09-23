@@ -7,6 +7,9 @@ namespace Praxigento\Downline\Api\Tree;
 
 use Praxigento\Downline\Config as Cfg;
 
+/**
+ * TODO: does this class is deprecated?
+ */
 class Get
     extends \Praxigento\Core\Api\Processor\WithQuery
     implements \Praxigento\Downline\Api\Tree\GetInterface
@@ -23,25 +26,25 @@ class Get
     const VAR_ON_DATE = 'on_date';
 
     /** @var \Praxigento\Core\Api\IAuthenticator */
-    protected $authenticator;
-    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder */
-    protected $qbuildSnapActual;
-    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder */
-    protected $qbuildSnapDcp;
-    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
-    protected $qbuildSnapOnDate;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
-    protected $repoCustomer;
-    /** @var \Praxigento\Downline\Repo\Entity\Snap */
-    protected $repoSnap;
+    private $authenticator;
     /** @var \Praxigento\Core\Tool\IPeriod */
-    protected $toolPeriod;
+    private $hlpPeriod;
+    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder */
+    private $qbuildSnapActual;
+    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder */
+    private $qbuildSnapDcp;
+    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
+    private $qbuildSnapOnDate;
+    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    private $repoCustomer;
+    /** @var \Praxigento\Downline\Repo\Entity\Snap */
+    private $repoSnap;
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Core\Api\IAuthenticator $authenticator,
-        \Praxigento\Core\Tool\IPeriod $toolPeriod,
+        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder $qbuildSnapActual,
@@ -50,7 +53,7 @@ class Get
     ) {
         parent::__construct($manObj, null, $hlpCfg);
         $this->authenticator = $authenticator;
-        $this->toolPeriod = $toolPeriod;
+        $this->hlpPeriod = $hlpPeriod;
         $this->repoCustomer = $repoCustomer;
         $this->repoSnap = $repoSnap;
         $this->qbuildSnapActual = $qbuildSnapActual;
@@ -179,7 +182,7 @@ class Get
         /* on date */
         if ($onDate) {
             /* convert YYYYMM to YYYYMMDD */
-            $lastDate = $this->toolPeriod->getPeriodLastDate($onDate);
+            $lastDate = $this->hlpPeriod->getPeriodLastDate($onDate);
             $vars->set(self::VAR_ON_DATE, $lastDate);
         }
 
