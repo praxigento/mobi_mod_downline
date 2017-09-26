@@ -4,7 +4,6 @@
  */
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
-use Praxigento\Downline\Repo\Data\Agg\Downline as AggDwnl;
 use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
 
@@ -20,10 +19,10 @@ class Builder
     const AS_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
 
     /** Columns aliases. */
-    const A_CUST_ID = AggDwnl::A_CUSTOMER_REF;
-    const A_DEPTH = AggDwnl::A_DEPTH;
-    const A_PARENT_ID = AggDwnl::A_PARENT_REF;
-    const A_PATH = AggDwnl::A_PATH;
+    const A_CUST_ID = 'custRef';
+    const A_DEPTH = 'depth';
+    const A_PARENT_ID = 'parentRef';
+    const A_PATH = 'path';
 
     /** Bound variables names */
     const BIND_ON_DATE = MaxBuilder::BIND_ON_DATE;
