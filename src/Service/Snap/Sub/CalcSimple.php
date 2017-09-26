@@ -11,7 +11,7 @@ use Praxigento\Core\Tool\IPeriod;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Change;
 use Praxigento\Downline\Repo\Entity\Data\Snap;
-use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as ASnap;
+use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBSnap;
 
 class CalcSimple
 {
@@ -77,13 +77,13 @@ class CalcSimple
                 $depthDelta = $newDepth - $currDepth;
                 $pathReplace = $newPath . $customerId . Cfg::DTPS;
                 foreach ($currentState as $snapCustomer) {
-                    $downPath = $snapCustomer[ASnap::A_PATH];
+                    $downPath = $snapCustomer[QBSnap::A_PATH];
                     if (false !== strrpos($downPath, $key, -strlen($downPath))) {
                         /* this is customer from downlilne, we need to change depth & path */
-                        $downCustId = $snapCustomer[ASnap::A_CUST_ID];
-                        $downParentId = $snapCustomer[ASnap::A_PARENT_ID];
-                        $downNewDepth = $snapCustomer[ASnap::A_DEPTH] + $depthDelta;
-                        $downNewPath = str_replace($key, $pathReplace, $snapCustomer[ASnap::A_PATH]);
+                        $downCustId = $snapCustomer[QBSnap::A_CUST_ID];
+                        $downParentId = $snapCustomer[QBSnap::A_PARENT_ID];
+                        $downNewDepth = $snapCustomer[QBSnap::A_DEPTH] + $depthDelta;
+                        $downNewPath = str_replace($key, $pathReplace, $snapCustomer[QBSnap::A_PATH]);
                         /* add to result updates */
                         $result[$dsChanged][$downCustId] = [
                             Snap::ATTR_DATE => $dsChanged,

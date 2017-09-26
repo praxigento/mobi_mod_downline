@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
-use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
+use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
 
 /**
@@ -19,10 +19,12 @@ class Builder
     const AS_DWNL_SNAP_MAX = 'prxgtDwnlSnapMax';
 
     /** Columns aliases. */
-    const A_CUST_ID = 'custRef';
-    const A_DEPTH = 'depth';
-    const A_PARENT_ID = 'parentRef';
-    const A_PATH = 'path';
+    /* this aliases must be equals to ESnap::ATTR_, */
+    /* see \Praxigento\Downline\Service\Snap\Sub\CalcSimple::calcSnapshots */
+    const A_CUST_ID = ESnap::ATTR_CUSTOMER_ID;
+    const A_DEPTH = ESnap::ATTR_DEPTH;
+    const A_PARENT_ID = ESnap::ATTR_PARENT_ID;
+    const A_PATH = ESnap::ATTR_PATH;
 
     /** Bound variables names */
     const BIND_ON_DATE = MaxBuilder::BIND_ON_DATE;
@@ -73,18 +75,18 @@ class Builder
         $asMax = self::AS_DWNL_SNAP_MAX;
 
         /* select from prxgt_dwnl_snap */
-        $tbl = $this->resource->getTableName(Snap::ENTITY_NAME);
+        $tbl = $this->resource->getTableName(ESnap::ENTITY_NAME);
         $cols = [
-            self::A_CUST_ID => Snap::ATTR_CUSTOMER_ID,
-            self::A_PARENT_ID => Snap::ATTR_PARENT_ID,
-            self::A_DEPTH => Snap::ATTR_DEPTH,
-            self::A_PATH => Snap::ATTR_PATH
+            self::A_CUST_ID => ESnap::ATTR_CUSTOMER_ID,
+            self::A_PARENT_ID => ESnap::ATTR_PARENT_ID,
+            self::A_DEPTH => ESnap::ATTR_DEPTH,
+            self::A_PATH => ESnap::ATTR_PATH
         ];
         $result->from([$asSnap => $tbl], $cols);
         /* left join $q4Max */
         $q4Max = $this->qbldMax->getSelectQuery();
-        $on = '(' . $asMax . '.' . MaxBuilder::A_CUST_ID . '=' . $asSnap . '.' . Snap::ATTR_CUSTOMER_ID . ')';
-        $on .= ' AND (' . $asMax . '.' . MaxBuilder::A_DATE_MAX . '=' . $asSnap . '.' . Snap::ATTR_DATE . ')';
+        $on = '(' . $asMax . '.' . MaxBuilder::A_CUST_ID . '=' . $asSnap . '.' . ESnap::ATTR_CUSTOMER_ID . ')';
+        $on .= ' AND (' . $asMax . '.' . MaxBuilder::A_DATE_MAX . '=' . $asSnap . '.' . ESnap::ATTR_DATE . ')';
         $result->joinLeft([$asMax => $q4Max], $on, []);
         /* where */
         $result->where($asMax . '.' . MaxBuilder::A_DATE_MAX . ' IS NOT NULL');
