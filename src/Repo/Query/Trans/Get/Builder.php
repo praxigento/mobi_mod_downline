@@ -9,6 +9,8 @@ use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
 
 /**
  * Build query to get transactions for the customer.
+ *
+ * @deprecated remove it if is not used
  */
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder
