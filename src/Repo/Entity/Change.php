@@ -89,7 +89,7 @@ class Change extends BaseEntityRepo
         $query->from([$asChange => $tblChange]);
         /* where */
         $query->where($asChange . '.' . Entity::ATTR_DATE_CHANGED . '>=:date_from');
-        $query->where($asChange . '.' . Entity::ATTR_DATE_CHANGED . '<=:date_to');
+        $query->where($asChange . '.' . Entity::ATTR_DATE_CHANGED . '<:date_to');
         $bind = [
             'date_from' => $timestampFrom,
             'date_to' => $timestampTo
