@@ -69,7 +69,10 @@ class CalcSimple
 
                 /* update path teams for current customer */
                 $teamCurr = &$mapByPath[$currPath]; // use & to work with nested array directly (not with copy of)
-                if (($keyToUnset = array_search($customerId, $teamCurr)) !== false) {
+                if (
+                    is_array($teamCurr)
+                    && (($keyToUnset = array_search($customerId, $teamCurr)) !== false)
+                ) {
                     unset($teamCurr[$keyToUnset]);
                 }
 
