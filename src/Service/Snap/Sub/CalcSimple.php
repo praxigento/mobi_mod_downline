@@ -7,25 +7,26 @@
 namespace Praxigento\Downline\Service\Snap\Sub;
 
 
-use Praxigento\Core\Tool\IPeriod;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Change;
-use Praxigento\Downline\Repo\Entity\Data\Snap;
-use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBSnap;
+use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
 
 class CalcSimple
 {
-    /**
-     * @var \Praxigento\Core\Tool\IPeriod
-     */
-    private $_toolPeriod;
+    /** @var \Praxigento\Core\Tool\IPeriod */
+    private $hlpPeriod;
+    /** @var \Praxigento\Downline\Helper\Tree */
+    private $hlpTree;
 
     /**
      * CalcSimple constructor.
      */
-    public function __construct(IPeriod $toolPeriod)
+    public function __construct(
+        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
+        \Praxigento\Downline\Helper\Tree $hlpTree
+    )
     {
-        $this->_toolPeriod = $toolPeriod;
+        $this->hlpPeriod = $hlpPeriod;
+        $this->hlpTree = $hlpTree;
     }
 
     /**
@@ -33,96 +34,116 @@ class CalcSimple
      *
      * We use $currentState array to trace actual state during the changes. Target updates are placed in the $result.
      *
-     * @param $currentState
-     * @param $changes
+     * @param \Praxigento\Downline\Repo\Entity\Data\Snap[] $snap current snapshot (customer, parent, depth, path),
+     *  see \Praxigento\Downline\Repo\Entity\ESnap::getStateOnDate
+     * @param \Praxigento\Downline\Repo\Entity\Data\Change[] $changes
      *
      * @return array
      */
-    public function calcSnapshots($currentState, $changes)
+    public function calcSnapshots($snap, $changes)
     {
         $result = [];
-        foreach ($changes as $downCustomer) {
-            $customerId = $downCustomer[Change::ATTR_CUSTOMER_ID];
-            $parentId = $downCustomer[Change::ATTR_PARENT_ID];
-            $tsChanged = $downCustomer[Change::ATTR_DATE_CHANGED];
-            $dsChanged = $this->_toolPeriod->getPeriodCurrentOld($tsChanged);
+        /* to update downline paths/depths for changed customers */
+        $mapByPath = $this->mapByPath($snap);
+        foreach ($changes as $one) {
+            $customerId = $one->getCustomerId();
+            $parentId = $one->getParentId();
+            $tsChanged = $one->getDateChanged();
+            $dsChanged = $this->hlpPeriod->getPeriodCurrent($tsChanged);
             /* $currentState contains actual state that is updated with changes */
-            if (isset($currentState[$customerId])) {
+            if (isset($snap[$customerId])) {
                 /* this is update of the existing customer */
                 /* write down existing state */
-                $currCustomer = $currentState[$customerId];
-                $currDepth = $currCustomer[Snap::ATTR_DEPTH];
-                $currPath = $currCustomer[Snap::ATTR_PATH];
-                /* write down new state */
-                if ($customerId == $parentId) {
-                    /* this is root node customer */
-                    $newDepth = Cfg::INIT_DEPTH;
-                    $newPath = Cfg::DTPS;
-                } else {
-                    /* this is NOT root node customer */
-                    $newParent = $currentState[$parentId];
-                    $newDepth = $newParent[Snap::ATTR_DEPTH] + 1;
-                    $newPath = $newParent[Snap::ATTR_PATH] . $parentId . Cfg::DTPS;
-                }
-                $customer = [
-                    Snap::ATTR_DATE => $dsChanged,
-                    Snap::ATTR_CUSTOMER_ID => $customerId,
-                    Snap::ATTR_PARENT_ID => $parentId,
-                    Snap::ATTR_DEPTH => $newDepth,
-                    Snap::ATTR_PATH => $newPath
-                ];
+                /** @var ESnap $currCustomer */
+                $currCustomer = $snap[$customerId];
+                $currDepth = $currCustomer->getDepth();
+                $currPath = $currCustomer->getPath();
+                /* ... and compose new updated snap item */
+                $customer = $this->composeSnapItem($customerId, $parentId, $dsChanged, $snap);
+
                 /* we need to update downline's depths & paths for changed customer */
-                /* TODO slow code, add ndx if too much slow */
                 $key = $currPath . $customerId . Cfg::DTPS;
-                $depthDelta = $newDepth - $currDepth;
-                $pathReplace = $newPath . $customerId . Cfg::DTPS;
-                foreach ($currentState as $snapCustomer) {
-                    $downPath = $snapCustomer[QBSnap::A_PATH];
-                    if (false !== strrpos($downPath, $key, -strlen($downPath))) {
-                        /* this is customer from downlilne, we need to change depth & path */
-                        $downCustId = $snapCustomer[QBSnap::A_CUST_ID];
-                        $downParentId = $snapCustomer[QBSnap::A_PARENT_ID];
-                        $downNewDepth = $snapCustomer[QBSnap::A_DEPTH] + $depthDelta;
-                        $downNewPath = str_replace($key, $pathReplace, $snapCustomer[QBSnap::A_PATH]);
-                        /* add to result updates */
-                        $result[$dsChanged][$downCustId] = [
-                            Snap::ATTR_DATE => $dsChanged,
-                            Snap::ATTR_CUSTOMER_ID => $downCustId,
-                            Snap::ATTR_PARENT_ID => $downParentId,
-                            Snap::ATTR_DEPTH => $downNewDepth,
-                            Snap::ATTR_PATH => $downNewPath
-                        ];
+                $depthDelta = $customer->getDepth() - $currDepth;
+                $pathUpdated = $customer->getPath();
+                $pathReplace = $pathUpdated . $customerId . Cfg::DTPS;
+
+                /* update path teams for current customer */
+                $teamCurr = &$mapByPath[$currPath]; // use & to work with nested array directly (not with copy of)
+                if (($keyToUnset = array_search($customerId, $teamCurr)) !== false) {
+                    unset($teamCurr[$keyToUnset]);
+                }
+
+                /* update downline of the current customer */
+                foreach ($mapByPath as $path => $team) {
+                    if (false !== strrpos($path, $key, -strlen($path))) {
+                        /* this is downlilne path , we need to change depth & path for all customers inside */
+                        foreach ($team as $memberId) {
+                            /* get member one by one */
+                            $member = $snap[$memberId];
+                            $memberDepth = $member->getDepth();
+                            $memberPath = $member->getPath();
+                            /* change depth & path for the customer in changed downline */
+                            $newDepth = $memberDepth + $depthDelta;
+                            $newPath = str_replace($key, $pathReplace, $memberPath);
+                            $member->setDepth($newDepth);
+                            $member->setPath($newPath);
+                            /* save changed customer in results */
+                            $result[$dsChanged][$memberId] = $member;
+                            /* register new team member */
+                            $mapByPath[$newPath][] = $memberId;
+                        }
+                        /* unset team for the current path from the map */
+                        unset($mapByPath[$path]);
                     }
                 }
             } else {
                 /* there is no data for this customer, this is new customer; just add new customer to results */
-                if ($customerId == $parentId) {
-                    /* this is root node customer */
-                    $customer = [
-                        Snap::ATTR_DATE => $dsChanged,
-                        Snap::ATTR_CUSTOMER_ID => $customerId,
-                        Snap::ATTR_PARENT_ID => $customerId,
-                        Snap::ATTR_DEPTH => Cfg::INIT_DEPTH,
-                        Snap::ATTR_PATH => Cfg::DTPS
-                    ];
-                } else {
-                    /* this is NOT root node customer */
-                    if (!isset($currentState[$parentId])) {
-                        $breakPoint = 'inconsistency detected';
-                    }
-                    $parent = $currentState[$parentId];
-                    $customer = [
-                        Snap::ATTR_DATE => $dsChanged,
-                        Snap::ATTR_CUSTOMER_ID => $customerId,
-                        Snap::ATTR_PARENT_ID => $parentId,
-                        Snap::ATTR_DEPTH => $parent[Snap::ATTR_DEPTH] + 1,
-                        Snap::ATTR_PATH => $parent[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
-                    ];
-                }
+                $customer = $this->composeSnapItem($customerId, $parentId, $dsChanged, $snap);
             }
-            $currentState[$customerId] = $customer;
+            $snap[$customerId] = $customer;
             $result[$dsChanged][$customerId] = $customer;
         }
         return $result;
     }
+
+    private function mapByPath($snap)
+    {
+        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::ATTR_CUSTOMER_ID, ESnap::ATTR_PATH);
+        return $result;
+    }
+
+    /**
+     * Compose snapshot item.
+     *
+     * @param int $customerId
+     * @param int $parentId
+     * @param string $dsChanged
+     * @param ESnap[] $snap
+     * @return ESnap
+     */
+    private function composeSnapItem($customerId, $parentId, $dsChanged, $snap)
+    {
+        $result = new ESnap();
+        $result->setCustomerId($customerId);
+        $result->setParentId($parentId);
+        $result->setDate($dsChanged);
+        if ($customerId == $parentId) {
+            /* this is root node customer */
+            $newDepth = Cfg::INIT_DEPTH;
+            $newPath = Cfg::DTPS;
+        } else {
+            /* this is NOT root node customer */
+            if (!isset($snap[$parentId])) {
+                $breakPoint = 'inconsistency detected'; // this is code for debug only
+            }
+            /** @var ESnap $parent */
+            $parent = $snap[$parentId];
+            $newDepth = $parent->getDepth() + 1;
+            $newPath = $parent->getPath() . $parentId . Cfg::DTPS;
+        }
+        $result->setDepth($newDepth);
+        $result->setPath($newPath);
+        return $result;
+    }
+
 }

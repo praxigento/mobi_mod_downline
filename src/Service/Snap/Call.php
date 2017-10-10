@@ -17,32 +17,32 @@ class Call
     extends \Praxigento\Core\Service\Base\Call
     implements \Praxigento\Downline\Service\ISnap
 {
-    /** @var \Praxigento\Core\Transaction\Database\IManager */
-    protected $_manTrans;
-    /** @var \Praxigento\Downline\Repo\Entity\Change */
-    protected $_repoChange;
-    /** @var \Praxigento\Downline\Repo\Entity\Snap */
-    protected $_repoSnap;
-    /** @var Sub\CalcSimple */
-    protected $_subCalc;
     /** @var  \Praxigento\Core\Tool\IPeriod */
-    protected $_toolPeriod;
+    protected $hlpPeriod;
+    /** @var \Praxigento\Core\Transaction\Database\IManager */
+    protected $manTrans;
+    /** @var \Praxigento\Downline\Repo\Entity\Change */
+    protected $repoChange;
+    /** @var \Praxigento\Downline\Repo\Entity\Snap */
+    protected $repoSnap;
+    /** @var \Praxigento\Downline\Service\Snap\Sub\CalcSimple */
+    protected $subCalc;
 
     public function __construct(
         \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
-        \Praxigento\Core\Tool\IPeriod $toolPeriod,
+        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,
-        Sub\CalcSimple $subCalc
+        \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
     ) {
         parent::__construct($logger, $manObj);
-        $this->_manTrans = $manTrans;
-        $this->_toolPeriod = $toolPeriod;
-        $this->_repoChange = $repoChange;
-        $this->_repoSnap = $repoSnap;
-        $this->_subCalc = $subCalc;
+        $this->manTrans = $manTrans;
+        $this->hlpPeriod = $hlpPeriod;
+        $this->repoChange = $repoChange;
+        $this->repoSnap = $repoSnap;
+        $this->subCalc = $subCalc;
     }
 
     /**
@@ -97,27 +97,27 @@ class Call
         $result = new Response\Calc();
         $this->logger->info("New downline snapshot calculation is requested.");
         $periodTo = $request->getDatestampTo();
-        $def = $this->_manTrans->begin();
+        $def = $this->manTrans->begin();
         try {
             /* get the last date with calculated snapshots */
             $reqLast = new Request\GetLastDate();
             /** @var  $resp Response\GetLastDate */
             $respLast = $this->getLastDate($reqLast);
-            $lastDatestamp = $respLast->getLastDate();
+            $dsLast = $respLast->getLastDate();
             /* get the snapshot on the last date */
-            $snapshot = $this->_repoSnap->getStateOnDate($lastDatestamp);
+            $snapshot = $this->getSnap($dsLast);
             /* get change log for the period */
-            $tsFrom = $this->_toolPeriod->getTimestampNextFrom($lastDatestamp);
-            $tsTo = $this->_toolPeriod->getTimestampTo($periodTo);
-            $changelog = $this->_repoChange->getChangesForPeriod($tsFrom, $tsTo);
+            $tsFrom = $this->hlpPeriod->getTimestampNextFrom($dsLast);
+            $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
+            $changelog = $this->repoChange->getChangesForPeriod($tsFrom, $tsTo);
             /* calculate snapshots for the period */
-            $updates = $this->_subCalc->calcSnapshots($snapshot, $changelog);
+            $updates = $this->subCalc->calcSnapshots($snapshot, $changelog);
             /* save new snapshots in DB */
-            $this->_repoSnap->saveCalculatedUpdates($updates);
-            $this->_manTrans->commit($def);
+            $this->repoSnap->saveCalculatedUpdates($updates);
+            $this->manTrans->commit($def);
             $result->markSucceed();
         } finally {
-            $this->_manTrans->end($def);
+            $this->manTrans->end($def);
         }
         return $result;
     }
@@ -208,23 +208,35 @@ class Call
         $result = new Response\GetLastDate();
         $this->logger->info("'Get Last Data' operation is requested.");
         /* get the maximal date for existing snapshot */
-        $snapMaxDate = $this->_repoSnap->getMaxDatestamp();
+        $snapMaxDate = $this->repoSnap->getMaxDatestamp();
         if ($snapMaxDate) {
             /* there is snapshots data */
             $result->set([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
             $result->markSucceed();
         } else {
             /* there is no snapshot data yet, get change log minimal date  */
-            $changelogMinDate = $this->_repoChange->getChangelogMinDate();
+            $changelogMinDate = $this->repoChange->getChangelogMinDate();
             if ($changelogMinDate) {
-                $period = $this->_toolPeriod->getPeriodCurrentOld($changelogMinDate);
-                $dayBefore = $this->_toolPeriod->getPeriodPrev($period);
+                $period = $this->hlpPeriod->getPeriodCurrent($changelogMinDate);
+                $dayBefore = $this->hlpPeriod->getPeriodPrev($period);
                 $this->logger->info("The last date for downline snapshot is '$dayBefore'.");
                 $result->set([Response\GetLastDate::LAST_DATE => $dayBefore]);
                 $result->markSucceed();
             }
         }
         $this->logger->info("'Get Last Data' operation is completed.");
+        return $result;
+    }
+
+    private function getSnap($datestamp)
+    {
+        $result = [];
+        $snapshot = $this->repoSnap->getStateOnDate($datestamp);
+        foreach ($snapshot as $one) {
+            $item = new Snap($one);
+            $custId = $item->getCustomerId();
+            $result[$custId] = $item;
+        }
         return $result;
     }
 
@@ -242,9 +254,9 @@ class Call
         $dateOn = $request->getDatestamp();
         $addCountryCode = (bool)$request->getAddCountryCode();
         if (is_null($dateOn)) {
-            $dateOn = $this->_toolPeriod->getPeriodCurrentOld();
+            $dateOn = $this->hlpPeriod->getPeriodCurrentOld();
         }
-        $rows = $this->_repoSnap->getStateOnDate($dateOn, $addCountryCode);
+        $rows = $this->repoSnap->getStateOnDate($dateOn, $addCountryCode);
         $result->set($rows);
         $result->markSucceed();
         $this->logger->info("'Get Downline Tree state' operation is completed.");

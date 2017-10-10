@@ -5,20 +5,18 @@
 
 namespace Praxigento\Downline\Repo\Entity;
 
-use Magento\Framework\App\ResourceConnection;
-use Praxigento\Core\Repo\Def\Entity as BaseEntityRepo;
-use Praxigento\Core\Repo\IGeneric as IRepoGeneric;
-use Praxigento\Downline\Repo\Entity\Data\Change as Entity;
+use Praxigento\Downline\Repo\Entity\Data\Change as EChange;
 
-class Change extends BaseEntityRepo
+class Change
+    extends \Praxigento\Core\Repo\Def\Entity
 {
 
     public function __construct(
-        ResourceConnection $resource,
-        IRepoGeneric $repoGeneric
+        \Magento\Framework\App\ResourceConnection $resource,
+        \Praxigento\Core\Repo\IGeneric $repoGeneric
     )
     {
-        parent::__construct($resource, $repoGeneric, Entity::class);
+        parent::__construct($resource, $repoGeneric, EChange::class);
     }
 
     /**
@@ -55,12 +53,12 @@ class Change extends BaseEntityRepo
     {
         $result = null;
         $asChange = 'c';
-        $tblChange = $this->resource->getTableName(Entity::ENTITY_NAME);
+        $tblChange = $this->resource->getTableName(EChange::ENTITY_NAME);
         /* select from account */
         $query = $this->conn->select();
-        $query->from([$asChange => $tblChange], [Entity::ATTR_DATE_CHANGED]);
+        $query->from([$asChange => $tblChange], [EChange::ATTR_DATE_CHANGED]);
         /* order by */
-        $query->order([$asChange . '.' . Entity::ATTR_DATE_CHANGED . ' ASC']);
+        $query->order([$asChange . '.' . EChange::ATTR_DATE_CHANGED . ' ASC']);
         /* perform query */
         $result = $this->conn->fetchOne($query);
         return $result;
@@ -78,18 +76,18 @@ class Change extends BaseEntityRepo
      * @param $timestampFrom
      * @param $timestampTo
      *
-     * @return array
+     * @return EChange[]
      */
     public function getChangesForPeriod($timestampFrom, $timestampTo)
     {
         $asChange = 'log';
-        $tblChange = $this->resource->getTableName(Entity::ENTITY_NAME);
+        $tblChange = $this->resource->getTableName(EChange::ENTITY_NAME);
         /* select from prxgt_dwnl_change */
         $query = $this->conn->select();
         $query->from([$asChange => $tblChange]);
         /* where */
-        $query->where($asChange . '.' . Entity::ATTR_DATE_CHANGED . '>=:date_from');
-        $query->where($asChange . '.' . Entity::ATTR_DATE_CHANGED . '<:date_to');
+        $query->where($asChange . '.' . EChange::ATTR_DATE_CHANGED . '>=:date_from');
+        $query->where($asChange . '.' . EChange::ATTR_DATE_CHANGED . '<:date_to');
         $bind = [
             'date_from' => $timestampFrom,
             'date_to' => $timestampTo
@@ -99,10 +97,15 @@ class Change extends BaseEntityRepo
          * Order is important for tree snapshot calculation (MOBI-202)
          */
         $query->order([
-            $asChange . '.' . Entity::ATTR_DATE_CHANGED . ' ASC',
-            $asChange . '.' . Entity::ATTR_CUSTOMER_ID . ' ASC'
+            $asChange . '.' . EChange::ATTR_DATE_CHANGED . ' ASC',
+            $asChange . '.' . EChange::ATTR_CUSTOMER_ID . ' ASC'
         ]);
-        $result = $this->conn->fetchAll($query, $bind);
+        $rs = $this->conn->fetchAll($query, $bind);
+        $result = [];
+        foreach ($rs as $one) {
+            $item = new EChange($one);
+            $result[] = $item;
+        }
         return $result;
     }
 
