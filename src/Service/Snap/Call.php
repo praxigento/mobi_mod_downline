@@ -254,7 +254,7 @@ class Call
         $dateOn = $request->getDatestamp();
         $addCountryCode = (bool)$request->getAddCountryCode();
         if (is_null($dateOn)) {
-            $dateOn = $this->hlpPeriod->getPeriodCurrentOld();
+            $dateOn = $this->hlpPeriod->getPeriodCurrent();
         }
         $rows = $this->repoSnap->getStateOnDate($dateOn, $addCountryCode);
         $result->set($rows);
