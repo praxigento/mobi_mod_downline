@@ -4,7 +4,6 @@
  */
 namespace Praxigento\Downline\Observer;
 
-use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
 /**
@@ -31,8 +30,10 @@ class CustomerSaveAfterDataObject implements ObserverInterface
         $idAfter = $afterSave->getId();
         if ($idBefore != $idAfter) {
             /* this is newly saved customer, register it into downline */
+            $parentId = $beforeSave->{'parentId'};
             $req = new \Praxigento\Downline\Service\Customer\Request\Add();
             $req->setCustomerId($idAfter);
+            $req->setParentId($parentId);
             /* TODO: reference should be generated */
             $req->setReference($idAfter);
             $this->callCustomer->add($req);
