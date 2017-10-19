@@ -23,8 +23,18 @@ class Tree
     {
         $result = [];
         foreach ($tree as $one) {
-            /* $one should be an array or a DataObject */
-            $id = (is_array($one)) ? $one[$key] : $one->get($key);
+            /* $one should be an array ... */
+            if (is_array($one)) {
+                $id = $one[$key];
+            } else {
+                /* ... or stdClass with property  */
+                if (isset($one->{$key})) {
+                    $id = $one->{$key};
+                } else {
+                    /* ... or a DataObject */
+                    $id = $one->get($key);
+                }
+            }
             $result[$id] = $one;
         }
         return $result;
