@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
@@ -19,7 +20,8 @@ class CustomerSaveAfterDataObject implements ObserverInterface
 
     public function __construct(
         \Praxigento\Downline\Service\ICustomer $callCustomer
-    ) {
+    )
+    {
         $this->callCustomer = $callCustomer;
     }
 
@@ -33,8 +35,8 @@ class CustomerSaveAfterDataObject implements ObserverInterface
         $idAfter = $afterSave->getId();
         if ($idBefore != $idAfter) {
             /* this is newly saved customer, register it into downline */
-            $mlmId = $beforeSave->{self::A_CUST_MLM_ID};
-            $parentId = $beforeSave->{self::A_PARENT_MAGE_ID};
+            $mlmId = $beforeSave->{self::A_CUST_MLM_ID} ?? null;
+            $parentId = $beforeSave->{self::A_PARENT_MAGE_ID} ?? null;
             $req = new \Praxigento\Downline\Service\Customer\Request\Add();
             $req->setCustomerId($idAfter);
             $req->setParentId($parentId);
