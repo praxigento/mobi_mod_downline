@@ -30,6 +30,7 @@ class Snaps
         \Symfony\Component\Console\Output\OutputInterface $output
     )
     {
+        $output->writeln("<info>{$this->cmdDesc}<info>");
         $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
         $req->setDatestampTo('21001231');
         $resp = $this->callSnap->calc($req);
