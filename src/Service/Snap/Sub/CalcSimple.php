@@ -35,7 +35,7 @@ class CalcSimple
      * We use $currentState array to trace actual state during the changes. Target updates are placed in the $result.
      *
      * @param \Praxigento\Downline\Repo\Entity\Data\Snap[] $snap current snapshot (customer, parent, depth, path),
-     *  see \Praxigento\Downline\Repo\Entity\ESnap::getStateOnDate
+     *  see \Praxigento\Downline\Repo\Entity\Snap::getStateOnDate
      * @param \Praxigento\Downline\Repo\Entity\Data\Change[] $changes
      *
      * @return array
@@ -68,6 +68,9 @@ class CalcSimple
                 $pathReplace = $pathUpdated . $customerId . Cfg::DTPS;
 
                 /* update path teams for current customer */
+                if(!isset($mapByPath[$currPath])) {
+                    $mapByPath[$currPath] = [];
+                }
                 $teamCurr = &$mapByPath[$currPath]; // use & to work with nested array directly (not with copy of)
                 if (
                     is_array($teamCurr)
