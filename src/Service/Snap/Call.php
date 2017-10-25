@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Snap;
+use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
@@ -48,10 +48,10 @@ class Call
     /**
      * Compose $result array as array of elements:
      * [
-     *  Snap::ATTR_CUSTOMER_ID,
-     *  Snap::ATTR_PARENT_ID,
-     *  Snap::ATTR_DEPTH,
-     *  Snap::ATTR_PATH
+     *  ESnap::ATTR_CUSTOMER_ID,
+     *  ESnap::ATTR_PARENT_ID,
+     *  ESnap::ATTR_DEPTH,
+     *  ESnap::ATTR_PATH
      * ]
      * to insert into DB as record in prxgt_dwnl_snap.
      *
@@ -65,18 +65,18 @@ class Call
             if (is_null($parentId)) {
                 /* this is root node */
                 $result[$custId] = [
-                    Snap::ATTR_CUSTOMER_ID => $custId,
-                    Snap::ATTR_PARENT_ID => $custId,
-                    Snap::ATTR_DEPTH => Cfg::INIT_DEPTH,
-                    Snap::ATTR_PATH => Cfg::DTPS
+                    ESnap::ATTR_CUSTOMER_ID => $custId,
+                    ESnap::ATTR_PARENT_ID => $custId,
+                    ESnap::ATTR_DEPTH => Cfg::INIT_DEPTH,
+                    ESnap::ATTR_PATH => Cfg::DTPS
                 ];
             } else {
                 $parentData = $result[$parentId];
                 $result[$custId] = [
-                    Snap::ATTR_CUSTOMER_ID => $custId,
-                    Snap::ATTR_PARENT_ID => $parentId,
-                    Snap::ATTR_DEPTH => $parentData[Snap::ATTR_DEPTH] + 1,
-                    Snap::ATTR_PATH => $parentData[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
+                    ESnap::ATTR_CUSTOMER_ID => $custId,
+                    ESnap::ATTR_PARENT_ID => $parentId,
+                    ESnap::ATTR_DEPTH => $parentData[ESnap::ATTR_DEPTH] + 1,
+                    ESnap::ATTR_PATH => $parentData[ESnap::ATTR_PATH] . $parentId . Cfg::DTPS
                 ];
             }
             if (sizeof($children) > 0) {
@@ -104,6 +104,9 @@ class Call
             /** @var  $resp Response\GetLastDate */
             $respLast = $this->getLastDate($reqLast);
             $dsLast = $respLast->getLastDate();
+            /* clean snapshot on the last date (MOBI-956) */
+            // $where = ESnap::ATTR_DATE . '>=' . $dsLast;
+            // $this->repoSnap->delete($where);
             /* get the snapshot on the last date */
             $snapshot = $this->getSnap($dsLast);
             /* get change log for the period */
@@ -233,7 +236,7 @@ class Call
         $result = [];
         $snapshot = $this->repoSnap->getStateOnDate($datestamp);
         foreach ($snapshot as $one) {
-            $item = new Snap($one);
+            $item = new ESnap($one);
             $custId = $item->getCustomerId();
             $result[$custId] = $item;
         }
