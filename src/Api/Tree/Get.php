@@ -15,7 +15,7 @@ class Get
     implements \Praxigento\Downline\Api\Tree\GetInterface
 {
     const BIND_MAX_DEPTH = 'maxDepth';
-    const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::BIND_ON_DATE;
+    const BIND_ON_DATE = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::BND_ON_DATE;
     const BIND_PATH = 'path';
     const BIND_ROOT_CUSTOMER_ID = 'rootCustId';
 

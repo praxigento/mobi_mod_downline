@@ -25,9 +25,9 @@ class Builder
     const A_NAME_LAST = 'nameLast';
     const A_NAME_MIDDLE = 'nameMiddle';
 
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
+    public function build(\Magento\Framework\DB\Select $source = null)
     {
-        $result = $qbuild->getSelectQuery();
+        $result = clone $source;
         $asDwnlCust = self::AS_DOWNLINE_CUSTOMER;
         $asDwnlSnap = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP;
         $asCust = self::AS_CUSTOMER;
@@ -55,6 +55,14 @@ class Builder
             self::A_NAME_LAST => Cfg::E_CUSTOMER_A_LASTNAME
         ];
         $result->joinLeft($tblCust, $on, $cols);
+        return $result;
+    }
+
+
+    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
+    {
+        $query = $qbuild->getSelectQuery();
+        $result = $this->build($query);
         return $result;
     }
 }

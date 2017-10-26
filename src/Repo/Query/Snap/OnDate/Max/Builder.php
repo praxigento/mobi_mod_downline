@@ -14,10 +14,15 @@ use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder
 {
+    /** Tables aliases for external usage ('camelCase' naming) */
     const AS_DWNL_SNAP_4_MAX = 'prxgtDwnlSnap4Max';
+
+    /** Columns/expressions aliases for external usage ('camelCase' naming) */
     const A_CUST_ID = Snap::ATTR_CUSTOMER_ID;
     const A_DATE_MAX = 'date_max';
-    const BIND_ON_DATE = 'onDate';
+
+    /** Bound variables names ('camelCase' naming) */
+    const BND_ON_DATE = 'onDate';
 
     /**
      * SELECT
@@ -50,7 +55,7 @@ class Builder
 
         /* query tuning */
         $result->group($asSnap . '.' . Snap::ATTR_CUSTOMER_ID);
-        $result->where($asSnap . '.' . Snap::ATTR_DATE . '<=:' . self::BIND_ON_DATE);
+        $result->where($asSnap . '.' . Snap::ATTR_DATE . '<=:' . self::BND_ON_DATE);
 
         return $result;
     }

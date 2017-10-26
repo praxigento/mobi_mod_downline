@@ -128,8 +128,8 @@ class Snap extends BaseEntityRepo
     {
         $result = [];
         $bind = [];
-        $bind[QBldMax::BIND_ON_DATE] = $datestamp;
-        $query = $this->qbuildSnapOnDate->getSelectQuery();
+        $bind[QBldMax::BND_ON_DATE] = $datestamp;
+        $query = $this->qbuildSnapOnDate->build();
         if ($addCountryCode) {
             /* define tables aliases */
             $as = self::AS_TBL_DWNL;

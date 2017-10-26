@@ -11,7 +11,7 @@ use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
  * Build query to get downline tree snap on given date.
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Def\Builder
+    extends \Praxigento\Core\Repo\Query\Builder
 {
     /** Tables aliases. */
     const AS_DWNL_SNAP = 'prxgtDwnlSnap';
@@ -27,7 +27,7 @@ class Builder
     const A_PATH = ESnap::ATTR_PATH;
 
     /** Bound variables names */
-    const BIND_ON_DATE = MaxBuilder::BIND_ON_DATE;
+    const BND_ON_DATE = MaxBuilder::BND_ON_DATE;
 
     /** @var  \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder */
     protected $qbldMax;
@@ -41,33 +41,6 @@ class Builder
     }
 
     public function build(\Magento\Framework\DB\Select $source = null)
-    {
-        $result = $this->getSelectQuery(); // build top level query (SELECT FROM)
-        return $result;
-    }
-
-    /**
-     * SELECT
-     * `prxgtDwnlSnap`.`customer_id`,
-     * `prxgtDwnlSnap`.`parent_id`,
-     * `prxgtDwnlSnap`.`depth`,
-     * `prxgtDwnlSnap`.`path`
-     * FROM `prxgt_dwnl_snap` AS `prxgtDwnlSnap`
-     * LEFT JOIN (SELECT
-     * `prxgtDwnlSnap4Max`.`customer_id`,
-     * (MAX(`prxgtDwnlSnap4Max`.`date`)) AS `date_max`
-     * FROM `prxgt_dwnl_snap` AS `prxgtDwnlSnap4Max`
-     * WHERE (prxgtDwnlSnap4Max.date <= :onDate)
-     * GROUP BY `prxgtDwnlSnap4Max`.`customer_id`) AS `prxgtDwnlSnapMax`
-     * ON (prxgtDwnlSnapMax.customer_id = prxgtDwnlSnap.customer_id)
-     * AND (prxgtDwnlSnapMax.date_max = prxgtDwnlSnap.date)
-     * WHERE (prxgtDwnlSnapMax.date_max IS NOT NULL)
-     *
-     * @inheritdoc
-     *
-     * @SuppressWarnings(PHPMD.ShortVariable)
-     */
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
     {
         $result = $this->conn->select();
         /* define tables aliases */
