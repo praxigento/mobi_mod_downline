@@ -70,4 +70,30 @@ class Tree
         }
         return $result;
     }
+
+    /**
+     * Map 'value' elements of the $data array on $id elements.
+     *
+     * @param array|\Praxigento\Core\Data[] $data associative array with 'id' elements & 'value' elements.
+     * @param string $keyId key for 'id' element
+     * @param string $keyValue key for 'value' element
+     * @return array [id => value, ...]
+     */
+    public function mapValueById($data, $keyId, $keyValue)
+    {
+        $result = [];
+        foreach ($data as $one) {
+            /* $one should be an array or a DataObject */
+            if (is_array($one)) {
+                $id = $one[$keyId];
+                $value = $one[$keyValue];
+            } else {
+                /* this should be a DataObject */
+                $id = $one->get($keyId);
+                $value = $one->get($keyValue);
+            }
+            $result[$id] = $value;
+        }
+        return $result;
+    }
 }
