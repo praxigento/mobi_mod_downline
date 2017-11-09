@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
 use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
@@ -35,7 +36,8 @@ class Builder
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder $qbldMax
-    ) {
+    )
+    {
         parent::__construct($resource);
         $this->qbldMax = $qbldMax;
     }
@@ -57,7 +59,7 @@ class Builder
         ];
         $result->from([$asSnap => $tbl], $cols);
         /* left join $q4Max */
-        $q4Max = $this->qbldMax->getSelectQuery();
+        $q4Max = $this->qbldMax->build();
         $on = '(' . $asMax . '.' . MaxBuilder::A_CUST_ID . '=' . $asSnap . '.' . ESnap::ATTR_CUSTOMER_ID . ')';
         $on .= ' AND (' . $asMax . '.' . MaxBuilder::A_DATE_MAX . '=' . $asSnap . '.' . ESnap::ATTR_DATE . ')';
         $result->joinLeft([$asMax => $q4Max], $on, []);

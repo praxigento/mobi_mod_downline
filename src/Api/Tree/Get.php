@@ -50,7 +50,8 @@ class Get
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Actual\Builder $qbuildSnapActual,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp\Builder $qbuildSnapDcp,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qbuildSnapOnDate
-    ) {
+    )
+    {
         parent::__construct($manObj, null, $hlpCfg);
         $this->authenticator = $authenticator;
         $this->hlpPeriod = $hlpPeriod;
@@ -105,7 +106,8 @@ class Get
             $baseQbuild = $this->qbuildSnapOnDate;
             $bind->set(self::BIND_ON_DATE, $onDate);
         }
-        $query = $this->qbuildSnapDcp->getSelectQuery($baseQbuild);
+        $queryBase = $baseQbuild->build();
+        $query = $this->qbuildSnapDcp->build($queryBase);
 
         /* save query to context */
         $ctx->set(self::CTX_QUERY, $query);

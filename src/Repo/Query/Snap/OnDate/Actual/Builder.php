@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate\Actual;
 
 use Praxigento\Downline\Repo\Entity\Data\Customer as Customer;
@@ -13,21 +14,11 @@ use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
  * see \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Def\Builder
+    extends \Praxigento\Core\Repo\Query\Builder
 {
     const AS_TBL_DWNL_SNAP = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP;
 
-    /**
-     * SELECT
-     * `prxgtDwnlSnap`.`customer_id`,
-     * `prxgtDwnlSnap`.`parent_id`,
-     * `prxgtDwnlSnap`.`depth`,
-     * `prxgtDwnlSnap`.`path`
-     * FROM `prxgt_dwnl_customer` AS `prxgtDwnlSnap`
-     *
-     * @inheritdoc
-     */
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
+    public function build(\Magento\Framework\DB\Select $source = null)
     {
         $asSnap = self::AS_TBL_DWNL_SNAP;
         $tblSnap = $this->resource->getTableName(Customer::ENTITY_NAME);
@@ -42,4 +33,5 @@ class Builder
         ]);
         return $result;
     }
+
 }

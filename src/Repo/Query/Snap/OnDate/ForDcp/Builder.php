@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp;
 
 use Praxigento\Downline\Config as Cfg;
@@ -12,7 +13,7 @@ use Praxigento\Downline\Config as Cfg;
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Def\Builder
+    extends \Praxigento\Core\Repo\Query\Builder
 {
     /** Tables aliases. */
     const AS_CUSTOMER = 'mageCust';
@@ -58,11 +59,4 @@ class Builder
         return $result;
     }
 
-
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
-    {
-        $query = $qbuild->getSelectQuery();
-        $result = $this->build($query);
-        return $result;
-    }
 }
