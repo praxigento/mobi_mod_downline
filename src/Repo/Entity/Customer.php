@@ -53,7 +53,7 @@ class Customer extends BaseEntityRepo
         $result = null;
         $cols = null;
         $qCode = $this->conn->quote($mlmId);
-        $where = Entity::ATTR_HUMAN_REF . '=' . $qCode;
+        $where = Entity::ATTR_MLM_ID . '=' . $qCode;
         $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&

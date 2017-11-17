@@ -18,7 +18,7 @@ class Snap extends BaseEntityRepo
     const AS_ATTR_DATE = 'date';
     const AS_TBL_DWNL = 'prxgtDwnlAct';
     const A_COUNTRY = ECustomer::ATTR_COUNTRY_CODE;
-    const A_MLM_ID = ECustomer::ATTR_HUMAN_REF;
+    const A_MLM_ID = ECustomer::ATTR_MLM_ID;
 
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
     protected $qbuildSnapOnDate;
@@ -138,7 +138,7 @@ class Snap extends BaseEntityRepo
                 . QBldSnap::AS_DWNL_SNAP . '.' . Entity::ATTR_CUSTOMER_ID;
             $cols = [
                 self::A_COUNTRY => ECustomer::ATTR_COUNTRY_CODE,
-                self::A_MLM_ID => ECustomer::ATTR_HUMAN_REF
+                self::A_MLM_ID => ECustomer::ATTR_MLM_ID
             ];
             $query->joinLeft([$as => $tbl], $on, $cols);
         }

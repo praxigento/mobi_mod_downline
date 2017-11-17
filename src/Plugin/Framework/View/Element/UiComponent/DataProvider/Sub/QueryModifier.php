@@ -35,7 +35,7 @@ class QueryModifier
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
         // ref (mlm id)
         $fieldAlias = self::AS_FLD_CUSTOMER_REF;
-        $fieldFullName = self::AS_TBL_CUST . '.' . Customer::ATTR_HUMAN_REF;
+        $fieldFullName = self::AS_TBL_CUST . '.' . Customer::ATTR_MLM_ID;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
         // parent id
         $fieldAlias = self::AS_FLD_PARENT_ID;
@@ -43,7 +43,7 @@ class QueryModifier
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
         // parent ref (mlm id)
         $fieldAlias = self::AS_FLD_PARENT_REF;
-        $fieldFullName = self::AS_TBL_PARENT_CUST . '.' . Customer::ATTR_HUMAN_REF;
+        $fieldFullName = self::AS_TBL_PARENT_CUST . '.' . Customer::ATTR_MLM_ID;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
     }
 
@@ -55,7 +55,7 @@ class QueryModifier
         $tbl = [self::AS_TBL_CUST => $this->_resource->getTableName(Customer::ENTITY_NAME)];
         $on = self::AS_TBL_CUST . '.' . Customer::ATTR_CUSTOMER_ID . '=main_table.' . Cfg::E_CUSTOMER_A_ENTITY_ID;
         $cols = [
-            self::AS_FLD_CUSTOMER_REF => Customer::ATTR_HUMAN_REF,
+            self::AS_FLD_CUSTOMER_REF => Customer::ATTR_MLM_ID,
             self::AS_FLD_CUSTOMER_DEPTH => Customer::ATTR_DEPTH,
             self::AS_FLD_PARENT_ID => Customer::ATTR_PARENT_ID
         ];
@@ -64,7 +64,7 @@ class QueryModifier
         $tbl = [self::AS_TBL_PARENT_CUST => $this->_resource->getTableName(Customer::ENTITY_NAME)];
         $on = self::AS_TBL_PARENT_CUST . '.' . Customer::ATTR_CUSTOMER_ID . '=' . self::AS_TBL_CUST . '.' . Customer::ATTR_PARENT_ID;
         $cols = [
-            self::AS_FLD_PARENT_REF => Customer::ATTR_HUMAN_REF
+            self::AS_FLD_PARENT_REF => Customer::ATTR_MLM_ID
         ];
         $select->joinLeft($tbl, $on, $cols);
         // $sql = (string)$query;

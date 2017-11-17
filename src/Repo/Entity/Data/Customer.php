@@ -11,8 +11,7 @@ class Customer
     const ATTR_COUNTRY_CODE = 'country_code';
     const ATTR_CUSTOMER_ID = 'customer_ref';
     const ATTR_DEPTH = 'depth';
-    /* TODO: rename to MLM ID */
-    const ATTR_HUMAN_REF = 'mlm_id';
+    const ATTR_MLM_ID = 'mlm_id';
     const ATTR_PARENT_ID = 'parent_ref';
     const ATTR_PATH = 'path';
     const ATTR_REFERRAL_CODE = 'referral_code';
@@ -51,7 +50,7 @@ class Customer
      */
     public function getHumanRef()
     {
-        $result = parent::get(self::ATTR_HUMAN_REF);
+        $result = parent::get(self::ATTR_MLM_ID);
         return $result;
     }
 
@@ -116,7 +115,7 @@ class Customer
      */
     public function setHumanRef($data)
     {
-        parent::set(self::ATTR_HUMAN_REF, $data);
+        parent::set(self::ATTR_MLM_ID, $data);
     }
 
     /**

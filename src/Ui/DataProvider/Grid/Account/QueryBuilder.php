@@ -32,7 +32,7 @@ class QueryBuilder
             $this->mapper = parent::getMapper();
             /* then add own aliases */
             $key = self::A_MLMID;
-            $value = self::AS_DWNL . '.' . EDownline::ATTR_HUMAN_REF;
+            $value = self::AS_DWNL . '.' . EDownline::ATTR_MLM_ID;
             $this->mapper->add($key, $value);
         }
         $result = $this->mapper;
@@ -67,7 +67,7 @@ class QueryBuilder
         $tbl = $this->resource->getTableName(EDownline::ENTITY_NAME);
         $as = $asDwnl;
         $cols = [
-            self::A_MLMID => EDownline::ATTR_HUMAN_REF
+            self::A_MLMID => EDownline::ATTR_MLM_ID
         ];
         $cond = $as . '.' . EDownline::ATTR_CUSTOMER_ID . '=' . $asAcc . '.' . EAccount::ATTR_CUST_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);

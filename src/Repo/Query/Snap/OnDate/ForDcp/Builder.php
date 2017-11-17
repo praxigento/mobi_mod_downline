@@ -39,7 +39,7 @@ class Builder
         $on = $asDwnlCust . '.' . \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_CUSTOMER_ID . '='
             . $asDwnlSnap . '.' . \Praxigento\Downline\Repo\Entity\Data\Snap::ATTR_CUSTOMER_ID;
         $cols = [
-            self::A_MLM_ID => \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_HUMAN_REF,
+            self::A_MLM_ID => \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_MLM_ID,
             self::A_COUNTRY_CODE => \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_COUNTRY_CODE
         ];
         $result->joinLeft($tblDwnlCust, $on, $cols);

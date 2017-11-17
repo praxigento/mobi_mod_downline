@@ -85,7 +85,7 @@ class Call implements ICustomer
                 Customer::ATTR_REFERRAL_CODE => $customerId
             ];
             if (isset($humanReference)) {
-                $toAdd[Customer::ATTR_HUMAN_REF] = $humanReference;
+                $toAdd[Customer::ATTR_MLM_ID] = $humanReference;
             }
             if (isset($countryCode)) {
                 $toAdd[Customer::ATTR_COUNTRY_CODE] = $countryCode;
