@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Accounting\Controller\Adminhtml\Customer\Accounting;
+namespace Praxigento\Downline\Controller\Adminhtml\Customer;
 
 /**
  * Get suggestions for customers by key (name/email/mlm_id).
