@@ -9,7 +9,7 @@ namespace Praxigento\Downline\Api\Transaction;
 class Get
     extends \Praxigento\Accounting\Api\Transaction\Get
 {
-    /** @var  \Praxigento\Downline\Repo\Query\Trans\Get\Builder */
+    /** @var  \Praxigento\Downline\Repo\Query\TransGet */
     protected $qbld;
 
     public function __construct(
@@ -17,7 +17,7 @@ class Get
         \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldTrans,
         \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Core\Api\IAuthenticator $authenticator,
-        \Praxigento\Downline\Repo\Query\Trans\Get\Builder $qbldDwnlTrans
+        \Praxigento\Downline\Repo\Query\TransGet $qbldDwnlTrans
     ) {
         parent::__construct($manObj, $qbldTrans, $hlpCfg, $authenticator);
         /* replace parent $qbld by own (bad practice, I know :() */

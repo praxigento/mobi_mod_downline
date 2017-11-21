@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Repo\Query\Trans\Get;
+
+namespace Praxigento\Downline\Repo\Query;
 
 use Praxigento\Accounting\Repo\Entity\Data\Account as Acc;
 use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
@@ -12,7 +13,7 @@ use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
  *
  * @deprecated remove it if is not used
  */
-class Builder
+class TransGet
     extends \Praxigento\Core\Repo\Query\Def\Builder
 {
     /**
