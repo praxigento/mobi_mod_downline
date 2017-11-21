@@ -4,6 +4,7 @@
  *
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline;
 
 class Config extends \Praxigento\Core\Config
@@ -13,5 +14,5 @@ class Config extends \Praxigento\Core\Config
     /**Depth for root nodes. */
     const INIT_DEPTH = 0;
     const MODULE = 'Praxigento_Downline';
-
+    const ROUTE_NAME_ADMIN = 'prxgt_dwnl';
 }

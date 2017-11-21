@@ -6,6 +6,8 @@
     <!-- *** -->
     <!-- API -->
     <!-- *** -->
+    <preference for="\Praxigento\Downline\Api\Customer\SearchInterface"
+            type="\Praxigento\Downline\Service\Customer\Search"/>
     <preference for="\Praxigento\Accounting\Api\Transaction\GetInterface"
             type="\Praxigento\Downline\Api\Transaction\Get"/>
     <preference for="\Praxigento\Downline\Api\Tree\GetInterface"

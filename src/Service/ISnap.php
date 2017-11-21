@@ -7,6 +7,9 @@ namespace Praxigento\Downline\Service;
 use Praxigento\Downline\Service\Snap\Request;
 use Praxigento\Downline\Service\Snap\Response;
 
+/**
+ * @deprecated old-style service, should be split to separate operations.
+ */
 interface ISnap {
     /**
      * Calculate downline snapshots up to requested date (including).

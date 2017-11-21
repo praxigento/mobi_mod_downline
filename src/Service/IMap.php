@@ -7,6 +7,9 @@ namespace Praxigento\Downline\Service;
 use Praxigento\Downline\Service\Map\Request;
 use Praxigento\Downline\Service\Map\Response;
 
+/**
+ * @deprecated old-style service, should be split to separate operations.
+ */
 interface IMap {
 
     /**
