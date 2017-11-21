@@ -36,7 +36,6 @@ class CustomerGet
     public function build(\Magento\Framework\DB\Select $source = null)
     {
         $result = $this->conn->select();
-        $result = $source;
 
         /* define tables aliases for internal usage (in this method) */
         $asCust = self::AS_MAGE_CUST;
