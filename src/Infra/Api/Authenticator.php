@@ -34,7 +34,7 @@ class Authenticator
             !is_null($this->cacheCurrentCustomer) &&
             ($this->cacheCurrentCustomer->get(self::A_DWNL_DATA) == null)
         ) {
-            /* add donwline data to cache if missed */
+            /* add downline data to cache if missed */
             $entityId = $this->cacheCurrentCustomer->get(Cfg::E_CUSTOMER_A_ENTITY_ID);
             $dwnlData = new \Praxigento\Downline\Repo\Entity\Data\Customer();
             if ($entityId) {

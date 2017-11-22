@@ -6,6 +6,8 @@ namespace Praxigento\Downline\Api\Tree\Get;
 
 /**
  * Get downline subtree entries for the customer (including bonus stats).
+ *
+ * @deprecated TODO: use it or remove it.
  */
 interface EntriesInterface
 {

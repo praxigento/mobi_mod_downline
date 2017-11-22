@@ -6,6 +6,8 @@ namespace Praxigento\Downline\Api\Tree;
 
 /**
  * Get downline subtree.
+ *
+ * @deprecated TODO: use it or remove it.
  */
 interface GetInterface
 {

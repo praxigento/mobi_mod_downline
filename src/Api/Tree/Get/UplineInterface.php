@@ -6,6 +6,8 @@ namespace Praxigento\Downline\Api\Tree\Get;
 
 /**
  * Get upline data for current customer.
+ *
+ * @deprecated TODO: use it or remove it.
  */
 interface UplineInterface
 {
