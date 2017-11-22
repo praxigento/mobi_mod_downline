@@ -6,33 +6,30 @@
 
 namespace Praxigento\Downline\Repo\Query\Customer;
 
-
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
 
 class Get
     extends \Praxigento\Core\Repo\Query\Builder
 {
-    const AS_DWNL_CUST = 'dwnlCust';
     /** Tables aliases for external usage ('camelCase' naming) */
+    const AS_DWNL_CUST = 'dwnlCust';
     const AS_MAGE_CUST = 'mageCust';
+
+    /** Columns/expressions aliases for external usage ('camelCase' naming) */
     const A_EMAIL = 'email';
     const A_ID = 'id';
-    /** Columns/expressions aliases for external usage ('camelCase' naming) */
     const A_MLM_ID = 'mlmId';
     const A_NAME_FIRST = 'nameFirst';
     const A_NAME_LAST = 'nameLast';
+
     /** Bound variables names ('camelCase' naming) */
     const BND_CUST_ID = 'custId';
-    const E_DWNL_CUST = EDwnlCust::ENTITY_NAME;
+
     /** Entities are used in the query */
+    const E_DWNL_CUST = EDwnlCust::ENTITY_NAME;
     const E_MAGE_CUST = Cfg::ENTITY_MAGE_CUSTOMER;
 
-    /**
-     * SELECT ...
-     *
-     * @inheritdoc
-     */
     public function build(\Magento\Framework\DB\Select $source = null)
     {
         $result = $this->conn->select();
@@ -48,7 +45,6 @@ class Get
             self::A_MLM_ID => EDwnlCust::ATTR_MLM_ID
         ];
         $result->from([$as => $tbl], $cols);
-
 
         /* LEFT JOIN customer_entity */
         $tbl = $this->resource->getTableName(Cfg::ENTITY_MAGE_CUSTOMER);
