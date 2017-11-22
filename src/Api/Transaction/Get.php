@@ -5,11 +5,15 @@
 
 namespace Praxigento\Downline\Api\Transaction;
 
-
+/**
+ * Extends Accounting API operation.
+ *
+ * TODO: we need to re-design API extension or remove this variant.
+ */
 class Get
     extends \Praxigento\Accounting\Api\Transaction\Get
 {
-    /** @var  \Praxigento\Downline\Repo\Query\TransGet */
+    /** @var  \Praxigento\Downline\Repo\Query\Trans\Get */
     protected $qbld;
 
     public function __construct(
@@ -17,8 +21,9 @@ class Get
         \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldTrans,
         \Praxigento\Core\Helper\Config $hlpCfg,
         \Praxigento\Core\Api\IAuthenticator $authenticator,
-        \Praxigento\Downline\Repo\Query\TransGet $qbldDwnlTrans
-    ) {
+        \Praxigento\Downline\Repo\Query\Trans\Get $qbldDwnlTrans
+    )
+    {
         parent::__construct($manObj, $qbldTrans, $hlpCfg, $authenticator);
         /* replace parent $qbld by own (bad practice, I know :() */
         $this->qbld = $qbldDwnlTrans;

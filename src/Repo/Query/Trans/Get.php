@@ -3,18 +3,16 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Repo\Query;
+namespace Praxigento\Downline\Repo\Query\Trans;
 
 use Praxigento\Accounting\Repo\Entity\Data\Account as Acc;
 use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
 
 /**
- * Build query to get transactions for the customer.
- *
- * @deprecated remove it if is not used
+ * Build query to get transactions for the customer (extends accounting query).
  */
-class TransGet
-    extends \Praxigento\Core\Repo\Query\Def\Builder
+class Get
+    extends \Praxigento\Core\Repo\Query\Builder
 {
     /**
      * Tables aliases.
@@ -32,21 +30,17 @@ class TransGet
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldAccTrans
-    ) {
+    )
+    {
         parent::__construct($resource);
         $this->qbuildAccTrans = $qbldAccTrans;
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @SuppressWarnings(PHPMD.ShortVariable)
-     */
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
+    public function build(\Magento\Framework\DB\Select $source = null)
     {
-        $result = is_null($qbuild)
-            ? $this->qbuildAccTrans->getSelectQuery()
-            : $qbuild->getSelectQuery();
+        $result = is_null($source)
+            ? $this->qbuildAccTrans->build()
+            : $source;
         /* create shortcuts for table aliases */
         $asCustCrd = self::AS_CUST_CRD;
         $asCustDbt = self::AS_CUST_DBT;
@@ -67,4 +61,5 @@ class TransGet
         /* result */
         return $result;
     }
+
 }

@@ -4,13 +4,13 @@
  *
  */
 
-namespace Praxigento\Downline\Repo\Query;
+namespace Praxigento\Downline\Repo\Query\Customer;
 
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
 
-class CustomerGet
+class Get
     extends \Praxigento\Core\Repo\Query\Builder
 {
     const AS_DWNL_CUST = 'dwnlCust';
