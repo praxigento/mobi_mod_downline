@@ -6,5 +6,8 @@
         <route id="downline" frontName="downline">
             <module name="Praxigento_Downline"/>
         </route>
+        <route id="accounts">
+            <module name="Praxigento_Downline" before="Praxigento_Accounting"/>
+        </route>
     </router>
 </config>
