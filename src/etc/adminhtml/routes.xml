@@ -5,7 +5,7 @@
         <route id="prxgt_dwnl" frontName="prxgt_dwnl">
             <module name="Praxigento_Downline"/>
         </route>
-        <route id="accounts">
+        <route id="account">
             <module name="Praxigento_Downline" before="Praxigento_Accounting"/>
         </route>
     </router>
