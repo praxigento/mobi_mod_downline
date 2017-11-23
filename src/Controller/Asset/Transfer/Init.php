@@ -5,18 +5,30 @@
 
 namespace Praxigento\Downline\Controller\Asset\Transfer;
 
-use Magento\Framework\Controller\ResultFactory as AResultFactory;
-
 class Init
-    extends \Magento\Framework\App\Action\Action
+    extends \Praxigento\Core\App\Action\Front\Base
 {
-    public function execute()
+    protected function getInDataType(): string
     {
-        $resultPage = $this->resultFactory->create(AResultFactory::TYPE_JSON);
-
-        $data = ['var' => 'value'];
-        $resultPage->setData($data);
-        return $resultPage;
+        return \Praxigento\Downline\Api\Customer\Search\Request::class;
     }
+
+    protected function getOutDataType(): string
+    {
+        return \Praxigento\Downline\Api\Customer\Search\Response::class;
+    }
+
+    protected function process($data)
+    {
+        $result = new \Praxigento\Downline\Api\Customer\Search\Response();
+        $data = new \Praxigento\Downline\Api\Customer\Search\Response\Data();
+        $item = new \Praxigento\Downline\Api\Customer\Search\Response\Data\Item();
+        $item->setEmail('email');
+        $items = [$item];
+        $data->setItems($items);
+        $result->setData($data);
+        return $result;
+    }
+
 
 }
