@@ -19,7 +19,7 @@ class Request
     const SEARCH_KEY = 'search_key';
 
     /**
-     * @return string
+     * @return int|null
      */
     public function getLimit()
     {
@@ -37,7 +37,7 @@ class Request
     }
 
     /**
-     * @param string $data
+     * @param int $data
      */
     public function setLimit($data)
     {
