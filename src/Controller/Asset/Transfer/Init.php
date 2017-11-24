@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Controller\Asset\Transfer;
 
 class Init
-    extends \Praxigento\Core\App\Action\Front\Base
+    extends \Praxigento\Core\App\Action\Front\Api\Base
 {
     protected function getInDataType(): string
     {
