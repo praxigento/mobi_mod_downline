@@ -16,7 +16,7 @@ class Request
     extends \Praxigento\Core\Api\Request
 {
     const LIMIT = 'limit';
-    const SEARCH_KEY = 'search_key';
+    const SEARCH_KEY = 'searchKey';
 
     /**
      * @return int|null
