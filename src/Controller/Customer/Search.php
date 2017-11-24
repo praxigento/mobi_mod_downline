@@ -43,7 +43,7 @@ class Search
      * Load assets data from DB and compose API result component.
      *
      * @param int $custId
-     * @return \Praxigento\Accounting\Api\Asset\Transfer\Init\Response\Data\Asset[]
+     * @return \Praxigento\Accounting\Api\Ctrl\Asset\Transfer\Init\Response\Data\Asset[]
      */
     private function loadAssetsData($custId)
     {

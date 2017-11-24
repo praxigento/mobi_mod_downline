@@ -11,7 +11,7 @@ namespace Praxigento\Downline\Api\Transaction;
  * TODO: we need to re-design API extension or remove this variant.
  */
 class Get
-    extends \Praxigento\Accounting\Api\Transaction\Get
+    extends \Praxigento\Accounting\Api\Rest\Transaction\Get
 {
     /** @var  \Praxigento\Downline\Repo\Query\Trans\Get */
     protected $qbld;
