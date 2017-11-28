@@ -5,13 +5,13 @@
 
 namespace Praxigento\Downline\Service\Customer;
 
-use Praxigento\Accounting\Service\Asset\Transfer\Init\Db\Query\GetCustomer as QBGetCustomer;
 use Praxigento\Downline\Api\Customer\Search\Request as ARequest;
 use Praxigento\Downline\Api\Customer\Search\Response as AResponse;
 use Praxigento\Downline\Api\Customer\Search\Response\Data as DRespData;
 use Praxigento\Downline\Api\Customer\Search\Response\Data\Item as DItem;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
+use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 
 /**
  * Get suggestions for customers by key (name/email/mlm_id).
@@ -21,16 +21,14 @@ class Search
 {
     const DEF_LIMIT = 10;
 
-    /** @var \Praxigento\Accounting\Service\Asset\Transfer\Init\Db\Query\GetCustomer */
+    /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbGetCustomer;
 
     public function __construct(
-        \Praxigento\Accounting\Service\Asset\Transfer\Init\Db\Query\GetCustomer $qbGetCustomer
+        \Praxigento\Downline\Repo\Query\Customer\Get $qbGetCustomer
     )
     {
-        /* TODO: replace this query builder by one from MOBI-995 */
         $this->qbGetCustomer = $qbGetCustomer;
-
     }
 
     public function exec(ARequest $req)
