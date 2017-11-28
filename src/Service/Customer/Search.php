@@ -5,10 +5,10 @@
 
 namespace Praxigento\Downline\Service\Customer;
 
-use Praxigento\Downline\Api\Customer\Search\Request as ARequest;
-use Praxigento\Downline\Api\Customer\Search\Response as AResponse;
-use Praxigento\Downline\Api\Customer\Search\Response\Data as DRespData;
-use Praxigento\Downline\Api\Customer\Search\Response\Data\Item as DItem;
+use Praxigento\Downline\Api\Service\Customer\Search\Request as ARequest;
+use Praxigento\Downline\Api\Service\Customer\Search\Response as AResponse;
+use Praxigento\Downline\Api\Service\Customer\Search\Response\Data as DRespData;
+use Praxigento\Downline\Api\Service\Customer\Search\Response\Data\Item as DItem;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
 use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
@@ -17,7 +17,7 @@ use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
  * Get suggestions for customers by key (name/email/mlm_id).
  */
 class Search
-    implements \Praxigento\Downline\Api\Customer\SearchInterface
+    implements \Praxigento\Downline\Api\Service\Customer\Search
 {
     const DEF_LIMIT = 10;
 
@@ -31,7 +31,11 @@ class Search
         $this->qbGetCustomer = $qbGetCustomer;
     }
 
-    public function exec(ARequest $req)
+    /**
+     * @param ARequest $req
+     * @return AResponse
+     */
+    public function exec($req)
     {
         /* define local working data */
         $key = $req->getSearchKey();
@@ -53,11 +57,11 @@ class Search
         $query = $this->qbGetCustomer->build();
         $conn = $query->getConnection();
         $searchBy = $conn->quote("%$key%");
-        /* TODO remove tmp reset */
+        /* reset all WHERE clauses */
         $query->reset(\Zend_Db_Select::WHERE);
         /* add WHERE clause */
-        $asCust = QBGetCustomer::AS_CUST;
-        $asDwnl = QBGetCustomer::AS_DWNL;
+        $asCust = QBGetCustomer::AS_MAGE_CUST;
+        $asDwnl = QBGetCustomer::AS_DWNL_CUST;
         $byFirst = "$asCust." . Cfg::E_CUSTOMER_A_FIRSTNAME . " LIKE $searchBy";
         $byLast = "$asCust." . Cfg::E_CUSTOMER_A_LASTNAME . " LIKE $searchBy";
         $byEmail = "$asCust." . Cfg::E_CUSTOMER_A_EMAIL . " LIKE $searchBy";

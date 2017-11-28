@@ -5,52 +5,53 @@
 
 namespace Praxigento\Downline\Controller\Adminhtml\Customer;
 
+use Praxigento\Downline\Api\Ctrl\Adminhtml\Customer\Search\Request as ARequest;
+use Praxigento\Downline\Api\Ctrl\Adminhtml\Customer\Search\Response as AResponse;
+
 /**
  * Get suggestions for customers by key (name/email/mlm_id).
  */
 class Search
-    extends \Magento\Backend\App\Action
+    extends \Praxigento\Core\App\Action\Back\Api\Base
 {
     const VAR_LIMIT = 'limit';
     const VAR_SEARCH_KEY = 'search_key';
 
-    /** @var \Praxigento\Downline\Api\Customer\SearchInterface */
+    /** @var \Praxigento\Downline\Api\Service\Customer\Search */
     private $callSearch;
-    /** @var \Magento\Framework\Webapi\ServiceOutputProcessor */
-    private $outputProcessor;
 
-    public function __construct(
+    public function __construct
+    (
         \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Webapi\ServiceInputProcessor $inputProcessor,
         \Magento\Framework\Webapi\ServiceOutputProcessor $outputProcessor,
-        \Praxigento\Downline\Api\Customer\SearchInterface $callSearch
+        \Praxigento\Core\Fw\Logger\App $logger,
+        \Praxigento\Core\Api\Service\Customer\Search $callSearch
     )
     {
-        parent::__construct($context);
-        $this->outputProcessor = $outputProcessor;
+        parent::__construct($context, $inputProcessor, $outputProcessor, $logger);
         $this->callSearch = $callSearch;
     }
 
-    public function execute()
+    protected function getInDataType(): string
     {
-        $resultPage = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_JSON);
-        $searchKey = $this->getRequest()->getParam(self::VAR_SEARCH_KEY);
-        $limit = $this->getRequest()->getParam(self::VAR_LIMIT);
+        return ARequest::class;
+    }
 
-        /* TODO: add ACL */
-        $userId = $this->_auth->getUser()->getId();
-        $req = new \Praxigento\Downline\Api\Customer\Search\Request();
-        $req->setSearchKey($searchKey);
-        $req->setLimit($limit);
-        $resp = $this->callSearch->exec($req);
+    protected function getOutDataType(): string
+    {
+        return AResponse::class;
+    }
 
-        /* convert service data object into JSON */
-        $className = \Praxigento\Downline\Api\Customer\SearchInterface::class;
-        $methodName = 'exec';
-        $stdResp = $this->outputProcessor->process($resp, $className, $methodName);
+    protected function process($request)
+    {
+        /* define local working data */
+        assert($request instanceof ARequest);
 
-        /* extract data part from response */
-        $data = $stdResp[\Praxigento\Core\Api\Response::ATTR_DATA];
-        $resultPage->setData($data);
-        return $resultPage;
+        /* perform processing */
+        $result = $this->callSearch->exec($request);
+
+        /* compose result */
+        return $result;
     }
 }

@@ -13,8 +13,8 @@ class Search_Test
 
     public function test_exec()
     {
-        /** @var \Praxigento\Downline\Api\Customer\SearchInterface $obj */
-        $obj = $this->manObj->get(\Praxigento\Downline\Api\Customer\SearchInterface::class);
+        /** @var \Praxigento\Core\Api\Service\Customer\Search $obj */
+        $obj = $this->manObj->get(\Praxigento\Core\Api\Service\Customer\Search::class);
         $req = new \Praxigento\Downline\Api\Customer\Search\Request();
         $req->setSearchKey('buk');
         $res = $obj->exec($req);
