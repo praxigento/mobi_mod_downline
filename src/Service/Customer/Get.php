@@ -28,6 +28,7 @@ class Get
     public function exec($request)
     {
         /* define local working data */
+        assert($request instanceof ARequest);
         $customerId = $request->getCustomerId();
 
         /* perform processing */
