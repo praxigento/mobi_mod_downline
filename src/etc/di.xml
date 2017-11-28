@@ -3,11 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
+
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
     <preference for="\Praxigento\Core\Api\Service\Customer\Get"
                 type="\Praxigento\Downline\Service\Customer\Get"/>
+    <preference for="\Praxigento\Core\Api\Service\Customer\Search"
+                type="\Praxigento\Downline\Service\Customer\Search"/>
+
 
     <!-- *** -->
     <!-- API -->
