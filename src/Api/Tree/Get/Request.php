@@ -12,7 +12,7 @@ namespace Praxigento\Downline\Api\Tree\Get;
  *
  */
 class Request
-    extends \Praxigento\Core\Api\Request\WithCond
+    extends \Praxigento\Core\App\WebApi\Request\WithCond
 {
 
     /**
