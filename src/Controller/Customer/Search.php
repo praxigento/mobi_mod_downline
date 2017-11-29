@@ -12,7 +12,7 @@ class Search
     extends \Praxigento\Core\App\Action\Front\Api\Base
 {
     /** @var \Praxigento\Core\Api\Service\Customer\Search */
-    private $callCustSearch;
+    private $callSearch;
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -20,31 +20,32 @@ class Search
         \Magento\Framework\Webapi\ServiceOutputProcessor $outputProcessor,
         \Praxigento\Core\Fw\Logger\App $logger,
         \Praxigento\Core\App\WebApi\IAuthenticator $authenticator,
-        \Praxigento\Core\Api\Service\Customer\Search $callCustSearch
+        \Praxigento\Core\Api\Service\Customer\Search $callSearch
     )
     {
         parent::__construct($context, $inputProcessor, $outputProcessor, $logger, $authenticator);
-        $this->callCustSearch = $callCustSearch;
+        $this->callSearch = $callSearch;
     }
 
     protected function getInDataType(): string
     {
-        return \Praxigento\Downline\Api\Customer\Search\Request::class;
+        return \Praxigento\Downline\Api\Service\Customer\Search\Request::class;
     }
 
     protected function getOutDataType(): string
     {
-        return \Praxigento\Downline\Api\Customer\Search\Response::class;
+        return \Praxigento\Downline\Api\Service\Customer\Search\Response::class;
     }
 
     protected function process($request)
     {
         /* define local working data */
-        assert($request instanceof \Praxigento\Downline\Api\Customer\Search\Request);
+        assert($request instanceof \Praxigento\Downline\Api\Service\Customer\Search\Request);
         $customerId = $request->getCustomerId();
 
         /* perform processing */
-        $result = $this->callCustSearch->exec($request);
+        $this->authenticator->getCurrentCustomerId($customerId);
+        $result = $this->callSearch->exec($request);
 
         /* compose result */
         return $result;
