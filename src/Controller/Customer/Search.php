@@ -5,6 +5,9 @@
 
 namespace Praxigento\Downline\Controller\Customer;
 
+use Praxigento\Downline\Api\Ctrl\Customer\Search\Request as ARequest;
+use Praxigento\Downline\Api\Ctrl\Customer\Search\Response as AResponse;
+
 /**
  * Web API action to search customer by key (name, email, MLM ID).
  */
@@ -29,12 +32,12 @@ class Search
 
     protected function getInDataType(): string
     {
-        return \Praxigento\Downline\Api\Service\Customer\Search\Request::class;
+        return ARequest::class;
     }
 
     protected function getOutDataType(): string
     {
-        return \Praxigento\Downline\Api\Service\Customer\Search\Response::class;
+        return AResponse::class;
     }
 
     protected function process($request)
@@ -44,7 +47,8 @@ class Search
         $customerId = $request->getCustomerId();
 
         /* perform processing */
-        $this->authenticator->getCurrentCustomerId($customerId);
+        $customerId = $this->authenticator->getCurrentCustomerId($customerId);
+        $request->setCustomerId($customerId);
         $result = $this->callSearch->exec($request);
 
         /* compose result */
