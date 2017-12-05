@@ -28,7 +28,8 @@ class Referral implements IReferral
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
         \Praxigento\Core\Tool\IDate $toolDate
-    ) {
+    )
+    {
         $this->logger = $logger;
         $this->manCookie = $cookieManager;
         $this->registry = $registry;
@@ -53,27 +54,18 @@ class Referral implements IReferral
 
     public function processHttpRequest($codeGetVar)
     {
-        /* get code from cookie */
+        /* extract code from cookie (if exists) */
         $cookie = $this->manCookie->getCookie(static::COOKIE_REFERRAL_CODE);
         $voCookie = new ReferralCookie($cookie);
-        $codeCookie = $voCookie->getCode();
+        $code = $voCookie->getCode();
         /* replace cookie value if GET code is not equal to cookie value */
         if (
             $codeGetVar &&
-            ($codeGetVar != $codeCookie)
+            ($codeGetVar != $code)
         ) {
-            $tsSaved = $this->toolDate->getUtcNow();
-            $saved = $tsSaved->format('Ymd');
-            $voCookie->setCode($codeGetVar);
-            $voCookie->setDateSaved($saved);
-            $cookie = $voCookie->generateCookieValue();
-            $meta = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
-            $meta->setPath('/');
-            $meta->setDurationOneYear();
-            $this->manCookie->setPublicCookie(static::COOKIE_REFERRAL_CODE, $cookie, $meta);
+            $code = $codeGetVar;
         }
         /* save referral code into the registry */
-        $code = $voCookie->getCode();
         if ($code) {
             $this->replaceCodeInRegistry($code);
         }
@@ -85,5 +77,19 @@ class Referral implements IReferral
             $this->registry->unregister(static::REG_REFERRAL_CODE);
         }
         $this->registry->register(static::REG_REFERRAL_CODE, $code);
+    }
+
+    public function setCookie($code)
+    {
+        $tsSaved = $this->toolDate->getUtcNow();
+        $saved = $tsSaved->format('Ymd');
+        $voCookie = new ReferralCookie('');
+        $voCookie->setCode($code);
+        $voCookie->setDateSaved($saved);
+        $cookie = $voCookie->generateCookieValue();
+        $meta = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
+        $meta->setPath('/');
+        $meta->setDurationOneYear();
+        $this->manCookie->setPublicCookie(static::COOKIE_REFERRAL_CODE, $cookie, $meta);
     }
 }

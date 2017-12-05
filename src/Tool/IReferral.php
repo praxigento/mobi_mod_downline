@@ -31,7 +31,8 @@ interface IReferral
     public function processCoupon($coupon);
 
     /**
-     * Analyze GET variable, setup cookie and save
+     * Analyze GET variable, compare with current cookie and save referral code into registry.
+     *
      * @param string $codeGetVar
      */
     public function processHttpRequest($codeGetVar);
@@ -43,4 +44,10 @@ interface IReferral
      * @return mixed
      */
     public function replaceCodeInRegistry($code);
+
+    /**
+     * Set cookie with referral code (should be called in the end of request processing, MOBI-1022).
+     * @param string $code referral code
+     */
+    public function setCookie($code);
 }

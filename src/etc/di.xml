@@ -17,15 +17,15 @@
     <!-- API -->
     <!-- *** -->
     <preference for="\Praxigento\Downline\Api\Customer\SearchInterface"
-            type="\Praxigento\Downline\Service\Customer\Search"/>
+                type="\Praxigento\Downline\Service\Customer\Search"/>
     <preference for="\Praxigento\Accounting\Api\Rest\Transaction\GetInterface"
-            type="\Praxigento\Downline\Api\Transaction\Get"/>
+                type="\Praxigento\Downline\Api\Transaction\Get"/>
     <preference for="\Praxigento\Downline\Api\Tree\GetInterface"
-            type="\Praxigento\Downline\Api\Tree\Get"/>
+                type="\Praxigento\Downline\Api\Tree\Get"/>
     <preference for="\Praxigento\Downline\Api\Tree\Get\EntriesInterface"
-            type="\Praxigento\Downline\Api\Tree\Get\Entries"/>
+                type="\Praxigento\Downline\Api\Tree\Get\Entries"/>
     <preference for="\Praxigento\Downline\Api\Tree\Get\UplineInterface"
-            type="\Praxigento\Downline\Api\Tree\Get\Upline"/>
+                type="\Praxigento\Downline\Api\Tree\Get\Upline"/>
 
 
     <!-- ********************** -->
@@ -44,25 +44,25 @@
     <!-- Infra -->
     <!-- ***** -->
     <preference for="\Praxigento\Core\App\WebApi\IAuthenticator"
-            type="\Praxigento\Downline\Infra\Api\Authenticator"/>
+                type="\Praxigento\Downline\Infra\Api\Authenticator"/>
 
     <!-- ******** -->
     <!-- Services -->
     <!-- ******** -->
     <preference for="Praxigento\Downline\Service\ICustomer"
-            type="Praxigento\Downline\Service\Customer\Call"/>
+                type="Praxigento\Downline\Service\Customer\Call"/>
     <preference for="Praxigento\Downline\Service\IMap"
-            type="Praxigento\Downline\Service\Map\Call"/>
+                type="Praxigento\Downline\Service\Map\Call"/>
     <preference for="Praxigento\Downline\Service\ISnap"
-            type="Praxigento\Downline\Service\Snap\Call"/>
+                type="Praxigento\Downline\Service\Snap\Call"/>
 
     <!-- ***** -->
     <!-- Tools -->
     <!-- ***** -->
     <preference for="\Praxigento\Downline\Tool\IReferral"
-            type="Praxigento\Downline\Tool\Def\Referral"/>
+                type="Praxigento\Downline\Tool\Def\Referral"/>
     <preference for="Praxigento\Downline\Tool\ITree"
-            type="Praxigento\Downline\Tool\Def\Tree"/>
+                type="Praxigento\Downline\Tool\Def\Tree"/>
 
     <!-- ******* -->
     <!-- PLUGINS -->
@@ -91,8 +91,15 @@
     <type name="\Magento\Framework\App\FrontControllerInterface">
         <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins, see "sortOrder") -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerPlugin"
+                type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerInterface"
                 sortOrder="-100" disabled="false"/>
+    </type>
+
+    <type name="\Magento\Framework\App\ResponseInterface">
+        <!-- set referral cookie -->
+        <plugin name="praxigento_downline"
+                type="\Praxigento\Downline\Plugin\Framework\App\ResponseInterface"
+                sortOrder="100" disabled="false"/>
     </type>
 
     <type name="\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">

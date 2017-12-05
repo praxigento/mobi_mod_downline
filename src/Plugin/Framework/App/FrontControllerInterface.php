@@ -3,22 +3,22 @@
  * Plugin for \Magento\Framework\App\FrontController
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Plugin\Framework\App;
 
-use Magento\Framework\App\FrontController as FC;
 
-
-class FrontControllerPlugin
+class FrontControllerInterface
 {
     /** Name of the HTTP GET variable for referral code */
     const REQ_REFERRAL = 'prxgtDwnlReferral';
     /** @var \Praxigento\Downline\Tool\IReferral */
-    protected $toolReferralCode;
+    protected $hlpRefCode;
 
     public function __construct(
-        \Praxigento\Downline\Tool\IReferral $toolReferralCode
-    ) {
-        $this->toolReferralCode = $toolReferralCode;
+        \Praxigento\Downline\Tool\IReferral $hlpRefCode
+    )
+    {
+        $this->hlpRefCode = $hlpRefCode;
     }
 
     /**
@@ -30,8 +30,9 @@ class FrontControllerPlugin
     public function beforeDispatch(
         \Magento\Framework\App\FrontControllerInterface $subject,
         \Magento\Framework\App\RequestInterface $request
-    ) {
-        $reqCode = $request->getParam(static::REQ_REFERRAL);
-        $this->toolReferralCode->processHttpRequest($reqCode);
+    )
+    {
+        $code = $request->getParam(static::REQ_REFERRAL);
+        $this->hlpRefCode->processHttpRequest($code);
     }
 }
