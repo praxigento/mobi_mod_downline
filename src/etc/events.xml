@@ -6,7 +6,13 @@
         <!-- Register downline on new customer create event. -->
         <observer
                 name="praxigento_donwlilne_observer"
-                instance="Praxigento\Downline\Observer\CustomerSaveAfterDataObject"/>
+                instance="\Praxigento\Downline\Observer\CustomerSaveAfterDataObject"/>
+    </event>
+    <event name="sales_convert_quote_to_order">
+        <!-- Replace customer group for referrals. -->
+        <observer
+                name="praxigento_donwlilne_observer"
+                instance="\Praxigento\Downline\Observer\SalesConvertQuoteToOrder"/>
     </event>
     <!--<event name="core_collection_abstract_load_before">-->
     <!--&lt;!&ndash; Add additional attributes to the Customer Grid in adminhtml. &ndash;&gt;-->

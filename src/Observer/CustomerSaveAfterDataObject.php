@@ -5,12 +5,11 @@
 
 namespace Praxigento\Downline\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
-
 /**
  * Register downline on new customer create event.
  */
-class CustomerSaveAfterDataObject implements ObserverInterface
+class CustomerSaveAfterDataObject
+    implements \Magento\Framework\Event\ObserverInterface
 {
     const A_CUST_MLM_ID = 'prxgtCustMlmId';
     const A_PARENT_MAGE_ID = 'prxgtParentMageId';

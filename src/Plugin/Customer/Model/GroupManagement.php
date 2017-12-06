@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Plugin\Customer\Model;
 
 
@@ -18,7 +19,8 @@ class GroupManagement
         \Praxigento\Downline\Helper\Config $hlpConfig,
         \Praxigento\Downline\Tool\IReferral $hlpReferral,
         \Magento\Customer\Api\GroupRepositoryInterface $repoCustGroup
-    ) {
+    )
+    {
         $this->hlpConfig = $hlpConfig;
         $this->hlpReferral = $hlpReferral;
         $this->repoCustGroup = $repoCustGroup;
@@ -30,11 +32,13 @@ class GroupManagement
      * @param \Magento\Customer\Model\GroupManagement $subject
      * @param \Closure $proceed
      * @return \Magento\Customer\Api\Data\GroupInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function aroundGetNotLoggedInGroup(
         \Magento\Customer\Model\GroupManagement $subject,
         \Closure $proceed
-    ) {
+    )
+    {
         /* call parent to process other around-plugins */
         $result = $proceed();
         /* check referral code in registry */
