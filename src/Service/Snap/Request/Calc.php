@@ -6,19 +6,6 @@
 namespace Praxigento\Downline\Service\Snap\Request;
 
 
-class Calc extends \Praxigento\Core\Service\Base\Request {
-    /**
-     * Calculate snapshots up to this date (including it).
-     * @var string 'YYYYMMDD'
-     */
-    const DATE_STAMP_TO = 'datestamp_to';
-
-    public function getDatestampTo() {
-        $result = $this->get(self::DATE_STAMP_TO);
-        return $result;
-    }
-
-    public function setDatestampTo($data) {
-        $this->set(self::DATE_STAMP_TO, $data);
-    }
+class Calc extends \Praxigento\Core\Service\Base\Request
+{
 }

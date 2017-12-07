@@ -19,7 +19,11 @@ class Call
 {
     /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $hlpPeriod;
-    /** @var \Praxigento\Core\Transaction\Database\IManager */
+    /**
+     * @var \Praxigento\Core\Transaction\Database\IManager
+     * @deprecated this is internal service, MySQL has no nested transactions, its should be present on the
+     * outer level only (WebAPI, controllers, etc.).
+     */
     protected $manTrans;
     /** @var \Praxigento\Downline\Repo\Entity\Change */
     protected $repoChange;
@@ -36,7 +40,8 @@ class Call
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,
         \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
-    ) {
+    )
+    {
         parent::__construct($logger, $manObj);
         $this->manTrans = $manTrans;
         $this->hlpPeriod = $hlpPeriod;
@@ -96,32 +101,26 @@ class Call
     {
         $result = new Response\Calc();
         $this->logger->info("New downline snapshot calculation is requested.");
-        $periodTo = $request->getDatestampTo();
-        $def = $this->manTrans->begin();
-        try {
-            /* get the last date with calculated snapshots */
-            $reqLast = new Request\GetLastDate();
-            /** @var  $resp Response\GetLastDate */
-            $respLast = $this->getLastDate($reqLast);
-            $dsLast = $respLast->getLastDate();
-            /* clean snapshot on the last date (MOBI-956) */
-            // $where = ESnap::ATTR_DATE . '>=' . $dsLast;
-            // $this->repoSnap->delete($where);
-            /* get the snapshot on the last date */
-            $snapshot = $this->getSnap($dsLast);
-            /* get change log for the period */
-            $tsFrom = $this->hlpPeriod->getTimestampNextFrom($dsLast);
-            $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
-            $changelog = $this->repoChange->getChangesForPeriod($tsFrom, $tsTo);
-            /* calculate snapshots for the period */
-            $updates = $this->subCalc->calcSnapshots($snapshot, $changelog);
-            /* save new snapshots in DB */
-            $this->repoSnap->saveCalculatedUpdates($updates);
-            $this->manTrans->commit($def);
-            $result->markSucceed();
-        } finally {
-            $this->manTrans->end($def);
-        }
+        /* get the last date with calculated snapshots */
+        $reqLast = new Request\GetLastDate();
+        /** @var  $resp Response\GetLastDate */
+        $respLast = $this->getLastDate($reqLast);
+        $dsLast = $respLast->getLastDate();
+        /* clean snapshot on the last date (MOBI-956) */
+        $where = ESnap::ATTR_DATE . '>=' . $dsLast;
+        $this->repoSnap->delete($where);
+        /* get the snapshot on the last date */
+        $snapshot = $this->getSnap($dsLast);
+        /* get change log for the period */
+        $tsFrom = $this->hlpPeriod->getTimestampNextFrom($dsLast);
+        $periodTo = $this->hlpPeriod->getPeriodCurrent();
+        $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
+        $changelog = $this->repoChange->getChangesForPeriod($tsFrom, $tsTo);
+        /* calculate snapshots for the period */
+        $updates = $this->subCalc->calcSnapshots($snapshot, $changelog);
+        /* save new snapshots in DB */
+        $this->repoSnap->saveCalculatedUpdates($updates);
+        $result->markSucceed();
         return $result;
     }
 
@@ -146,8 +145,7 @@ class Call
          */
         $mapCusts = []; // registry for all customers.
         foreach ($treeIn as $ndx => $item) {
-            if(is_null($keyCustomerId)) {
-
+            if (is_null($keyCustomerId)) {
                 $custId = $ndx;
             } else {
                 $custId = is_array($item) ? $item[$keyCustomerId] : $item->get($keyCustomerId);
@@ -156,7 +154,7 @@ class Call
         }
         $mapOrphans = []; // registry for orphan customers.
         foreach ($treeIn as $ndx => $item) {
-            if(is_null($keyCustomerId)) {
+            if (is_null($keyCustomerId)) {
                 $custId = $ndx;
             } else {
                 $custId = is_array($item) ? $item[$keyCustomerId] : $item->get($keyCustomerId);
