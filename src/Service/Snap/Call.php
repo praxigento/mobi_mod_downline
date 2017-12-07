@@ -112,7 +112,7 @@ class Call
         /* get the snapshot on the last date */
         $snapshot = $this->getSnap($dsLast);
         /* get change log for the period */
-        $tsFrom = $this->hlpPeriod->getTimestampNextFrom($dsLast);
+        $tsFrom = $this->hlpPeriod->getTimestampFrom($dsLast);
         $periodTo = $this->hlpPeriod->getPeriodCurrent();
         $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
         $changelog = $this->repoChange->getChangesForPeriod($tsFrom, $tsTo);
