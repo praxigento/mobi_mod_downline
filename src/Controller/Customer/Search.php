@@ -22,7 +22,7 @@ class Search
         \Magento\Framework\Webapi\ServiceInputProcessor $inputProcessor,
         \Magento\Framework\Webapi\ServiceOutputProcessor $outputProcessor,
         \Praxigento\Core\Fw\Logger\App $logger,
-        \Praxigento\Core\App\WebApi\IAuthenticator $authenticator,
+        \Praxigento\Core\App\Web\IAuthenticator $authenticator,
         \Praxigento\Core\Api\Service\Customer\Search $callSearch
     )
     {

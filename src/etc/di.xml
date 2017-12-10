@@ -46,7 +46,7 @@
     <!-- ***** -->
     <!-- Infra -->
     <!-- ***** -->
-    <preference for="\Praxigento\Core\App\WebApi\IAuthenticator"
+    <preference for="\Praxigento\Core\App\Web\IAuthenticator"
                 type="\Praxigento\Downline\Infra\Api\Authenticator"/>
 
     <!-- ******** -->

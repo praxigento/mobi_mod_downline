@@ -11,7 +11,7 @@ namespace Praxigento\Downline\Api\Tree\Get\Upline;
  *
  */
 class Response
-    extends \Praxigento\Core\App\WebApi\Response
+    extends \Praxigento\Core\App\Web\Response
 {
 
     /**

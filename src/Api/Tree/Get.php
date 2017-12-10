@@ -11,7 +11,7 @@ use Praxigento\Downline\Config as Cfg;
  * TODO: does this class is deprecated?
  */
 class Get
-    extends \Praxigento\Core\App\WebApi\Processor\WithQuery
+    extends \Praxigento\Core\App\Web\Processor\WithQuery
     implements \Praxigento\Downline\Api\Tree\GetInterface
 {
     const BIND_MAX_DEPTH = 'maxDepth';
@@ -25,7 +25,7 @@ class Get
     const VAR_MAX_DEPTH = 'max_depth';
     const VAR_ON_DATE = 'on_date';
 
-    /** @var \Praxigento\Core\App\WebApi\IAuthenticator */
+    /** @var \Praxigento\Core\App\Web\IAuthenticator */
     private $authenticator;
     /** @var \Praxigento\Core\Tool\IPeriod */
     private $hlpPeriod;
@@ -43,7 +43,7 @@ class Get
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Helper\Config $hlpCfg,
-        \Praxigento\Core\App\WebApi\IAuthenticator $authenticator,
+        \Praxigento\Core\App\Web\IAuthenticator $authenticator,
         \Praxigento\Core\Tool\IPeriod $hlpPeriod,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,
