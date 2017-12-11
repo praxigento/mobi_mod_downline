@@ -11,7 +11,7 @@ namespace Praxigento\Downline\Api\Tree\Get\Entries;
  *
  */
 class Response
-    extends \Praxigento\Core\App\Web\Response
+    extends \Praxigento\Core\App\Api\Web\Response
 {
     /**
      * @return \Praxigento\Downline\Api\Tree\Get\Entries\Response\Data|null

@@ -8,8 +8,8 @@ namespace Praxigento\Downline\Infra\Api;
 use Praxigento\Downline\Config as Cfg;
 
 class Authenticator
-    extends \Praxigento\Core\App\Web\Authenticator
-    implements \Praxigento\Core\App\Web\IAuthenticator
+    extends \Praxigento\Core\App\Api\Web\Authenticator
+    implements \Praxigento\Core\App\Api\Web\IAuthenticator
 {
     const A_DWNL_DATA = 'dwnl_data';
 

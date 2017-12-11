@@ -20,7 +20,7 @@ class Get
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Accounting\Repo\Query\Trans\Get\Builder $qbldTrans,
         \Praxigento\Core\Helper\Config $hlpCfg,
-        \Praxigento\Core\App\Web\IAuthenticator $authenticator,
+        \Praxigento\Core\App\Api\Web\IAuthenticator $authenticator,
         \Praxigento\Downline\Repo\Query\Trans\Get $qbldDwnlTrans
     )
     {
