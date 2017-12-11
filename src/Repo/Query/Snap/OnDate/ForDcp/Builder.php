@@ -13,7 +13,7 @@ use Praxigento\Downline\Config as Cfg;
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     /** Tables aliases. */
     const AS_CUSTOMER = 'mageCust';

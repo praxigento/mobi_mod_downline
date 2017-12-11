@@ -6,7 +6,7 @@
     <!-- **************************************************** -->
     <dataSource name="accounts_accounts_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">\Praxigento\Core\Ui\DataProvider\Grid\Base</argument>
+            <argument name="class" xsi:type="string">\Praxigento\Core\App\Ui\DataProvider\Grid\Base</argument>
             <argument name="name" xsi:type="string">accounts_accounts_grid_data_source</argument>
             <argument name="gridQueryBuilder" xsi:type="object">\Praxigento\Downline\Ui\DataProvider\Grid\Account\QueryBuilder</argument>
         </argument>

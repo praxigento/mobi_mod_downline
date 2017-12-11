@@ -12,7 +12,7 @@ use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
  * Build query to get downline tree snap on given date.
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     /** Tables aliases. */
     const AS_DWNL_SNAP = 'prxgtDwnlSnap';

@@ -11,6 +11,6 @@ namespace Praxigento\Downline\Service\Customer\Request;
  * @method int getHumanRef()
  * @method void setHumanRef(string $data)
  */
-class GenerateReferralCode extends \Praxigento\Core\Service\Base\Request
+class GenerateReferralCode extends \Praxigento\Core\App\Service\Base\Request
 {
 }

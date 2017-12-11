@@ -17,21 +17,21 @@ class Call implements ICustomer
 {
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
-    /** @var \Praxigento\Core\Transaction\Database\IManager */
+    /** @var \Praxigento\Core\App\Transaction\Database\IManager */
     protected $_manTrans;
     /** @var  \Praxigento\Downline\Repo\Entity\Change */
     protected $_repoChange;
     /** @var  \Praxigento\Downline\Repo\Entity\Customer */
     protected $_repoCustomer;
-    /** @var \Praxigento\Core\Repo\IGeneric */
+    /** @var \Praxigento\Core\App\Repo\IGeneric */
     protected $_repoGeneric;
     /** @var  Sub\Referral */
     protected $_subReferral;
 
     public function __construct(
-        \Praxigento\Core\Fw\Logger\App $logger,
-        \Praxigento\Core\Transaction\Database\IManager $manTrans,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric,
+        \Praxigento\Core\App\Logger\App $logger,
+        \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
+        \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
         Sub\Referral $subReferral

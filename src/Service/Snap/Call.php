@@ -14,13 +14,13 @@ use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Call
-    extends \Praxigento\Core\Service\Base\Call
+    extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\Downline\Service\ISnap
 {
     /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $hlpPeriod;
     /**
-     * @var \Praxigento\Core\Transaction\Database\IManager
+     * @var \Praxigento\Core\App\Transaction\Database\IManager
      * @deprecated this is internal service, MySQL has no nested transactions, its should be present on the
      * outer level only (WebAPI, controllers, etc.).
      */
@@ -33,9 +33,9 @@ class Call
     protected $subCalc;
 
     public function __construct(
-        \Praxigento\Core\Fw\Logger\App $logger,
+        \Praxigento\Core\App\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
-        \Praxigento\Core\Transaction\Database\IManager $manTrans,
+        \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $hlpPeriod,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,

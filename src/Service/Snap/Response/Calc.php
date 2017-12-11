@@ -5,6 +5,6 @@
 namespace Praxigento\Downline\Service\Snap\Response;
 
 
-class Calc extends \Praxigento\Core\Service\Base\Response {
+class Calc extends \Praxigento\Core\App\Service\Base\Response {
 
 }

@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Downline\Service\Map;
 
-use Praxigento\Core\Service\Base\Call as BaseCall;
+use Praxigento\Core\App\Service\Base\Call as BaseCall;
 use Praxigento\Downline\Service\IMap;
 use Praxigento\Downline\Service\Map;
 

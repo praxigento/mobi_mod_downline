@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Repo\Entity\Data;
 
 class Change
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CUSTOMER_ID = 'customer_ref';
     const ATTR_DATE_CHANGED = 'date_changed';

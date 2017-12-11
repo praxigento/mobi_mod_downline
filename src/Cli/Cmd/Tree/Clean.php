@@ -9,7 +9,7 @@ namespace Praxigento\Downline\Cli\Cmd\Tree;
  * Clean up all snapshots for downline tree.
  */
 class Clean
-    extends \Praxigento\Core\Cli\Cmd\Base
+    extends \Praxigento\Core\App\Cli\Cmd\Base
 {
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $manObj

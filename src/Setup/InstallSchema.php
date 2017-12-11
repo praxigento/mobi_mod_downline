@@ -9,7 +9,7 @@ use Praxigento\Downline\Repo\Entity\Data\Change;
 use Praxigento\Downline\Repo\Entity\Data\Customer;
 use Praxigento\Downline\Repo\Entity\Data\Snap;
 
-class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
+class InstallSchema extends \Praxigento\Core\App\Setup\Schema\Base
 {
     protected function _setup()
     {

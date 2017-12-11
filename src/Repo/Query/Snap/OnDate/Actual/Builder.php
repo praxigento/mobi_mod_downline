@@ -14,7 +14,7 @@ use Praxigento\Downline\Repo\Entity\Data\Snap as Snap;
  * see \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     const AS_TBL_DWNL_SNAP = \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder::AS_DWNL_SNAP;
 

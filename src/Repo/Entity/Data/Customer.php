@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Repo\Entity\Data;
 
 class Customer
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_COUNTRY_CODE = 'country_code';
     const ATTR_CUSTOMER_ID = 'customer_ref';

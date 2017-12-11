@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Repo\Entity\Data;
 
 class Snap
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CUSTOMER_ID = 'customer_ref';
     const ATTR_DATE = 'date';

@@ -12,7 +12,7 @@ use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
  * Build query to get transactions for the customer (extends accounting query).
  */
 class Get
-    extends \Praxigento\Core\Repo\Query\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     /**
      * Tables aliases.

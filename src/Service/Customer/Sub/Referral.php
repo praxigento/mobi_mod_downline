@@ -18,7 +18,7 @@ class Referral
     protected $toolReferral;
 
     public function __construct(
-        \Praxigento\Core\Fw\Logger\App $logger,
+        \Praxigento\Core\App\Logger\App $logger,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
         \Praxigento\Downline\Tool\IReferral $toolReferral,
         \Praxigento\Downline\Helper\Config $hlpConfi

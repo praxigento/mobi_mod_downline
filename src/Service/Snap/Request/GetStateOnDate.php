@@ -12,7 +12,7 @@ namespace Praxigento\Downline\Service\Snap\Request;
  * @deprecated use \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder
  */
 class GetStateOnDate
-    extends \Praxigento\Core\Service\Base\Request
+    extends \Praxigento\Core\App\Service\Base\Request
 {
     /** 'true' - add actual country code for customer's attributes  */
     const ADD_COUNTRY_CODE = 'add_country_code';

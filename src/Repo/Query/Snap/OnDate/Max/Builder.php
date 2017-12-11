@@ -13,7 +13,7 @@ use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
  * This query is used as sub-query to get on-date snapshots.
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     /** Tables aliases for external usage ('camelCase' naming) */
     const AS_DWNL_SNAP_4_MAX = 'prxgtDwnlSnap4Max';
@@ -34,7 +34,7 @@ class Builder
 
         /* select MAX(date) from prxgt_dwnl_snap (internal select) */
         $tbl = $this->resource->getTableName(ESnap::ENTITY_NAME);
-        $expMaxDate = new \Praxigento\Core\Repo\Query\Expression(
+        $expMaxDate = new \Praxigento\Core\App\Repo\Query\Expression(
             'MAX(`' . $asSnap . '`.`' . ESnap::ATTR_DATE . '`)'
         );
         $cols = [

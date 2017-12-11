@@ -17,5 +17,5 @@ namespace Praxigento\Downline\Service\Customer\Request;
  * @method string getReference() MLM ID or something like that.
  * @method void  setReference(string $data)
  */
-class Add extends \Praxigento\Core\Service\Base\Request {
+class Add extends \Praxigento\Core\App\Service\Base\Request {
 }
