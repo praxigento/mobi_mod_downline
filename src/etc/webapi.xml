@@ -2,6 +2,14 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
+    <route url="/V1/prxgt/customer/search/by_key" method="POST">
+        <!-- Search customers by some criteria (name, email, etc.). -->
+        <service class="Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface" method="exec"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
     <!-- TODO: use it or remove it. -->
     <!--<route url="/V1/prxgt/downline/tree/get" method="POST">-->
     <!--&lt;!&ndash; Get downline subtree (nodes). &ndash;&gt;-->
