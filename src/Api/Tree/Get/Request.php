@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\Downline\Api\Tree\Get;
 
 /**
@@ -12,7 +13,7 @@ namespace Praxigento\Downline\Api\Tree\Get;
  *
  */
 class Request
-    extends \Praxigento\Core\App\Api\Web\Request\WithCond
+    extends \Praxigento\Core\App\Api\Web\RequestCond
 {
 
     /**
@@ -20,8 +21,7 @@ class Request
      *
      * @return int|null
      */
-    public function getMaxDepth()
-    {
+    public function getMaxDepth() {
         $result = parent::getMaxDepth();
         return $result;
     }
@@ -31,8 +31,7 @@ class Request
      *
      * @return string|null
      */
-    public function getOnDate()
-    {
+    public function getOnDate() {
         $result = parent::getOnDate();
         return $result;
     }
@@ -42,8 +41,7 @@ class Request
      *
      * @return bool|null
      */
-    public function getRequestReturn()
-    {
+    public function getRequestReturn() {
         $result = parent::getRequestReturn();
         return $result;
     }
@@ -54,8 +52,7 @@ class Request
      *
      * @return int|null
      */
-    public function getRootCustId()
-    {
+    public function getRootCustId() {
         $result = parent::getRootCustId();
         return $result;
     }
@@ -65,8 +62,7 @@ class Request
      *
      * @param int $data
      */
-    public function setMaxDepth($data)
-    {
+    public function setMaxDepth($data) {
         parent::setMaxDepth($data);
     }
 
@@ -75,8 +71,7 @@ class Request
      *
      * @param string $data
      */
-    public function setOnDate($data)
-    {
+    public function setOnDate($data) {
         parent::setOnDate($data);
     }
 
@@ -85,8 +80,7 @@ class Request
      *
      * @param bool $data
      */
-    public function setRequestReturn($data)
-    {
+    public function setRequestReturn($data) {
         parent::setRequestReturn($data);
     }
 
@@ -96,8 +90,7 @@ class Request
      *
      * @param int $data
      */
-    public function setRootCustId($data)
-    {
+    public function setRootCustId($data) {
         parent::setRootCustId($data);
     }
 
