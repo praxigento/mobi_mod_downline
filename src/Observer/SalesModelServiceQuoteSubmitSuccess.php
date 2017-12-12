@@ -25,8 +25,10 @@ class SalesModelServiceQuoteSubmitSuccess
         $order = $observer->getData('order');
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $observer->getData('quote');
-
-        $orderId = $order->getId();
-        // $this->manOrderCust->create($orderId);
+        $isGuest = $quote->getCustomerIsGuest();
+        if ($isGuest) {
+            $orderId = $order->getId();
+            $this->manOrderCust->create($orderId);
+        }
     }
 }
