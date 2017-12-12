@@ -64,7 +64,7 @@ class Call implements ICustomer
         $def = $this->_manTrans->begin();
         try {
             /* define referred parent */
-            if (is_null($parentId)) {
+            if (!$parentId) {
                 $parentId = $this->_subReferral->getReferredParentId($customerId, $parentId);
             }
             if ($customerId == $parentId) {
