@@ -27,6 +27,6 @@ class SalesModelServiceQuoteSubmitSuccess
         $quote = $observer->getData('quote');
 
         $orderId = $order->getId();
-        $this->manOrderCust->create($orderId);
+        // $this->manOrderCust->create($orderId);
     }
 }
