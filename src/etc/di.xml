@@ -20,8 +20,6 @@
     <!-- *** -->
     <preference for="\Praxigento\Downline\Api\Customer\SearchInterface"
                 type="\Praxigento\Downline\Service\Customer\Search"/>
-    <preference for="\Praxigento\Accounting\Api\Rest\Transaction\GetInterface"
-                type="\Praxigento\Downline\Api\Transaction\Get"/>
     <preference for="\Praxigento\Downline\Api\Tree\GetInterface"
                 type="\Praxigento\Downline\Api\Tree\Get"/>
     <preference for="\Praxigento\Downline\Api\Tree\Get\EntriesInterface"
