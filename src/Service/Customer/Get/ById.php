@@ -3,14 +3,14 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Service\Customer;
+namespace Praxigento\Downline\Service\Customer\Get;
 
-use Praxigento\Downline\Api\Service\Customer\Get\Request as ARequest;
-use Praxigento\Downline\Api\Service\Customer\Get\Response as AResponse;
+use Praxigento\Downline\Api\Service\Customer\Get\ById\Request as ARequest;
+use Praxigento\Downline\Api\Service\Customer\Get\ById\Response as AResponse;
 use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 
-class Get
-    implements \Praxigento\Core\Api\Service\Customer\Get
+class ById
+    implements \Praxigento\Downline\Api\Service\Customer\Get\ById
 {
     private $qbCustGet;
 

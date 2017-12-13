@@ -7,8 +7,8 @@
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
-    <preference for="\Praxigento\Core\Api\Service\Customer\Get"
-                type="\Praxigento\Downline\Service\Customer\Get"/>
+    <!--<preference for="\Praxigento\Core\Api\Service\Customer\Get"-->
+                <!--type="\Praxigento\Downline\Service\Customer\Get"/>-->
     <preference for="\Praxigento\Core\Api\Service\Customer\Search"
                 type="\Praxigento\Downline\Service\Customer\Search"/>
     <preference for="\Praxigento\Downline\Api\Service\Snap\Clean"
@@ -27,6 +27,15 @@
     <preference for="\Praxigento\Downline\Api\Tree\Get\UplineInterface"
                 type="\Praxigento\Downline\Api\Tree\Get\Upline"/>
 
+
+
+    <!-- ******* -->
+    <!-- API Web -->
+    <!-- ******* -->
+    <preference for="\Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface"
+                type="\Praxigento\Downline\Web\Customer\Get\ById"/>
+    <preference for="\Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface"
+                type="\Praxigento\Core\Web\Customer\Search\ByKey"/>
 
     <!-- ********************** -->
     <!-- Console (CLI Commands) -->
@@ -116,12 +125,5 @@
                 type="\Praxigento\Downline\Plugin\Framework\Url"
                 sortOrder="100" disabled="false"/>
     </type>
-
-
-    <!-- ******* -->
-    <!-- Web API -->
-    <!-- ******* -->
-    <preference for="\Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface"
-                type="\Praxigento\Core\Web\Customer\Search\ByKey"/>
 
 </config>
