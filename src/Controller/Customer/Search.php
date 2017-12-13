@@ -21,7 +21,7 @@ class Search
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Webapi\ServiceInputProcessor $inputProcessor,
         \Magento\Framework\Webapi\ServiceOutputProcessor $outputProcessor,
-        \Praxigento\Core\App\Logger\App $logger,
+        \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\App\Api\Web\IAuthenticator $authenticator,
         \Praxigento\Core\Api\Service\Customer\Search $callSearch
     )

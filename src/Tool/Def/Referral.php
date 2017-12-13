@@ -14,7 +14,7 @@ class Referral implements IReferral
     const COOKIE_REFERRAL_CODE = 'prxgtDwnlReferral';
     /** Key in registry to save referral code */
     const REG_REFERRAL_CODE = 'prxgtDwnlReferral';
-    /** @var \Praxigento\Core\App\Logger\App */
+    /** @var \Psr\Log\LoggerInterface */
     protected $logger;
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */
     protected $manCookie;
@@ -24,7 +24,7 @@ class Referral implements IReferral
     protected $toolDate;
 
     public function __construct(
-        \Praxigento\Core\App\Logger\App $logger,
+        \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
         \Praxigento\Core\Tool\IDate $toolDate

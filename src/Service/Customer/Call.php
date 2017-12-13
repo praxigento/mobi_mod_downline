@@ -29,7 +29,7 @@ class Call implements ICustomer
     protected $_subReferral;
 
     public function __construct(
-        \Praxigento\Core\App\Logger\App $logger,
+        \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,

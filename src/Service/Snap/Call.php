@@ -33,7 +33,7 @@ class Call
     protected $subCalc;
 
     public function __construct(
-        \Praxigento\Core\App\Logger\App $logger,
+        \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Tool\IPeriod $hlpPeriod,
