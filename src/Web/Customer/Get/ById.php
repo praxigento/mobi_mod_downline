@@ -31,7 +31,7 @@ class ById
         $dev = $request->getDev();
         $email = $data->getEmail();
         $mlmId = $data->getMlmId();
-        $custId = $dev->getCustId();
+        $custId = $data->getCustomerId();
 
         /* TODO: add request authorization */
         $isAdminRequest = true;
