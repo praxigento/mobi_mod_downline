@@ -2,6 +2,14 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
+    <route url="/V1/prxgt/customer/get/by_id" method="POST">
+        <!-- Get one customer info by some identifier (id, email, etc.). -->
+        <service class="Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface" method="exec"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
     <route url="/V1/prxgt/customer/search/by_key" method="POST">
         <!-- Search customers by some criteria (name, email, etc.). -->
         <service class="Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface" method="exec"/>
@@ -9,31 +17,5 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
-
-    <!-- TODO: use it or remove it. -->
-    <!--<route url="/V1/prxgt/downline/tree/get" method="POST">-->
-    <!--&lt;!&ndash; Get downline subtree (nodes). &ndash;&gt;-->
-    <!--<service class="Praxigento\Downline\Api\Tree\GetInterface" method="exec"/>-->
-    <!--<resources>-->
-    <!--<resource ref="anonymous"/>-->
-    <!--</resources>-->
-    <!--</route>-->
-
-    <!--<route url="/V1/prxgt/downline/tree/get/entries" method="POST">-->
-    <!--&lt;!&ndash; Get downline subtree entries (extended information including bonus statistics). &ndash;&gt;-->
-    <!--<service class="Praxigento\Downline\Api\Tree\Get\EntriesInterface" method="execute"/>-->
-    <!--<resources>-->
-    <!--<resource ref="anonymous"/>-->
-    <!--</resources>-->
-    <!--</route>-->
-
-    <!--<route url="/V1/prxgt/downline/tree/get/upline" method="POST">-->
-    <!--&lt;!&ndash; Get upline data for customer. &ndash;&gt;-->
-    <!--<service class="Praxigento\Downline\Api\Tree\Get\UplineInterface" method="execute"/>-->
-    <!--<resources>-->
-    <!--<resource ref="anonymous"/>-->
-    <!--</resources>-->
-    <!--</route>-->
-
 
 </routes>
