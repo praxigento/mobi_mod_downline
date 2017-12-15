@@ -10,11 +10,11 @@ namespace Praxigento\Downline\Plugin\Framework\App;
 
 class ResponseInterface
 {
-    /** @var \Praxigento\Downline\Tool\IReferral */
+    /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpRefCode;
 
     public function __construct(
-        \Praxigento\Downline\Tool\IReferral $hlpRefCode
+        \Praxigento\Downline\Api\Helper\Referral $hlpRefCode
     )
     {
         $this->hlpRefCode = $hlpRefCode;

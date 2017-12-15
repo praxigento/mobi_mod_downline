@@ -11,11 +11,11 @@ class FrontControllerInterface
 {
     /** Name of the HTTP GET variable for referral code */
     const REQ_REFERRAL = 'prxgtDwnlReferral';
-    /** @var \Praxigento\Downline\Tool\IReferral */
+    /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpRefCode;
 
     public function __construct(
-        \Praxigento\Downline\Tool\IReferral $hlpRefCode
+        \Praxigento\Downline\Api\Helper\Referral $hlpRefCode
     )
     {
         $this->hlpRefCode = $hlpRefCode;

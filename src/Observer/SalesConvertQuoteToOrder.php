@@ -15,12 +15,12 @@ class SalesConvertQuoteToOrder
 {
     /** @var \Praxigento\Downline\Helper\Config */
     private $hlpConfig;
-    /** @var \Praxigento\Downline\Tool\IReferral */
+    /** @var \Praxigento\Downline\Api\Helper\Referral */
     private $hlpReferral;
 
     public function __construct(
         \Praxigento\Downline\Helper\Config $hlpConfig,
-        \Praxigento\Downline\Tool\IReferral $hlpReferral
+        \Praxigento\Downline\Api\Helper\Referral $hlpReferral
     )
     {
         $this->hlpConfig = $hlpConfig;

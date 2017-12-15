@@ -3,12 +3,12 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Tool;
+namespace Praxigento\Downline\Api\Helper;
 
 /**
  * Downline Tree related operations.
  */
-interface ITree
+interface Downline
 {
     /**
      * @param $tree array [$custId => $parentId, ...] | [$custId => [KEY => $parentId, ...], ...].

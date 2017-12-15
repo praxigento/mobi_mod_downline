@@ -8,7 +8,7 @@ class Customer
 {
     /** @var \Praxigento\Downline\Helper\Config */
     protected $hlpConfig;
-    /** @var \Praxigento\Downline\Tool\IReferral */
+    /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpReferral;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
@@ -16,7 +16,7 @@ class Customer
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Downline\Helper\Config $hlpConfig,
-        \Praxigento\Downline\Tool\IReferral $hlpReferral
+        \Praxigento\Downline\Api\Helper\Referral $hlpReferral
     ) {
         $this->logger = $logger;
         $this->hlpConfig = $hlpConfig;

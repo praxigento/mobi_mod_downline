@@ -3,6 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
+    <!-- *********** -->
+    <!-- API Helpers -->
+    <!-- *********** -->
+    <preference for="\Praxigento\Downline\Api\Helper\Referral\CodeGenerator"
+                type="Praxigento\Downline\Helper\Referral\CodeGenerator"/>
+    <preference for="\Praxigento\Downline\Api\Helper\Referral"
+                type="Praxigento\Downline\Helper\Referral"/>
+    <preference for="Praxigento\Downline\Api\Helper\Downline"
+                type="Praxigento\Downline\Helper\Downline"/>
 
     <!-- ************ -->
     <!-- API Services -->
@@ -41,7 +50,7 @@
     <!-- Infra -->
     <!-- ***** -->
     <preference for="\Praxigento\Core\App\Api\Web\IAuthenticator"
-                type="\Praxigento\Downline\Infra\Api\Authenticator"/>
+                type="\Praxigento\Downline\App\Api\Web\Authenticator"/>
 
     <!-- ******** -->
     <!-- Services -->
@@ -52,14 +61,6 @@
                 type="Praxigento\Downline\Service\Map\Call"/>
     <preference for="Praxigento\Downline\Service\ISnap"
                 type="Praxigento\Downline\Service\Snap\Call"/>
-
-    <!-- ***** -->
-    <!-- Tools -->
-    <!-- ***** -->
-    <preference for="\Praxigento\Downline\Tool\IReferral"
-                type="Praxigento\Downline\Tool\Def\Referral"/>
-    <preference for="Praxigento\Downline\Tool\ITree"
-                type="Praxigento\Downline\Tool\Def\Tree"/>
 
     <!-- ******* -->
     <!-- PLUGINS -->

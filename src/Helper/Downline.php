@@ -8,9 +8,10 @@ namespace Praxigento\Downline\Tool\Def;
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Snap;
-use Praxigento\Downline\Tool\ITree;
 
-class Tree implements ITree {
+class Downline
+    implements \Praxigento\Downline\Api\Helper\Downline
+{
 
     /**
      * Recursively compose $result as array of elements:

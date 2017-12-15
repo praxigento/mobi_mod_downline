@@ -3,17 +3,13 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Tool\Def;
+namespace Praxigento\Downline\Helper;
 
 use Praxigento\Downline\Data\Value\ReferralCookie;
-use Praxigento\Downline\Tool\IReferral;
 
-class Referral implements IReferral
+class Referral
+    implements \Praxigento\Downline\Api\Helper\Referral
 {
-    /** Cookie name to save referral code and creation date into browser */
-    const COOKIE_REFERRAL_CODE = 'prxgtDwnlReferral';
-    /** Key in registry to save referral code */
-    const REG_REFERRAL_CODE = 'prxgtDwnlReferral';
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */

@@ -3,13 +3,18 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Tool;
+namespace Praxigento\Downline\Api\Helper;
 
 /**
- * Referral related operations.
+ * Helper for referrals related functionality.
  */
-interface IReferral
+interface Referral
 {
+    /** Cookie name to save referral code and creation date into browser */
+    const COOKIE_REFERRAL_CODE = 'prxgtDwnlReferral';
+    /** Key in registry to save referral code */
+    const REG_REFERRAL_CODE = 'prxgtDwnlReferral';
+
     /**
      * Get 2-chars uppercase code for the default country for Downline Tree (LV, LT, EE, ...).
      * @return string

@@ -131,7 +131,7 @@ class Call
      *
      * @return Response\ExpandMinimal
      *
-     * @deprecated use \Praxigento\Downline\Tool\ITree::expandMinimal instead
+     * @deprecated use \Praxigento\Downline\Api\Helper\Downline::expandMinimal instead
      */
     public function expandMinimal(Request\ExpandMinimal $request)
     {

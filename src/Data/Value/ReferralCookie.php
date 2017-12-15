@@ -10,6 +10,8 @@ use Praxigento\Core\Data as DataObject;
 /**
  * Value Object for the referral cookie ('123456:20160529').
  *
+ * TODO: extract functionality from Data Object.
+ *
  * @method string getCode() Referral code.
  * @method void setCode(string $code)
  * @method string getDateSaved() Date stamp for the cookie saving time.

@@ -10,14 +10,14 @@ class GroupManagement
 {
     /** @var \Praxigento\Downline\Helper\Config */
     protected $hlpConfig;
-    /** @var \Praxigento\Downline\Tool\IReferral */
+    /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpReferral;
     /** @var \Magento\Customer\Api\GroupRepositoryInterface */
     protected $repoCustGroup;
 
     public function __construct(
         \Praxigento\Downline\Helper\Config $hlpConfig,
-        \Praxigento\Downline\Tool\IReferral $hlpReferral,
+        \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
         \Magento\Customer\Api\GroupRepositoryInterface $repoCustGroup
     )
     {
