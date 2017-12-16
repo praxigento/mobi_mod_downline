@@ -5,11 +5,15 @@
 
 namespace Praxigento\Downline\Helper\Referral;
 
+/**
+ * Set internal ID as referral code by default.
+ */
 class CodeGenerator
     implements \Praxigento\Downline\Api\Helper\Referral\CodeGenerator
 {
-    public function generate(\Praxigento\Core\Data $data = null) {
-        return 'referral code';
+    public function generate(\Magento\Customer\Model\Data\Customer $data = null) {
+        $result = $data->getId();
+        return $result;
     }
 
 }

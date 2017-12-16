@@ -11,8 +11,8 @@ namespace Praxigento\Downline\Api\Helper\Referral;
 interface CodeGenerator
 {
     /**
-     * @param \Praxigento\Core\Data|null $data
+     * @param \Magento\Customer\Model\Data\Customer|null $data
      * @return string
      */
-    public function generate(\Praxigento\Core\Data $data = null);
+    public function generate(\Magento\Customer\Model\Data\Customer $data = null);
 }

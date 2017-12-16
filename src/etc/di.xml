@@ -7,11 +7,11 @@
     <!-- API Helpers -->
     <!-- *********** -->
     <preference for="\Praxigento\Downline\Api\Helper\Referral\CodeGenerator"
-                type="Praxigento\Downline\Helper\Referral\CodeGenerator"/>
+                type="\Praxigento\Downline\Helper\Referral\CodeGenerator"/>
     <preference for="\Praxigento\Downline\Api\Helper\Referral"
-                type="Praxigento\Downline\Helper\Referral"/>
-    <preference for="Praxigento\Downline\Api\Helper\Downline"
-                type="Praxigento\Downline\Helper\Downline"/>
+                type="\Praxigento\Downline\Helper\Referral"/>
+    <preference for="\Praxigento\Downline\Api\Helper\Downline"
+                type="\Praxigento\Downline\Helper\Downline"/>
 
     <!-- ************ -->
     <!-- API Services -->
@@ -55,12 +55,12 @@
     <!-- ******** -->
     <!-- Services -->
     <!-- ******** -->
-    <preference for="Praxigento\Downline\Service\ICustomer"
-                type="Praxigento\Downline\Service\Customer\Call"/>
-    <preference for="Praxigento\Downline\Service\IMap"
-                type="Praxigento\Downline\Service\Map\Call"/>
-    <preference for="Praxigento\Downline\Service\ISnap"
-                type="Praxigento\Downline\Service\Snap\Call"/>
+    <preference for="\Praxigento\Downline\Service\ICustomer"
+                type="\Praxigento\Downline\Service\Customer\Call"/>
+    <preference for="\Praxigento\Downline\Service\IMap"
+                type="\Praxigento\Downline\Service\Map\Call"/>
+    <preference for="\Praxigento\Downline\Service\ISnap"
+                type="\Praxigento\Downline\Service\Snap\Call"/>
 
     <!-- ******* -->
     <!-- PLUGINS -->

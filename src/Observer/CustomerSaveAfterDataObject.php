@@ -16,11 +16,14 @@ class CustomerSaveAfterDataObject
 
     /** @var \Praxigento\Downline\Service\ICustomer */
     private $callCustomer;
-
+    /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
+    private $hlpCodeGen;
     public function __construct(
+        \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
         \Praxigento\Downline\Service\ICustomer $callCustomer
     )
     {
+        $this->hlpCodeGen = $hlpCodeGen;
         $this->callCustomer = $callCustomer;
     }
 
@@ -42,8 +45,8 @@ class CustomerSaveAfterDataObject
             if ($mlmId) {
                 $req->setReference($mlmId);
             } else {
-                /* TODO: reference should be generated */
-                $req->setReference($idAfter);
+                $refCode = $this->hlpCodeGen->generate($afterSave);
+                $req->setReference($refCode);
             }
             $this->callCustomer->add($req);
         }
