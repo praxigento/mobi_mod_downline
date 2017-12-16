@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Tool\Def;
+namespace Praxigento\Downline\Helper;
 
 
 use Praxigento\Downline\Config as Cfg;
