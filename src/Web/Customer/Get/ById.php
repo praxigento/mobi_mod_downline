@@ -35,22 +35,19 @@ class ById
         $email = $data->getEmail();
         $mlmId = $data->getMlmId();
         $custId = $data->getCustomerId();
-        $dev = $request->getDev();
-        $devAdminId = $dev->getAdminId();
-        $devCustId = $dev->getCustId();
 
         /* get currently logged in users */
-        $currentAdminId = $this->authenticator->getCurrentAdminId($devAdminId);
-        $currentCustId = $this->authenticator->getCurrentCustomerId($devCustId);
+        $currentAdminId = $this->authenticator->getCurrentAdminId($request);
+        $currentCustId = $this->authenticator->getCurrentCustomerId($request);
 
         /* analyze logged in users */
+        $isAdminRequest = false;
+        $requesterId = null;
         if ($currentCustId) {
             /* this is customer session */
             $requesterId = $currentCustId;
-            $isAdminRequest = false;
         } elseif ($currentAdminId) {
             $isAdminRequest = true;
-            $requesterId = null;
         }
 
         /** perform processing */
