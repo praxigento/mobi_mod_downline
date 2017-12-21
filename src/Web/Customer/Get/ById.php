@@ -50,6 +50,7 @@ class ById
             $isAdminRequest = false;
         } elseif ($currentAdminId) {
             $isAdminRequest = true;
+            $requesterId = null;
         }
 
         /** perform processing */
