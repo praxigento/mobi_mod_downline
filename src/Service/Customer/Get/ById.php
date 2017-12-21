@@ -14,13 +14,21 @@ use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 class ById
     implements \Praxigento\Downline\Api\Service\Customer\Get\ById
 {
+    /** @var \Praxigento\Downline\Helper\Downline */
+    private $hlpDwnl;
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbCustGet;
+    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    private $repoCust;
 
     public function __construct(
-        \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet
+        \Praxigento\Downline\Repo\Entity\Customer $repoCust,
+        \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet,
+        \Praxigento\Downline\Helper\Downline $hlpDwnl
     ) {
+        $this->repoCust = $repoCust;
         $this->qbCustGet = $qbCustGet;
+        $this->hlpDwnl = $hlpDwnl;
     }
 
     /**
@@ -62,26 +70,34 @@ class ById
         $requesterId = $request->getRequesterId();
 
         /** perform processing */
-        /* TODO: add search by email for frontend requests (when customerId is not set) */
-        if (
-            $ignoreRequester ||
-            ($customerId == $requesterId)
-        ) {
-            /* process if this is admin request or customer requests info for itself */
-            if ($customerId) {
-                /* customer ID has a higher priority */
-                $result = $this->searchById($customerId);
-            } elseif ($email) {
-                /* ... then search by email */
-                $result = $this->searchByEmail($email);
-            } elseif ($mlmId) {
-                /* ... then search by MLM ID */
-                $result = $this->searchByMlmId($email);
-            } else {
+        if ($customerId) {
+            /* customer ID has a higher priority */
+            $result = $this->searchById($customerId);
+        } elseif ($email) {
+            /* ... then search by email */
+            $result = $this->searchByEmail($email);
+        } elseif ($mlmId) {
+            /* ... then search by MLM ID */
+            $result = $this->searchByMlmId($email);
+        } elseif ($requesterId) {
+            $result = $this->searchById($requesterId);
+        } else {
+            $result = new AResponse(); // empty result
+        }
+        /* filter result set data by downline */
+        if (!$ignoreRequester) {
+            $foundCustId = $result->getId();
+            $foundCustData = $this->repoCust->getById($foundCustId);
+            $path = $foundCustData->getPath();
+            $parents = $this->hlpDwnl->getParentsFromPath($path);
+            if (
+                ($requesterId != $foundCustId) &&
+                !in_array($requesterId, $parents)
+            ) {
+                /* reset result if found customer is not requester itself & not in requester's downline */
                 $result = new AResponse(); // empty result
             }
         }
-
         /** compose result */
         return $result;
     }

@@ -11,12 +11,16 @@ use Praxigento\Downline\Api\Web\Customer\Get\ById\Response as AResponse;
 class ById
     implements \Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface
 {
+    /** @var \Praxigento\Core\App\Api\Web\IAuthenticator */
+    private $authenticator;
     /** @var \Praxigento\Downline\Api\Service\Customer\Get\ById */
     private $servCustGet;
 
     public function __construct(
+        \Praxigento\Core\App\Api\Web\IAuthenticator $authenticator,
         \Praxigento\Downline\Api\Service\Customer\Get\ById $servCustGet
     ) {
+        $this->authenticator = $authenticator;
         $this->servCustGet = $servCustGet;
     }
 
@@ -28,14 +32,25 @@ class ById
         assert($request instanceof ARequest);
         /** define local working data */
         $data = $request->getData();
-        $dev = $request->getDev();
         $email = $data->getEmail();
         $mlmId = $data->getMlmId();
         $custId = $data->getCustomerId();
+        $dev = $request->getDev();
+        $devAdminId = $dev->getAdminId();
+        $devCustId = $dev->getCustId();
 
-        /* TODO: add request authorization */
-        $isAdminRequest = true;
-        $requesterId = $custId;
+        /* get currently logged in users */
+        $currentAdminId = $this->authenticator->getCurrentAdminId($devAdminId);
+        $currentCustId = $this->authenticator->getCurrentCustomerId($devCustId);
+
+        /* analyze logged in users */
+        if ($currentCustId) {
+            /* this is customer session */
+            $requesterId = $currentCustId;
+            $isAdminRequest = false;
+        } elseif ($currentAdminId) {
+            $isAdminRequest = true;
+        }
 
         /** perform processing */
         $req = new \Praxigento\Downline\Api\Service\Customer\Get\ById\Request();

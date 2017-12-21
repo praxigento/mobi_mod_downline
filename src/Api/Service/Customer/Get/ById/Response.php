@@ -11,7 +11,7 @@ class Response
     const MLM_ID = 'mlm_id';
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getMlmId()
     {
