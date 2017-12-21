@@ -13,6 +13,7 @@
     <preference for="\Praxigento\Downline\Api\Helper\Downline"
                 type="\Praxigento\Downline\Helper\Downline"/>
 
+
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
@@ -46,12 +47,6 @@
     </type>
 
 
-    <!-- ***** -->
-    <!-- Infra -->
-    <!-- ***** -->
-    <preference for="\Praxigento\Core\App\Api\Web\IAuthenticator"
-                type="\Praxigento\Downline\App\Api\Web\Authenticator"/>
-
     <!-- ******** -->
     <!-- Services -->
     <!-- ******** -->
@@ -61,6 +56,7 @@
                 type="\Praxigento\Downline\Service\Map\Call"/>
     <preference for="\Praxigento\Downline\Service\ISnap"
                 type="\Praxigento\Downline\Service\Snap\Call"/>
+
 
     <!-- ******* -->
     <!-- PLUGINS -->
