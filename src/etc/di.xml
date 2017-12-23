@@ -14,12 +14,18 @@
                 type="\Praxigento\Downline\Helper\Downline"/>
 
 
+    <!-- ********************* -->
+    <!-- API Services Rewrites -->
+    <!-- ********************* -->
+    <preference for="\Praxigento\Core\Api\Service\Customer\Search"
+                type="\Praxigento\Downline\Service\Customer\Search"/>
+
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
     <preference for="\Praxigento\Downline\Api\Service\Customer\Get\ById"
                 type="\Praxigento\Downline\Service\Customer\Get\ById"/>
-    <preference for="\Praxigento\Core\Api\Service\Customer\Search"
+    <preference for="\Praxigento\Downline\Api\Service\Customer\Search"
                 type="\Praxigento\Downline\Service\Customer\Search"/>
     <preference for="\Praxigento\Downline\Api\Service\Snap\Clean"
                 type="\Praxigento\Downline\Service\Snap\Clean"/>
