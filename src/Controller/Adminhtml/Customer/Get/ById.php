@@ -49,7 +49,7 @@ class ById
 
         /* get currently logged in users */
         $currentAdminId = $this->authenticator->getCurrentAdminId($request);
-        $currentCustId = $this->authenticator->getCurrentCustomerId($request);
+        $currentCustId = $this->authenticator->getCurrentUserId($request);
 
         /* analyze logged in users */
         $isAdminRequest = true;
