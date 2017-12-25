@@ -14,8 +14,7 @@ use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 class ById
     implements \Praxigento\Downline\Api\Service\Customer\Get\ById
 {
-    /** @var \Praxigento\Downline\Helper\Downline */
-    private $hlpDwnl;
+
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbCustGet;
     /** @var \Praxigento\Downline\Repo\Entity\Customer */
@@ -28,7 +27,6 @@ class ById
     ) {
         $this->repoCust = $repoCust;
         $this->qbCustGet = $qbCustGet;
-        $this->hlpDwnl = $hlpDwnl;
     }
 
     /**
@@ -36,7 +34,8 @@ class ById
      * @param array $db
      * @return \Praxigento\Downline\Api\Service\Customer\Get\ById\Response
      */
-    private function convertDbToApi($db) {
+    private function convertDbToApi($db)
+    {
         $result = new AResponse();
         if ($db) {
             /* extract DB data */
@@ -60,14 +59,13 @@ class ById
      * @param ARequest $request
      * @return AResponse
      */
-    public function exec($request) {
+    public function exec($request)
+    {
         /** define local working data */
         assert($request instanceof ARequest);
         $customerId = $request->getCustomerId();
         $email = $request->getEmail();
-        $ignoreRequester = $request->getIgnoreRequester();
         $mlmId = $request->getMlmId();
-        $requesterId = $request->getRequesterId();
 
         /** perform processing */
         if ($customerId) {
@@ -79,30 +77,16 @@ class ById
         } elseif ($mlmId) {
             /* ... then search by MLM ID */
             $result = $this->searchByMlmId($email);
-        } elseif ($requesterId) {
-            $result = $this->searchById($requesterId);
         } else {
             $result = new AResponse(); // empty result
         }
-        /* filter result set data by downline */
-        if (!$ignoreRequester) {
-            $foundCustId = $result->getId();
-            $foundCustData = $this->repoCust->getById($foundCustId);
-            $path = $foundCustData->getPath();
-            $parents = $this->hlpDwnl->getParentsFromPath($path);
-            if (
-                ($requesterId != $foundCustId) &&
-                !in_array($requesterId, $parents)
-            ) {
-                /* reset result if found customer is not requester itself & not in requester's downline */
-                $result = new AResponse(); // empty result
-            }
-        }
+
         /** compose result */
         return $result;
     }
 
-    private function searchByEmail($email) {
+    private function searchByEmail($email)
+    {
         $query = $this->qbCustGet->build();
         $conn = $query->getConnection();
         /* reset WHERE part and recreate new one */
@@ -119,7 +103,8 @@ class ById
         return $result;
     }
 
-    private function searchById($custId) {
+    private function searchById($custId)
+    {
         $query = $this->qbCustGet->build();
         $conn = $query->getConnection();
         $bind = [
@@ -130,7 +115,8 @@ class ById
         return $result;
     }
 
-    private function searchByMlmId($mlmId) {
+    private function searchByMlmId($mlmId)
+    {
         $query = $this->qbCustGet->build();
         $conn = $query->getConnection();
         /* reset WHERE part and recreate new one */
