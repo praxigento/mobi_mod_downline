@@ -12,18 +12,14 @@ class ByKey
     extends \Praxigento\Core\App\Action\Back\Api\Base
 {
 
-    /** @var \Praxigento\Core\App\Api\Web\IAuthenticator */
-    private $authenticator;
     /** @var \Praxigento\Downline\Api\Service\Customer\Search */
     private $servCustSearch;
 
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Praxigento\Core\App\Api\Web\IAuthenticator $authenticator,
         \Praxigento\Downline\Api\Service\Customer\Search $servCustSearch
     ) {
         parent::__construct($context);
-        $this->authenticator = $authenticator;
         $this->servCustSearch = $servCustSearch;
     }
 
@@ -44,10 +40,6 @@ class ByKey
         $data = $request->getData();
         $limit = $data->getLimit();
         $key = $data->getSearchKey();
-
-        /* get currently logged in users */
-
-        /* analyze logged in users */
 
         /** perform processing */
         $req = new \Praxigento\Downline\Api\Service\Customer\Search\Request();
