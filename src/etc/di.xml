@@ -37,7 +37,7 @@
     <preference for="\Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface"
                 type="\Praxigento\Downline\Web\Customer\Get\ById"/>
     <preference for="\Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface"
-                type="\Praxigento\Core\Web\Customer\Search\ByKey"/>
+                type="\Praxigento\Downline\Web\Customer\Search\ByKey"/>
 
 
     <!-- ********************** -->
