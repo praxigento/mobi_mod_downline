@@ -7,7 +7,6 @@ namespace Praxigento\Downline\Service\Customer;
 
 use Praxigento\Downline\Api\Service\Customer\Search\Request as ARequest;
 use Praxigento\Downline\Api\Service\Customer\Search\Response as AResponse;
-use Praxigento\Downline\Api\Service\Customer\Search\Response\Data as DRespData;
 use Praxigento\Downline\Api\Service\Customer\Search\Response\Item as DItem;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
@@ -54,9 +53,7 @@ class Search
 
         /** compose result */
         $result = new AResponse();
-        $data = new DRespData();
-        $data->setItems($items);
-        $result->setData($data);
+        $result->setItems($items);
         return $result;
     }
 

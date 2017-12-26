@@ -46,12 +46,10 @@ class ByKey
         $req->setSearchKey($key);
         $req->setLimit($limit);
         $resp = $this->servCustSearch->exec($req);
-        /* TODO: change internal service response (remove extra 'data' node) */
-        $respData = $resp->getData();
 
         /** compose result */
         $result = new AResponse();
-        $result->setData($respData);
+        $result->setData($resp);
         return $result;
     }
 }
