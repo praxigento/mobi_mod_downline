@@ -50,7 +50,7 @@ class ByKey
         $items = $respData->getItems();
 
         /* post-authorization: customer can access his own data or his own downline customer */
-        /** @var \Praxigento\Downline\Api\Service\Customer\Search\Response\Data\Item $item */
+        /** @var \Praxigento\Downline\Api\Service\Customer\Search\Response\Item $item */
         foreach ($items as $item) {
             $item->getId();
         }

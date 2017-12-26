@@ -9,21 +9,23 @@ class Response
     extends \Praxigento\Core\App\Api\Web\Response
 {
     /**
-     * @return \Praxigento\Downline\Api\Web\Customer\Search\ByKey\Response\Data
+     * @return \Praxigento\Downline\Api\Service\Customer\Search\Response
      *
      * Magento 2 WebAPI requires full names in documentation (aliases are not allowed).
      */
-    public function getData() {
+    public function getData()
+    {
         return parent::getData();
 
     }
 
     /**
-     * @param \Praxigento\Downline\Api\Web\Customer\Search\ByKey\Response\Data $data
+     * @param \Praxigento\Downline\Api\Service\Customer\Search\Response $data
      *
      * Magento 2 WebAPI requires full names in documentation (aliases are not allowed).
      */
-    public function setData($data) {
+    public function setData($data)
+    {
         parent::setData($data);
     }
 

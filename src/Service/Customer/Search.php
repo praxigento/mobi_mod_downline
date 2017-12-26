@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Service\Customer;
 use Praxigento\Downline\Api\Service\Customer\Search\Request as ARequest;
 use Praxigento\Downline\Api\Service\Customer\Search\Response as AResponse;
 use Praxigento\Downline\Api\Service\Customer\Search\Response\Data as DRespData;
-use Praxigento\Downline\Api\Service\Customer\Search\Response\Data\Item as DItem;
+use Praxigento\Downline\Api\Service\Customer\Search\Response\Item as DItem;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
 use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;

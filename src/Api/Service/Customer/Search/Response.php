@@ -12,19 +12,20 @@ class Response
     extends \Praxigento\Core\Api\Service\Customer\Search\Response
 {
     /**
-     * @return \Praxigento\Downline\Api\Service\Customer\Search\Response\Data
+     * @return \Praxigento\Downline\Api\Service\Customer\Search\Response\Item[]
      */
-    public function getData()
+    public function getItems()
     {
-        return parent::getData();
+        return parent::getItems();
     }
 
     /**
-     * @param \Praxigento\Downline\Api\Service\Customer\Search\Response\Data $data
+     * @param \Praxigento\Downline\Api\Service\Customer\Search\Response\Item[] $data
      */
-    public function setData($data)
+    public function setItems($data)
     {
-        parent::setData($data);
+        parent::setItems($data);
     }
+
 
 }

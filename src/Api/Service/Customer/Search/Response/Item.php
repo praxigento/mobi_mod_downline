@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Api\Service\Customer\Search\Response\Data;
+namespace Praxigento\Downline\Api\Service\Customer\Search\Response;
 
 /**
  * Modules's shell extends underline core service data object directly.
@@ -11,7 +11,7 @@ namespace Praxigento\Downline\Api\Service\Customer\Search\Response\Data;
  * (Define getters explicitly to use with Swagger tool)
  */
 class Item
-    extends \Praxigento\Core\Api\Service\Customer\Search\Response\Data\Item
+    extends \Praxigento\Core\Api\Service\Customer\Search\Response\Item
 {
     const MLM_ID = 'mlm_id';
 
