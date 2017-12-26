@@ -23,11 +23,14 @@ class Search
 
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbGetCustomer;
+    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    private $repoDwnlCust;
 
     public function __construct(
+        \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust,
         \Praxigento\Downline\Repo\Query\Customer\Get $qbGetCustomer
-    )
-    {
+    ) {
+        $this->repoDwnlCust = $repoDwnlCust;
         $this->qbGetCustomer = $qbGetCustomer;
     }
 
@@ -37,14 +40,19 @@ class Search
      */
     public function exec($req)
     {
-        /* define local working data */
+        /** define local working data */
+        $rootCustId = $req->getCustomerId();
         $key = $req->getSearchKey();
         $limit = $req->getLimit() ?? self::DEF_LIMIT;
 
-        /* perform processing */
-        $items = $this->selectCustomers($key, $limit);
+        /** perform processing */
+        $path = null;
+        if ($rootCustId) {
+            $path = $this->selectRootPath($rootCustId);
+        }
+        $items = $this->selectCustomers($key, $limit, $rootCustId, $path);
 
-        /* compose result */
+        /** compose result */
         $result = new AResponse();
         $data = new DRespData();
         $data->setItems($items);
@@ -52,7 +60,8 @@ class Search
         return $result;
     }
 
-    private function selectCustomers($key, $limit)
+
+    private function selectCustomers($key, $limit, $custId, $path)
     {
         $query = $this->qbGetCustomer->build();
         $conn = $query->getConnection();
@@ -67,6 +76,13 @@ class Search
         $byEmail = "$asCust." . Cfg::E_CUSTOMER_A_EMAIL . " LIKE $searchBy";
         $byMlmID = "$asDwnl." . EDwnlCust::ATTR_MLM_ID . " LIKE $searchBy";
         $where = "($byFirst) OR ($byLast) OR ($byEmail) OR ($byMlmID)";
+        if ($custId) {
+            /* restrict searching by root customer */
+            $byOwnId = "$asDwnl." . EDwnlCust::ATTR_CUSTOMER_ID . '=' . (int)$custId;
+            $quoted = $conn->quote($path . $custId . Cfg::DTPS . '%');
+            $byPath = "$asDwnl." . EDwnlCust::ATTR_PATH . ' LIKE ' . $quoted;
+            $where = "($where) AND (($byOwnId) OR ($byPath))";
+        }
         $query->where($where);
         /* add LIMIT clause */
         $query->limit($limit);
@@ -91,6 +107,19 @@ class Search
             $item->setMlmId($mlmId);
             $result[] = $item;
         }
+        return $result;
+    }
+
+    /**
+     * Get root customer path to control
+     * @param int $custId
+     * @return string
+     */
+    private function selectRootPath($custId)
+    {
+        $result = null;
+        $entity = $this->repoDwnlCust->getById($custId);
+        if ($entity) $result = $entity->getPath();
         return $result;
     }
 }
