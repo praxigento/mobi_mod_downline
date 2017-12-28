@@ -46,20 +46,16 @@ class ByKey
         $req->setLimit($limit);
         $req->setSearchKey($key);
         $resp = $this->servCustSearch->exec($req);
-        $respData = $resp->getData();
-        $items = $respData->getItems();
 
-        /* post-authorization: customer can access his own data or his own downline customer */
+        /* TODO: post-authorization: customer can access his own data or his own downline customer */
         /** @var \Praxigento\Downline\Api\Service\Customer\Search\Response\Item $item */
-        foreach ($items as $item) {
-            $item->getId();
-        }
+//        foreach ($items as $item) {
+//            $item->getId();
+//        }
 
         /** compose result */
         $result = new AResponse();
-        $dataOut = new AResponse\Data();
-        $dataOut->setItems($items);
-        $result->setData($dataOut);
+        $result->setData($resp);
         return $result;
     }
 }
