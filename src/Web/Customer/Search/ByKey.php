@@ -47,12 +47,6 @@ class ByKey
         $req->setSearchKey($key);
         $resp = $this->servCustSearch->exec($req);
 
-        /* TODO: post-authorization: customer can access his own data or his own downline customer */
-        /** @var \Praxigento\Downline\Api\Service\Customer\Search\Response\Item $item */
-//        foreach ($items as $item) {
-//            $item->getId();
-//        }
-
         /** compose result */
         $result = new AResponse();
         $result->setData($resp);
