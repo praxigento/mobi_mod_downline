@@ -13,7 +13,7 @@
                 "alias": "customer",
                 "comment": "Additional customer attributes related to downline tree.",
                 "attribute": {
-                  "CustomerId": {
+                  "CustomerRef": {
                     "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
