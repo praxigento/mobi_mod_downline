@@ -48,8 +48,8 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="prxgt_downline_cmd_clean" xsi:type="object">\Praxigento\Downline\Cli\Cmd\Tree\Clean</item>
-                <item name="prxgt_downline_cmd_snaps" xsi:type="object">\Praxigento\Downline\Cli\Cmd\Tree\Snaps</item>
+                <item name="prxgt_downline_cmd_clean" xsi:type="object">\Praxigento\Downline\Cli\Tree\Clean</item>
+                <item name="prxgt_downline_cmd_snaps" xsi:type="object">\Praxigento\Downline\Cli\Tree\Snaps</item>
             </argument>
         </arguments>
     </type>

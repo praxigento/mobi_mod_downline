@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Cli\Cmd\Tree;
+namespace Praxigento\Downline\Cli\Tree;
 
 /**
  * Create snapshots for downline tree.

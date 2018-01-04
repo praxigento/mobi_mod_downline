@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Cli\Cmd\Tree;
+namespace Praxigento\Downline\Cli\Tree;
 
 /**
  * Clean up all snapshots for downline tree.
