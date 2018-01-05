@@ -1,13 +1,21 @@
 <?php
-$breakpoint = true;
+/** @var \Praxigento\Downline\Block\Dcp $block */
+$isDevMode = $block->isDevMode();
 ?>
 <div id="prxgt_dwnl_dcp" style="min-height: 840px;">
     <app-root>Loading...</app-root>
-    <script type="text/javascript" src="/dcp/inline.bundle.js"></script>
-    <!-- MOBI-730: disable Angular 'defulne' -->
-    <!--    <script type="text/javascript" src="/dcp/scripts.bundle.js"></script>-->
-    <script type="text/javascript" src="/dcp/vendor.bundle.js"></script>
-    <script type="text/javascript" src="/dcp/main.bundle.js"></script>
-    <!-- MOBI-730: styles for none optimized DCP code (Error 404 for not dvlp mode) -->
-    <script type="text/javascript" src="/dcp/styles.bundle.js"></script>
+    <!-- MOBI-730, MOBI-1064 -->
+    <?php if ($isDevMode): ?>
+        <!-- DEV MODE resources -->
+        <script type="text/javascript" src="/dcp/inline.bundle.js"></script>
+        <script type="text/javascript" src="/dcp/styles.bundle.js"></script>
+        <script type="text/javascript" src="/dcp/scripts.bundle.js"></script>
+        <script type="text/javascript" src="/dcp/vendor.bundle.js"></script>
+        <script type="text/javascript" src="/dcp/main.bundle.js"></script>
+    <?php else: ?>
+        <!-- PROD MODE resources -->
+        <script type="text/javascript" src="/dcp/<?php $block->outInline() ?>"></script>
+        <script type="text/javascript" src="/dcp/<?php $block->outScripts() ?>"></script>
+        <script type="text/javascript" src="/dcp/<?php $block->outMain() ?>"></script>
+    <?php endif; ?>
 </div>
