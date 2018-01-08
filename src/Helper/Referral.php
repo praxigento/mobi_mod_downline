@@ -17,19 +17,19 @@ class Referral
     /** @var \Magento\Framework\Registry */
     protected $registry;
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $toolDate;
+    protected $hlpDate;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
-        \Praxigento\Core\Api\Helper\Date $toolDate
+        \Praxigento\Core\Api\Helper\Date $hlpDate
     )
     {
         $this->logger = $logger;
         $this->manCookie = $cookieManager;
         $this->registry = $registry;
-        $this->toolDate = $toolDate;
+        $this->hlpDate = $hlpDate;
     }
 
     public function getDefaultCountryCode()
@@ -77,7 +77,7 @@ class Referral
 
     public function setCookie($code)
     {
-        $tsSaved = $this->toolDate->getUtcNow();
+        $tsSaved = $this->hlpDate->getUtcNow();
         $saved = $tsSaved->format('Ymd');
         $voCookie = new ReferralCookie('');
         $voCookie->setCode($code);

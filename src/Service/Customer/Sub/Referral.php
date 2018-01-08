@@ -15,17 +15,17 @@ class Referral
     /** @var  \Praxigento\Downline\Repo\Entity\Customer */
     protected $repoCustomer;
     /** @var  \Praxigento\Downline\Api\Helper\Referral */
-    protected $toolReferral;
+    protected $hlpReferral;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
-        \Praxigento\Downline\Api\Helper\Referral $toolReferral,
+        \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
         \Praxigento\Downline\Helper\Config $hlpConfi
     ) {
         $this->logger = $logger;
         $this->repoCustomer = $repoCustomer;
-        $this->toolReferral = $toolReferral;
+        $this->hlpReferral = $hlpReferral;
         $this->hlpConfig = $hlpConfi;
     }
 
@@ -36,7 +36,7 @@ class Referral
      */
     public function getDefaultCountryCode()
     {
-        $result = $this->toolReferral->getDefaultCountryCode();
+        $result = $this->hlpReferral->getDefaultCountryCode();
         return $result;
     }
 
@@ -51,7 +51,7 @@ class Referral
         /* use customer ID as parent ID if parent ID cannot be defined */
         $result = $customerId;
         /* extract referral code from Mage registry */
-        $code = $this->toolReferral->getReferralCode();
+        $code = $this->hlpReferral->getReferralCode();
         if ($code) {
             /* this is a referral customer, use parent from referral code */
             $parentDo = $this->repoCustomer->getByReferralCode($code);
