@@ -16,14 +16,14 @@ class Referral
     protected $manCookie;
     /** @var \Magento\Framework\Registry */
     protected $registry;
-    /** @var \Praxigento\Core\Tool\IDate */
+    /** @var \Praxigento\Core\Api\Helper\Date */
     protected $toolDate;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
-        \Praxigento\Core\Tool\IDate $toolDate
+        \Praxigento\Core\Api\Helper\Date $toolDate
     )
     {
         $this->logger = $logger;
