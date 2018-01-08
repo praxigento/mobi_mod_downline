@@ -12,7 +12,7 @@ use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
 
 class CalcSimple
 {
-    /** @var \Praxigento\Core\Tool\IPeriod */
+    /** @var \Praxigento\Core\Api\Helper\Period */
     private $hlpPeriod;
     /** @var \Praxigento\Downline\Helper\Tree */
     private $hlpTree;
@@ -21,7 +21,7 @@ class CalcSimple
      * CalcSimple constructor.
      */
     public function __construct(
-        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
+        \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Downline\Helper\Tree $hlpTree
     )
     {

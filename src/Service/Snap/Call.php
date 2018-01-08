@@ -17,7 +17,7 @@ class Call
     extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\Downline\Service\ISnap
 {
-    /** @var  \Praxigento\Core\Tool\IPeriod */
+    /** @var  \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
     /**
      * @var \Praxigento\Core\App\Transaction\Database\IManager
@@ -36,7 +36,7 @@ class Call
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
-        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
+        \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,
         \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
