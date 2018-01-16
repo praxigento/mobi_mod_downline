@@ -10,12 +10,14 @@ use Praxigento\Downline\Repo\Entity\Data\Change as EChange;
 class Change
     extends \Praxigento\Core\App\Repo\Def\Entity
 {
+    /** see MOBI-1076 */
+    const DATE_MIN = '1900-01-01 00:00:00';
+
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric
-    )
-    {
+    ) {
         parent::__construct($resource, $repoGeneric, EChange::class);
     }
 
@@ -61,6 +63,9 @@ class Change
         $query->order([$asChange . '.' . EChange::ATTR_DATE_CHANGED . ' ASC']);
         /* perform query */
         $result = $this->conn->fetchOne($query);
+        if ($result < self::DATE_MIN) {
+            $result = self::DATE_MIN;
+        }
         return $result;
     }
 
