@@ -27,7 +27,7 @@ class Clean
         \Symfony\Component\Console\Output\OutputInterface $output
     )
     {
-        $output->writeln("<info>'{$this->cmdDesc}' is started.<info>");
+        $output->writeln("<info>'{$this->getName()}' is started.<info>");
         $output->writeln('<info>Command is completed.<info>');
 
     }

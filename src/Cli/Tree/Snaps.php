@@ -30,7 +30,7 @@ class Snaps
         \Symfony\Component\Console\Output\OutputInterface $output
     )
     {
-        $output->writeln("<info>{$this->cmdDesc}<info>");
+        $output->writeln("<info>{$this->getName()}<info>");
         $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
         $resp = $this->callSnap->calc($req);
         $succeed = $resp->isSucceed();
