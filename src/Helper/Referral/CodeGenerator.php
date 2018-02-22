@@ -6,14 +6,20 @@
 namespace Praxigento\Downline\Helper\Referral;
 
 /**
- * Set internal ID as referral code by default.
+ * Default codes generator for downline customers (set internal ID as MLM ID & referral code).
  */
 class CodeGenerator
     implements \Praxigento\Downline\Api\Helper\Referral\CodeGenerator
 {
-    public function generate(\Magento\Customer\Model\Data\Customer $data = null) {
+    public function generateMlmId(\Magento\Customer\Model\Data\Customer $data)
+    {
         $result = $data->getId();
         return $result;
     }
 
+    public function generateReferralCode(\Magento\Customer\Model\Data\Customer $data)
+    {
+        $result = $data->getId();
+        return $result;
+    }
 }

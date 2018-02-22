@@ -57,7 +57,8 @@ class Call implements ICustomer
         $result = new Response\Add();
         $customerId = $request->getCustomerId();
         $parentId = $request->getParentId();
-        $mlmId = $request->getReference();
+        $mlmId = $request->getMlmId();
+        $refCode = $request->getReferralCode();
         $countryCode = $request->getCountryCode();
         $date = $request->getDate();
         $this->_logger->info("Add new customer #$customerId with parent #$parentId to downline tree.");
@@ -86,8 +87,7 @@ class Call implements ICustomer
                 Customer::ATTR_PARENT_ID => $parentId,
                 Customer::ATTR_DEPTH => $depth,
                 Customer::ATTR_PATH => $path,
-                /* use own ID as referral code */
-                Customer::ATTR_REFERRAL_CODE => $customerId
+                Customer::ATTR_REFERRAL_CODE => $refCode
             ];
             if (isset($mlmId)) {
                 $toAdd[Customer::ATTR_MLM_ID] = $mlmId;

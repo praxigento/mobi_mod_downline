@@ -14,8 +14,10 @@ namespace Praxigento\Downline\Service\Customer\Request;
  * @method void  setDate(string $data)
  * @method int getParentId() Magento ID parent customer.
  * @method void  setParentId(int $data)
- * @method string getReference() MLM ID or something like that.
- * @method void  setReference(string $data)
+ * @method string getMlmId() MLM ID or something like that.
+ * @method void  setMlmId(string $data)
+ * @method string getReferralCode() unique code to compose referral link.
+ * @method void  setReferralCode(string $data)
  */
 class Add extends \Praxigento\Core\App\Service\Base\Request {
 }

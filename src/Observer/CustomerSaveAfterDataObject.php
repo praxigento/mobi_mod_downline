@@ -52,11 +52,13 @@ class CustomerSaveAfterDataObject
             $req->setParentId($parentId);
             $req->setCountryCode($countryCode);
             if ($mlmId) {
-                $req->setReference($mlmId);
+                $req->setMlmId($mlmId);
             } else {
-                $refCode = $this->hlpCodeGen->generate($afterSave);
-                $req->setReference($refCode);
+                $mlmId = $this->hlpCodeGen->generateMlmId($afterSave);
+                $req->setMlmId($mlmId);
             }
+            $refCode = $this->hlpCodeGen->generateReferralCode($afterSave);
+            $req->setReferralCode($refCode);
             $this->callCustomer->add($req);
         }
         return;

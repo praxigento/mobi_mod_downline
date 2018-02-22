@@ -14,5 +14,11 @@ interface CodeGenerator
      * @param \Magento\Customer\Model\Data\Customer|null $data
      * @return string
      */
-    public function generate(\Magento\Customer\Model\Data\Customer $data = null);
+    public function generateMlmId(\Magento\Customer\Model\Data\Customer $data);
+
+    /**
+     * @param \Magento\Customer\Model\Data\Customer|null $data
+     * @return string
+     */
+    public function generateReferralCode(\Magento\Customer\Model\Data\Customer $data);
 }
