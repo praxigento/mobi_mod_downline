@@ -11,6 +11,7 @@ namespace Praxigento\Downline\Observer;
 class CustomerSaveAfterDataObject
     implements \Magento\Framework\Event\ObserverInterface
 {
+    const A_CUST_COUNTRY = 'prxgtCustCountry';
     const A_CUST_MLM_ID = 'prxgtCustMlmId';
     const A_PARENT_MAGE_ID = 'prxgtParentMageId';
 
@@ -44,10 +45,12 @@ class CustomerSaveAfterDataObject
             /* this is newly saved customer, register it into downline */
             /* get MLM ID for replicated client (if exists) */
             $mlmId = $this->registry->registry(self::A_CUST_MLM_ID);
+            $countryCode = $this->registry->registry(self::A_CUST_COUNTRY);
             $parentId = $this->registry->registry(self::A_PARENT_MAGE_ID);
             $req = new \Praxigento\Downline\Service\Customer\Request\Add();
             $req->setCustomerId($idAfter);
             $req->setParentId($parentId);
+            $req->setCountryCode($countryCode);
             if ($mlmId) {
                 $req->setReference($mlmId);
             } else {
