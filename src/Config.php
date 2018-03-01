@@ -15,4 +15,6 @@ class Config extends \Praxigento\Core\Config
     const INIT_DEPTH = 0;
     const MODULE = 'Praxigento_Downline';
     const ROUTE_NAME_ADMIN = 'prxgt_dwnl';
+    /** Name for GET parameter with referral code value */
+    const KEY_REF_CODE = 'ref';
 }

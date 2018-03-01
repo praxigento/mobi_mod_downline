@@ -1,0 +1,13 @@
+<?php
+/** @var \Praxigento\Downline\Block\Customer\Account\Reflink $block */
+?>
+<div class="block">
+    <div>
+        <span class="label"><?= $block->escapeHtml(__('Referral Code')) ?>:</span>
+        <span class="value"><?= $block->getReferralCode() ?></span>
+    </div>
+    <div>
+        <span class="label"><?= $block->escapeHtml(__('Referral Link')) ?>:</span>
+        <span class="value"><a href="<?= $block->getReferralLink() ?>"><?= $block->getReferralLink() ?></a></span>
+    </div>
+</div>

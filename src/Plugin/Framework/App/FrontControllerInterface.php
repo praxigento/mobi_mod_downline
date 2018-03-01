@@ -6,11 +6,12 @@
 
 namespace Praxigento\Downline\Plugin\Framework\App;
 
+use Praxigento\Downline\Config as Cfg;
 
 class FrontControllerInterface
 {
     /** Name of the HTTP GET variable for referral code */
-    const REQ_REFERRAL = 'prxgtDwnlReferral';
+    const REQ_REFERRAL = Cfg::KEY_REF_CODE;
     /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpRefCode;
 

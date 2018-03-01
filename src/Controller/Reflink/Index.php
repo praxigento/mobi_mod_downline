@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Controller\Dcp;
+namespace Praxigento\Downline\Controller\Reflink;
 
 class Index
     extends \Magento\Framework\App\Action\Action
@@ -13,7 +13,7 @@ class Index
         $type = \Magento\Framework\Controller\ResultFactory::TYPE_PAGE;
         /** @var \Magento\Framework\View\Result\Page $resultPage */
         $resultPage = $this->resultFactory->create($type);
-        $resultPage->getConfig()->getTitle()->set(__('Downline Control Panel'));
+        $resultPage->getConfig()->getTitle()->set(__('Referral Link'));
         return $resultPage;
     }
 
