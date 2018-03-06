@@ -43,7 +43,7 @@ class Transfer
         $partyId = $data->getCounterPartyId();
 
         /* input data filters */
-        $amount = abs($amount); // customer cannot transfer TO his account
+        $amount = abs($amount);
         $isDirect = false; // customer cannot initiate direct transfer
         $custId = $this->auth->getCurrentUserId($request); // customer can transfer FROM his account only
         $isInDwnl = $this->isCounterPartyInDownline($custId, $partyId);
