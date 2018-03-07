@@ -10,12 +10,12 @@ class Referral
 {
     /** @var \Praxigento\Downline\Helper\Config */
     protected $hlpConfig;
+    /** @var  \Praxigento\Downline\Api\Helper\Referral */
+    protected $hlpReferral;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
     /** @var  \Praxigento\Downline\Repo\Entity\Customer */
     protected $repoCustomer;
-    /** @var  \Praxigento\Downline\Api\Helper\Referral */
-    protected $hlpReferral;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,

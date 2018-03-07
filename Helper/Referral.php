@@ -10,14 +10,14 @@ use Praxigento\Downline\Data\Value\ReferralCookie;
 class Referral
     implements \Praxigento\Downline\Api\Helper\Referral
 {
+    /** @var \Praxigento\Core\Api\Helper\Date */
+    protected $hlpDate;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */
     protected $manCookie;
     /** @var \Magento\Framework\Registry */
     protected $registry;
-    /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $hlpDate;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,

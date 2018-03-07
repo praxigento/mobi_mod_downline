@@ -112,12 +112,6 @@ class CalcSimple
         return $result;
     }
 
-    private function mapByPath($snap)
-    {
-        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::ATTR_CUSTOMER_ID, ESnap::ATTR_PATH);
-        return $result;
-    }
-
     /**
      * Compose snapshot item.
      *
@@ -149,6 +143,12 @@ class CalcSimple
         }
         $result->setDepth($newDepth);
         $result->setPath($newPath);
+        return $result;
+    }
+
+    private function mapByPath($snap)
+    {
+        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::ATTR_CUSTOMER_ID, ESnap::ATTR_PATH);
         return $result;
     }
 

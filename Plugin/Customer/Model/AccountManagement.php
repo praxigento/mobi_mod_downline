@@ -10,12 +10,12 @@ use Praxigento\Downline\Observer\CustomerSaveAfterDataObject as Observer;
 
 class AccountManagement
 {
+    /** @var \Magento\Framework\Registry */
+    private $registry;
     /** @var \Magento\Customer\Api\CustomerRepositoryInterface */
     private $repoCust;
     /** @var \Praxigento\Downline\Repo\Entity\Customer */
     private $repoDwnlCust;
-    /** @var \Magento\Framework\Registry */
-    private $registry;
 
     public function __construct(
         \Magento\Framework\Registry $registry,
