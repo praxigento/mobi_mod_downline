@@ -17,7 +17,7 @@ class Call implements ICustomer
 {
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
-    /** @var \Praxigento\Core\App\Transaction\Database\IManager */
+    /** @var \Praxigento\Core\App\Api\Repo\Transaction\Manager */
     protected $_manTrans;
     /** @var  \Praxigento\Downline\Repo\Entity\Change */
     protected $_repoChange;
@@ -30,7 +30,7 @@ class Call implements ICustomer
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
+        \Praxigento\Core\App\Api\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
