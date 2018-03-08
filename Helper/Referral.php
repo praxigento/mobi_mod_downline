@@ -12,7 +12,7 @@ class Referral
 {
     /** @var \Praxigento\Core\Api\Helper\Date */
     protected $hlpDate;
-    /** @var \Praxigento\Core\App\Api\Logger\Main */
+    /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */
     protected $manCookie;
@@ -20,7 +20,7 @@ class Referral
     protected $registry;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Logger\Main $logger,
+        \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Registry $registry,
         \Praxigento\Core\Api\Helper\Date $hlpDate

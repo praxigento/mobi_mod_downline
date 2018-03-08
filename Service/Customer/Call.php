@@ -15,9 +15,9 @@ use Praxigento\Downline\Service\ICustomer;
  */
 class Call implements ICustomer
 {
-    /** @var \Praxigento\Core\App\Api\Logger\Main */
+    /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $_logger;
-    /** @var \Praxigento\Core\App\Api\Repo\Transaction\Manager */
+    /** @var \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     protected $_manTrans;
     /** @var  \Praxigento\Downline\Repo\Entity\Change */
     protected $_repoChange;
@@ -29,8 +29,8 @@ class Call implements ICustomer
     protected $_subReferral;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Logger\Main $logger,
-        \Praxigento\Core\App\Api\Repo\Transaction\Manager $manTrans,
+        \Praxigento\Core\Api\App\Logger\Main $logger,
+        \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,

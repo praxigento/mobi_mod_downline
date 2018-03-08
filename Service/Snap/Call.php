@@ -20,7 +20,7 @@ class Call
     /** @var  \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
     /**
-     * @var \Praxigento\Core\App\Api\Repo\Transaction\Manager
+     * @var \Praxigento\Core\Api\App\Repo\Transaction\Manager
      * @deprecated this is internal service, MySQL has no nested transactions, its should be present on the
      * outer level only (WebAPI, controllers, etc.).
      */
@@ -33,9 +33,9 @@ class Call
     protected $subCalc;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Logger\Main $logger,
+        \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
-        \Praxigento\Core\App\Api\Repo\Transaction\Manager $manTrans,
+        \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Downline\Repo\Entity\Change $repoChange,
         \Praxigento\Downline\Repo\Entity\Snap $repoSnap,

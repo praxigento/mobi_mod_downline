@@ -11,7 +11,7 @@ use Praxigento\Downline\Api\Web\Account\Asset\Transfer\Response as AResponse;
 class Transfer
     implements \Praxigento\Downline\Api\Web\Account\Asset\TransferInterface
 {
-    /** @var \Praxigento\Core\App\Api\Web\IAuthenticator */
+    /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $auth;
     /** @var \Praxigento\Downline\Helper\Downline */
     private $hlpDwnl;
@@ -21,7 +21,7 @@ class Transfer
     private $servAssetTransfer;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Web\Authenticator\Front $auth,
+        \Praxigento\Core\Api\App\Web\Authenticator\Front $auth,
         \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust,
         \Praxigento\Accounting\Service\Account\Asset\Transfer $servAssetTransfer,
         \Praxigento\Downline\Helper\Downline $hlpDwnl

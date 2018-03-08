@@ -10,11 +10,11 @@ class Customer
     protected $hlpConfig;
     /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpReferral;
-    /** @var \Praxigento\Core\App\Api\Logger\Main */
+    /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Logger\Main $logger,
+        \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Downline\Helper\Config $hlpConfig,
         \Praxigento\Downline\Api\Helper\Referral $hlpReferral
     ) {

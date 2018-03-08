@@ -11,13 +11,13 @@ use Praxigento\Downline\Api\Web\Customer\Search\ByKey\Response as AResponse;
 class ByKey
     implements \Praxigento\Core\Api\Web\Customer\Search\ByKeyInterface
 {
-    /** @var \Praxigento\Core\App\Api\Web\IAuthenticator */
+    /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $authenticator;
     /** @var \Praxigento\Downline\Api\Service\Customer\Search */
     private $servCustSearch;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Web\Authenticator\Front $authenticator,
+        \Praxigento\Core\Api\App\Web\Authenticator\Front $authenticator,
         \Praxigento\Downline\Api\Service\Customer\Search $servCustSearch
     ) {
         $this->authenticator = $authenticator;

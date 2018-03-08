@@ -15,7 +15,7 @@ use Praxigento\Downline\Api\Web\Customer\Get\ById\Response as AResponse;
 class ById
     implements \Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface
 {
-    /** @var \Praxigento\Core\App\Api\Web\IAuthenticator */
+    /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $authenticator;
     /** @var \Praxigento\Downline\Helper\Downline */
     private $hlpDwnl;
@@ -25,7 +25,7 @@ class ById
     private $servCustGet;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Web\Authenticator\Front $authenticator,
+        \Praxigento\Core\Api\App\Web\Authenticator\Front $authenticator,
         \Praxigento\Downline\Repo\Entity\Customer $repoCust,
         \Praxigento\Downline\Helper\Downline $hlpDwnl,
         \Praxigento\Downline\Api\Service\Customer\Get\ById $servCustGet
