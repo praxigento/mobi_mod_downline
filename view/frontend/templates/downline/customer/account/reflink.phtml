@@ -3,6 +3,14 @@
 ?>
 <div class="block">
     <div>
+        <span class="label"><?= $block->escapeHtml(__('Parent MLM ID')) ?>:</span>
+        <span class="value"><?= $block->getMlmIdParent() ?></span>
+    </div>
+    <div>
+        <span class="label"><?= $block->escapeHtml(__('Own MLM ID')) ?>:</span>
+        <span class="value"><?= $block->getMlmIdOwn() ?></span>
+    </div>
+    <div>
         <span class="label"><?= $block->escapeHtml(__('Referral Code')) ?>:</span>
         <span class="value"><?= $block->getReferralCode() ?></span>
     </div>

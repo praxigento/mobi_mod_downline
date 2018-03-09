@@ -8,11 +8,14 @@ namespace Praxigento\Downline\Block\Customer\Account;
 
 use Praxigento\Downline\Config as Cfg;
 
+/**
+ * see ./view/frontend/templates/downline/customer/account/reflink.phtml
+ */
 class Reflink
     extends \Magento\Framework\View\Element\Template
 {
-    /** @var string|null */
-    private $cacheReferralCode;
+    /** @var \Praxigento\Downline\Repo\Entity\Data\Customer */
+    private $cacheDwnlCust;
     /** @var \Magento\Store\Model\StoreManagerInterface */
     private $manStore;
     /** @var \Praxigento\Downline\Repo\Entity\Customer */
@@ -34,29 +37,46 @@ class Reflink
     }
 
     /**
-     * Referral code itself.
+     * Cached data for current downline customer.
      *
-     * @return null|string
+     * @return \Praxigento\Downline\Repo\Entity\Data\Customer
      */
-    public function getReferralCode()
+    private function getDwnlCustomer()
     {
-        if (is_null($this->cacheReferralCode)) {
+        if (is_null($this->cacheDwnlCust)) {
             $custId = $this->session->getCustomerId();
-            if ($custId) {
-                $dwnlCust = $this->repoDwnlCust->getById($custId);
-                if ($dwnlCust) {
-                    $this->cacheReferralCode = $dwnlCust->getReferralCode();
-                } else {
-                    $this->cacheReferralCode = '';
-                }
-            }
+            $this->cacheDwnlCust = $this->repoDwnlCust->getById($custId);
         }
-        return $this->cacheReferralCode;
+        return $this->cacheDwnlCust;
     }
 
-    /**
-     * @return string
-     */
+    /** @return string */
+    public function getMlmIdOwn()
+    {
+        $cust = $this->getDwnlCustomer();
+        $result = $cust->getHumanRef();
+        return $result;
+    }
+
+    /** @return string */
+    public function getMlmIdParent()
+    {
+        $cust = $this->getDwnlCustomer();
+        $parentId = $cust->getParentId();
+        $parent = $this->repoDwnlCust->getById($parentId);
+        $result = $parent->getHumanRef();
+        return $result;
+    }
+
+    /** @return null|string */
+    public function getReferralCode()
+    {
+        $dwnlCust = $this->getDwnlCustomer();
+        $result = $dwnlCust->getReferralCode();
+        return $result;
+    }
+
+    /** @return string */
     public function getReferralLink()
     {
         $refCode = $this->getReferralCode();

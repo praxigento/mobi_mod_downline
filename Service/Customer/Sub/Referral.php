@@ -61,8 +61,8 @@ class Referral
             }
         } else {
             /* this is anonymous customer, use parent from config */
-            $anonRootId = $this->hlpConfig->getReferralsRootAnonymous();
-            $parentDo = $this->repoCustomer->getById($anonRootId);
+            $anonRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
+            $parentDo = $this->repoCustomer->getByMlmId($anonRootMlmId);
             if ($parentDo) {
                 $result = $parentDo->getCustomerId();
                 $this->logger->info("Anonymous root parent #$result is used for customer #$customerId.");

@@ -44,13 +44,12 @@ class Config
     }
 
     /**
-     * Customer ID (internal) for root customer to be parent for all anonymous.
-     * @return int|false return 'false' if option is not set.
+     * MLM ID for root customer to be parent for all anonymous.
+     * @return string|false return 'false' if option is not set.
      */
     public function getReferralsRootAnonymous()
     {
         $result = $this->scopeConfig->getValue('praxigento_downline/referrals/root_anonymous');
-        $result = filter_var($result, FILTER_VALIDATE_INT);
         return $result;
     }
 
