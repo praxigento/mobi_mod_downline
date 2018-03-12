@@ -52,6 +52,7 @@ class ById
         /** compose result */
         $result = new AResponse();
         $result->setData($resp);
+        $result->getResult()->setCode(AResponse::CODE_SUCCESS);
         return $result;
     }
 }

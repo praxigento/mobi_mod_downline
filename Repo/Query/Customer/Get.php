@@ -17,11 +17,13 @@ class Get
     const AS_MAGE_CUST = 'mageCust';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
+    const A_COUNTRY = 'country';
     const A_EMAIL = 'email';
     const A_ID = 'id';
     const A_MLM_ID = 'mlmId';
     const A_NAME_FIRST = 'nameFirst';
     const A_NAME_LAST = 'nameLast';
+    const A_PATH = 'path';
 
     /** Bound variables names ('camelCase' naming) */
     const BND_CUST_ID = 'custId';
@@ -39,15 +41,17 @@ class Get
         $asDwnl = self::AS_DWNL_CUST;
 
         /* FROM prxgt_dwnl_customer */
-        $tbl = $this->resource->getTableName(EDwnlCust::ENTITY_NAME);
+        $tbl = $this->resource->getTableName(self::E_DWNL_CUST);
         $as = $asDwnl;
         $cols = [
-            self::A_MLM_ID => EDwnlCust::ATTR_MLM_ID
+            self::A_MLM_ID => EDwnlCust::ATTR_MLM_ID,
+            self::A_COUNTRY => EDwnlCust::ATTR_COUNTRY_CODE,
+            self::A_PATH => EDwnlCust::ATTR_PATH
         ];
         $result->from([$as => $tbl], $cols);
 
         /* LEFT JOIN customer_entity */
-        $tbl = $this->resource->getTableName(Cfg::ENTITY_MAGE_CUSTOMER);
+        $tbl = $this->resource->getTableName(self::E_MAGE_CUST);
         $as = $asCust;
         $cols = [
             self::A_ID => Cfg::E_CUSTOMER_A_ENTITY_ID,

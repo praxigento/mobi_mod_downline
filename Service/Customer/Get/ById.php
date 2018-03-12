@@ -5,9 +5,9 @@
 
 namespace Praxigento\Downline\Service\Customer\Get;
 
-use Praxigento\Core\Config as Cfg;
 use Praxigento\Downline\Api\Service\Customer\Get\ById\Request as ARequest;
 use Praxigento\Downline\Api\Service\Customer\Get\ById\Response as AResponse;
+use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
 use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 
@@ -31,8 +31,10 @@ class ById
 
     /**
      * Convert database query result set to response object.
+     *
      * @param array $db
      * @return \Praxigento\Downline\Api\Service\Customer\Get\ById\Response
+     * @throws \Exception
      */
     private function convertDbToApi($db)
     {
@@ -44,6 +46,11 @@ class ById
             $nameFirst = $db[QBGetCustomer::A_NAME_FIRST];
             $nameLast = $db[QBGetCustomer::A_NAME_LAST];
             $mlmId = $db[QBGetCustomer::A_MLM_ID];
+            $path = $db[QBGetCustomer::A_PATH];
+            $country = $db[QBGetCustomer::A_COUNTRY];
+
+            /* prepare response data */
+            $pathFull = $path . $custId . Cfg::DTPS;
 
             /* compose response data */
             $result->setId($custId);
@@ -51,6 +58,8 @@ class ById
             $result->setNameFirst($nameFirst);
             $result->setNameLast($nameLast);
             $result->setMlmId($mlmId);
+            $result->setCountry($country);
+            $result->setPathFull($pathFull);
         }
         return $result;
     }

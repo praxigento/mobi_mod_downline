@@ -5,7 +5,6 @@
 
 namespace Praxigento\Downline\Service\Customer;
 
-use Praxigento\Downline\Api\Service\Customer\Search\Request as ARequest;
 use Praxigento\Downline\Api\Service\Customer\Search\Response as AResponse;
 use Praxigento\Downline\Api\Service\Customer\Search\Response\Item as DItem;
 use Praxigento\Downline\Config as Cfg;
@@ -34,8 +33,44 @@ class Search
     }
 
     /**
-     * @param ARequest $req
-     * @return AResponse
+     * Convert database query result set to response object.
+     *
+     * @param array $db
+     * @return DItem
+     * @throws \Exception
+     */
+    private function convertDbToApi($db)
+    {
+        $result = new DItem();
+        if ($db) {
+            /* extract DB data */
+            $custId = $db[QBGetCustomer::A_ID];
+            $email = $db[QBGetCustomer::A_EMAIL];
+            $nameFirst = $db[QBGetCustomer::A_NAME_FIRST];
+            $nameLast = $db[QBGetCustomer::A_NAME_LAST];
+            $mlmId = $db[QBGetCustomer::A_MLM_ID];
+            $path = $db[QBGetCustomer::A_PATH];
+            $country = $db[QBGetCustomer::A_COUNTRY];
+
+            /* prepare response data */
+            $pathFull = $path . $custId . Cfg::DTPS;
+
+            /* compose response data */
+            $result->setId($custId);
+            $result->setEmail($email);
+            $result->setNameFirst($nameFirst);
+            $result->setNameLast($nameLast);
+            $result->setMlmId($mlmId);
+            $result->setCountry($country);
+            $result->setPathFull($pathFull);
+        }
+        return $result;
+    }
+
+    /**
+     * @param \Praxigento\Downline\Api\Service\Customer\Search\Request $req
+     * @return \Praxigento\Downline\Api\Service\Customer\Search\Response
+     * @throws \Exception
      */
     public function exec($req)
     {
@@ -56,7 +91,6 @@ class Search
         $result->setItems($items);
         return $result;
     }
-
 
     private function selectCustomers($key, $limit, $custId, $path)
     {
@@ -88,20 +122,7 @@ class Search
         $rows = $conn->fetchAll($query);
         $result = [];
         foreach ($rows as $row) {
-            /* parse DB data */
-            $id = $row[QBGetCustomer::A_ID];
-            $nameFirst = $row[QBGetCustomer::A_NAME_FIRST];
-            $nameLast = $row[QBGetCustomer::A_NAME_LAST];
-            $email = $row[QBGetCustomer::A_EMAIL];
-            $mlmId = $row[QBGetCustomer::A_MLM_ID];
-
-            /* compose API data */
-            $item = new DItem();
-            $item->setId($id);
-            $item->setNameFirst($nameFirst);
-            $item->setNameLast($nameLast);
-            $item->setEmail($email);
-            $item->setMlmId($mlmId);
+            $item = $this->convertDbToApi($row);
             $result[] = $item;
         }
         return $result;
