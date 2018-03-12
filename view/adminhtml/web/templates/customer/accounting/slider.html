@@ -1,0 +1,93 @@
+<div class="modal-content">
+
+    <div class="admin__fieldset-wrapper-content _hide">
+        <fieldset class="admin__fieldset">
+
+            <div class="admin__field">
+                <label class="admin__field-label">
+                    <span><!-- ko i18n: 'Customer'--><!-- /ko -->:</span>
+                </label>
+                <div class="admin__field-control">
+                    <span data-bind="text: customer.name_first"></span>
+                    <span data-bind="text: customer.name_last"></span>
+                    &lt;<span data-bind="text: customer.email"></span>&gt;&gt;
+                    <br/>
+                    <span>MLM ID: <span data-bind="text: customer.mlm_id"></span></span>
+                </div>
+            </div>
+
+            <div class="admin__field _required">
+                <label class="admin__field-label">
+                    <span><!-- ko i18n: 'Transfer type'--><!-- /ko -->:</span>
+                </label>
+                <div class="admin__field-control required">
+                    <div>
+                        <input type="radio" id="prxgtTypeDirect" name="transferType" value="direct"
+                               data-bind="checked: transferType"/>
+                        <label for="prxgtTypeDirect"><!-- ko i18n: 'Direct'--><!-- /ko --></label>
+                    </div>
+                    <div>
+                        <input type="radio" id="prxgtTypeBetween" name="transferType" value="between"
+                               data-bind="checked: transferType"/>
+                        <label for="prxgtTypeBetween"><!-- ko i18n: 'Between customers'--><!-- /ko --></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin__field _required">
+                <label class="admin__field-label">
+                    <span><!-- ko i18n: 'Asset'--><!-- /ko -->:</span>
+                </label>
+                <div class="admin__field-control required">
+                    <select data-bind="options: assets,
+                       optionsText: 'asset_code',
+                       value: selectedAsset,
+                       optionsCaption: 'Choose...'"
+                            class="admin__control-select"></select>
+                    <span data-bind="with: selectedAsset()">
+                        <span data-bind="text: $data.acc_balance"></span>
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="admin__field _required">
+                <label class="admin__field-label">
+                    <span><!-- ko i18n: 'Amount'--><!-- /ko -->:</span>
+                </label>
+                <div class="admin__field-control required">
+                    <input data-bind="value: amount" class="admin__control-text"/>
+                </div>
+            </div>
+
+
+            <div class="admin__field _required" data-bind="visible: transferType()=='between'">
+                <label class="admin__field-label">
+                    <span><!-- ko i18n: 'Counterparty'--><!-- /ko -->:</span>
+                </label>
+                <div class="admin__field-control required">
+                    <input id="prxgtCustomerSearch" data-bind="value: counterparty" class="admin__control-text"/>
+                </div>
+            </div>
+
+            <div class="admin__field" style="color:red;" data-bind="visible: transferType()=='between'">
+                <label class="admin__field-label"><span>&nbsp;</span></label>
+                <div class="admin__field-control">
+                    <div data-bind="visible: false"><!-- ko i18n: 'Transfer counterparty is not under sender\'s downline.'--><!-- /ko --></div>
+                    <div data-bind="visible: false"><!-- ko i18n: 'Transfer counterparty is from the different country.'--><!-- /ko --></div>
+                </div>
+            </div>
+
+
+            <div class="admin__field" data-bind="visible:operationId>0">
+                <label class="admin__field-label"><span>&nbsp;</span></label>
+                <div class="admin__field-control">
+                    <span><!-- ko i18n: 'Transfer is succeed. Operation #'--><!-- /ko --></span>
+                    <span data-bind="text:operationId"></span>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+</div>
