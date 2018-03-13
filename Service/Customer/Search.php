@@ -80,11 +80,11 @@ class Search
         $limit = $req->getLimit() ?? self::DEF_LIMIT;
 
         /** perform processing */
-        $path = null;
+        $path = $country = null;
         if ($rootCustId) {
-            $path = $this->selectRootPath($rootCustId);
+            list($country, $path) = $this->getRootAttrs($rootCustId);
         }
-        $items = $this->selectCustomers($key, $limit, $rootCustId, $path);
+        $items = $this->selectCustomers($key, $limit, $rootCustId, $country, $path);
 
         /** compose result */
         $result = new AResponse();
@@ -92,7 +92,21 @@ class Search
         return $result;
     }
 
-    private function selectCustomers($key, $limit, $custId, $path)
+    /**
+     * Get root customer attributes (country & path) to filter result set.
+     *
+     * @param int $custId
+     * @return array ($country, $path)
+     */
+    private function getRootAttrs($custId)
+    {
+        $entity = $this->repoDwnlCust->getById($custId);
+        $country = $entity->getCountryCode();
+        $path = $entity->getPath();
+        return [$country, $path];
+    }
+
+    private function selectCustomers($key, $limit, $custId, $country, $path)
     {
         $query = $this->qbGetCustomer->build();
         $conn = $query->getConnection();
@@ -109,10 +123,16 @@ class Search
         $where = "($byFirst) OR ($byLast) OR ($byEmail) OR ($byMlmID)";
         if ($custId) {
             /* restrict searching by root customer */
+            /* TODO: do we really need root customer in the result set */
             $byOwnId = "$asDwnl." . EDwnlCust::ATTR_CUSTOMER_ID . '=' . (int)$custId;
+            /* by downline */
             $quoted = $conn->quote($path . $custId . Cfg::DTPS . '%');
             $byPath = "$asDwnl." . EDwnlCust::ATTR_PATH . ' LIKE ' . $quoted;
-            $where = "($where) AND (($byOwnId) OR ($byPath))";
+            /* country of the selected customers should be equal to the root customer country */
+            $quoted = $conn->quote($country);
+            $byCountry = "$asDwnl." . EDwnlCust::ATTR_COUNTRY_CODE . "=$quoted";
+            /* composer filter */
+            $where = "($where) AND (($byOwnId) OR ($byPath)) AND ($byCountry)";
         }
         $query->where($where);
         /* add LIMIT clause */
@@ -125,19 +145,6 @@ class Search
             $item = $this->convertDbToApi($row);
             $result[] = $item;
         }
-        return $result;
-    }
-
-    /**
-     * Get root customer path to control
-     * @param int $custId
-     * @return string
-     */
-    private function selectRootPath($custId)
-    {
-        $result = null;
-        $entity = $this->repoDwnlCust->getById($custId);
-        if ($entity) $result = $entity->getPath();
         return $result;
     }
 }

@@ -7,6 +7,7 @@ namespace Praxigento\Downline\Web\Account\Asset;
 
 use Praxigento\Downline\Api\Web\Account\Asset\Transfer\Request as ARequest;
 use Praxigento\Downline\Api\Web\Account\Asset\Transfer\Response as AResponse;
+use Praxigento\Downline\Config as Cfg;
 
 class Transfer
     implements \Praxigento\Downline\Api\Web\Account\Asset\TransferInterface
@@ -46,8 +47,8 @@ class Transfer
         $amount = abs($amount);
         $isDirect = false; // customer cannot initiate direct transfer
         $custId = $this->auth->getCurrentUserId($request); // customer can transfer FROM his account only
-        $isInDwnl = $this->isCounterPartyInDownline($custId, $partyId);
-        if (!$isInDwnl) {
+        list($isInDownline, $hasTheSameCountry) = $this->validate($custId, $partyId);
+        if (!$isInDownline || !$hasTheSameCountry) {
             $phrase = new \Magento\Framework\Phrase('User is not authorized to perform this operation.');
             /** @noinspection PhpUnhandledExceptionInspection */
             throw new \Magento\Framework\Exception\AuthorizationException($phrase);
@@ -69,20 +70,25 @@ class Transfer
     }
 
     /**
-     * 'true' if $partyId is a child of the $custId.
-     * @param $custId
-     * @param $partyId
-     * @return bool
+     * Validate transfer conditions.
+     *
+     * @param int $custId
+     * @param int $partyId
+     * @return array [isInDownline, hasTheSameCountry]
      */
-    private function isCounterPartyInDownline($custId, $partyId)
+    private function validate($custId, $partyId)
     {
-        $result = false;
+        $custData = $this->repoDwnlCust->getById($custId);
         $partyData = $this->repoDwnlCust->getById($partyId);
-        if ($partyData) {
-            $path = $partyData->getPath();
-            $parents = $this->hlpDwnl->getParentsFromPath($path);
-            $result = in_array($custId, $parents);
-        }
-        return $result;
+        /* validate downline */
+        $custPath = $custData->getPath();
+        $custPathFull = $custPath . $custId . Cfg::DTPS;
+        $partyPath = $partyData->getPath();
+        $isInDownline = (strpos($partyPath, $custPathFull) === 0);
+        /* validate country */
+        $custCountry = $custData->getCountryCode();
+        $partyCountry = $partyData->getCountryCode();
+        $hasTheSameCountry = ($custCountry == $partyCountry);
+        return [$isInDownline, $hasTheSameCountry];
     }
 }
