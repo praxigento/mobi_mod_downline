@@ -33,7 +33,9 @@ define([
         operationId: 0,
         selectedAsset: ko.observable(),
         selectedCounterparty: undefined,
-        transferType: ko.observable(TYPE_DIRECT)
+        transferType: ko.observable(TYPE_DIRECT),
+        warnDiffCountries: ko.observable(false),
+        warnOutOfDwnl: ko.observable(false)
     };
 
     /**
@@ -163,6 +165,10 @@ define([
      * @param response
      */
     var fnAjaxCustomerSearch = function (request, response) {
+        /* switch off warnings */
+        viewModel.warnDiffCountries(false);
+        viewModel.warnOutOfDwnl(false);
+        /* send request to server and get found users */
         var data = {data: {search_key: request.term}};
         var json = JSON.stringify(data);
         $.ajax({
@@ -237,9 +243,24 @@ define([
         /* switch on ajax loader */
         $('body').trigger('processStart');
     };
-
+    /**
+     * Function is fired when user selects transfer counterparty from the suggested list.
+     *
+     * @param event
+     * @param ui
+     */
     var fnAutocompleteSelected = function (event, ui) {
+        debugger;
+        const country = ui.item.data.country;
+        const path = ui.item.data.path_full;
+        const custCountry = viewModel.customer.country;
+        const custPath = viewModel.customer.path_full;
+        const isTheSameCountry = (custCountry == country);
+        const isInDownline = path.startsWith(custPath);
+        /* set model attributes */
         viewModel.selectedCounterparty = ui.item.data.id;
+        viewModel.warnDiffCountries(!isTheSameCountry);
+        viewModel.warnOutOfDwnl(!isInDownline);
     };
 
     /* bind modal opening to 'Accounting' button on the form */

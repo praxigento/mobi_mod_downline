@@ -10,9 +10,10 @@
                 <div class="admin__field-control">
                     <span data-bind="text: customer.name_first"></span>
                     <span data-bind="text: customer.name_last"></span>
-                    &lt;<span data-bind="text: customer.email"></span>&gt;&gt;
+                    &lt;<span data-bind="text: customer.email"></span>&gt;
                     <br/>
-                    <span>MLM ID: <span data-bind="text: customer.mlm_id"></span></span>
+                    <span>MLM ID: <span data-bind="text: customer.mlm_id"></span>;</span>
+                    <span data-bind="text: customer.country"></span>
                 </div>
             </div>
 
@@ -73,8 +74,8 @@
             <div class="admin__field" style="color:red;" data-bind="visible: transferType()=='between'">
                 <label class="admin__field-label"><span>&nbsp;</span></label>
                 <div class="admin__field-control">
-                    <div data-bind="visible: false"><!-- ko i18n: 'Transfer counterparty is not under sender\'s downline.'--><!-- /ko --></div>
-                    <div data-bind="visible: false"><!-- ko i18n: 'Transfer counterparty is from the different country.'--><!-- /ko --></div>
+                    <div data-bind="visible:warnDiffCountries"><!-- ko i18n: 'Transfer counterparty is from the different country.'--><!-- /ko --></div>
+                    <div data-bind="visible:warnOutOfDwnl"><!-- ko i18n: 'Transfer counterparty is not under sender\'s downline.'--><!-- /ko --></div>
                 </div>
             </div>
 
