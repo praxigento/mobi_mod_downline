@@ -5,7 +5,7 @@
 
 namespace Praxigento\Downline\Repo\Query\Trans;
 
-use Praxigento\Accounting\Repo\Entity\Data\Account as Acc;
+use Praxigento\Accounting\Repo\Data\Account as Acc;
 use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
 
 /**
