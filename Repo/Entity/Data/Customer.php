@@ -48,7 +48,7 @@ class Customer
     /**
      * @return string
      */
-    public function getHumanRef()
+    public function getMlmId()
     {
         $result = parent::get(self::ATTR_MLM_ID);
         return $result;
@@ -113,7 +113,7 @@ class Customer
     /**
      * @param string $data
      */
-    public function setHumanRef($data)
+    public function setMlmId($data)
     {
         parent::set(self::ATTR_MLM_ID, $data);
     }

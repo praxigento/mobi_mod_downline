@@ -59,7 +59,7 @@
                 },
                 "index": {
                   "PK": {"type": "primary", "aliases": ["customer_ref"]},
-                  "uniqueHumanReference": {"type": "unique", "aliases": ["mlm_id"]},
+                  "uniqueMlmId": {"type": "unique", "aliases": ["mlm_id"]},
                   "uniqueReferralCode": {"type": "unique", "aliases": ["referral_code"]}
                 },
                 "relation": {

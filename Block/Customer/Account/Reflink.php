@@ -54,7 +54,7 @@ class Reflink
     public function getMlmIdOwn()
     {
         $cust = $this->getDwnlCustomer();
-        $result = $cust->getHumanRef();
+        $result = $cust->getMlmId();
         return $result;
     }
 
@@ -64,7 +64,7 @@ class Reflink
         $cust = $this->getDwnlCustomer();
         $parentId = $cust->getParentId();
         $parent = $this->repoDwnlCust->getById($parentId);
-        $result = $parent->getHumanRef();
+        $result = $parent->getMlmId();
         return $result;
     }
 
