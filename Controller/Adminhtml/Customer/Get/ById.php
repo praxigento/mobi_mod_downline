@@ -52,6 +52,7 @@ class ById
         /** compose result */
         $result = new AResponse();
         $result->setData($resp);
+        /* conveyors are bad for debug */
         $result->getResult()->setCode(AResponse::CODE_SUCCESS);
         return $result;
     }
