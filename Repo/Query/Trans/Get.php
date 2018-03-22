@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Repo\Query\Trans;
 
 use Praxigento\Accounting\Repo\Data\Account as Acc;
-use Praxigento\Downline\Repo\Entity\Data\Customer as Cust;
+use Praxigento\Downline\Repo\Data\Customer as Cust;
 
 /**
  * Build query to get transactions for the customer (extends accounting query).

@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Api\Service\Snap\Clean\Request as ARequest;
 use Praxigento\Downline\Api\Service\Snap\Clean\Response as AResponse;
-use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
+use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 /**
  * Public service to clean up all snapshots for downline tree.

@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Service\Customer\Get;
 use Praxigento\Downline\Api\Service\Customer\Get\ById\Request as ARequest;
 use Praxigento\Downline\Api\Service\Customer\Get\ById\Response as AResponse;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
+use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 
 class ById
@@ -17,11 +17,11 @@ class ById
 
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbCustGet;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $repoCust;
 
     public function __construct(
-        \Praxigento\Downline\Repo\Entity\Customer $repoCust,
+        \Praxigento\Downline\Repo\Dao\Customer $repoCust,
         \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet,
         \Praxigento\Downline\Helper\Downline $hlpDwnl
     ) {

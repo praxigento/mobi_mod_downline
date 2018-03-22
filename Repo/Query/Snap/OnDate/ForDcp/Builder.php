@@ -34,13 +34,13 @@ class Builder
         $asCust = self::AS_CUSTOMER;
         /* LEFT JOIN prxgt_dwnl_customer pdc */
         $tblDwnlCust = [
-            $asDwnlCust => $this->resource->getTableName(\Praxigento\Downline\Repo\Entity\Data\Customer::ENTITY_NAME)
+            $asDwnlCust => $this->resource->getTableName(\Praxigento\Downline\Repo\Data\Customer::ENTITY_NAME)
         ];
-        $on = $asDwnlCust . '.' . \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_CUSTOMER_ID . '='
-            . $asDwnlSnap . '.' . \Praxigento\Downline\Repo\Entity\Data\Snap::ATTR_CUSTOMER_ID;
+        $on = $asDwnlCust . '.' . \Praxigento\Downline\Repo\Data\Customer::ATTR_CUSTOMER_ID . '='
+            . $asDwnlSnap . '.' . \Praxigento\Downline\Repo\Data\Snap::ATTR_CUSTOMER_ID;
         $cols = [
-            self::A_MLM_ID => \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_MLM_ID,
-            self::A_COUNTRY_CODE => \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_COUNTRY_CODE
+            self::A_MLM_ID => \Praxigento\Downline\Repo\Data\Customer::ATTR_MLM_ID,
+            self::A_COUNTRY_CODE => \Praxigento\Downline\Repo\Data\Customer::ATTR_COUNTRY_CODE
         ];
         $result->joinLeft($tblDwnlCust, $on, $cols);
         /* LEFT JOIN customer_entity ce */
@@ -48,7 +48,7 @@ class Builder
             $asCust => $this->resource->getTableName(Cfg::ENTITY_MAGE_CUSTOMER)
         ];
         $on = $asCust . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID . '='
-            . $asDwnlCust . '.' . \Praxigento\Downline\Repo\Entity\Data\Customer::ATTR_CUSTOMER_ID;
+            . $asDwnlCust . '.' . \Praxigento\Downline\Repo\Data\Customer::ATTR_CUSTOMER_ID;
         $cols = [
             self::A_EMAIL => Cfg::E_CUSTOMER_A_EMAIL,
             self::A_NAME_FIRST => Cfg::E_CUSTOMER_A_FIRSTNAME,

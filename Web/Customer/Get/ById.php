@@ -19,14 +19,14 @@ class ById
     private $authenticator;
     /** @var \Praxigento\Downline\Helper\Downline */
     private $hlpDwnl;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $repoCust;
     /** @var \Praxigento\Downline\Api\Service\Customer\Get\ById */
     private $servCustGet;
 
     public function __construct(
         \Praxigento\Core\Api\App\Web\Authenticator\Front $authenticator,
-        \Praxigento\Downline\Repo\Entity\Customer $repoCust,
+        \Praxigento\Downline\Repo\Dao\Customer $repoCust,
         \Praxigento\Downline\Helper\Downline $hlpDwnl,
         \Praxigento\Downline\Api\Service\Customer\Get\ById $servCustGet
     ) {

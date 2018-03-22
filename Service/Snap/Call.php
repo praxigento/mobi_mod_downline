@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
+use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
@@ -25,9 +25,9 @@ class Call
      * outer level only (WebAPI, controllers, etc.).
      */
     protected $manTrans;
-    /** @var \Praxigento\Downline\Repo\Entity\Change */
+    /** @var \Praxigento\Downline\Repo\Dao\Change */
     protected $repoChange;
-    /** @var \Praxigento\Downline\Repo\Entity\Snap */
+    /** @var \Praxigento\Downline\Repo\Dao\Snap */
     protected $repoSnap;
     /** @var \Praxigento\Downline\Service\Snap\Sub\CalcSimple */
     protected $subCalc;
@@ -37,8 +37,8 @@ class Call
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\Downline\Repo\Entity\Change $repoChange,
-        \Praxigento\Downline\Repo\Entity\Snap $repoSnap,
+        \Praxigento\Downline\Repo\Dao\Change $repoChange,
+        \Praxigento\Downline\Repo\Dao\Snap $repoSnap,
         \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
     )
     {

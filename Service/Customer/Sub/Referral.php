@@ -14,12 +14,12 @@ class Referral
     protected $hlpReferral;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
-    /** @var  \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var  \Praxigento\Downline\Repo\Dao\Customer */
     protected $repoCustomer;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
+        \Praxigento\Downline\Repo\Dao\Customer $repoCustomer,
         \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
         \Praxigento\Downline\Helper\Config $hlpConfi
     ) {

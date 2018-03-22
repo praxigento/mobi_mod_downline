@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Service\Customer;
 use Praxigento\Downline\Api\Service\Customer\Search\Response as AResponse;
 use Praxigento\Downline\Api\Service\Customer\Search\Response\Item as DItem;
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
+use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 
 /**
@@ -21,11 +21,11 @@ class Search
 
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbGetCustomer;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $repoDwnlCust;
 
     public function __construct(
-        \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust,
+        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust,
         \Praxigento\Downline\Repo\Query\Customer\Get $qbGetCustomer
     ) {
         $this->repoDwnlCust = $repoDwnlCust;

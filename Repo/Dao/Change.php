@@ -3,9 +3,9 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Repo\Entity;
+namespace Praxigento\Downline\Repo\Dao;
 
-use Praxigento\Downline\Repo\Entity\Data\Change as EChange;
+use Praxigento\Downline\Repo\Data\Change as EChange;
 
 class Change
     extends \Praxigento\Core\App\Repo\Def\Entity
@@ -22,7 +22,7 @@ class Change
     }
 
     /**
-     * @param array|\Praxigento\Downline\Repo\Entity\Data\Change $data
+     * @param array|\Praxigento\Downline\Repo\Data\Change $data
      * @return int
      */
     public function create($data)
@@ -33,7 +33,7 @@ class Change
 
     /**
      * @param int $id
-     * @return \Praxigento\Downline\Repo\Entity\Data\Change|bool
+     * @return \Praxigento\Downline\Repo\Data\Change|bool
      */
     public function getById($id)
     {

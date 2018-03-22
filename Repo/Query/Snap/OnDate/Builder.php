@@ -5,7 +5,7 @@
 
 namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
-use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
+use Praxigento\Downline\Repo\Data\Snap as ESnap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as MaxBuilder;
 
 /**

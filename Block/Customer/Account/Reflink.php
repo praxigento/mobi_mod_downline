@@ -14,11 +14,11 @@ use Praxigento\Downline\Config as Cfg;
 class Reflink
     extends \Magento\Framework\View\Element\Template
 {
-    /** @var \Praxigento\Downline\Repo\Entity\Data\Customer */
+    /** @var \Praxigento\Downline\Repo\Data\Customer */
     private $cacheDwnlCust;
     /** @var \Magento\Store\Model\StoreManagerInterface */
     private $manStore;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $repoDwnlCust;
     /** @var \Magento\Customer\Model\Session */
     private $session;
@@ -27,7 +27,7 @@ class Reflink
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Store\Model\StoreManagerInterface $manStore,
-        \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust,
+        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -39,7 +39,7 @@ class Reflink
     /**
      * Cached data for current downline customer.
      *
-     * @return \Praxigento\Downline\Repo\Entity\Data\Customer
+     * @return \Praxigento\Downline\Repo\Data\Customer
      */
     private function getDwnlCustomer()
     {

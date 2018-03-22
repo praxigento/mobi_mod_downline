@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Service\Snap\Sub;
 
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
+use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 class CalcSimple
 {
@@ -34,9 +34,9 @@ class CalcSimple
      *
      * We use $currentState array to trace actual state during the changes. Target updates are placed in the $result.
      *
-     * @param \Praxigento\Downline\Repo\Entity\Data\Snap[] $snap current snapshot (customer, parent, depth, path),
-     *  see \Praxigento\Downline\Repo\Entity\Snap::getStateOnDate
-     * @param \Praxigento\Downline\Repo\Entity\Data\Change[] $changes
+     * @param \Praxigento\Downline\Repo\Data\Snap[] $snap current snapshot (customer, parent, depth, path),
+     *  see \Praxigento\Downline\Repo\Dao\Snap::getStateOnDate
+     * @param \Praxigento\Downline\Repo\Data\Change[] $changes
      *
      * @return array
      */

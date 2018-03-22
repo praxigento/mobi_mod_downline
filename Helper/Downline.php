@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Helper;
 
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Snap;
+use Praxigento\Downline\Repo\Data\Snap;
 
 class Downline
     implements \Praxigento\Downline\Api\Helper\Downline

@@ -14,13 +14,13 @@ class AccountManagement
     private $registry;
     /** @var \Magento\Customer\Api\CustomerRepositoryInterface */
     private $repoCust;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $repoDwnlCust;
 
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Api\CustomerRepositoryInterface $repoCust,
-        \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust
+        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust
     ) {
         $this->registry = $registry;
         $this->repoCust = $repoCust;

@@ -7,7 +7,7 @@
 namespace Praxigento\Downline\Repo\Query\Customer;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Customer as EDwnlCust;
+use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 
 class Get
     extends \Praxigento\Core\App\Repo\Query\Builder

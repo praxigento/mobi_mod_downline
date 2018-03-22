@@ -3,17 +3,16 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Repo\Entity\Data;
+namespace Praxigento\Downline\Repo\Data;
 
-class Snap
+class Change
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CUSTOMER_ID = 'customer_ref';
-    const ATTR_DATE = 'date';
-    const ATTR_DEPTH = 'depth';
+    const ATTR_DATE_CHANGED = 'date_changed';
+    const ATTR_ID = 'id';
     const ATTR_PARENT_ID = 'parent_ref';
-    const ATTR_PATH = 'path';
-    const ENTITY_NAME = 'prxgt_dwnl_snap';
+    const ENTITY_NAME = 'prxgt_dwnl_change';
 
     /**
      * @return int
@@ -25,20 +24,20 @@ class Snap
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDate()
+    public function getDateChanged()
     {
-        $result = parent::get(self::ATTR_DATE);
+        $result = parent::get(self::ATTR_DATE_CHANGED);
         return $result;
     }
 
     /**
      * @return int
      */
-    public function getDepth()
+    public function getId()
     {
-        $result = parent::get(self::ATTR_DEPTH);
+        $result = parent::get(self::ATTR_ID);
         return $result;
     }
 
@@ -51,18 +50,9 @@ class Snap
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
-    {
-        $result = parent::get(self::ATTR_PATH);
-        return $result;
-    }
-
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_DATE, self::ATTR_CUSTOMER_ID];
+        return [self::ATTR_ID];
     }
 
     /**
@@ -76,17 +66,17 @@ class Snap
     /**
      * @param string $data
      */
-    public function setDate($data)
+    public function setDateChanged($data)
     {
-        parent::set(self::ATTR_DATE, $data);
+        parent::set(self::ATTR_DATE_CHANGED, $data);
     }
 
     /**
      * @param int $data
      */
-    public function setDepth($data)
+    public function setId($data)
     {
-        parent::set(self::ATTR_DEPTH, $data);
+        parent::set(self::ATTR_ID, $data);
     }
 
     /**
@@ -95,13 +85,5 @@ class Snap
     public function setParentId($data)
     {
         parent::set(self::ATTR_PARENT_ID, $data);
-    }
-
-    /**
-     * @param string $data
-     */
-    public function setPath($data)
-    {
-        parent::set(self::ATTR_PATH, $data);
     }
 }

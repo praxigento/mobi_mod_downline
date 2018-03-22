@@ -9,7 +9,7 @@
 namespace Praxigento\Downline\Ui\DataProvider\Grid\Account;
 
 use Praxigento\Accounting\Repo\Data\Account as EAccount;
-use Praxigento\Downline\Repo\Entity\Data\Customer as EDownline;
+use Praxigento\Downline\Repo\Data\Customer as EDownline;
 
 class QueryBuilder
     extends \Praxigento\Accounting\Ui\DataProvider\Grid\Account\QueryBuilder

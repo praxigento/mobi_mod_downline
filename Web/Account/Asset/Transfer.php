@@ -16,14 +16,14 @@ class Transfer
     private $auth;
     /** @var \Praxigento\Downline\Helper\Downline */
     private $hlpDwnl;
-    /** @var \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $repoDwnlCust;
     /** @var \Praxigento\Accounting\Service\Account\Asset\Transfer */
     private $servAssetTransfer;
 
     public function __construct(
         \Praxigento\Core\Api\App\Web\Authenticator\Front $auth,
-        \Praxigento\Downline\Repo\Entity\Customer $repoDwnlCust,
+        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust,
         \Praxigento\Accounting\Service\Account\Asset\Transfer $servAssetTransfer,
         \Praxigento\Downline\Helper\Downline $hlpDwnl
     ) {

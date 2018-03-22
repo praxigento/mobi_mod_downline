@@ -6,8 +6,8 @@
 namespace Praxigento\Downline\Service\Customer;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Entity\Data\Change;
-use Praxigento\Downline\Repo\Entity\Data\Customer;
+use Praxigento\Downline\Repo\Data\Change;
+use Praxigento\Downline\Repo\Data\Customer;
 use Praxigento\Downline\Service\ICustomer;
 
 /**
@@ -19,9 +19,9 @@ class Call implements ICustomer
     protected $_logger;
     /** @var \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     protected $_manTrans;
-    /** @var  \Praxigento\Downline\Repo\Entity\Change */
+    /** @var  \Praxigento\Downline\Repo\Dao\Change */
     protected $_repoChange;
-    /** @var  \Praxigento\Downline\Repo\Entity\Customer */
+    /** @var  \Praxigento\Downline\Repo\Dao\Customer */
     protected $_repoCustomer;
     /** @var \Praxigento\Core\App\Repo\IGeneric */
     protected $_repoGeneric;
@@ -32,8 +32,8 @@ class Call implements ICustomer
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
-        \Praxigento\Downline\Repo\Entity\Change $repoChange,
-        \Praxigento\Downline\Repo\Entity\Customer $repoCustomer,
+        \Praxigento\Downline\Repo\Dao\Change $repoChange,
+        \Praxigento\Downline\Repo\Dao\Customer $repoCustomer,
         Sub\Referral $subReferral
     )
     {

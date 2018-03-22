@@ -3,29 +3,17 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Repo\Entity\Data;
+namespace Praxigento\Downline\Repo\Data;
 
-class Customer
+class Snap
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_COUNTRY_CODE = 'country_code';
     const ATTR_CUSTOMER_ID = 'customer_ref';
+    const ATTR_DATE = 'date';
     const ATTR_DEPTH = 'depth';
-    const ATTR_MLM_ID = 'mlm_id';
     const ATTR_PARENT_ID = 'parent_ref';
     const ATTR_PATH = 'path';
-    const ATTR_REFERRAL_CODE = 'referral_code';
-    const ENTITY_NAME = 'prxgt_dwnl_customer';
-
-
-    /**
-     * @return string
-     */
-    public function getCountryCode()
-    {
-        $result = parent::get(self::ATTR_COUNTRY_CODE);
-        return $result;
-    }
+    const ENTITY_NAME = 'prxgt_dwnl_snap';
 
     /**
      * @return int
@@ -37,20 +25,20 @@ class Customer
     }
 
     /**
+     * @return string
+     */
+    public function getDate()
+    {
+        $result = parent::get(self::ATTR_DATE);
+        return $result;
+    }
+
+    /**
      * @return int
      */
     public function getDepth()
     {
         $result = parent::get(self::ATTR_DEPTH);
-        return $result;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMlmId()
-    {
-        $result = parent::get(self::ATTR_MLM_ID);
         return $result;
     }
 
@@ -74,24 +62,7 @@ class Customer
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_CUSTOMER_ID];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReferralCode()
-    {
-        $result = parent::get(self::ATTR_REFERRAL_CODE);
-        return $result;
-    }
-
-    /**
-     * @param string $data
-     */
-    public function setCountryCode($data)
-    {
-        parent::set(self::ATTR_COUNTRY_CODE, $data);
+        return [self::ATTR_DATE, self::ATTR_CUSTOMER_ID];
     }
 
     /**
@@ -103,19 +74,19 @@ class Customer
     }
 
     /**
+     * @param string $data
+     */
+    public function setDate($data)
+    {
+        parent::set(self::ATTR_DATE, $data);
+    }
+
+    /**
      * @param int $data
      */
     public function setDepth($data)
     {
         parent::set(self::ATTR_DEPTH, $data);
-    }
-
-    /**
-     * @param string $data
-     */
-    public function setMlmId($data)
-    {
-        parent::set(self::ATTR_MLM_ID, $data);
     }
 
     /**
@@ -133,13 +104,4 @@ class Customer
     {
         parent::set(self::ATTR_PATH, $data);
     }
-
-    /**
-     * @param string $data
-     */
-    public function setReferralCode($data)
-    {
-        parent::set(self::ATTR_REFERRAL_CODE, $data);
-    }
-
 }
