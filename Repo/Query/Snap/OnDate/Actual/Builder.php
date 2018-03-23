@@ -26,10 +26,10 @@ class Builder
         $result = $this->conn->select();
         /* base queries for snap data should have the same attributes names (see ../Builder) */
         $result->from([$asSnap => $tblSnap], [
-            Snap::ATTR_CUSTOMER_ID => Customer::ATTR_CUSTOMER_ID,
-            Snap::ATTR_PARENT_ID => Customer::ATTR_PARENT_ID,
-            Snap::ATTR_DEPTH => Customer::ATTR_DEPTH,
-            Snap::ATTR_PATH => Customer::ATTR_PATH
+            Snap::A_CUSTOMER_ID => Customer::A_CUSTOMER_ID,
+            Snap::A_PARENT_ID => Customer::A_PARENT_ID,
+            Snap::A_DEPTH => Customer::A_DEPTH,
+            Snap::A_PATH => Customer::A_PATH
         ]);
         return $result;
     }

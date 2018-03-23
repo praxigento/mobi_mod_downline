@@ -53,7 +53,7 @@ class Customer extends BaseEntityRepo
         $result = null;
         $cols = null;
         $qCode = $this->conn->quote($mlmId);
-        $where = Entity::ATTR_MLM_ID . '=' . $qCode;
+        $where = Entity::A_MLM_ID . '=' . $qCode;
         $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&
@@ -74,7 +74,7 @@ class Customer extends BaseEntityRepo
         $result = null;
         $cols = null;
         $qCode = $this->conn->quote($code);
-        $where = Entity::ATTR_REFERRAL_CODE . '=' . $qCode;
+        $where = Entity::A_REFERRAL_CODE . '=' . $qCode;
         $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&
@@ -100,14 +100,14 @@ class Customer extends BaseEntityRepo
         $qPathMask = $this->conn->quote($path . '%');
         $qReplace = $this->conn->quote($replace);
         $sqlDepth = ($depthDelta > 0) ?
-            Entity::ATTR_DEPTH . '+' . abs($depthDelta) :
-            Entity::ATTR_DEPTH . '-' . abs($depthDelta);
-        $sqlPath = 'REPLACE(' . Entity::ATTR_PATH . ", $qPath, $qReplace)";
+            Entity::A_DEPTH . '+' . abs($depthDelta) :
+            Entity::A_DEPTH . '-' . abs($depthDelta);
+        $sqlPath = 'REPLACE(' . Entity::A_PATH . ", $qPath, $qReplace)";
         $bind = [
-            Entity::ATTR_DEPTH => $sqlDepth,
-            Entity::ATTR_PATH => $sqlPath
+            Entity::A_DEPTH => $sqlDepth,
+            Entity::A_PATH => $sqlPath
         ];
-        $where = Entity::ATTR_PATH . " LIKE $qPathMask";
+        $where = Entity::A_PATH . " LIKE $qPathMask";
         $result = $this->repoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
         return $result;
     }

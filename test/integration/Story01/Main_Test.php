@@ -68,7 +68,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $this->assertTrue($respSnap->isSucceed());
         $beforeData = $respSnap->get($customerId);
-        $beforeParentId = $beforeData[Snap::ATTR_PARENT_ID];
+        $beforeParentId = $beforeData[Snap::A_PARENT_ID];
         $this->assertNotEquals($parentId, $beforeParentId);
         $this->_logger->debug("Mage ID of the #10 customer's parent is $beforeParentId (before update).");
         /* change parent */
@@ -89,7 +89,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $this->assertTrue($respSnap->isSucceed());
         $afterData = $respSnap->get($customerId);
-        $afterParentId = $afterData[Snap::ATTR_PARENT_ID];
+        $afterParentId = $afterData[Snap::A_PARENT_ID];
         $this->assertNotEquals($beforeParentId, $afterParentId);
         $this->_logger->debug("Mage ID of the #10 customer's parent is $afterParentId (after update).");
     }
@@ -108,7 +108,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $this->assertTrue($respSnap->isSucceed());
         $beforeData = $respSnap->get($customerId);
-        $beforeParentId = $beforeData[Snap::ATTR_PARENT_ID];
+        $beforeParentId = $beforeData[Snap::A_PARENT_ID];
         $this->assertNotEquals($parentId, $beforeParentId);
         $this->_logger->debug("Mage ID of the #10 customer's parent is $beforeParentId (before update).");
         /* change parent */
@@ -129,7 +129,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $this->assertTrue($respSnap->isSucceed());
         $afterData = $respSnap->get($customerId);
-        $afterParentId = $afterData[Snap::ATTR_PARENT_ID];
+        $afterParentId = $afterData[Snap::A_PARENT_ID];
         $this->assertNotEquals($beforeParentId, $afterParentId);
         $this->_logger->debug("Mage ID of the #10 customer's parent is $afterParentId (after update).");
     }
@@ -147,7 +147,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $this->assertTrue($respSnap->isSucceed());
         $beforeData = $respSnap->get($customerId);
-        $beforeParentId = $beforeData[Snap::ATTR_PARENT_ID];
+        $beforeParentId = $beforeData[Snap::A_PARENT_ID];
         $this->assertNotEquals($customerId, $beforeParentId);
         $this->_logger->debug("Mage ID of the #10 customer's parent is $beforeParentId (before update).");
         /* change parent */
@@ -168,7 +168,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $this->assertTrue($respSnap->isSucceed());
         $afterData = $respSnap->get($customerId);
-        $afterParentId = $afterData[Snap::ATTR_PARENT_ID];
+        $afterParentId = $afterData[Snap::A_PARENT_ID];
         $this->assertNotEquals($beforeParentId, $afterParentId);
         $this->_logger->debug("Mage ID of the #13 customer's parent is $afterParentId (after update).");
     }
@@ -185,7 +185,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $reqSnap->setDatestamp($today);
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $data = $respSnap->get($customerId);
-        $path = $data[Snap::ATTR_PATH];
+        $path = $data[Snap::A_PATH];
         $this->assertEquals(Cfg::DTPS, $path);
         $this->_logger->debug("Customer C13 is root node today.");
         /* day before should be under C7 */
@@ -193,7 +193,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $reqSnap->setDatestamp($dayBefore);
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $data = $respSnap->get($customerId);
-        $path = $data[Snap::ATTR_PATH];
+        $path = $data[Snap::A_PATH];
         $this->assertTrue(strpos($path, Cfg::DTPS . $customer7Id . Cfg::DTPS) !== false);
         $this->_logger->debug("Customer C13 is under C7 day before.");
         /* 2 days before should be under C7 */
@@ -201,7 +201,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $reqSnap->setDatestamp($twoDaysBefore);
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $data = $respSnap->get($customerId);
-        $path = $data[Snap::ATTR_PATH];
+        $path = $data[Snap::A_PATH];
         $this->assertTrue(strpos($path, Cfg::DTPS . $customer9Id . Cfg::DTPS) !== false);
         $this->_logger->debug("Customer C13 is under C9 2 days before.");
         /* 3 days before should be under C9 */
@@ -209,7 +209,7 @@ class Main_IntegrationTest extends BaseIntegrationTest
         $reqSnap->setDatestamp($threeDaysBefore);
         $respSnap = $this->_callSnap->getStateOnDate($reqSnap);
         $data = $respSnap->get($customerId);
-        $path = $data[Snap::ATTR_PATH];
+        $path = $data[Snap::A_PATH];
         $this->assertTrue(strpos($path, Cfg::DTPS . $customer7Id . Cfg::DTPS) !== false);
         $this->_logger->debug("Customer C13 is under C7 again 3 days before.");
     }

@@ -83,27 +83,27 @@ class Call implements ICustomer
             }
             /* add customer to downline */
             $toAdd = [
-                Customer::ATTR_CUSTOMER_ID => $customerId,
-                Customer::ATTR_PARENT_ID => $parentId,
-                Customer::ATTR_DEPTH => $depth,
-                Customer::ATTR_PATH => $path,
-                Customer::ATTR_REFERRAL_CODE => $refCode
+                Customer::A_CUSTOMER_ID => $customerId,
+                Customer::A_PARENT_ID => $parentId,
+                Customer::A_DEPTH => $depth,
+                Customer::A_PATH => $path,
+                Customer::A_REFERRAL_CODE => $refCode
             ];
             if (isset($mlmId)) {
-                $toAdd[Customer::ATTR_MLM_ID] = $mlmId;
+                $toAdd[Customer::A_MLM_ID] = $mlmId;
             }
             if (isset($countryCode)) {
-                $toAdd[Customer::ATTR_COUNTRY_CODE] = $countryCode;
+                $toAdd[Customer::A_COUNTRY_CODE] = $countryCode;
             } else {
-                $toAdd[Customer::ATTR_COUNTRY_CODE] = $this->_subReferral->getDefaultCountryCode();
+                $toAdd[Customer::A_COUNTRY_CODE] = $this->_subReferral->getDefaultCountryCode();
             }
             $this->_repoCustomer->create($toAdd);
             /* save log record to changes registry */
             $formatted = $date;
             $toLog = [
-                Change::ATTR_CUSTOMER_ID => $customerId,
-                Change::ATTR_PARENT_ID => $parentId,
-                Change::ATTR_DATE_CHANGED => $formatted
+                Change::A_CUSTOMER_ID => $customerId,
+                Change::A_PARENT_ID => $parentId,
+                Change::A_DATE_CHANGED => $formatted
             ];
             $idLog = $this->_repoChange->create($toLog);
             if ($idLog) {
@@ -156,9 +156,9 @@ class Call implements ICustomer
                 }
                 /* update customer with new data */
                 $bind = [
-                    Customer::ATTR_PARENT_ID => $newParentId,
-                    Customer::ATTR_DEPTH => $newCustomerDepth,
-                    Customer::ATTR_PATH => $newCustomerPath
+                    Customer::A_PARENT_ID => $newParentId,
+                    Customer::A_DEPTH => $newCustomerDepth,
+                    Customer::A_PATH => $newCustomerPath
                 ];
                 $updateRows = $this->_repoCustomer->updateById($customerId, $bind);
                 if ($updateRows == 1) {
@@ -170,9 +170,9 @@ class Call implements ICustomer
                     $this->_logger->info("Total '$rowsUpdated' customers in downline were updated.");
                     /* save new record into change log */
                     $bind = [
-                        Change::ATTR_CUSTOMER_ID => $customerId,
-                        Change::ATTR_PARENT_ID => $newParentId,
-                        Change::ATTR_DATE_CHANGED => $formatted
+                        Change::A_CUSTOMER_ID => $customerId,
+                        Change::A_PARENT_ID => $newParentId,
+                        Change::A_DATE_CHANGED => $formatted
 
                     ];
                     $insertedId = $this->_repoChange->create($bind);

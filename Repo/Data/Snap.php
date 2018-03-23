@@ -8,11 +8,11 @@ namespace Praxigento\Downline\Repo\Data;
 class Snap
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CUSTOMER_ID = 'customer_ref';
-    const ATTR_DATE = 'date';
-    const ATTR_DEPTH = 'depth';
-    const ATTR_PARENT_ID = 'parent_ref';
-    const ATTR_PATH = 'path';
+    const A_CUSTOMER_ID = 'customer_ref';
+    const A_DATE = 'date';
+    const A_DEPTH = 'depth';
+    const A_PARENT_ID = 'parent_ref';
+    const A_PATH = 'path';
     const ENTITY_NAME = 'prxgt_dwnl_snap';
 
     /**
@@ -20,7 +20,7 @@ class Snap
      */
     public function getCustomerId()
     {
-        $result = parent::get(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_ID);
         return $result;
     }
 
@@ -29,7 +29,7 @@ class Snap
      */
     public function getDate()
     {
-        $result = parent::get(self::ATTR_DATE);
+        $result = parent::get(self::A_DATE);
         return $result;
     }
 
@@ -38,7 +38,7 @@ class Snap
      */
     public function getDepth()
     {
-        $result = parent::get(self::ATTR_DEPTH);
+        $result = parent::get(self::A_DEPTH);
         return $result;
     }
 
@@ -47,7 +47,7 @@ class Snap
      */
     public function getParentId()
     {
-        $result = parent::get(self::ATTR_PARENT_ID);
+        $result = parent::get(self::A_PARENT_ID);
         return $result;
     }
 
@@ -56,13 +56,13 @@ class Snap
      */
     public function getPath()
     {
-        $result = parent::get(self::ATTR_PATH);
+        $result = parent::get(self::A_PATH);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_DATE, self::ATTR_CUSTOMER_ID];
+        return [self::A_DATE, self::A_CUSTOMER_ID];
     }
 
     /**
@@ -70,7 +70,7 @@ class Snap
      */
     public function setCustomerId($data)
     {
-        parent::set(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_ID, $data);
     }
 
     /**
@@ -78,7 +78,7 @@ class Snap
      */
     public function setDate($data)
     {
-        parent::set(self::ATTR_DATE, $data);
+        parent::set(self::A_DATE, $data);
     }
 
     /**
@@ -86,7 +86,7 @@ class Snap
      */
     public function setDepth($data)
     {
-        parent::set(self::ATTR_DEPTH, $data);
+        parent::set(self::A_DEPTH, $data);
     }
 
     /**
@@ -94,7 +94,7 @@ class Snap
      */
     public function setParentId($data)
     {
-        parent::set(self::ATTR_PARENT_ID, $data);
+        parent::set(self::A_PARENT_ID, $data);
     }
 
     /**
@@ -102,6 +102,6 @@ class Snap
      */
     public function setPath($data)
     {
-        parent::set(self::ATTR_PATH, $data);
+        parent::set(self::A_PATH, $data);
     }
 }

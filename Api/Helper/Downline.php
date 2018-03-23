@@ -14,7 +14,7 @@ interface Downline
      * @param $tree array [$custId => $parentId, ...] | [$custId => [KEY => $parentId, ...], ...].
      * @param $keyParent string key for the $parentId if second form of the $tree is used.
      *
-     * @return array [$custId=>[Snap::ATTR_CUSTOMER_ID, Snap::ATTR_PARENT_ID, Snap::ATTR_DEPTH, Snap::ATTR_PATH], ... ]
+     * @return array [$custId=>[Snap::A_CUSTOMER_ID, Snap::A_PARENT_ID, Snap::A_DEPTH, Snap::A_PATH], ... ]
      */
     public function expandMinimal($tree, $keyParent = null);
 

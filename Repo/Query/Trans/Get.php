@@ -49,13 +49,13 @@ class Get
 
         /* LEFT JOIN prxgt_dwnl_customer custDb */
         $tbl = $this->resource->getTableName(Cust::ENTITY_NAME);
-        $on = $asCustDbt . '.' . Cust::ATTR_CUSTOMER_ID . '=' . $asAccDbt . '.' . Acc::ATTR_CUST_ID;
-        $cols = [self::A_DEBIT_CUST_REF => Cust::ATTR_MLM_ID];
+        $on = $asCustDbt . '.' . Cust::A_CUSTOMER_ID . '=' . $asAccDbt . '.' . Acc::A_CUST_ID;
+        $cols = [self::A_DEBIT_CUST_REF => Cust::A_MLM_ID];
         $result->joinLeft([$asCustDbt => $tbl], $on, $cols);
         /* LEFT JOIN prxgt_dwnl_customer custCr */
         $tbl = $this->resource->getTableName(Cust::ENTITY_NAME);
-        $on = $asCustCrd . '.' . Cust::ATTR_CUSTOMER_ID . '=' . $asAccCrd . '.' . Acc::ATTR_CUST_ID;
-        $cols = [self::A_CREDIT_CUST_REF => Cust::ATTR_MLM_ID];
+        $on = $asCustCrd . '.' . Cust::A_CUSTOMER_ID . '=' . $asAccCrd . '.' . Acc::A_CUST_ID;
+        $cols = [self::A_CREDIT_CUST_REF => Cust::A_MLM_ID];
         $result->joinLeft([$asCustCrd => $tbl], $on, $cols);
 
         /* result */

@@ -15,10 +15,10 @@ use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as QBldMax;
 
 class Snap extends BaseEntityRepo
 {
-    const AS_ATTR_DATE = 'date';
+    const AS_A_DATE = 'date';
     const AS_TBL_DWNL = 'prxgtDwnlAct';
-    const A_COUNTRY = ECustomer::ATTR_COUNTRY_CODE;
-    const A_MLM_ID = ECustomer::ATTR_MLM_ID;
+    const A_COUNTRY = ECustomer::A_COUNTRY_CODE;
+    const A_MLM_ID = ECustomer::A_MLM_ID;
 
     /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
     protected $qbuildSnapOnDate;
@@ -59,14 +59,14 @@ class Snap extends BaseEntityRepo
         $query->from($tbl);
         $bind = [];
         /* where */
-        $where = Entity::ATTR_CUSTOMER_ID . '= :id';
+        $where = Entity::A_CUSTOMER_ID . '= :id';
         $bind['id'] = (int)$id;
         $query->where($where);
-        $where = Entity::ATTR_DATE . '<= :date';
+        $where = Entity::A_DATE . '<= :date';
         $bind['date'] = $datestamp;
         $query->where($where);
         /* order by */
-        $query->order(Entity::ATTR_DATE . ' DESC');
+        $query->order(Entity::A_DATE . ' DESC');
         /* get one only record */
         $query->limit(1);
         /* perform query */
@@ -107,9 +107,9 @@ class Snap extends BaseEntityRepo
         $tblSnap = $this->resource->getTableName(Entity::ENTITY_NAME);
         /* select from account */
         $query = $this->conn->select();
-        $query->from([$asSnap => $tblSnap], [Entity::ATTR_DATE]);
+        $query->from([$asSnap => $tblSnap], [Entity::A_DATE]);
         /* order by */
-        $query->order([$asSnap . '.' . Entity::ATTR_DATE . ' DESC']);
+        $query->order([$asSnap . '.' . Entity::A_DATE . ' DESC']);
         /* perform query */
         // $sql = (string)$query;
         $result = $this->conn->fetchOne($query);
@@ -134,17 +134,17 @@ class Snap extends BaseEntityRepo
             /* define tables aliases */
             $as = self::AS_TBL_DWNL;
             $tbl = $this->resource->getTableName(ECustomer::ENTITY_NAME);
-            $on = $as . '.' . ECustomer::ATTR_CUSTOMER_ID . '='
-                . QBldSnap::AS_DWNL_SNAP . '.' . Entity::ATTR_CUSTOMER_ID;
+            $on = $as . '.' . ECustomer::A_CUSTOMER_ID . '='
+                . QBldSnap::AS_DWNL_SNAP . '.' . Entity::A_CUSTOMER_ID;
             $cols = [
-                self::A_COUNTRY => ECustomer::ATTR_COUNTRY_CODE,
-                self::A_MLM_ID => ECustomer::ATTR_MLM_ID
+                self::A_COUNTRY => ECustomer::A_COUNTRY_CODE,
+                self::A_MLM_ID => ECustomer::A_MLM_ID
             ];
             $query->joinLeft([$as => $tbl], $on, $cols);
         }
         $query->order(
             QBldSnap::AS_DWNL_SNAP . '.'
-            . \Praxigento\Downline\Repo\Data\Snap::ATTR_DEPTH
+            . \Praxigento\Downline\Repo\Data\Snap::A_DEPTH
         );
         $rows = $this->conn->fetchAll($query, $bind);
         if (count($rows)) {

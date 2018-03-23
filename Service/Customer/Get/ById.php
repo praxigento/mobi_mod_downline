@@ -131,7 +131,7 @@ class ById
         /* reset WHERE part and recreate new one */
         $query->reset(\Zend_Db_Select::WHERE);
         $bnd = 'mlmId';
-        $where = QBGetCustomer::E_DWNL_CUST . '.' . EDwnlCust::ATTR_MLM_ID . '=:' . $bnd;
+        $where = QBGetCustomer::E_DWNL_CUST . '.' . EDwnlCust::A_MLM_ID . '=:' . $bnd;
         $query->where($where);
         /* prepare vars to bind */
         $bind = [

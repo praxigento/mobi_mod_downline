@@ -53,10 +53,10 @@ class Call
     /**
      * Compose $result array as array of elements:
      * [
-     *  ESnap::ATTR_CUSTOMER_ID,
-     *  ESnap::ATTR_PARENT_ID,
-     *  ESnap::ATTR_DEPTH,
-     *  ESnap::ATTR_PATH
+     *  ESnap::A_CUSTOMER_ID,
+     *  ESnap::A_PARENT_ID,
+     *  ESnap::A_DEPTH,
+     *  ESnap::A_PATH
      * ]
      * to insert into DB as record in prxgt_dwnl_snap.
      *
@@ -70,18 +70,18 @@ class Call
             if (is_null($parentId)) {
                 /* this is root node */
                 $result[$custId] = [
-                    ESnap::ATTR_CUSTOMER_ID => $custId,
-                    ESnap::ATTR_PARENT_ID => $custId,
-                    ESnap::ATTR_DEPTH => Cfg::INIT_DEPTH,
-                    ESnap::ATTR_PATH => Cfg::DTPS
+                    ESnap::A_CUSTOMER_ID => $custId,
+                    ESnap::A_PARENT_ID => $custId,
+                    ESnap::A_DEPTH => Cfg::INIT_DEPTH,
+                    ESnap::A_PATH => Cfg::DTPS
                 ];
             } else {
                 $parentData = $result[$parentId];
                 $result[$custId] = [
-                    ESnap::ATTR_CUSTOMER_ID => $custId,
-                    ESnap::ATTR_PARENT_ID => $parentId,
-                    ESnap::ATTR_DEPTH => $parentData[ESnap::ATTR_DEPTH] + 1,
-                    ESnap::ATTR_PATH => $parentData[ESnap::ATTR_PATH] . $parentId . Cfg::DTPS
+                    ESnap::A_CUSTOMER_ID => $custId,
+                    ESnap::A_PARENT_ID => $parentId,
+                    ESnap::A_DEPTH => $parentData[ESnap::A_DEPTH] + 1,
+                    ESnap::A_PATH => $parentData[ESnap::A_PATH] . $parentId . Cfg::DTPS
                 ];
             }
             if (sizeof($children) > 0) {
@@ -107,7 +107,7 @@ class Call
         $respLast = $this->getLastDate($reqLast);
         $dsLast = $respLast->getLastDate();
         /* clean snapshot on the last date (MOBI-956) */
-        $where = ESnap::ATTR_DATE . '>=' . $dsLast;
+        $where = ESnap::A_DATE . '>=' . $dsLast;
         $this->repoSnap->delete($where);
         /* get the snapshot on the last date */
         $snapshot = $this->getSnap($dsLast);

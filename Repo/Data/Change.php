@@ -8,10 +8,10 @@ namespace Praxigento\Downline\Repo\Data;
 class Change
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CUSTOMER_ID = 'customer_ref';
-    const ATTR_DATE_CHANGED = 'date_changed';
-    const ATTR_ID = 'id';
-    const ATTR_PARENT_ID = 'parent_ref';
+    const A_CUSTOMER_ID = 'customer_ref';
+    const A_DATE_CHANGED = 'date_changed';
+    const A_ID = 'id';
+    const A_PARENT_ID = 'parent_ref';
     const ENTITY_NAME = 'prxgt_dwnl_change';
 
     /**
@@ -19,7 +19,7 @@ class Change
      */
     public function getCustomerId()
     {
-        $result = parent::get(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_ID);
         return $result;
     }
 
@@ -28,7 +28,7 @@ class Change
      */
     public function getDateChanged()
     {
-        $result = parent::get(self::ATTR_DATE_CHANGED);
+        $result = parent::get(self::A_DATE_CHANGED);
         return $result;
     }
 
@@ -37,7 +37,7 @@ class Change
      */
     public function getId()
     {
-        $result = parent::get(self::ATTR_ID);
+        $result = parent::get(self::A_ID);
         return $result;
     }
 
@@ -46,13 +46,13 @@ class Change
      */
     public function getParentId()
     {
-        $result = parent::get(self::ATTR_PARENT_ID);
+        $result = parent::get(self::A_PARENT_ID);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_ID];
+        return [self::A_ID];
     }
 
     /**
@@ -60,7 +60,7 @@ class Change
      */
     public function setCustomerId($data)
     {
-        parent::set(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_ID, $data);
     }
 
     /**
@@ -68,7 +68,7 @@ class Change
      */
     public function setDateChanged($data)
     {
-        parent::set(self::ATTR_DATE_CHANGED, $data);
+        parent::set(self::A_DATE_CHANGED, $data);
     }
 
     /**
@@ -76,7 +76,7 @@ class Change
      */
     public function setId($data)
     {
-        parent::set(self::ATTR_ID, $data);
+        parent::set(self::A_ID, $data);
     }
 
     /**
@@ -84,6 +84,6 @@ class Change
      */
     public function setParentId($data)
     {
-        parent::set(self::ATTR_PARENT_ID, $data);
+        parent::set(self::A_PARENT_ID, $data);
     }
 }

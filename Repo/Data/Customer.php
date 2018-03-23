@@ -8,13 +8,13 @@ namespace Praxigento\Downline\Repo\Data;
 class Customer
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_COUNTRY_CODE = 'country_code';
-    const ATTR_CUSTOMER_ID = 'customer_ref';
-    const ATTR_DEPTH = 'depth';
-    const ATTR_MLM_ID = 'mlm_id';
-    const ATTR_PARENT_ID = 'parent_ref';
-    const ATTR_PATH = 'path';
-    const ATTR_REFERRAL_CODE = 'referral_code';
+    const A_COUNTRY_CODE = 'country_code';
+    const A_CUSTOMER_ID = 'customer_ref';
+    const A_DEPTH = 'depth';
+    const A_MLM_ID = 'mlm_id';
+    const A_PARENT_ID = 'parent_ref';
+    const A_PATH = 'path';
+    const A_REFERRAL_CODE = 'referral_code';
     const ENTITY_NAME = 'prxgt_dwnl_customer';
 
 
@@ -23,7 +23,7 @@ class Customer
      */
     public function getCountryCode()
     {
-        $result = parent::get(self::ATTR_COUNTRY_CODE);
+        $result = parent::get(self::A_COUNTRY_CODE);
         return $result;
     }
 
@@ -32,7 +32,7 @@ class Customer
      */
     public function getCustomerId()
     {
-        $result = parent::get(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_ID);
         return $result;
     }
 
@@ -41,7 +41,7 @@ class Customer
      */
     public function getDepth()
     {
-        $result = parent::get(self::ATTR_DEPTH);
+        $result = parent::get(self::A_DEPTH);
         return $result;
     }
 
@@ -50,7 +50,7 @@ class Customer
      */
     public function getMlmId()
     {
-        $result = parent::get(self::ATTR_MLM_ID);
+        $result = parent::get(self::A_MLM_ID);
         return $result;
     }
 
@@ -59,7 +59,7 @@ class Customer
      */
     public function getParentId()
     {
-        $result = parent::get(self::ATTR_PARENT_ID);
+        $result = parent::get(self::A_PARENT_ID);
         return $result;
     }
 
@@ -68,13 +68,13 @@ class Customer
      */
     public function getPath()
     {
-        $result = parent::get(self::ATTR_PATH);
+        $result = parent::get(self::A_PATH);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_CUSTOMER_ID];
+        return [self::A_CUSTOMER_ID];
     }
 
     /**
@@ -82,7 +82,7 @@ class Customer
      */
     public function getReferralCode()
     {
-        $result = parent::get(self::ATTR_REFERRAL_CODE);
+        $result = parent::get(self::A_REFERRAL_CODE);
         return $result;
     }
 
@@ -91,7 +91,7 @@ class Customer
      */
     public function setCountryCode($data)
     {
-        parent::set(self::ATTR_COUNTRY_CODE, $data);
+        parent::set(self::A_COUNTRY_CODE, $data);
     }
 
     /**
@@ -99,7 +99,7 @@ class Customer
      */
     public function setCustomerId($data)
     {
-        parent::set(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_ID, $data);
     }
 
     /**
@@ -107,7 +107,7 @@ class Customer
      */
     public function setDepth($data)
     {
-        parent::set(self::ATTR_DEPTH, $data);
+        parent::set(self::A_DEPTH, $data);
     }
 
     /**
@@ -115,7 +115,7 @@ class Customer
      */
     public function setMlmId($data)
     {
-        parent::set(self::ATTR_MLM_ID, $data);
+        parent::set(self::A_MLM_ID, $data);
     }
 
     /**
@@ -123,7 +123,7 @@ class Customer
      */
     public function setParentId($data)
     {
-        parent::set(self::ATTR_PARENT_ID, $data);
+        parent::set(self::A_PARENT_ID, $data);
     }
 
     /**
@@ -131,7 +131,7 @@ class Customer
      */
     public function setPath($data)
     {
-        parent::set(self::ATTR_PATH, $data);
+        parent::set(self::A_PATH, $data);
     }
 
     /**
@@ -139,7 +139,7 @@ class Customer
      */
     public function setReferralCode($data)
     {
-        parent::set(self::ATTR_REFERRAL_CODE, $data);
+        parent::set(self::A_REFERRAL_CODE, $data);
     }
 
 }

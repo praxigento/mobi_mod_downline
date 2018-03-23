@@ -148,7 +148,7 @@ class CalcSimple
 
     private function mapByPath($snap)
     {
-        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::ATTR_CUSTOMER_ID, ESnap::ATTR_PATH);
+        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::A_CUSTOMER_ID, ESnap::A_PATH);
         return $result;
     }
 

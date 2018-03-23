@@ -119,18 +119,18 @@ class Search
         $byFirst = "$asCust." . Cfg::E_CUSTOMER_A_FIRSTNAME . " LIKE $searchBy";
         $byLast = "$asCust." . Cfg::E_CUSTOMER_A_LASTNAME . " LIKE $searchBy";
         $byEmail = "$asCust." . Cfg::E_CUSTOMER_A_EMAIL . " LIKE $searchBy";
-        $byMlmID = "$asDwnl." . EDwnlCust::ATTR_MLM_ID . " LIKE $searchBy";
+        $byMlmID = "$asDwnl." . EDwnlCust::A_MLM_ID . " LIKE $searchBy";
         $where = "($byFirst) OR ($byLast) OR ($byEmail) OR ($byMlmID)";
         if ($custId) {
             /* restrict searching by root customer */
             /* TODO: do we really need root customer in the result set */
-            $byOwnId = "$asDwnl." . EDwnlCust::ATTR_CUSTOMER_ID . '=' . (int)$custId;
+            $byOwnId = "$asDwnl." . EDwnlCust::A_CUSTOMER_ID . '=' . (int)$custId;
             /* by downline */
             $quoted = $conn->quote($path . $custId . Cfg::DTPS . '%');
-            $byPath = "$asDwnl." . EDwnlCust::ATTR_PATH . ' LIKE ' . $quoted;
+            $byPath = "$asDwnl." . EDwnlCust::A_PATH . ' LIKE ' . $quoted;
             /* country of the selected customers should be equal to the root customer country */
             $quoted = $conn->quote($country);
-            $byCountry = "$asDwnl." . EDwnlCust::ATTR_COUNTRY_CODE . "=$quoted";
+            $byCountry = "$asDwnl." . EDwnlCust::A_COUNTRY_CODE . "=$quoted";
             /* composer filter */
             $where = "($where) AND (($byOwnId) OR ($byPath)) AND ($byCountry)";
         }

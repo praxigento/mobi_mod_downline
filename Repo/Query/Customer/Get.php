@@ -44,9 +44,9 @@ class Get
         $tbl = $this->resource->getTableName(self::E_DWNL_CUST);
         $as = $asDwnl;
         $cols = [
-            self::A_MLM_ID => EDwnlCust::ATTR_MLM_ID,
-            self::A_COUNTRY => EDwnlCust::ATTR_COUNTRY_CODE,
-            self::A_PATH => EDwnlCust::ATTR_PATH
+            self::A_MLM_ID => EDwnlCust::A_MLM_ID,
+            self::A_COUNTRY => EDwnlCust::A_COUNTRY_CODE,
+            self::A_PATH => EDwnlCust::A_PATH
         ];
         $result->from([$as => $tbl], $cols);
 
@@ -59,7 +59,7 @@ class Get
             self::A_NAME_FIRST => Cfg::E_CUSTOMER_A_FIRSTNAME,
             self::A_NAME_LAST => Cfg::E_CUSTOMER_A_LASTNAME
         ];
-        $cond = $as . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID . '=' . $asDwnl . '.' . EDwnlCust::ATTR_CUSTOMER_ID;
+        $cond = $as . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID . '=' . $asDwnl . '.' . EDwnlCust::A_CUSTOMER_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* query tuning */

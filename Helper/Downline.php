@@ -16,10 +16,10 @@ class Downline
     /**
      * Recursively compose $result as array of elements:
      * [
-     *  Snap::ATTR_CUSTOMER_ID,
-     *  Snap::ATTR_PARENT_ID,
-     *  Snap::ATTR_DEPTH,
-     *  Snap::ATTR_PATH
+     *  Snap::A_CUSTOMER_ID,
+     *  Snap::A_PARENT_ID,
+     *  Snap::A_DEPTH,
+     *  Snap::A_PATH
      * ]
      *
      * @param      $result
@@ -32,18 +32,18 @@ class Downline
             if (is_null($parentId)) {
                 /* this is root node */
                 $result[$custId] = [
-                    Snap::ATTR_CUSTOMER_ID => $custId,
-                    Snap::ATTR_PARENT_ID => $custId,
-                    Snap::ATTR_DEPTH => Cfg::INIT_DEPTH,
-                    Snap::ATTR_PATH => Cfg::DTPS
+                    Snap::A_CUSTOMER_ID => $custId,
+                    Snap::A_PARENT_ID => $custId,
+                    Snap::A_DEPTH => Cfg::INIT_DEPTH,
+                    Snap::A_PATH => Cfg::DTPS
                 ];
             } else {
                 $parentData = $result[$parentId];
                 $result[$custId] = [
-                    Snap::ATTR_CUSTOMER_ID => $custId,
-                    Snap::ATTR_PARENT_ID => $parentId,
-                    Snap::ATTR_DEPTH => $parentData[Snap::ATTR_DEPTH] + 1,
-                    Snap::ATTR_PATH => $parentData[Snap::ATTR_PATH] . $parentId . Cfg::DTPS
+                    Snap::A_CUSTOMER_ID => $custId,
+                    Snap::A_PARENT_ID => $parentId,
+                    Snap::A_DEPTH => $parentData[Snap::A_DEPTH] + 1,
+                    Snap::A_PATH => $parentData[Snap::A_PATH] . $parentId . Cfg::DTPS
                 ];
             }
             if (sizeof($children) > 0) {
@@ -56,7 +56,7 @@ class Downline
      * @param $tree array [$custId => $parentId, ...] | [$custId => [KEY => $parentId, ...], ...].
      * @param $keyParent string key for the $parentId if second form of the $tree is used.
      *
-     * @return array [$custId=>[Snap::ATTR_CUSTOMER_ID, Snap::ATTR_PARENT_ID, Snap::ATTR_DEPTH, Snap::ATTR_PATH], ... ]
+     * @return array [$custId=>[Snap::A_CUSTOMER_ID, Snap::A_PARENT_ID, Snap::A_DEPTH, Snap::A_PATH], ... ]
      */
     public function expandMinimal($tree, $keyParent = null) {
         /**

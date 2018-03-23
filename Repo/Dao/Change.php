@@ -58,9 +58,9 @@ class Change
         $tblChange = $this->resource->getTableName(EChange::ENTITY_NAME);
         /* select from account */
         $query = $this->conn->select();
-        $query->from([$asChange => $tblChange], [EChange::ATTR_DATE_CHANGED]);
+        $query->from([$asChange => $tblChange], [EChange::A_DATE_CHANGED]);
         /* order by */
-        $query->order([$asChange . '.' . EChange::ATTR_DATE_CHANGED . ' ASC']);
+        $query->order([$asChange . '.' . EChange::A_DATE_CHANGED . ' ASC']);
         /* perform query */
         $result = $this->conn->fetchOne($query);
         if ($result < self::DATE_MIN) {
@@ -91,8 +91,8 @@ class Change
         $query = $this->conn->select();
         $query->from([$asChange => $tblChange]);
         /* where */
-        $query->where($asChange . '.' . EChange::ATTR_DATE_CHANGED . '>=:date_from');
-        $query->where($asChange . '.' . EChange::ATTR_DATE_CHANGED . '<:date_to');
+        $query->where($asChange . '.' . EChange::A_DATE_CHANGED . '>=:date_from');
+        $query->where($asChange . '.' . EChange::A_DATE_CHANGED . '<:date_to');
         $bind = [
             'date_from' => $timestampFrom,
             'date_to' => $timestampTo
@@ -102,8 +102,8 @@ class Change
          * Order is important for tree snapshot calculation (MOBI-202)
          */
         $query->order([
-            $asChange . '.' . EChange::ATTR_DATE_CHANGED . ' ASC',
-            $asChange . '.' . EChange::ATTR_CUSTOMER_ID . ' ASC'
+            $asChange . '.' . EChange::A_DATE_CHANGED . ' ASC',
+            $asChange . '.' . EChange::A_CUSTOMER_ID . ' ASC'
         ]);
         $rs = $this->conn->fetchAll($query, $bind);
         $result = [];
