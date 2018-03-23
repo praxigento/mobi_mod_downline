@@ -6,40 +6,40 @@
     <!-- *********** -->
     <!-- API Helpers -->
     <!-- *********** -->
-    <preference for="\Praxigento\Downline\Api\Helper\Referral\CodeGenerator"
-                type="\Praxigento\Downline\Helper\Referral\CodeGenerator"/>
-    <preference for="\Praxigento\Downline\Api\Helper\Referral"
-                type="\Praxigento\Downline\Helper\Referral"/>
-    <preference for="\Praxigento\Downline\Api\Helper\Downline"
-                type="\Praxigento\Downline\Helper\Downline"/>
+    <preference for="Praxigento\Downline\Api\Helper\Referral\CodeGenerator"
+                type="Praxigento\Downline\Helper\Referral\CodeGenerator"/>
+    <preference for="Praxigento\Downline\Api\Helper\Referral"
+                type="Praxigento\Downline\Helper\Referral"/>
+    <preference for="Praxigento\Downline\Api\Helper\Downline"
+                type="Praxigento\Downline\Helper\Downline"/>
 
 
     <!-- ********************* -->
     <!-- API Services Rewrites -->
     <!-- ********************* -->
-    <preference for="\Praxigento\Core\Api\Service\Customer\Search"
-                type="\Praxigento\Downline\Service\Customer\Search"/>
+    <preference for="Praxigento\Core\Api\Service\Customer\Search"
+                type="Praxigento\Downline\Service\Customer\Search"/>
 
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
-    <preference for="\Praxigento\Downline\Api\Service\Customer\Get\ById"
-                type="\Praxigento\Downline\Service\Customer\Get\ById"/>
-    <preference for="\Praxigento\Downline\Api\Service\Customer\Search"
-                type="\Praxigento\Downline\Service\Customer\Search"/>
-    <preference for="\Praxigento\Downline\Api\Service\Snap\Clean"
-                type="\Praxigento\Downline\Service\Snap\Clean"/>
+    <preference for="Praxigento\Downline\Api\Service\Customer\Get\ById"
+                type="Praxigento\Downline\Service\Customer\Get\ById"/>
+    <preference for="Praxigento\Downline\Api\Service\Customer\Search"
+                type="Praxigento\Downline\Service\Customer\Search"/>
+    <preference for="Praxigento\Downline\Api\Service\Snap\Clean"
+                type="Praxigento\Downline\Service\Snap\Clean"/>
 
 
     <!-- ******* -->
     <!-- API Web -->
     <!-- ******* -->
-    <preference for="\Praxigento\Downline\Api\Web\Account\Asset\TransferInterface"
-                type="\Praxigento\Downline\Web\Account\Asset\Transfer"/>
-    <preference for="\Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface"
-                type="\Praxigento\Downline\Web\Customer\Get\ById"/>
-    <preference for="\Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface"
-                type="\Praxigento\Downline\Web\Customer\Search\ByKey"/>
+    <preference for="Praxigento\Downline\Api\Web\Account\Asset\TransferInterface"
+                type="Praxigento\Downline\Web\Account\Asset\Transfer"/>
+    <preference for="Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface"
+                type="Praxigento\Downline\Web\Customer\Get\ById"/>
+    <preference for="Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface"
+                type="Praxigento\Downline\Web\Customer\Search\ByKey"/>
 
 
     <!-- ********************** -->
@@ -58,69 +58,69 @@
     <!-- ******** -->
     <!-- Services -->
     <!-- ******** -->
-    <preference for="\Praxigento\Downline\Service\ICustomer"
-                type="\Praxigento\Downline\Service\Customer\Call"/>
-    <preference for="\Praxigento\Downline\Service\IMap"
-                type="\Praxigento\Downline\Service\Map\Call"/>
-    <preference for="\Praxigento\Downline\Service\ISnap"
-                type="\Praxigento\Downline\Service\Snap\Call"/>
+    <preference for="Praxigento\Downline\Service\ICustomer"
+                type="Praxigento\Downline\Service\Customer\Call"/>
+    <preference for="Praxigento\Downline\Service\IMap"
+                type="Praxigento\Downline\Service\Map\Call"/>
+    <preference for="Praxigento\Downline\Service\ISnap"
+                type="Praxigento\Downline\Service\Snap\Call"/>
 
 
     <!-- ******* -->
     <!-- PLUGINS -->
     <!-- ******* -->
-    <type name="\Magento\Customer\Model\AccountManagement">
+    <type name="Magento\Customer\Model\AccountManagement">
         <!-- Look up for customer's email by MLM ID -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Customer\Model\AccountManagement"
+                type="Praxigento\Downline\Plugin\Customer\Model\AccountManagement"
                 sortOrder="100" disabled="false"/>
     </type>
-    <type name="\Magento\Customer\Model\Customer">
+    <type name="Magento\Customer\Model\Customer">
         <!-- define default group ID for referral customers -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Customer\Model\Customer"
+                type="Praxigento\Downline\Plugin\Customer\Model\Customer"
                 sortOrder="100" disabled="false"/>
     </type>
 
-    <type name="\Magento\Customer\Model\GroupManagement">
+    <type name="Magento\Customer\Model\GroupManagement">
         <!-- replace anonymous group for referrals -->
         <plugin name="praxigento_warehouse_plugin"
-                type="\Praxigento\Downline\Plugin\Customer\Model\GroupManagement"
+                type="Praxigento\Downline\Plugin\Customer\Model\GroupManagement"
                 sortOrder="100" disabled="false"/>
     </type>
 
-    <type name="\Magento\Customer\Model\Session">
+    <type name="Magento\Customer\Model\Session">
         <!-- replace anonymous group for referrals -->
         <plugin name="praxigento_warehouse_plugin"
-                type="\Praxigento\Downline\Plugin\Customer\Model\Session"
+                type="Praxigento\Downline\Plugin\Customer\Model\Session"
                 sortOrder="100" disabled="false"/>
     </type>
 
-    <type name="\Magento\Framework\App\FrontControllerInterface">
+    <type name="Magento\Framework\App\FrontControllerInterface">
         <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins, see "sortOrder") -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Framework\App\FrontControllerInterface"
+                type="Praxigento\Downline\Plugin\Framework\App\FrontControllerInterface"
                 sortOrder="-100" disabled="false"/>
     </type>
 
-    <type name="\Magento\Framework\App\ResponseInterface">
+    <type name="Magento\Framework\App\ResponseInterface">
         <!-- set referral cookie -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Framework\App\ResponseInterface"
+                type="Praxigento\Downline\Plugin\Framework\App\ResponseInterface"
                 sortOrder="100" disabled="false"/>
     </type>
 
-    <type name="\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <!-- Add custom columns to the customer grid -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
+                type="Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
                 sortOrder="100" disabled="false"/>
     </type>
 
-    <type name="\Magento\Framework\Url">
+    <type name="Magento\Framework\Url">
         <!-- MOBI-731: don't remove DCP SPA states from Magento frontend navigator (customer account) -->
         <plugin name="praxigento_downline"
-                type="\Praxigento\Downline\Plugin\Framework\Url"
+                type="Praxigento\Downline\Plugin\Framework\Url"
                 sortOrder="100" disabled="false"/>
     </type>
 
