@@ -26,9 +26,9 @@ class Call
      */
     protected $manTrans;
     /** @var \Praxigento\Downline\Repo\Dao\Change */
-    protected $repoChange;
+    protected $daoChange;
     /** @var \Praxigento\Downline\Repo\Dao\Snap */
-    protected $repoSnap;
+    protected $daoSnap;
     /** @var \Praxigento\Downline\Service\Snap\Sub\CalcSimple */
     protected $subCalc;
 
@@ -37,16 +37,16 @@ class Call
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\Downline\Repo\Dao\Change $repoChange,
-        \Praxigento\Downline\Repo\Dao\Snap $repoSnap,
+        \Praxigento\Downline\Repo\Dao\Change $daoChange,
+        \Praxigento\Downline\Repo\Dao\Snap $daoSnap,
         \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
     )
     {
         parent::__construct($logger, $manObj);
         $this->manTrans = $manTrans;
         $this->hlpPeriod = $hlpPeriod;
-        $this->repoChange = $repoChange;
-        $this->repoSnap = $repoSnap;
+        $this->daoChange = $daoChange;
+        $this->daoSnap = $daoSnap;
         $this->subCalc = $subCalc;
     }
 
@@ -108,18 +108,18 @@ class Call
         $dsLast = $respLast->getLastDate();
         /* clean snapshot on the last date (MOBI-956) */
         $where = ESnap::A_DATE . '>=' . $dsLast;
-        $this->repoSnap->delete($where);
+        $this->daoSnap->delete($where);
         /* get the snapshot on the last date */
         $snapshot = $this->getSnap($dsLast);
         /* get change log for the period */
         $tsFrom = $this->hlpPeriod->getTimestampFrom($dsLast);
         $periodTo = $this->hlpPeriod->getPeriodCurrent();
         $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
-        $changelog = $this->repoChange->getChangesForPeriod($tsFrom, $tsTo);
+        $changelog = $this->daoChange->getChangesForPeriod($tsFrom, $tsTo);
         /* calculate snapshots for the period */
         $updates = $this->subCalc->calcSnapshots($snapshot, $changelog);
         /* save new snapshots in DB */
-        $this->repoSnap->saveCalculatedUpdates($updates);
+        $this->daoSnap->saveCalculatedUpdates($updates);
         $result->markSucceed();
         return $result;
     }
@@ -209,14 +209,14 @@ class Call
         $result = new Response\GetLastDate();
         $this->logger->info("'Get Last Data' operation is requested.");
         /* get the maximal date for existing snapshot */
-        $snapMaxDate = $this->repoSnap->getMaxDatestamp();
+        $snapMaxDate = $this->daoSnap->getMaxDatestamp();
         if ($snapMaxDate) {
             /* there is snapshots data */
             $result->set([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
             $result->markSucceed();
         } else {
             /* there is no snapshot data yet, get change log minimal date  */
-            $changelogMinDate = $this->repoChange->getChangelogMinDate();
+            $changelogMinDate = $this->daoChange->getChangelogMinDate();
             if ($changelogMinDate) {
                 $period = $this->hlpPeriod->getPeriodCurrent($changelogMinDate);
                 $dayBefore = $this->hlpPeriod->getPeriodPrev($period);
@@ -232,7 +232,7 @@ class Call
     private function getSnap($datestamp)
     {
         $result = [];
-        $snapshot = $this->repoSnap->getStateOnDate($datestamp);
+        $snapshot = $this->daoSnap->getStateOnDate($datestamp);
         foreach ($snapshot as $one) {
             $item = new ESnap($one);
             $custId = $item->getCustomerId();
@@ -257,7 +257,7 @@ class Call
         if (is_null($dateOn)) {
             $dateOn = $this->hlpPeriod->getPeriodCurrent();
         }
-        $rows = $this->repoSnap->getStateOnDate($dateOn, $addCountryCode);
+        $rows = $this->daoSnap->getStateOnDate($dateOn, $addCountryCode);
         $result->set($rows);
         $result->markSucceed();
         $this->logger->info("'Get Downline Tree state' operation is completed.");

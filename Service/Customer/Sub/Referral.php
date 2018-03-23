@@ -15,16 +15,16 @@ class Referral
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
     /** @var  \Praxigento\Downline\Repo\Dao\Customer */
-    protected $repoCustomer;
+    protected $daoCustomer;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\Downline\Repo\Dao\Customer $repoCustomer,
+        \Praxigento\Downline\Repo\Dao\Customer $daoCustomer,
         \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
         \Praxigento\Downline\Helper\Config $hlpConfi
     ) {
         $this->logger = $logger;
-        $this->repoCustomer = $repoCustomer;
+        $this->daoCustomer = $daoCustomer;
         $this->hlpReferral = $hlpReferral;
         $this->hlpConfig = $hlpConfi;
     }
@@ -54,7 +54,7 @@ class Referral
         $code = $this->hlpReferral->getReferralCode();
         if ($code) {
             /* this is a referral customer, use parent from referral code */
-            $parentDo = $this->repoCustomer->getByReferralCode($code);
+            $parentDo = $this->daoCustomer->getByReferralCode($code);
             if ($parentDo) {
                 $result = $parentDo->getCustomerId();
                 $this->logger->info("Referral parent #$result is used for customer #$customerId.");
@@ -62,7 +62,7 @@ class Referral
         } else {
             /* this is anonymous customer, use parent from config */
             $anonRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
-            $parentDo = $this->repoCustomer->getByMlmId($anonRootMlmId);
+            $parentDo = $this->daoCustomer->getByMlmId($anonRootMlmId);
             if ($parentDo) {
                 $result = $parentDo->getCustomerId();
                 $this->logger->info("Anonymous root parent #$result is used for customer #$customerId.");

@@ -13,18 +13,18 @@ class AccountManagement
     /** @var \Magento\Framework\Registry */
     private $registry;
     /** @var \Magento\Customer\Api\CustomerRepositoryInterface */
-    private $repoCust;
+    private $daoCust;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $repoDwnlCust;
+    private $daoDwnlCust;
 
     public function __construct(
         \Magento\Framework\Registry $registry,
-        \Magento\Customer\Api\CustomerRepositoryInterface $repoCust,
-        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust
+        \Magento\Customer\Api\CustomerRepositoryInterface $daoCust,
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust
     ) {
         $this->registry = $registry;
-        $this->repoCust = $repoCust;
-        $this->repoDwnlCust = $repoDwnlCust;
+        $this->daoCust = $daoCust;
+        $this->daoDwnlCust = $daoDwnlCust;
     }
 
     /**
@@ -42,10 +42,10 @@ class AccountManagement
     ) {
         try {
             $mlmId = trim($username);
-            $found = $this->repoDwnlCust->getByMlmId($mlmId);
+            $found = $this->daoDwnlCust->getByMlmId($mlmId);
             if ($found) {
                 $custId = $found->getCustomerId();
-                $customer = $this->repoCust->getById($custId);
+                $customer = $this->daoCust->getById($custId);
                 if ($customer instanceof \Magento\Customer\Api\Data\CustomerInterface) {
                     $username = $customer->getEmail();
                 }

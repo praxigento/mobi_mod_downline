@@ -31,17 +31,17 @@ class Call implements ICustomer
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
-        \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
-        \Praxigento\Downline\Repo\Dao\Change $repoChange,
-        \Praxigento\Downline\Repo\Dao\Customer $repoCustomer,
+        \Praxigento\Core\App\Repo\IGeneric $daoGeneric,
+        \Praxigento\Downline\Repo\Dao\Change $daoChange,
+        \Praxigento\Downline\Repo\Dao\Customer $daoCustomer,
         Sub\Referral $subReferral
     )
     {
         $this->_logger = $logger;
         $this->_manTrans = $manTrans;
-        $this->_repoGeneric = $repoGeneric;
-        $this->_repoChange = $repoChange;
-        $this->_repoCustomer = $repoCustomer;
+        $this->_repoGeneric = $daoGeneric;
+        $this->_repoChange = $daoChange;
+        $this->_repoCustomer = $daoCustomer;
         $this->_subReferral = $subReferral;
     }
 

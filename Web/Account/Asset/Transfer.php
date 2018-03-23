@@ -17,18 +17,18 @@ class Transfer
     /** @var \Praxigento\Downline\Helper\Downline */
     private $hlpDwnl;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $repoDwnlCust;
+    private $daoDwnlCust;
     /** @var \Praxigento\Accounting\Service\Account\Asset\Transfer */
     private $servAssetTransfer;
 
     public function __construct(
         \Praxigento\Core\Api\App\Web\Authenticator\Front $auth,
-        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust,
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Accounting\Service\Account\Asset\Transfer $servAssetTransfer,
         \Praxigento\Downline\Helper\Downline $hlpDwnl
     ) {
         $this->auth = $auth;
-        $this->repoDwnlCust = $repoDwnlCust;
+        $this->daoDwnlCust = $daoDwnlCust;
         $this->servAssetTransfer = $servAssetTransfer;
         $this->hlpDwnl = $hlpDwnl;
     }
@@ -78,8 +78,8 @@ class Transfer
      */
     private function validate($custId, $partyId)
     {
-        $custData = $this->repoDwnlCust->getById($custId);
-        $partyData = $this->repoDwnlCust->getById($partyId);
+        $custData = $this->daoDwnlCust->getById($custId);
+        $partyData = $this->daoDwnlCust->getById($partyId);
         /* validate downline */
         $custPath = $custData->getPath();
         $custPathFull = $custPath . $custId . Cfg::DTPS;

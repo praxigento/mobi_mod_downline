@@ -16,10 +16,10 @@ class Customer extends BaseEntityRepo
 
     public function __construct(
         ResourceConnection $resource,
-        IRepoGeneric $repoGeneric
+        IRepoGeneric $daoGeneric
     )
     {
-        parent::__construct($resource, $repoGeneric, Entity::class);
+        parent::__construct($resource, $daoGeneric, Entity::class);
     }
 
     /**
@@ -54,7 +54,7 @@ class Customer extends BaseEntityRepo
         $cols = null;
         $qCode = $this->conn->quote($mlmId);
         $where = Entity::A_MLM_ID . '=' . $qCode;
-        $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        $items = $this->daoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&
             (count($items) == 1)
@@ -75,7 +75,7 @@ class Customer extends BaseEntityRepo
         $cols = null;
         $qCode = $this->conn->quote($code);
         $where = Entity::A_REFERRAL_CODE . '=' . $qCode;
-        $items = $this->repoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
+        $items = $this->daoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
             is_array($items) &&
             (count($items) == 1)
@@ -108,7 +108,7 @@ class Customer extends BaseEntityRepo
             Entity::A_PATH => $sqlPath
         ];
         $where = Entity::A_PATH . " LIKE $qPathMask";
-        $result = $this->repoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
+        $result = $this->daoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
         return $result;
     }
 }

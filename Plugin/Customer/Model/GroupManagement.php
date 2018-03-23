@@ -13,17 +13,17 @@ class GroupManagement
     /** @var \Praxigento\Downline\Api\Helper\Referral */
     protected $hlpReferral;
     /** @var \Magento\Customer\Api\GroupRepositoryInterface */
-    protected $repoCustGroup;
+    protected $daoCustGroup;
 
     public function __construct(
         \Praxigento\Downline\Helper\Config $hlpConfig,
         \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
-        \Magento\Customer\Api\GroupRepositoryInterface $repoCustGroup
+        \Magento\Customer\Api\GroupRepositoryInterface $daoCustGroup
     )
     {
         $this->hlpConfig = $hlpConfig;
         $this->hlpReferral = $hlpReferral;
-        $this->repoCustGroup = $repoCustGroup;
+        $this->daoCustGroup = $daoCustGroup;
     }
 
     /**
@@ -46,7 +46,7 @@ class GroupManagement
         if ($code) {
             /* and return referral group if code exists */
             $groupId = $this->hlpConfig->getReferralsGroupReferrals();
-            $result = $this->repoCustGroup->getById($groupId);
+            $result = $this->daoCustGroup->getById($groupId);
         }
         return $result;
     }

@@ -22,13 +22,13 @@ class Search
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbGetCustomer;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $repoDwnlCust;
+    private $daoDwnlCust;
 
     public function __construct(
-        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust,
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Downline\Repo\Query\Customer\Get $qbGetCustomer
     ) {
-        $this->repoDwnlCust = $repoDwnlCust;
+        $this->daoDwnlCust = $daoDwnlCust;
         $this->qbGetCustomer = $qbGetCustomer;
     }
 
@@ -100,7 +100,7 @@ class Search
      */
     private function getRootAttrs($custId)
     {
-        $entity = $this->repoDwnlCust->getById($custId);
+        $entity = $this->daoDwnlCust->getById($custId);
         $country = $entity->getCountryCode();
         $path = $entity->getPath();
         return [$country, $path];

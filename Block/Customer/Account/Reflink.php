@@ -19,7 +19,7 @@ class Reflink
     /** @var \Magento\Store\Model\StoreManagerInterface */
     private $manStore;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $repoDwnlCust;
+    private $daoDwnlCust;
     /** @var \Magento\Customer\Model\Session */
     private $session;
 
@@ -27,13 +27,13 @@ class Reflink
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Store\Model\StoreManagerInterface $manStore,
-        \Praxigento\Downline\Repo\Dao\Customer $repoDwnlCust,
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->session = $session;
         $this->manStore = $manStore;
-        $this->repoDwnlCust = $repoDwnlCust;
+        $this->daoDwnlCust = $daoDwnlCust;
     }
 
     /**
@@ -45,7 +45,7 @@ class Reflink
     {
         if (is_null($this->cacheDwnlCust)) {
             $custId = $this->session->getCustomerId();
-            $this->cacheDwnlCust = $this->repoDwnlCust->getById($custId);
+            $this->cacheDwnlCust = $this->daoDwnlCust->getById($custId);
         }
         return $this->cacheDwnlCust;
     }
@@ -63,7 +63,7 @@ class Reflink
     {
         $cust = $this->getDwnlCustomer();
         $parentId = $cust->getParentId();
-        $parent = $this->repoDwnlCust->getById($parentId);
+        $parent = $this->daoDwnlCust->getById($parentId);
         $result = $parent->getMlmId();
         return $result;
     }

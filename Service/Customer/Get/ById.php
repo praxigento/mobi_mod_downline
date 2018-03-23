@@ -18,14 +18,14 @@ class ById
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qbCustGet;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $repoCust;
+    private $daoCust;
 
     public function __construct(
-        \Praxigento\Downline\Repo\Dao\Customer $repoCust,
+        \Praxigento\Downline\Repo\Dao\Customer $daoCust,
         \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet,
         \Praxigento\Downline\Helper\Downline $hlpDwnl
     ) {
-        $this->repoCust = $repoCust;
+        $this->daoCust = $daoCust;
         $this->qbCustGet = $qbCustGet;
     }
 

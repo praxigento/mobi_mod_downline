@@ -25,10 +25,10 @@ class Snap extends BaseEntityRepo
 
     public function __construct(
         ResourceConnection $resource,
-        IRepoGeneric $repoGeneric,
+        IRepoGeneric $daoGeneric,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qbuildSnapOnDate
     ) {
-        parent::__construct($resource, $repoGeneric, Entity::class);
+        parent::__construct($resource, $daoGeneric, Entity::class);
         $this->qbuildSnapOnDate = $qbuildSnapOnDate;
     }
 

@@ -20,18 +20,18 @@ class ById
     /** @var \Praxigento\Downline\Helper\Downline */
     private $hlpDwnl;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $repoCust;
+    private $daoCust;
     /** @var \Praxigento\Downline\Api\Service\Customer\Get\ById */
     private $servCustGet;
 
     public function __construct(
         \Praxigento\Core\Api\App\Web\Authenticator\Front $authenticator,
-        \Praxigento\Downline\Repo\Dao\Customer $repoCust,
+        \Praxigento\Downline\Repo\Dao\Customer $daoCust,
         \Praxigento\Downline\Helper\Downline $hlpDwnl,
         \Praxigento\Downline\Api\Service\Customer\Get\ById $servCustGet
     ) {
         $this->authenticator = $authenticator;
-        $this->repoCust = $repoCust;
+        $this->daoCust = $daoCust;
         $this->hlpDwnl = $hlpDwnl;
         $this->servCustGet = $servCustGet;
     }
@@ -67,7 +67,7 @@ class ById
 
         /* post-authorization: customer can access his own data or his own downline customer */
         $foundCustId = $resp->getId();
-        $foundCustData = $this->repoCust->getById($foundCustId);
+        $foundCustData = $this->daoCust->getById($foundCustId);
         $path = $foundCustData->getPath();
         $parents = $this->hlpDwnl->getParentsFromPath($path);
         if (
