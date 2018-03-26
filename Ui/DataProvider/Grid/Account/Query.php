@@ -20,7 +20,7 @@ class Query
     /**#@- */
 
     /**#@+ Columns/expressions aliases for external usage */
-    const A_MLMID = 'mlmId';
+    const A_MLM_ID = 'mlmId';
 
     /**#@- */
 
@@ -31,7 +31,7 @@ class Query
             /* init parent mapper */
             $this->mapper = parent::getMapper();
             /* then add own aliases */
-            $key = self::A_MLMID;
+            $key = self::A_MLM_ID;
             $value = self::AS_DWNL . '.' . EDownline::A_MLM_ID;
             $this->mapper->add($key, $value);
         }
@@ -60,11 +60,11 @@ class Query
         $asDwnl = self::AS_DWNL;
         $asAcc = self::AS_ACCOUNT;
 
-        /* LEFT JOIN prxgt_acc_type_asset */
+        /* LEFT JOIN prxgt_dwnl_customer */
         $tbl = $this->resource->getTableName(EDownline::ENTITY_NAME);
         $as = $asDwnl;
         $cols = [
-            self::A_MLMID => EDownline::A_MLM_ID
+            self::A_MLM_ID => EDownline::A_MLM_ID
         ];
         $cond = $as . '.' . EDownline::A_CUSTOMER_ID . '=' . $asAcc . '.' . EAccount::A_CUST_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
