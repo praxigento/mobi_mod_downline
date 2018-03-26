@@ -11,8 +11,8 @@ namespace Praxigento\Downline\Ui\DataProvider\Grid\Account;
 use Praxigento\Accounting\Repo\Data\Account as EAccount;
 use Praxigento\Downline\Repo\Data\Customer as EDownline;
 
-class QueryBuilder
-    extends \Praxigento\Accounting\Ui\DataProvider\Grid\Account\QueryBuilder
+class Query
+    extends \Praxigento\Accounting\Ui\DataProvider\Grid\Account\Query
 {
 
     /**#@+ Tables aliases for external usage ('camelCase' naming) */
@@ -41,18 +41,15 @@ class QueryBuilder
 
     /**
      * SELECT
-     * `paa`.`id`,
-     * `paa`.`balance`,
-     * `prxgt_acc_type_asset`.`code` AS `asset`,
-     * (CONCAT(firstname, ' ', lastname)) AS `custName`,
-     * `ce`.`email` AS `custEmail`
-     * FROM `prxgt_acc_account` AS `paa`
-     * LEFT JOIN `prxgt_acc_type_asset`
-     * ON pata.id = paa.asset_type_id
-     * LEFT JOIN `customer_entity` AS `ce`
-     * ON ce.entity_id = paa.customer_id
-     *
-     * @inheritdoc
+     * ...
+     * FROM
+     * `prxgt_acc_account` AS `paa`
+     * LEFT JOIN `prxgt_acc_type_asset` AS `pata` ON
+     * pata.id = paa.asset_type_id
+     * LEFT JOIN `customer_entity` AS `ce` ON
+     * ce.entity_id = paa.customer_id
+     * LEFT JOIN `prxgt_dwnl_customer` AS `dwnl` ON
+     * dwnl.customer_ref = paa.customer_id
      */
     protected function getQueryItems()
     {
