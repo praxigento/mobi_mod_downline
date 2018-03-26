@@ -1,8 +1,8 @@
 {
-  "name": "praxigento/mobi_mod_mage2_downline",
+  "name": "praxigento/mobi_mod_downline",
   "description": "MOBI: Praxigento_Downline module.",
   "type": "magento2-module",
-  "homepage": "https://github.com/praxigento/mobi_mod_mage2_downline",
+  "homepage": "https://github.com/praxigento/mobi_mod_downline",
   "license": "MIT",
   "authors": [
     {
@@ -19,6 +19,6 @@
     }
   },
   "require": {
-    "praxigento/mobi_mod_mage2_accounting": "dev-master"
+    "praxigento/mobi_mod_accounting": "dev-master"
   }
 }
