@@ -7,11 +7,11 @@ namespace Praxigento\Downline\Plugin\Customer\Model;
 class Customer
 {
     /** @var \Praxigento\Downline\Helper\Config */
-    protected $hlpConfig;
+    private $hlpConfig;
     /** @var \Praxigento\Downline\Api\Helper\Referral */
-    protected $hlpReferral;
+    private $hlpReferral;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
-    protected $logger;
+    private $logger;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
@@ -30,7 +30,7 @@ class Customer
         $origGroupId = $subject->hasData('group_id');
         if (
             is_null($origGroupId) ||
-            $origGroupId == 0
+            $origGroupId == \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
         ) {
             /* check referral code in registry */
             $code = $this->hlpReferral->getReferralCode();

@@ -8,6 +8,7 @@ namespace Praxigento\Downline\Helper;
  * Helper to get configuration parameters related to the module.
  */
 class Config
+    implements \Praxigento\Downline\Api\Helper\Config
 {
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
@@ -19,11 +20,6 @@ class Config
         $this->scopeConfig = $scopeConfig;
     }
 
-    /**
-     * Group ID for referral customers.
-     * @return int
-     *
-     */
     public function getReferralsGroupReferrals()
     {
         $result = $this->scopeConfig->getValue('praxigento_downline/referrals/group_referrals');
@@ -31,11 +27,6 @@ class Config
         return $result;
     }
 
-    /**
-     * ID for signup group of the referral customers.
-     * @return int
-     *
-     */
     public function getReferralsGroupReferralsRegistered()
     {
         $result = $this->scopeConfig->getValue('praxigento_downline/referrals/group_referrals_registered');
@@ -43,10 +34,6 @@ class Config
         return $result;
     }
 
-    /**
-     * MLM ID for root customer to be parent for all anonymous.
-     * @return string|false return 'false' if option is not set.
-     */
     public function getReferralsRootAnonymous()
     {
         $result = $this->scopeConfig->getValue('praxigento_downline/referrals/root_anonymous');

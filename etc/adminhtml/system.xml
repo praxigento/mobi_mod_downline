@@ -14,7 +14,7 @@
                 <field id="root_anonymous" translate="label comment tooltip" type="text"
                         sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Root for Anonymous</label>
-                    <comment>ID of the root customer for anonymous customers.</comment>
+                    <comment>MLM ID of the root customer for anonymous customers.</comment>
                     <tooltip>All anonymous will be root nodes in the customer tree if this option is empty.</tooltip>
                 </field>
                 <field id="group_referrals" translate="label comment tooltip" type="select"
