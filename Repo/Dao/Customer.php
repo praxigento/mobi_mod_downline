@@ -8,8 +8,8 @@ namespace Praxigento\Downline\Repo\Dao;
 use Magento\Framework\App\ResourceConnection;
 use Praxigento\Core\App\Repo\Def\Entity as BaseEntityRepo;
 use Praxigento\Core\App\Repo\IGeneric as IRepoGeneric;
+use Praxigento\Core\App\Repo\Query\Expression as AnExpression;
 use Praxigento\Downline\Repo\Data\Customer as Entity;
-use Praxigento\Downline\Repo\Dao\Delta;
 
 class Customer extends BaseEntityRepo
 {
@@ -104,8 +104,8 @@ class Customer extends BaseEntityRepo
             Entity::A_DEPTH . '-' . abs($depthDelta);
         $sqlPath = 'REPLACE(' . Entity::A_PATH . ", $qPath, $qReplace)";
         $bind = [
-            Entity::A_DEPTH => $sqlDepth,
-            Entity::A_PATH => $sqlPath
+            Entity::A_DEPTH => new AnExpression($sqlDepth),
+            Entity::A_PATH => new AnExpression($sqlPath)
         ];
         $where = Entity::A_PATH . " LIKE $qPathMask";
         $result = $this->daoGeneric->updateEntity(Entity::ENTITY_NAME, $bind, $where);
