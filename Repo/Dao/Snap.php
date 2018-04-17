@@ -163,7 +163,10 @@ class Snap extends BaseEntityRepo
     public function saveCalculatedUpdates($updates)
     {
         foreach ($updates as $date => $updatesByDate) {
+            /** @var Entity $data */
             foreach ($updatesByDate as $data) {
+                /* some entries are without dates */
+                $data->setDate($date);
                 $this->replace($data);
             }
         }
