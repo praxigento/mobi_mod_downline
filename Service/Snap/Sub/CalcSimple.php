@@ -75,14 +75,15 @@ class CalcSimple
                     $mapByPath[$currPath] = [];
                 }
                 $teamCurr = &$mapByPath[$currPath]; // use & to work with nested array directly (not with copy of)
-                /* we should remove changed customer from parent's team */
+                /* we should remove changed customer from old parent's team */
                 if (
                     is_array($teamCurr)
                     && (($keyToUnset = array_search($customerId, $teamCurr)) !== false)
                 ) {
                     unset($teamCurr[$keyToUnset]);
                 }
-
+                /* ... and add changed customer to new parent team */
+                $mapByPath[$pathUpdated][] = $customerId;
                 /* update downline of the changed customer (on full depth) */
                 foreach ($mapByPath as $path => $team) {
                     /* for all teams where path is started from old path */
@@ -121,37 +122,6 @@ class CalcSimple
         return $result;
     }
 
-    /**
-     * @param EChange[] $changes
-     * @return array
-     */
-    private function indexChanges($changes)
-    {
-        $result = []; // [$date][$custId]=>$parentId
-        $timeReg = []; // registry for the last change on the date
-        foreach ($changes as $one) {
-            $tsChanged = $one->getDateChanged();
-            $dsChanged = $this->hlpPeriod->getPeriodCurrent($tsChanged);
-            $custId = $one->getCustomerId();
-            $parentId = $one->getParentId();
-            if (!isset($result[$dsChanged][$custId])) {
-                $result[$dsChanged][$custId] = $parentId;
-                /* save change time in registry to prevent overwrites om duplication */
-                $timeReg[$dsChanged][$custId] = $tsChanged;
-            } else {
-                $registered = $timeReg[$dsChanged][$custId];
-                if ($registered < $tsChanged) {
-                    /* replace currently registered change by more modern data */
-                    $result[$dsChanged][$custId] = $parentId;
-                    /* rewrite change time in registry */
-                    $timeReg[$dsChanged][$custId] = $tsChanged;
-                } else {
-                    /* do nothing if new value is older then already registered change */
-                }
-            }
-        }
-        return $result;
-    }
     /**
      * Compose snapshot item.
      *
