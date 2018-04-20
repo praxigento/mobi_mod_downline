@@ -98,7 +98,7 @@ class Change
             'date_to' => $timestampTo
         ];
         /**
-         * Order by date changed, than by customer id (in tests date changed could be the same for all customers).
+         * Order by date changed, than by customer id.
          * Order is important for tree snapshot calculation (MOBI-202)
          */
         $query->order([

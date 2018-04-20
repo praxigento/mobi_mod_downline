@@ -8,6 +8,7 @@ namespace Praxigento\Downline\Service\Snap\Sub;
 
 
 use Praxigento\Downline\Config as Cfg;
+use Praxigento\Downline\Repo\Data\Change as EChange;
 use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 class CalcSimple
@@ -32,22 +33,23 @@ class CalcSimple
     /**
      * Calculate downline snapshots by date basing on the last snapshot and change log.
      *
-     * We use $currentState array to trace actual state during the changes. Target updates are placed in the $result.
+     * We use $snap array to trace actual state during the changes. Target updates are placed in the $result.
      *
      * @param \Praxigento\Downline\Repo\Data\Snap[] $snap current snapshot (customer, parent, depth, path),
      *  see \Praxigento\Downline\Repo\Dao\Snap::getStateOnDate
-     * @param \Praxigento\Downline\Repo\Data\Change[] $changes
+     * @param \Praxigento\Downline\Repo\Data\Change[] $changes must be ordered by date_changed in asc
      *
      * @return array
      */
     public function calcSnapshots($snap, $changes)
     {
         $result = [];
+        /* We need to process changes one by one (changes are ordered by date) */
         /* to update downline paths/depths for changed customers */
         $mapByPath = $this->mapByPath($snap);
         foreach ($changes as $one) {
             $customerId = $one->getCustomerId();
-            $parentId = $one->getParentId();
+            $newParentId = $one->getParentId();
             $tsChanged = $one->getDateChanged();
             $dsChanged = $this->hlpPeriod->getPeriodCurrent($tsChanged);
             /* $currentState contains actual state that is updated with changes */
@@ -59,7 +61,8 @@ class CalcSimple
                 $currDepth = $currCustomer->getDepth();
                 $currPath = $currCustomer->getPath();
                 /* ... and compose new updated snap item */
-                $customer = $this->composeSnapItem($customerId, $parentId, $dsChanged, $snap);
+                $customer = $this->composeSnapItem($customerId, $newParentId, $dsChanged, $snap);
+                $snap[$customerId] = $customer;
 
                 /* we need to update downline's depths & paths for changed customer */
                 $key = $currPath . $customerId . Cfg::DTPS;
@@ -67,11 +70,12 @@ class CalcSimple
                 $pathUpdated = $customer->getPath();
                 $pathReplace = $pathUpdated . $customerId . Cfg::DTPS;
 
-                /* update path teams for current customer */
+                /* update path teams for changed customer */
                 if(!isset($mapByPath[$currPath])) {
                     $mapByPath[$currPath] = [];
                 }
                 $teamCurr = &$mapByPath[$currPath]; // use & to work with nested array directly (not with copy of)
+                /* we should remove changed customer from parent's team */
                 if (
                     is_array($teamCurr)
                     && (($keyToUnset = array_search($customerId, $teamCurr)) !== false)
@@ -79,10 +83,12 @@ class CalcSimple
                     unset($teamCurr[$keyToUnset]);
                 }
 
-                /* update downline of the current customer */
+                /* update downline of the changed customer (on full depth) */
                 foreach ($mapByPath as $path => $team) {
-                    if (false !== strrpos($path, $key, -strlen($path))) {
-                        /* this is downlilne path , we need to change depth & path for all customers inside */
+                    /* for all teams where path is started from old path */
+                    $startsWith = (strpos($path, $key) === 0);
+                    if ($startsWith) {
+                        /* this is downlilne path for changed customer, we need to change depth & path for all customers inside */
                         foreach ($team as $memberId) {
                             /* get member one by one */
                             $member = $snap[$memberId];
@@ -97,6 +103,8 @@ class CalcSimple
                             $result[$dsChanged][$memberId] = $member;
                             /* register new team member */
                             $mapByPath[$newPath][] = $memberId;
+                            /* update actual snap */
+                            $snap[$memberId] = $member;
                         }
                         /* unset team for the current path from the map */
                         unset($mapByPath[$path]);
@@ -104,14 +112,46 @@ class CalcSimple
                 }
             } else {
                 /* there is no data for this customer, this is new customer; just add new customer to results */
-                $customer = $this->composeSnapItem($customerId, $parentId, $dsChanged, $snap);
+                $customer = $this->composeSnapItem($customerId, $newParentId, $dsChanged, $snap);
+                /* update actual snap */
+                $snap[$customerId] = $customer;
             }
-            $snap[$customerId] = $customer;
             $result[$dsChanged][$customerId] = $customer;
         }
         return $result;
     }
 
+    /**
+     * @param EChange[] $changes
+     * @return array
+     */
+    private function indexChanges($changes)
+    {
+        $result = []; // [$date][$custId]=>$parentId
+        $timeReg = []; // registry for the last change on the date
+        foreach ($changes as $one) {
+            $tsChanged = $one->getDateChanged();
+            $dsChanged = $this->hlpPeriod->getPeriodCurrent($tsChanged);
+            $custId = $one->getCustomerId();
+            $parentId = $one->getParentId();
+            if (!isset($result[$dsChanged][$custId])) {
+                $result[$dsChanged][$custId] = $parentId;
+                /* save change time in registry to prevent overwrites om duplication */
+                $timeReg[$dsChanged][$custId] = $tsChanged;
+            } else {
+                $registered = $timeReg[$dsChanged][$custId];
+                if ($registered < $tsChanged) {
+                    /* replace currently registered change by more modern data */
+                    $result[$dsChanged][$custId] = $parentId;
+                    /* rewrite change time in registry */
+                    $timeReg[$dsChanged][$custId] = $tsChanged;
+                } else {
+                    /* do nothing if new value is older then already registered change */
+                }
+            }
+        }
+        return $result;
+    }
     /**
      * Compose snapshot item.
      *
