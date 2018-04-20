@@ -6,6 +6,7 @@
 namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
+use Praxigento\Downline\Repo\Data\Customer as ECust;
 use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 /**
@@ -17,35 +18,31 @@ class Call
     extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\Downline\Service\ISnap
 {
-    /** @var  \Praxigento\Core\Api\Helper\Period */
-    protected $hlpPeriod;
-    /**
-     * @var \Praxigento\Core\Api\App\Repo\Transaction\Manager
-     * @deprecated this is internal service, MySQL has no nested transactions, its should be present on the
-     * outer level only (WebAPI, controllers, etc.).
-     */
-    protected $manTrans;
     /** @var \Praxigento\Downline\Repo\Dao\Change */
-    protected $daoChange;
+    private $daoChange;
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
+    private $daoCust;
     /** @var \Praxigento\Downline\Repo\Dao\Snap */
-    protected $daoSnap;
+    private $daoSnap;
+    /** @var  \Praxigento\Core\Api\Helper\Period */
+    private $hlpPeriod;
     /** @var \Praxigento\Downline\Service\Snap\Sub\CalcSimple */
-    protected $subCalc;
+    private $subCalc;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
-        \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Downline\Repo\Dao\Change $daoChange,
+        \Praxigento\Downline\Repo\Dao\Customer $daoCust,
         \Praxigento\Downline\Repo\Dao\Snap $daoSnap,
         \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
     )
     {
         parent::__construct($logger, $manObj);
-        $this->manTrans = $manTrans;
         $this->hlpPeriod = $hlpPeriod;
         $this->daoChange = $daoChange;
+        $this->daoCust = $daoCust;
         $this->daoSnap = $daoSnap;
         $this->subCalc = $subCalc;
     }
@@ -120,6 +117,9 @@ class Call
         $updates = $this->subCalc->calcSnapshots($snapshot, $changelog);
         /* save new snapshots in DB */
         $this->daoSnap->saveCalculatedUpdates($updates);
+        /* update actual state of the downline */
+        $this->updateDownline($updates);
+        /* finalize processing */
         $result->markSucceed();
         return $result;
     }
@@ -262,5 +262,30 @@ class Call
         $result->markSucceed();
         $this->logger->info("'Get Downline Tree state' operation is completed.");
         return $result;
+    }
+
+    private function updateDownline($updates)
+    {
+        /* compress all updates by customer */
+        $downline = [];
+        foreach ($updates as $date => $updatesByDate) {
+            /** @var ESnap $one */
+            foreach ($updatesByDate as $one) {
+                $custId = $one->getCustomerId();
+                $parentId = $one->getParentId();
+                $depth = $one->getDepth();
+                $path = $one->getPath();
+                $entry = new ECust();
+                $entry->setCustomerId($custId);
+                $entry->setParentId($parentId);
+                $entry->setDepth($depth);
+                $entry->setPath($path);
+                $downline[$custId] = $entry;
+            }
+        }
+        /* update DB data */
+        foreach ($downline as $custId => $item) {
+            $this->daoCust->updateById($custId, $item);
+        }
     }
 }
