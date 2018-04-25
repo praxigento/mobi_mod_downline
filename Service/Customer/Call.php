@@ -23,7 +23,7 @@ class Call implements ICustomer
     protected $_repoChange;
     /** @var  \Praxigento\Downline\Repo\Dao\Customer */
     protected $_repoCustomer;
-    /** @var \Praxigento\Core\App\Repo\IGeneric */
+    /** @var \Praxigento\Core\Api\App\Repo\Generic */
     protected $_repoGeneric;
     /** @var  Sub\Referral */
     protected $_subReferral;
@@ -31,7 +31,7 @@ class Call implements ICustomer
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
-        \Praxigento\Core\App\Repo\IGeneric $daoGeneric,
+        \Praxigento\Core\Api\App\Repo\Generic $daoGeneric,
         \Praxigento\Downline\Repo\Dao\Change $daoChange,
         \Praxigento\Downline\Repo\Dao\Customer $daoCustomer,
         Sub\Referral $subReferral

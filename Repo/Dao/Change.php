@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Repo\Dao;
 use Praxigento\Downline\Repo\Data\Change as EChange;
 
 class Change
-    extends \Praxigento\Core\App\Repo\Def\Entity
+    extends \Praxigento\Core\App\Repo\Dao
 {
     /** see MOBI-1076 */
     const DATE_MIN = '1900-01-01 00:00:00';
@@ -16,7 +16,7 @@ class Change
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\App\Repo\IGeneric $daoGeneric
+        \Praxigento\Core\Api\App\Repo\Generic $daoGeneric
     ) {
         parent::__construct($resource, $daoGeneric, EChange::class);
     }

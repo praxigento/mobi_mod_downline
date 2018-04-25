@@ -6,8 +6,8 @@
 namespace Praxigento\Downline\Repo\Dao;
 
 use Magento\Framework\App\ResourceConnection;
-use Praxigento\Core\App\Repo\Def\Entity as BaseEntityRepo;
-use Praxigento\Core\App\Repo\IGeneric as IRepoGeneric;
+use Praxigento\Core\App\Repo\Dao as BaseEntityRepo;
+use Praxigento\Core\Api\App\Repo\Generic as IRepoGeneric;
 use Praxigento\Downline\Repo\Data\Customer as ECustomer;
 use Praxigento\Downline\Repo\Data\Snap as Entity;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBldSnap;
