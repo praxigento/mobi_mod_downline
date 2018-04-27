@@ -112,6 +112,13 @@
                 sortOrder="100" disabled="false"/>
     </type>
 
+    <type name="Magento\Framework\Mail\Template\TransportBuilder">
+        <!-- Add downline related attributes to customer data (registration emails) -->
+        <plugin name="praxigento_downline"
+                type="Praxigento\Downline\Plugin\Framework\Mail\Template\TransportBuilder"
+                sortOrder="100" disabled="false"/>
+    </type>
+
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <!-- Add custom columns to the customer grid -->
         <plugin name="praxigento_downline"
