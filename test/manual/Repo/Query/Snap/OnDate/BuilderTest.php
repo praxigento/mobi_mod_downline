@@ -2,11 +2,11 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp;
+namespace Praxigento\Downline\Repo\Query\Snap\OnDate;
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
 
-class Builder_ManualTest
+class BuilderTest
     extends \Praxigento\Core\Test\BaseCase\Mockery
 {
 

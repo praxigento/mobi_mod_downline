@@ -7,7 +7,7 @@ namespace Praxigento\Downline\Repo\Query\Snap\OnDate\ForDcp;
 
 include_once(__DIR__ . '/../../../../../phpunit_bootstrap.php');
 
-class Builder_ManualTest
+class BuilderTest
     extends \Praxigento\Core\Test\BaseCase\Mockery
 {
 
