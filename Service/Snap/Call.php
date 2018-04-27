@@ -15,7 +15,6 @@ use Praxigento\Downline\Repo\Data\Snap as ESnap;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Call
-    extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\Downline\Service\ISnap
 {
     /** @var \Praxigento\Downline\Repo\Dao\Change */
@@ -26,12 +25,13 @@ class Call
     private $daoSnap;
     /** @var  \Praxigento\Core\Api\Helper\Period */
     private $hlpPeriod;
+    /** @var \Praxigento\Core\Api\App\Logger\Main */
+    private $logger;
     /** @var \Praxigento\Downline\Service\Snap\Sub\CalcSimple */
     private $subCalc;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Downline\Repo\Dao\Change $daoChange,
         \Praxigento\Downline\Repo\Dao\Customer $daoCust,
@@ -39,7 +39,7 @@ class Call
         \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
     )
     {
-        parent::__construct($logger, $manObj);
+        $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
         $this->daoChange = $daoChange;
         $this->daoCust = $daoCust;

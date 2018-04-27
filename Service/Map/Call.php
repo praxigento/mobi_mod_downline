@@ -4,11 +4,10 @@
  */
 namespace Praxigento\Downline\Service\Map;
 
-use Praxigento\Core\App\Service\Base\Call as BaseCall;
-use Praxigento\Downline\Service\IMap;
 use Praxigento\Downline\Service\Map;
 
-class Call extends BaseCall implements IMap
+class Call
+    implements \Praxigento\Downline\Service\IMap
 {
 
     public function byId(Map\Request\ById $req)
