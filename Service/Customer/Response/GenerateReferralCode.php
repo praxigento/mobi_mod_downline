@@ -8,7 +8,7 @@ namespace Praxigento\Downline\Service\Customer\Response;
  * @method string getReferralCode()
  * @method void setReferralCode(string $data)
  */
-class GenerateReferralCode extends \Praxigento\Core\App\Service\Base\Response
+class GenerateReferralCode extends \Praxigento\Core\App\Service\Response
 {
 
 }

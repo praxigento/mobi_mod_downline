@@ -5,5 +5,5 @@
 namespace Praxigento\Downline\Service\Snap\Request;
 
 
-class GetLastDate extends \Praxigento\Core\App\Service\Base\Request{
+class GetLastDate extends \Praxigento\Core\App\Service\Request{
 }

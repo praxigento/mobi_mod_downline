@@ -11,6 +11,6 @@ namespace Praxigento\Downline\Service\Customer\Request;
  * @method int getMlmId()
  * @method void setMlmId(string $data)
  */
-class GenerateReferralCode extends \Praxigento\Core\App\Service\Base\Request
+class GenerateReferralCode extends \Praxigento\Core\App\Service\Request
 {
 }

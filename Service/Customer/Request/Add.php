@@ -19,5 +19,5 @@ namespace Praxigento\Downline\Service\Customer\Request;
  * @method string getReferralCode() unique code to compose referral link.
  * @method void  setReferralCode(string $data)
  */
-class Add extends \Praxigento\Core\App\Service\Base\Request {
+class Add extends \Praxigento\Core\App\Service\Request {
 }

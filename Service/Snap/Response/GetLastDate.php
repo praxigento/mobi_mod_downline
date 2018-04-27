@@ -5,7 +5,7 @@
 namespace Praxigento\Downline\Service\Snap\Response;
 
 
-class GetLastDate extends \Praxigento\Core\App\Service\Base\Response
+class GetLastDate extends \Praxigento\Core\App\Service\Response
 {
     const LAST_DATE = 'last_date';
 

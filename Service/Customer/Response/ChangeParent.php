@@ -5,6 +5,6 @@
 namespace Praxigento\Downline\Service\Customer\Response;
 
 
-class ChangeParent extends \Praxigento\Core\App\Service\Base\Response {
+class ChangeParent extends \Praxigento\Core\App\Service\Response {
 
 }

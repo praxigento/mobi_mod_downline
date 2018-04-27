@@ -5,6 +5,6 @@
 namespace Praxigento\Downline\Service\Customer\Response;
 
 
-class Add extends \Praxigento\Core\App\Service\Base\Response {
+class Add extends \Praxigento\Core\App\Service\Response {
 
 }

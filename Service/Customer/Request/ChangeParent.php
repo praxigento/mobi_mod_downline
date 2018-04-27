@@ -13,6 +13,6 @@ namespace Praxigento\Downline\Service\Customer\Request;
  * @method int getNewParentId($data)
  * @method void setNewParentId(int $data)
  */
-class ChangeParent extends \Praxigento\Core\App\Service\Base\Request
+class ChangeParent extends \Praxigento\Core\App\Service\Request
 {
 }
