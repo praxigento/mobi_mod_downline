@@ -28,7 +28,8 @@ class TransportBuilder
             if ($cust instanceof \Magento\Customer\Model\Data\CustomerSecure) {
                 $custId = $cust->getId();
                 $dwnl = $this->daoDwnlCust->getById($custId);
-                $templateVars['mobi_downline'] = $dwnl->get();
+                $data = new \Magento\Framework\DataObject($dwnl->get());
+                $templateVars['mobi_downline'] = $data;
             }
         }
         return [$templateVars];

@@ -13,6 +13,7 @@ class TransportBuilderTest
 
     public function test_beforeSetTemplateVars()
     {
+        $this->setAreaCode();
         /** @var \Magento\Customer\Model\EmailNotification $notification */
         $notification = $this->manObj->get(\Magento\Customer\Model\EmailNotification::class);
         /** @var \Magento\Customer\Api\CustomerRepositoryInterface $repo */
