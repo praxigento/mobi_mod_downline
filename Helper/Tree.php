@@ -9,6 +9,7 @@ namespace Praxigento\Downline\Helper;
  * Integrate functionality to handle tree data.
  */
 class Tree
+    implements \Praxigento\Downline\Api\Helper\Tree
 {
     /**
      * Convert array of array or data objects ([ 0 => [ 'id' => 321, ... ], ...])
