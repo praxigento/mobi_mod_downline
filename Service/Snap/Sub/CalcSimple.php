@@ -15,7 +15,7 @@ class CalcSimple
 {
     /** @var \Praxigento\Core\Api\Helper\Period */
     private $hlpPeriod;
-    /** @var \Praxigento\Downline\Helper\Tree */
+    /** @var \Praxigento\Downline\Api\Helper\Tree */
     private $hlpTree;
 
     /**
@@ -23,7 +23,7 @@ class CalcSimple
      */
     public function __construct(
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\Downline\Helper\Tree $hlpTree
+        \Praxigento\Downline\Api\Helper\Tree $hlpTree
     )
     {
         $this->hlpPeriod = $hlpPeriod;
