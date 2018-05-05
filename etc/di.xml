@@ -66,8 +66,6 @@
     <!-- ******** -->
     <!-- Services -->
     <!-- ******** -->
-    <preference for="Praxigento\Downline\Service\ICustomer"
-                type="Praxigento\Downline\Service\Customer\Call"/>
     <preference for="Praxigento\Downline\Service\IMap"
                 type="Praxigento\Downline\Service\Map\Call"/>
     <preference for="Praxigento\Downline\Service\ISnap"

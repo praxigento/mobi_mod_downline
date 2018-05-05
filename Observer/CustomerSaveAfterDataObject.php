@@ -14,8 +14,7 @@ class CustomerSaveAfterDataObject
     const A_CUST_COUNTRY = 'prxgtCustCountry';
     const A_CUST_MLM_ID = 'prxgtCustMlmId';
     const A_PARENT_MAGE_ID = 'prxgtParentMageId';
-    /** @var \Praxigento\Downline\Service\ICustomer */
-    private $callCustomer;
+
     /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
     private $hlpCodeGen;
     /** @var bool flag for disabled functionality */
@@ -28,14 +27,12 @@ class CustomerSaveAfterDataObject
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
-        \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd,
-        \Praxigento\Downline\Service\ICustomer $callCustomer
+        \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd
     )
     {
         $this->registry = $registry;
         $this->hlpCodeGen = $hlpCodeGen;
         $this->servDwnlAdd = $servDwnlAdd;
-        $this->callCustomer = $callCustomer;
     }
 
     /**
