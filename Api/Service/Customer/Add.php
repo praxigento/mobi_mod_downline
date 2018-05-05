@@ -9,7 +9,7 @@ use Praxigento\Downline\Api\Service\Customer\Add\Request as ARequest;
 use Praxigento\Downline\Api\Service\Customer\Add\Response as AResponse;
 
 /**
- * Add customer to downline.
+ * Add customer to downline and new entry to change log.
  */
 interface Add
 {

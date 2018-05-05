@@ -13,17 +13,6 @@ use Praxigento\Downline\Service\Customer\Response;
 interface ICustomer
 {
     /**
-     * Add new customer to downline and new entry to change log.
-     *
-     * @param Request\Add $request
-     *
-     * @return Response\Add
-     *
-     * @deprecated use \Praxigento\Downline\Api\Service\Customer\Add
-     */
-    public function add(Request\Add $request);
-
-    /**
      * @param Request\ChangeParent $request
      *
      * @return Response\ChangeParent

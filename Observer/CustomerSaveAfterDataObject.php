@@ -22,15 +22,19 @@ class CustomerSaveAfterDataObject
     private static $isDisabled = false;
     /** @var \Magento\Framework\Registry  */
     private $registry;
+    /** @var \Praxigento\Downline\Api\Service\Customer\Add */
+    private $servDwnlAdd;
 
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
+        \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd,
         \Praxigento\Downline\Service\ICustomer $callCustomer
     )
     {
         $this->registry = $registry;
         $this->hlpCodeGen = $hlpCodeGen;
+        $this->servDwnlAdd = $servDwnlAdd;
         $this->callCustomer = $callCustomer;
     }
 
@@ -56,21 +60,19 @@ class CustomerSaveAfterDataObject
                 /* this is newly saved customer, register it into downline */
                 /* get MLM ID for replicated client (if exists) */
                 $mlmId = $this->registry->registry(self::A_CUST_MLM_ID);
-                $countryCode = $this->registry->registry(self::A_CUST_COUNTRY);
-                $parentId = $this->registry->registry(self::A_PARENT_MAGE_ID);
-                $req = new \Praxigento\Downline\Service\Customer\Request\Add();
-                $req->setCustomerId($idAfter);
-                $req->setParentId($parentId);
-                $req->setCountryCode($countryCode);
-                if ($mlmId) {
-                    $req->setMlmId($mlmId);
-                } else {
+                if (!$mlmId) {
                     $mlmId = $this->hlpCodeGen->generateMlmId($afterSave);
-                    $req->setMlmId($mlmId);
                 }
+                $parentId = $this->registry->registry(self::A_PARENT_MAGE_ID);
+                $countryCode = $this->registry->registry(self::A_CUST_COUNTRY);
                 $refCode = $this->hlpCodeGen->generateReferralCode($afterSave);
+                $req = new \Praxigento\Downline\Api\Service\Customer\Add\Request();
+                $req->setCountryCode($countryCode);
+                $req->setCustomerId($idAfter);
+                $req->setMlmId($mlmId);
+                $req->setParentId($parentId);
                 $req->setReferralCode($refCode);
-                $this->callCustomer->add($req);
+                $this->servDwnlAdd->exec($req);
             }
         }
     }

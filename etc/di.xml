@@ -27,6 +27,8 @@
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
+    <preference for="Praxigento\Downline\Api\Service\Customer\Add"
+                type="Praxigento\Downline\Service\Customer\Add"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Get\ById"
                 type="Praxigento\Downline\Service\Customer\Get\ById"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Search"
