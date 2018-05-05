@@ -17,7 +17,7 @@ class CodeGenerator
         return $result;
     }
 
-    public function generateReferralCode(\Magento\Customer\Model\Data\Customer $data)
+    public function generateReferralCode(\Magento\Customer\Model\Data\Customer $data = null)
     {
         $result = $data->getId();
         return $result;
