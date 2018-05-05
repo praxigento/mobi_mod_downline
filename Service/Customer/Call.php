@@ -190,15 +190,4 @@ class Call implements ICustomer
         return $result;
     }
 
-    public function generateReferralCode(Request\GenerateReferralCode $request)
-    {
-        $result = new Response\GenerateReferralCode();
-        $customerId = $request->getCustomerId();
-        $mlmId = $request->getMlmId();
-        $this->_logger->info("Generate new code for customer #$customerId/$mlmId.");
-        $code = ($mlmId) ? $mlmId : $customerId;
-        $result->setReferralCode($code);
-        $result->markSucceed();
-        return $result;
-    }
 }

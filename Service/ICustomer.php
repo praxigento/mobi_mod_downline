@@ -28,12 +28,4 @@ interface ICustomer
      */
     public function changeParent(Request\ChangeParent $request);
 
-    /**
-     * Generate new referral code for the customer.
-     *
-     * @param Request\GenerateReferralCode $request
-     *
-     * @return Response\GenerateReferralCode
-     */
-    public function generateReferralCode(Request\GenerateReferralCode $request);
 }
