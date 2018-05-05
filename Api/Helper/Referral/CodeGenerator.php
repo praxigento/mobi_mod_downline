@@ -20,5 +20,5 @@ interface CodeGenerator
      * @param \Magento\Customer\Model\Data\Customer|null $data
      * @return string
      */
-    public function generateReferralCode(\Magento\Customer\Model\Data\Customer $data);
+    public function generateReferralCode(\Magento\Customer\Model\Data\Customer $data = null);
 }
