@@ -18,6 +18,8 @@ interface ICustomer
      * @param Request\Add $request
      *
      * @return Response\Add
+     *
+     * @deprecated use \Praxigento\Downline\Api\Service\Customer\Add
      */
     public function add(Request\Add $request);
 
@@ -25,6 +27,8 @@ interface ICustomer
      * @param Request\ChangeParent $request
      *
      * @return Response\ChangeParent
+     *
+     * @deprecated use \Praxigento\Downline\Api\Service\Customer\ChangeParent
      */
     public function changeParent(Request\ChangeParent $request);
 
