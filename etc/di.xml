@@ -31,6 +31,8 @@
                 type="Praxigento\Downline\Service\Customer\Add"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\ChangeParent"
                 type="Praxigento\Downline\Service\Customer\ChangeParent"/>
+    <preference for="Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp"
+                type="Praxigento\Downline\Service\Customer\Downline\SwitchUp"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Get\ById"
                 type="Praxigento\Downline\Service\Customer\Get\ById"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Search"

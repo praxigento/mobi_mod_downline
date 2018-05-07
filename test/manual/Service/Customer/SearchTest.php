@@ -7,7 +7,7 @@ namespace Test\Manual\Praxigento\Downline\Service\Customer;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Search_Test
+class SearchTest
     extends \Praxigento\Core\Test\BaseCase\Manual
 {
 
@@ -15,7 +15,7 @@ class Search_Test
     {
         /** @var \Praxigento\Core\Api\Service\Customer\Search $obj */
         $obj = $this->manObj->get(\Praxigento\Core\Api\Service\Customer\Search::class);
-        $req = new \Praxigento\Downline\Api\Customer\Search\Request();
+        $req = new \Praxigento\Downline\Api\Service\Customer\Search\Request();
         $req->setSearchKey('buk');
         $res = $obj->exec($req);
         $this->assertNotNull($res->getData());

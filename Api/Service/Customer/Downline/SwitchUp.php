@@ -9,7 +9,7 @@ use Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp\Request as AReque
 use Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp\Response as AResponse;
 
 /**
- * Switch customer's downline to customer's parent (exclude inactive customer from the game).
+ * Switch customer's downline to customer's parent (exclude unqualified customer from the game).
  */
 interface SwitchUp
 {
