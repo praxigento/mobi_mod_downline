@@ -9,6 +9,8 @@ namespace Praxigento\Downline\Api\Helper;
 
 /**
  * Integrate functionality to handle tree data.
+ *
+ * TODO: merge with Downline.php
  */
 interface Tree
 {
