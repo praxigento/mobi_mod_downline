@@ -16,10 +16,10 @@ class Snaps
     private $manTrans;
 
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\Downline\Service\ISnap $callSnap
     ) {
+        $manObj = \Magento\Framework\App\ObjectManager::getInstance();
         parent::__construct(
             $manObj,
             'prxgt:downline:snaps',
@@ -34,16 +34,16 @@ class Snaps
         \Symfony\Component\Console\Output\OutputInterface $output
     )
     {
-        $output->writeln("<info>{$this->getName()}<info>");
+        $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
         $def = $this->manTrans->begin();
         $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
         $resp = $this->callSnap->calc($req);
         $succeed = $resp->isSucceed();
         if ($succeed) {
-            $output->writeln('<info>Command is completed.<info>');
+            $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
             $this->manTrans->commit($def);
         } else {
-            $output->writeln('<info>Command is failed.<info>');
+            $output->writeln('<info>Command \'' . $this->getName() . '\' is failed.<info>');
             $this->manTrans->rollback($def);
         }
 

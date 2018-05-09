@@ -36,6 +36,17 @@ interface Tree
     public function mapByTeams($data, $keyCustId, $keyParentId);
 
     /**
+     * Get depth index for Downline Tree ordered by depth asc.
+     *
+     * @param array|\Praxigento\Core\Data[] $tree nested array or array of data objects.
+     * @param string $keyCustId name of the 'customer id' attribute.
+     * @param string $keyDepth name of the 'depth' attribute.
+     *
+     * @return array  [$depth => [$custId, ...]]
+     */
+    public function mapByTreeDepthAsc($tree, $keyCustId, $keyDepth);
+
+    /**
      * Get depth index for Downline Tree ordered by depth desc.
      *
      * @param array|\Praxigento\Core\Data[] $tree nested array or array of data objects.

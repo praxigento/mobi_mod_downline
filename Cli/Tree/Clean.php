@@ -18,9 +18,9 @@ class Clean
     private $servClean;
 
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Downline\Api\Service\Snap\Clean $servClean
     ) {
+        $manObj = \Magento\Framework\App\ObjectManager::getInstance();
         parent::__construct(
             $manObj,
             'prxgt:downline:clean',
@@ -33,12 +33,11 @@ class Clean
         \Symfony\Component\Console\Input\InputInterface $input,
         \Symfony\Component\Console\Output\OutputInterface $output
     ) {
-        $output->writeln("<info>'{$this->getName()}' is started.<info>");
+        $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
         $req = new ARequest();
         /** @var AResponse $resp */
         $resp = $this->servClean->exec($req);
-        $output->writeln('<info>Command is completed.<info>');
-
+        $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
     }
 
 }
