@@ -6,7 +6,6 @@
 namespace Praxigento\Downline\Cli\Tree;
 
 use Praxigento\Downline\Api\Service\Snap\Clean\Request as ARequest;
-use Praxigento\Downline\Api\Service\Snap\Clean\Response as AResponse;
 
 /**
  * Clean up all snapshots for downline tree.
@@ -35,8 +34,7 @@ class Clean
     ) {
         $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
         $req = new ARequest();
-        /** @var AResponse $resp */
-        $resp = $this->servClean->exec($req);
+        $this->servClean->exec($req);
         $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
     }
 

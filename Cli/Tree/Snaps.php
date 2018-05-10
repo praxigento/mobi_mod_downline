@@ -36,17 +36,17 @@ class Snaps
     {
         $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
         $def = $this->manTrans->begin();
-        $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
-        $resp = $this->callSnap->calc($req);
-        $succeed = $resp->isSucceed();
-        if ($succeed) {
-            $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
+        try {
+            $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
+            $this->callSnap->calc($req);
             $this->manTrans->commit($def);
-        } else {
-            $output->writeln('<info>Command \'' . $this->getName() . '\' is failed.<info>');
-            $this->manTrans->rollback($def);
+        } catch (\Throwable $e) {
+            $output->writeln('<info>Command \'' . $this->getName() . '\' failed. Reason: '
+                . $e->getMessage() . '.<info>');
+        } finally {
+            $this->manTrans->end($def);
         }
-
+        $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
     }
 
 }

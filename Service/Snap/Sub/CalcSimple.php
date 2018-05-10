@@ -8,7 +8,6 @@ namespace Praxigento\Downline\Service\Snap\Sub;
 
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Data\Change as EChange;
 use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 class CalcSimple
@@ -89,7 +88,7 @@ class CalcSimple
                     /* for all teams where path is started from old path */
                     $startsWith = (strpos($path, $key) === 0);
                     if ($startsWith) {
-                        /* this is downlilne path for changed customer, we need to change depth & path for all customers inside */
+                        /* this is downline path for changed customer, we need to change depth & path for all customers inside */
                         foreach ($team as $memberId) {
                             /* get member one by one */
                             $member = $snap[$memberId];
@@ -116,6 +115,13 @@ class CalcSimple
                 $customer = $this->composeSnapItem($customerId, $newParentId, $dsChanged, $snap);
                 /* update actual snap */
                 $snap[$customerId] = $customer;
+                /* ... and paths registry */
+                $pathNew = $customer->getPath();
+                if (!isset($mapByPath[$pathNew])) {
+                    $mapByPath[$pathNew] = [$customerId];
+                } else {
+                    $mapByPath[$pathNew][] = $customerId;
+                }
             }
             $result[$dsChanged][$customerId] = $customer;
         }
