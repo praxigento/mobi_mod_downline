@@ -10,8 +10,6 @@
                 type="Praxigento\Downline\Helper\Referral\CodeGenerator"/>
     <preference for="Praxigento\Downline\Api\Helper\Config"
                 type="Praxigento\Downline\Helper\Config"/>
-    <preference for="Praxigento\Downline\Api\Helper\Downline"
-                type="Praxigento\Downline\Helper\Downline"/>
     <preference for="Praxigento\Downline\Api\Helper\Referral"
                 type="Praxigento\Downline\Helper\Referral"/>
     <preference for="Praxigento\Downline\Api\Helper\Tree"

@@ -17,22 +17,22 @@ class ById
 {
     /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $authenticator;
-    /** @var \Praxigento\Downline\Helper\Downline */
-    private $hlpDwnl;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoCust;
+    /** @var \Praxigento\Downline\Helper\Tree */
+    private $hlpTree;
     /** @var \Praxigento\Downline\Api\Service\Customer\Get\ById */
     private $servCustGet;
 
     public function __construct(
         \Praxigento\Core\Api\App\Web\Authenticator\Front $authenticator,
         \Praxigento\Downline\Repo\Dao\Customer $daoCust,
-        \Praxigento\Downline\Helper\Downline $hlpDwnl,
+        \Praxigento\Downline\Helper\Tree $hlpTree,
         \Praxigento\Downline\Api\Service\Customer\Get\ById $servCustGet
     ) {
         $this->authenticator = $authenticator;
         $this->daoCust = $daoCust;
-        $this->hlpDwnl = $hlpDwnl;
+        $this->hlpTree = $hlpTree;
         $this->servCustGet = $servCustGet;
     }
 
@@ -69,7 +69,7 @@ class ById
         $foundCustId = $resp->getId();
         $foundCustData = $this->daoCust->getById($foundCustId);
         $path = $foundCustData->getPath();
-        $parents = $this->hlpDwnl->getParentsFromPath($path);
+        $parents = $this->hlpTree->getParentsFromPath($path);
         if (
             ($currentCustId != $foundCustId) &&
             !in_array($currentCustId, $parents)

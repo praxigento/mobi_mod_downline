@@ -14,10 +14,10 @@ class Transfer
 {
     /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $auth;
-    /** @var \Praxigento\Downline\Helper\Downline */
-    private $hlpDwnl;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
+    /** @var \Praxigento\Downline\Helper\Tree */
+    private $hlpTree;
     /** @var \Praxigento\Accounting\Service\Account\Asset\Transfer */
     private $servAssetTransfer;
 
@@ -25,12 +25,12 @@ class Transfer
         \Praxigento\Core\Api\App\Web\Authenticator\Front $auth,
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Accounting\Service\Account\Asset\Transfer $servAssetTransfer,
-        \Praxigento\Downline\Helper\Downline $hlpDwnl
+        \Praxigento\Downline\Helper\Tree $hlpTree
     ) {
         $this->auth = $auth;
         $this->daoDwnlCust = $daoDwnlCust;
         $this->servAssetTransfer = $servAssetTransfer;
-        $this->hlpDwnl = $hlpDwnl;
+        $this->hlpTree = $hlpTree;
     }
 
 

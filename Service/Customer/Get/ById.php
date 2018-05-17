@@ -22,8 +22,7 @@ class ById
 
     public function __construct(
         \Praxigento\Downline\Repo\Dao\Customer $daoCust,
-        \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet,
-        \Praxigento\Downline\Helper\Downline $hlpDwnl
+        \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet
     ) {
         $this->daoCust = $daoCust;
         $this->qbCustGet = $qbCustGet;
