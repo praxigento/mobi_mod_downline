@@ -9,11 +9,38 @@ namespace Praxigento\Downline\Api\Helper;
 
 /**
  * Integrate functionality to handle tree data.
- *
- * TODO: merge with Downline.php
  */
 interface Tree
 {
+
+    /**
+     * Expand minimal tree data (customerId & parentId) to full structure (with depth & path).
+     *
+     * @param $tree array [$custId => $parentId, ...] | [$custId => [KEY => $parentId, ...], ...].
+     * @param $keyParent string key for the $parentId if second form of the $tree is used.
+     *
+     * @return array [$custId=>[Snap::A_CUSTOMER_ID, Snap::A_PARENT_ID, Snap::A_DEPTH, Snap::A_PATH], ... ]
+     */
+    public function expandMinimal($tree, $keyParent = null);
+
+    /**
+     * Convert path to array of parents IDs.
+     *
+     * @param $path string "/12/34/56/"
+     *
+     * @return array [12, 34, 56]
+     */
+    public function getParentsFromPath($path);
+
+    /**
+     * Convert path to array of parents IDs in reverted order.
+     *
+     * @param $path string "/12/34/56/"
+     *
+     * @return array [56, 34, 12]
+     */
+    public function getParentsFromPathReversed($path);
+
     /**
      * Convert array of array or data objects ([ 0 => [ 'id' => 321, ... ], ...])
      * to mapped array ([ 321 => [ 'id'=>321, ... ], ... ]).
