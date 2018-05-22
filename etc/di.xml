@@ -76,12 +76,20 @@
     <!-- ******* -->
     <!-- PLUGINS -->
     <!-- ******* -->
+    <type name="Magento\Customer\Controller\Account\CreatePost">
+        <!--MOBI-1319: disable customer registration w/o sale order. -->
+        <plugin name="praxigento_downline"
+                type="Praxigento\Downline\Plugin\Customer\Controller\Account\CreatePost"
+                sortOrder="100" disabled="false"/>
+    </type>
+
     <type name="Magento\Customer\Model\AccountManagement">
         <!-- Look up for customer's email by MLM ID -->
         <plugin name="praxigento_downline"
                 type="Praxigento\Downline\Plugin\Customer\Model\AccountManagement"
                 sortOrder="100" disabled="false"/>
     </type>
+
     <type name="Magento\Customer\Model\Customer">
         <!-- define default group ID for referral customers -->
         <plugin name="praxigento_downline"
