@@ -138,4 +138,13 @@
                 sortOrder="100" disabled="false"/>
     </type>
 
+    <type name="Magento\Quote\Model\QuoteRepository\SaveHandler">
+        <!-- MOBI-1322: force "saveInAddressBook" attribute for billing address
+                to get country code for downline on guest checkout.
+        -->
+        <plugin name="praxigento_downline"
+                type="Praxigento\Downline\Plugin\Quote\Model\QuoteRepository\SaveHandler"
+                sortOrder="100" disabled="false"/>
+    </type>
+
 </config>
