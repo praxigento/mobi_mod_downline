@@ -7,5 +7,7 @@
                 <argument name="template" xsi:type="string">Praxigento_Downline::form/login.phtml</argument>
             </action>
         </referenceBlock>
+        <!-- MOBI-1319: remove "New Customer" sub-form from login form -->
+        <referenceBlock name="customer.new" remove="true"/>
     </body>
 </page>
