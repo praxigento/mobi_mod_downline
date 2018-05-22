@@ -4,17 +4,18 @@
  */
 namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider;
 
+use Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier as AQueryMod;
 use Praxigento\Odoo\Config as Cfg;
 
 class CollectionFactory
 {
-    /** @var  Sub\QueryModifier */
-    protected $_subQueryModifier;
+    /** @var  AQueryMod */
+    private $aQueryModifier;
 
     public function __construct(
-        Sub\QueryModifier $subQueryModifier
+        AQueryMod $aQueryModifier
     ) {
-        $this->_subQueryModifier = $subQueryModifier;
+        $this->aQueryModifier = $aQueryModifier;
     }
 
     /**
@@ -34,9 +35,9 @@ class CollectionFactory
         if ($requestName == Cfg::DS_CUSTOMERS_GRID) {
             if ($result instanceof \Magento\Customer\Model\ResourceModel\Grid\Collection) {
                 /* add JOINS to the select query */
-                $this->_subQueryModifier->populateSelect($result);
+                $this->aQueryModifier->populateSelect($result);
                 /* add fields to mapping */
-                $this->_subQueryModifier->addFieldsMapping($result);
+                $this->aQueryModifier->addFieldsMapping($result);
             }
         }
         return $result;

@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\Sub;
+namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A;
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Data\Customer;
@@ -50,7 +50,7 @@ class QueryModifier
     public function populateSelect(
         \Magento\Customer\Model\ResourceModel\Grid\Collection $collection
     ) {
-        $select = $collection->getSelect();
+        $result = $collection->getSelect();
         /* LEFT JOIN `prxgt_dwnl_customer` AS `prxgtDwnlCust` */
         $tbl = [self::AS_TBL_CUST => $this->_resource->getTableName(Customer::ENTITY_NAME)];
         $on = self::AS_TBL_CUST . '.' . Customer::A_CUSTOMER_ID . '=main_table.' . Cfg::E_CUSTOMER_A_ENTITY_ID;
@@ -59,16 +59,15 @@ class QueryModifier
             self::AS_FLD_CUSTOMER_DEPTH => Customer::A_DEPTH,
             self::AS_FLD_PARENT_ID => Customer::A_PARENT_ID
         ];
-        $select->joinLeft($tbl, $on, $cols);
+        $result->joinLeft($tbl, $on, $cols);
         /* LEFT JOIN `prxgt_dwnl_customer` AS `prxgtDwnlParentCust` */
         $tbl = [self::AS_TBL_PARENT_CUST => $this->_resource->getTableName(Customer::ENTITY_NAME)];
         $on = self::AS_TBL_PARENT_CUST . '.' . Customer::A_CUSTOMER_ID . '=' . self::AS_TBL_CUST . '.' . Customer::A_PARENT_ID;
         $cols = [
             self::AS_FLD_PARENT_REF => Customer::A_MLM_ID
         ];
-        $select->joinLeft($tbl, $on, $cols);
-        // $sql = (string)$query;
-        return $select;
+        $result->joinLeft($tbl, $on, $cols);
+        return $result;
     }
 
 }
