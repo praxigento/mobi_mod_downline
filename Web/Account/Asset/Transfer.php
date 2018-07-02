@@ -14,8 +14,12 @@ class Transfer
 {
     /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $auth;
+    /** @var \Praxigento\Accounting\Repo\Dao\Account */
+    private $daoAcc;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
+    /** @var \Praxigento\Core\Api\Helper\Customer\Currency */
+    private $hlpCustCurr;
     /** @var \Praxigento\Downline\Helper\Tree */
     private $hlpTree;
     /** @var \Praxigento\Accounting\Service\Account\Asset\Transfer */
@@ -23,14 +27,18 @@ class Transfer
 
     public function __construct(
         \Praxigento\Core\Api\App\Web\Authenticator\Front $auth,
+        \Praxigento\Accounting\Repo\Dao\Account $daoAcc,
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Accounting\Service\Account\Asset\Transfer $servAssetTransfer,
-        \Praxigento\Downline\Helper\Tree $hlpTree
+        \Praxigento\Downline\Helper\Tree $hlpTree,
+        \Praxigento\Core\Api\Helper\Customer\Currency $hlpCustCurr
     ) {
         $this->auth = $auth;
+        $this->daoAcc = $daoAcc;
         $this->daoDwnlCust = $daoDwnlCust;
         $this->servAssetTransfer = $servAssetTransfer;
         $this->hlpTree = $hlpTree;
+        $this->hlpCustCurr = $hlpCustCurr;
     }
 
 
@@ -44,7 +52,6 @@ class Transfer
         $partyId = $data->getCounterPartyId();
 
         /* input data filters */
-        $amount = abs($amount);
         $isDirect = false; // customer cannot initiate direct transfer
         $custId = $this->auth->getCurrentUserId($request); // customer can transfer FROM his account only
         list($isInDownline, $hasTheSameCountry) = $this->validate($custId, $partyId);
@@ -53,19 +60,50 @@ class Transfer
             /** @noinspection PhpUnhandledExceptionInspection */
             throw new \Magento\Framework\Exception\AuthorizationException($phrase);
         }
+        /* convert customer currency into wallet currency */
+        $amount = abs($amount);
+        $amount = $this->hlpCustCurr->convertToBase($amount, $custId);
+
+        /* validate wallet balance */
+        $isBalanceEnough = $this->validateBalance($custId, $assetTypeId, $amount);
+        if (!$isBalanceEnough) {
+            $phrase = new \Magento\Framework\Phrase('Customer has no enough balance to perform transfer.');
+            /** @noinspection PhpUnhandledExceptionInspection */
+            throw new \Magento\Framework\Exception\AuthorizationException($phrase);
+        }
 
         /** perform processing */
+        $note = "Transferred by customer";
+
         $req = new \Praxigento\Accounting\Service\Account\Asset\Transfer\Request();
         $req->setAmount($amount);
         $req->setAssetId($assetTypeId);
         $req->setCounterPartyId($partyId);
         $req->setCustomerId($custId);
         $req->setIsDirect($isDirect);
+        $req->setNote($note);
         $resp = $this->servAssetTransfer->exec($req);
 
         /** compose result */
         $result = new AResponse();
         $result->setData($resp);
+        return $result;
+    }
+
+    /**
+     * @param int $custId
+     * @param int $assetTypeId
+     * @param float $amount
+     * @return bool 'true' if customer balance is greater then amount to transfer.
+     */
+    private function validateBalance($custId, $assetTypeId, $amount)
+    {
+        $result = false;
+        $account = $this->daoAcc->getByCustomerId($custId, $assetTypeId);
+        if ($account) {
+            $balance = $account->getBalance();
+            $result = ($balance > $amount);
+        }
         return $result;
     }
 
