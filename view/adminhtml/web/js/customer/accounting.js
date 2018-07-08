@@ -250,7 +250,6 @@ define([
      * @param ui
      */
     var fnAutocompleteSelected = function (event, ui) {
-        debugger;
         const country = ui.item.data.country;
         const path = ui.item.data.path_full;
         const custCountry = viewModel.customer.country;
