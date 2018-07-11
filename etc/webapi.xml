@@ -2,14 +2,6 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
-    <route url="/V1/prxgt/account/asset/transfer" method="POST">
-        <!-- Transfer asset from customer to customer or from/to customer account. -->
-        <service class="Praxigento\Downline\Api\Web\Account\Asset\TransferInterface" method="exec"/>
-        <resources>
-            <resource ref="anonymous"/>
-        </resources>
-    </route>
-
     <route url="/V1/prxgt/customer/get/by_id" method="POST">
         <!-- Get one customer info by some identifier (id, email, etc.). -->
         <service class="Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface" method="exec"/>

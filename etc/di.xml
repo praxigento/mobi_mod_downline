@@ -42,8 +42,6 @@
     <!-- ******* -->
     <!-- API Web -->
     <!-- ******* -->
-    <preference for="Praxigento\Downline\Api\Web\Account\Asset\TransferInterface"
-                type="Praxigento\Downline\Web\Account\Asset\Transfer"/>
     <preference for="Praxigento\Downline\Api\Web\Customer\Get\ByIdInterface"
                 type="Praxigento\Downline\Web\Customer\Get\ById"/>
     <preference for="Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface"
