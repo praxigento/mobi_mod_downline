@@ -13,7 +13,8 @@ class Request
     /**
      * @return string|null
      */
-    public function getMlmId() {
+    public function getMlmId()
+    {
         $result = parent::get(self::MLM_ID);
         return $result;
     }
@@ -21,7 +22,8 @@ class Request
     /**
      * @param string $data
      */
-    public function setMlmId($data) {
+    public function setMlmId($data)
+    {
         parent::set(self::MLM_ID, $data);
     }
 }

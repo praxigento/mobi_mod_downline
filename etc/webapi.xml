@@ -11,7 +11,7 @@
     </route>
 
     <route url="/V1/prxgt/customer/search/by_key" method="POST">
-        <!-- Search customers by some criteria (name, email, etc.). -->
+        <!-- Search customers by some criteria (name, email, etc.) with downline restrictions. -->
         <service class="Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface" method="exec"/>
         <resources>
             <resource ref="anonymous"/>

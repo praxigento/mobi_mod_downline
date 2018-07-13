@@ -6,9 +6,10 @@
 namespace Praxigento\Downline\Api\Web\Customer\Search;
 
 /**
- * Search customers by some criteria (name, email, etc.).
+ * Search customers by some criteria (name, email, etc.) with downline restrictions.
  */
 interface ByKeyInterface
+    extends \Praxigento\Core\Api\Web\Customer\Search\ByKeyInterface
 {
     /**
      * @param \Praxigento\Downline\Api\Web\Customer\Search\ByKey\Request $request

@@ -1,6 +1,8 @@
 <?php
 /**
  * User: Alex Gusev <alex@flancer64.com>
+ *
+ * @noinspection PhpDocMissingThrowsInspection
  */
 
 namespace Praxigento\Downline\Service\Customer;
@@ -17,19 +19,24 @@ use Praxigento\Downline\Repo\Query\Customer\Get as QBGetCustomer;
 class Search
     implements \Praxigento\Downline\Api\Service\Customer\Search
 {
+    /** Default limit for result set items. */
     const DEF_LIMIT = 10;
 
-    /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
-    private $qbGetCustomer;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
+    /** @var \Praxigento\Downline\Api\Helper\Tree */
+    private $hlpTree;
+    /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
+    private $qGetCustomer;
 
     public function __construct(
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
-        \Praxigento\Downline\Repo\Query\Customer\Get $qbGetCustomer
+        \Praxigento\Downline\Repo\Query\Customer\Get $qGetCustomer,
+        \Praxigento\Downline\Api\Helper\Tree $hlpTree
     ) {
         $this->daoDwnlCust = $daoDwnlCust;
-        $this->qbGetCustomer = $qbGetCustomer;
+        $this->qGetCustomer = $qGetCustomer;
+        $this->hlpTree = $hlpTree;
     }
 
     /**
@@ -106,9 +113,17 @@ class Search
         return [$country, $path];
     }
 
+    /**
+     * @param string $key
+     * @param int $limit
+     * @param int $custId
+     * @param string $country
+     * @param string $path
+     * @return array
+     */
     private function selectCustomers($key, $limit, $custId, $country, $path)
     {
-        $query = $this->qbGetCustomer->build();
+        $query = $this->qGetCustomer->build();
         $conn = $query->getConnection();
         $searchBy = $conn->quote("%$key%");
         /* reset all WHERE clauses */
@@ -122,17 +137,22 @@ class Search
         $byMlmID = "$asDwnl." . EDwnlCust::A_MLM_ID . " LIKE $searchBy";
         $where = "($byFirst) OR ($byLast) OR ($byEmail) OR ($byMlmID)";
         if ($custId) {
-            /* restrict searching by root customer */
-            /* TODO: do we really need root customer in the result set */
-            $byOwnId = "$asDwnl." . EDwnlCust::A_CUSTOMER_ID . '=' . (int)$custId;
+            /* restrict search results for root customer */
             /* by downline */
-            $quoted = $conn->quote($path . $custId . Cfg::DTPS . '%');
+            $fullPath = $path . $custId . Cfg::DTPS; // including customer itself
+            $quoted = $conn->quote($fullPath . '%');
             $byPath = "$asDwnl." . EDwnlCust::A_PATH . ' LIKE ' . $quoted;
             /* country of the selected customers should be equal to the root customer country */
             $quoted = $conn->quote($country);
             $byCountry = "$asDwnl." . EDwnlCust::A_COUNTRY_CODE . "=$quoted";
-            /* composer filter */
-            $where = "($where) AND (($byOwnId) OR ($byPath)) AND ($byCountry)";
+            /* by upline parents (including customer itself) */
+            $parents = $this->hlpTree->getParentsFromPath($fullPath);
+            $byParents = '0';
+            foreach ($parents as $one) {
+                $byParents .= ' OR (' . EDwnlCust::A_CUSTOMER_ID . '=' . (int)$one . ')';
+            }
+            /* compose filter */
+            $where = "($where) AND (($byPath) OR ($byParents)) AND ($byCountry)";
         }
         $query->where($where);
         /* add LIMIT clause */

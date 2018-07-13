@@ -26,7 +26,7 @@ interface Tree
     /**
      * Convert path to array of parents IDs.
      *
-     * @param $path string "/12/34/56/"
+     * @param $path string ":12:34:56:"
      *
      * @return array [12, 34, 56]
      */
@@ -35,7 +35,7 @@ interface Tree
     /**
      * Convert path to array of parents IDs in reverted order.
      *
-     * @param $path string "/12/34/56/"
+     * @param $path string ":12:34:56:"
      *
      * @return array [56, 34, 12]
      */

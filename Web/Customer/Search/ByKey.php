@@ -9,7 +9,7 @@ use Praxigento\Downline\Api\Web\Customer\Search\ByKey\Request as ARequest;
 use Praxigento\Downline\Api\Web\Customer\Search\ByKey\Response as AResponse;
 
 class ByKey
-    implements \Praxigento\Core\Api\Web\Customer\Search\ByKeyInterface
+    implements \Praxigento\Downline\Api\Web\Customer\Search\ByKeyInterface
 {
     /** @var \Praxigento\Core\Api\App\Web\Authenticator */
     private $authenticator;
@@ -35,7 +35,7 @@ class ByKey
         /* pre-authorization: deny anonymous visitors */
         $currentCustId = $this->authenticator->getCurrentUserId($request);
         if (!$currentCustId) {
-            $phrase = new \Magento\Framework\Phrase('User is not authorized to perform this operation.');
+            $phrase = new \Magento\Framework\Phrase('Anonymous user is not authorized to perform this operation.');
             /** @noinspection PhpUnhandledExceptionInspection */
             throw new \Magento\Framework\Exception\AuthorizationException($phrase);
         }
