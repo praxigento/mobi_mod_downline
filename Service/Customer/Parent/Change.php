@@ -3,10 +3,10 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Service\Customer;
+namespace Praxigento\Downline\Service\Customer\Parent;
 
-use Praxigento\Downline\Api\Service\Customer\ChangeParent\Request as ARequest;
-use Praxigento\Downline\Api\Service\Customer\ChangeParent\Response as AResponse;
+use Praxigento\Downline\Api\Service\Customer\Parent\Change\Request as ARequest;
+use Praxigento\Downline\Api\Service\Customer\Parent\Change\Response as AResponse;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Data\Change as EDwnlChange;
 use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
@@ -14,8 +14,8 @@ use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 /**
  * Add customer to downline and new entry to change log.
  */
-class ChangeParent
-    implements \Praxigento\Downline\Api\Service\Customer\ChangeParent
+class Change
+    implements \Praxigento\Downline\Api\Service\Customer\Parent\Change
 {
     /** @var \Praxigento\Downline\Repo\Dao\Change */
     private $daoDwnlChange;

@@ -27,8 +27,8 @@
     <!-- ************ -->
     <preference for="Praxigento\Downline\Api\Service\Customer\Add"
                 type="Praxigento\Downline\Service\Customer\Add"/>
-    <preference for="Praxigento\Downline\Api\Service\Customer\ChangeParent"
-                type="Praxigento\Downline\Service\Customer\ChangeParent"/>
+    <preference for="Praxigento\Downline\Api\Service\Customer\Parent\Change"
+                type="Praxigento\Downline\Service\Customer\Parent\Change"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp"
                 type="Praxigento\Downline\Service\Customer\Downline\SwitchUp"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Get\ById"
