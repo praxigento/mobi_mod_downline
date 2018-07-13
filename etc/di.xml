@@ -54,6 +54,7 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
+                <item name="prxgt:downline:parent:change" xsi:type="object">Praxigento\Downline\Cli\Parent\Change</item>
                 <item name="prxgt:downline:clean" xsi:type="object">Praxigento\Downline\Cli\Tree\Clean</item>
                 <item name="prxgt:downline:snaps" xsi:type="object">Praxigento\Downline\Cli\Tree\Snaps</item>
                 <item name="prxgt:downline:verify" xsi:type="object">Praxigento\Downline\Cli\Tree\Verify</item>
