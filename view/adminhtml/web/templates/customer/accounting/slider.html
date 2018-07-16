@@ -61,6 +61,12 @@
                 </div>
             </div>
 
+            <div class="admin__field _required">
+                <label class="admin__field-label"><span><!-- ko i18n: 'Comment'--><!-- /ko -->:</span></label>
+                <div class="admin__field-control required">
+                    <input data-bind="value: comment" class="admin__control-text"/>
+                </div>
+            </div>
 
             <div class="admin__field _required" data-bind="visible: transferType()=='between'">
                 <label class="admin__field-label">

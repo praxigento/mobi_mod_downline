@@ -27,6 +27,7 @@ define([
     /* View Model for slider */
     const viewModel = {
         amount: ko.observable(0),
+        comment: ko.observable(""),
         assets: undefined,
         counterparty: ko.observable(),
         customer: undefined,
@@ -95,6 +96,7 @@ define([
             /* open modal slider, populate knockout view-model and bind it to template */
             popup.openModal();
             viewModel.amount = ko.observable(0);
+            viewModel.comment = ko.observable("");
             viewModel.assets = assets;
             viewModel.counterparty = ko.observable();
             viewModel.customer = customer;
@@ -203,6 +205,7 @@ define([
         var asset = viewModel.selectedAsset();
         var assetId = asset.asset_id;
         var amount = viewModel.amount();
+        var comment = viewModel.comment();
         var customerId = viewModel.customer.id;
         var counterPartyId = viewModel.selectedCounterparty;
         var type = viewModel.transferType();
@@ -211,6 +214,7 @@ define([
         /* see: \Praxigento\Accounting\Controller\Adminhtml\Asset\Transfer */
         var data = {
             amount: amount,
+            comment: comment,
             assetId: assetId,
             counterPartyId: counterPartyId,
             customerId: customerId,
