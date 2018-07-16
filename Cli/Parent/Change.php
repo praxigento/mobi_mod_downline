@@ -16,8 +16,11 @@ class Change
 {
     const OPT_CUST_MLM_ID_NAME = 'customer';
     const OPT_CUST_MLM_ID_SHORTCUT = 'c';
+    const OPT_MLM_ID_NEW_NAME = 'newId';
+    const OPT_MLM_ID_NEW_SHORTCUT = 'i';
     const OPT_PARENT_MLM_ID_NAME = 'parent';
     const OPT_PARENT_MLM_ID_SHORTCUT = 'p';
+
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
     /** @var \Praxigento\Core\Api\App\Repo\Transaction\Manager */
@@ -56,6 +59,12 @@ class Change
             \Symfony\Component\Console\Input\InputOption::VALUE_REQUIRED,
             'MLM ID of the new parent.'
         );
+        $this->addOption(
+            self::OPT_MLM_ID_NEW_NAME,
+            self::OPT_MLM_ID_NEW_SHORTCUT,
+            \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL,
+            'Set new MLM ID for the customer.'
+        );
     }
 
     protected function execute(
@@ -69,6 +78,7 @@ class Change
             /** define local working data */
             $custMlmId = $input->getOption(self::OPT_CUST_MLM_ID_NAME);
             $parentMlmId = $input->getOption(self::OPT_PARENT_MLM_ID_NAME);
+            $newMlmId = $input->getOption(self::OPT_MLM_ID_NEW_NAME);
             $output->writeln("<info>Setup new parent '$parentMlmId' for customer '$custMlmId'.<info>");
             $cust = $this->daoDwnlCust->getByMlmId($custMlmId);
             $parent = $this->daoDwnlCust->getByMlmId($parentMlmId);
@@ -83,6 +93,13 @@ class Change
             if ($resp->getErrorCode() != $resp::ERR_NO_ERROR) {
                 $output->writeln('<info>Operation is failed. See log for details.<info>');
             }
+
+            /* set new MLM ID if requested */
+            if ($newMlmId) {
+                $this->setNewMlmId($custId, $newMlmId);
+                $output->writeln("<info>New MLM ID '$newMlmId' is set for customer $custId (old: $custMlmId).<info>");
+            }
+
             $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
             $this->manTrans->commit($def);
         } catch (\Throwable $e) {
@@ -93,5 +110,10 @@ class Change
         }
     }
 
-
+    private function setNewMlmId($custId, $newMlmId)
+    {
+        $entity = new \Praxigento\Downline\Repo\Data\Customer();
+        $entity->setMlmId($newMlmId);
+        $this->daoDwnlCust->updateById($custId, $entity);
+    }
 }
