@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpDocMissingThrowsInspection */
+
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
@@ -27,14 +29,18 @@ class Add
     private $hlpReferral;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
+    /** @var \Magento\Framework\App\State */
+    private $state;
 
     public function __construct(
+        \Magento\Framework\App\State $state,
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Downline\Repo\Dao\Change $daoDwnlChange,
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
         \Praxigento\Downline\Helper\Config $hlpConfig
     ) {
+        $this->state = $state;
         $this->logger = $logger;
         $this->daoDwnlChange = $daoDwnlChange;
         $this->daoDwnlCust = $daoDwnlCust;
@@ -112,27 +118,39 @@ class Add
      *
      * @param int $customerId
      * @return int
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getReferredParentId($customerId)
+    private function getReferredParentId($customerId)
     {
         /* use customer ID as parent ID if parent ID cannot be defined */
         $result = $customerId;
-        /* try to extract referral code from Mage registry */
-        $code = $this->hlpReferral->getReferralCode();
-        if ($code) {
-            /* this is a referral customer, use parent from referral code */
-            $parent = $this->daoDwnlCust->getByReferralCode($code);
+        $area = $this->state->getAreaCode();
+        if ($area == \Magento\Framework\App\Area::AREA_ADMINHTML) {
+            /* use default MLM ID from config */
+            $defRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
+            $parent = $this->daoDwnlCust->getByMlmId($defRootMlmId);
             if ($parent) {
                 $result = $parent->getCustomerId();
-                $this->logger->info("Referral parent #$result is used for customer #$customerId.");
+                $this->logger->info("Default root parent #$result is used for customer #$customerId (admin mode).");
             }
         } else {
-            /* this is anonymous customer, use parent from config */
-            $anonRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
-            $parent = $this->daoDwnlCust->getByMlmId($anonRootMlmId);
-            if ($parent) {
-                $result = $parent->getCustomerId();
-                $this->logger->info("Anonymous root parent #$result is used for customer #$customerId.");
+            /* try to extract referral code from Mage registry */
+            $code = $this->hlpReferral->getReferralCode();
+            if ($code) {
+                /* this is a referral customer, use parent from referral code */
+                $parent = $this->daoDwnlCust->getByReferralCode($code);
+                if ($parent) {
+                    $result = $parent->getCustomerId();
+                    $this->logger->info("Referral parent #$result is used for customer #$customerId.");
+                }
+            } else {
+                /* this is anonymous customer, use parent from config */
+                $anonRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
+                $parent = $this->daoDwnlCust->getByMlmId($anonRootMlmId);
+                if ($parent) {
+                    $result = $parent->getCustomerId();
+                    $this->logger->info("Anonymous root parent #$result is used for customer #$customerId.");
+                }
             }
         }
         return $result;
