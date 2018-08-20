@@ -6,7 +6,7 @@
 namespace Praxigento\Downline\Api\Web\Customer\Search;
 
 /**
- * Search customers by some criteria (name, email, etc.) with downline restrictions.
+ * Search customers by some criteria (name, email, etc.) with additional attributes (MLM ID).
  */
 interface ByKeyInterface
     extends \Praxigento\Core\Api\Web\Customer\Search\ByKeyInterface

@@ -24,19 +24,15 @@ class Search
 
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
-    /** @var \Praxigento\Downline\Api\Helper\Tree */
-    private $hlpTree;
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qGetCustomer;
 
     public function __construct(
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
-        \Praxigento\Downline\Repo\Query\Customer\Get $qGetCustomer,
-        \Praxigento\Downline\Api\Helper\Tree $hlpTree
+        \Praxigento\Downline\Repo\Query\Customer\Get $qGetCustomer
     ) {
         $this->daoDwnlCust = $daoDwnlCust;
         $this->qGetCustomer = $qGetCustomer;
-        $this->hlpTree = $hlpTree;
     }
 
     /**
@@ -136,24 +132,7 @@ class Search
         $byEmail = "$asCust." . Cfg::E_CUSTOMER_A_EMAIL . " LIKE $searchBy";
         $byMlmID = "$asDwnl." . EDwnlCust::A_MLM_ID . " LIKE $searchBy";
         $where = "($byFirst) OR ($byLast) OR ($byEmail) OR ($byMlmID)";
-        if ($custId) {
-            /* restrict search results for root customer */
-            /* by downline */
-            $fullPath = $path . $custId . Cfg::DTPS; // including customer itself
-            $quoted = $conn->quote($fullPath . '%');
-            $byPath = "$asDwnl." . EDwnlCust::A_PATH . ' LIKE ' . $quoted;
-            /* country of the selected customers should be equal to the root customer country */
-            $quoted = $conn->quote($country);
-            $byCountry = "$asDwnl." . EDwnlCust::A_COUNTRY_CODE . "=$quoted";
-            /* by upline parents (including customer itself) */
-            $parents = $this->hlpTree->getParentsFromPath($fullPath);
-            $byParents = '0';
-            foreach ($parents as $one) {
-                $byParents .= ' OR (' . EDwnlCust::A_CUSTOMER_ID . '=' . (int)$one . ')';
-            }
-            /* compose filter */
-            $where = "($where) AND (($byPath) OR ($byParents)) AND ($byCountry)";
-        }
+
         $query->where($where);
         /* add LIMIT clause */
         $query->limit($limit);
