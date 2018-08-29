@@ -6,14 +6,14 @@
 namespace Praxigento\Downline\Repo\Dao;
 
 use Magento\Framework\App\ResourceConnection;
-use Praxigento\Core\App\Repo\Dao as BaseEntityRepo;
 use Praxigento\Core\Api\App\Repo\Generic as IRepoGeneric;
 use Praxigento\Downline\Repo\Data\Customer as ECustomer;
 use Praxigento\Downline\Repo\Data\Snap as Entity;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QBldSnap;
 use Praxigento\Downline\Repo\Query\Snap\OnDate\Max\Builder as QBldMax;
 
-class Snap extends BaseEntityRepo
+class Snap
+    extends \Praxigento\Core\App\Repo\Dao
 {
     const AS_A_DATE = 'date';
     const AS_TBL_DWNL = 'prxgtDwnlAct';
