@@ -61,6 +61,13 @@
                 </div>
             </div>
 
+            <div class="admin__field" style="color:red;" data-bind="visible:warnAmount()">
+                <label class="admin__field-label"><span>&nbsp;</span></label>
+                <div class="admin__field-control">
+                    <div><!-- ko i18n: 'Amount is greater then balance.'--><!-- /ko --></div>
+             </div>
+            </div>
+
             <div class="admin__field _required">
                 <label class="admin__field-label"><span><!-- ko i18n: 'Comment'--><!-- /ko -->:</span></label>
                 <div class="admin__field-control required">

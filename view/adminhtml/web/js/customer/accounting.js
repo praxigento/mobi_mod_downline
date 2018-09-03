@@ -23,9 +23,9 @@ define([
     const urlCustomerSearch = urlAdminBase + 'prxgt/customer/search_byKey/' + formKey;
     const urlTransfer = urlAdminBase + 'account/asset/transfer/' + formKey;
     /* slider itself */
-    var popup;
+    let popup;
     /* View Model for slider */
-    const viewModel = {
+    let viewModel = {
         amount: ko.observable(0),
         comment: ko.observable(""),
         assets: undefined,
@@ -36,7 +36,9 @@ define([
         selectedCounterparty: undefined,
         transferType: ko.observable(TYPE_DIRECT),
         warnDiffCountries: ko.observable(false),
-        warnOutOfDwnl: ko.observable(false)
+        warnOutOfDwnl: ko.observable(false),
+        lastInputWasValid: ko.observable(true),
+        warnAmount: undefined
     };
 
     /**
@@ -54,20 +56,44 @@ define([
     }
 
     /**
+     * Compute conditions for transaction amount warning (transfer amount is greater then asset balance).
+     *
+     * 'this' - is a viewModel object.
+     *
+     * @returns {boolean}
+     */
+    function fnWarnOnTransferAmount() {
+        debugger;
+        let result = false;
+        let amount = this.amount();
+        let selected = this.selectedAsset();
+        if (selected != undefined) {
+            let balance = selected.acc_balance;
+            if (balance == undefined) balance = 0;
+            if (amount > balance) {
+                result = true;
+            }
+        } else {
+            /* skip amount validation if asset is not chosen */
+        }
+        return result;
+    };
+
+    /**
      * Front-back communication functions
      */
     /* get initial data to fill in slider (customer info, assets balances, etc.) */
-    var fnAjaxGetInitData = function () {
+    let fnAjaxGetInitData = function () {
         /* flags for ajax requests - 'true' means that requests is done. */
-        var isAjaxGetCustDone = false;
-        var isAjaxGetAssetsDone = false;
+        let isAjaxGetCustDone = false;
+        let isAjaxGetAssetsDone = false;
         /* containers for customer & assets data loaded by AJAX */
-        var customer, assets;
+        let customer, assets;
 
         /**
          * Definitions.
          */
-        var options = {
+        let options = {
             type: 'slide',
             responsive: true,
             innerScroll: true,
@@ -86,7 +112,7 @@ define([
             }]
         };
         /* populate template with initial data then open slider */
-        var fnModalOpen = function () {
+        let fnModalOpen = function () {
             /* switch off loader */
             $('body').trigger('processStop');
             /* set parsed HTML as content for modal placeholder create modal slider */
@@ -102,7 +128,8 @@ define([
             viewModel.customer = customer;
             viewModel.operationId = 0;
             viewModel.transferType = ko.observable(TYPE_DIRECT);
-            var elm = document.getElementById('modal_panel_placeholder');
+            viewModel.warnAmount = ko.computed(fnWarnOnTransferAmount, viewModel);
+            let elm = document.getElementById('modal_panel_placeholder');
             ko.cleanNode(elm);
             ko.applyBindings(viewModel, elm);
 
@@ -120,7 +147,7 @@ define([
             });
         };
         /* success responses handlers for 2 requests */
-        var fnGetCustSuccess = function (response) {
+        let fnGetCustSuccess = function (response) {
             customer = response.data;
             isAjaxGetCustDone = true;
             if (isAjaxGetCustDone && isAjaxGetAssetsDone) {
@@ -128,7 +155,7 @@ define([
                 fnModalOpen();
             }
         };
-        var fnGetAssetsSuccess = function (response) {
+        let fnGetAssetsSuccess = function (response) {
             assets = response.data.items;
             isAjaxGetAssetsDone = true;
             if (isAjaxGetCustDone && isAjaxGetAssetsDone) {
@@ -145,9 +172,9 @@ define([
 
         /* compose common parts for async requests */
         const customerId = getCustomerId();
-        var request = {data: {customerId: customerId}};
-        var json = JSON.stringify(request);
-        var opts = {
+        let request = {data: {customerId: customerId}};
+        let json = JSON.stringify(request);
+        let opts = {
             data: json,
             contentType: 'application/json',
             type: 'post'
@@ -166,13 +193,13 @@ define([
      * @param request
      * @param response
      */
-    var fnAjaxCustomerSearch = function (request, response) {
+    let fnAjaxCustomerSearch = function (request, response) {
         /* switch off warnings */
         viewModel.warnDiffCountries(false);
         viewModel.warnOutOfDwnl(false);
         /* send request to server and get found users */
-        var data = {data: {search_key: request.term}};
-        var json = JSON.stringify(data);
+        let data = {data: {search_key: request.term}};
+        let json = JSON.stringify(data);
         $.ajax({
             url: urlCustomerSearch,
             data: json,
@@ -180,16 +207,16 @@ define([
             type: 'post',
             success: function (resp) {
                 /* convert API data into JQuery widget data */
-                var data = resp.data;
-                var found = [];
-                for (var i = 0; i < data.items.length; i++) {
-                    var one = data.items[i];
-                    var nameFirst = one.name_first;
-                    var nameLast = one.name_last;
-                    var email = one.email;
-                    var mlmId = one.mlm_id;
-                    var label = nameFirst + ' ' + nameLast + ' <' + email + '> / ' + mlmId;
-                    var foundOne = {
+                let data = resp.data;
+                let found = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let one = data.items[i];
+                    let nameFirst = one.name_first;
+                    let nameLast = one.name_last;
+                    let email = one.email;
+                    let mlmId = one.mlm_id;
+                    let label = nameFirst + ' ' + nameLast + ' <' + email + '> / ' + mlmId;
+                    let foundOne = {
                         label: label,
                         value: label,
                         data: one
@@ -201,18 +228,18 @@ define([
         });
     };
 
-    var fnAjaxProcessData = function () {
-        var asset = viewModel.selectedAsset();
-        var assetId = asset.asset_id;
-        var amount = viewModel.amount();
-        var comment = viewModel.comment();
-        var customerId = viewModel.customer.id;
-        var counterPartyId = viewModel.selectedCounterparty;
-        var type = viewModel.transferType();
-        var isDirect = (type == TYPE_DIRECT);
+    let fnAjaxProcessData = function () {
+        let asset = viewModel.selectedAsset();
+        let assetId = asset.asset_id;
+        let amount = viewModel.amount();
+        let comment = viewModel.comment();
+        let customerId = viewModel.customer.id;
+        let counterPartyId = viewModel.selectedCounterparty;
+        let type = viewModel.transferType();
+        let isDirect = (type == TYPE_DIRECT);
 
         /* see: \Praxigento\Accounting\Controller\Adminhtml\Asset\Transfer */
-        var data = {
+        let data = {
             amount: amount,
             comment: comment,
             assetId: assetId,
@@ -220,14 +247,14 @@ define([
             customerId: customerId,
             isDirect: isDirect,
         };
-        var json = JSON.stringify({data: data});
+        let json = JSON.stringify({data: data});
 
         /* process response from server: create modal slider and populate with data */
-        var fnSuccess = function (response) {
+        let fnSuccess = function (response) {
             /* switch off ajax loader */
             $('body').trigger('processStop');
             viewModel.operationId = response.data.oper_id;
-            var elm = document.getElementById('modal_panel_placeholder');
+            let elm = document.getElementById('modal_panel_placeholder');
             ko.cleanNode(elm);
             ko.applyBindings(viewModel, elm);
             /* wait 3 sec. & close modal */
@@ -236,7 +263,7 @@ define([
             }, 3000);
         };
 
-        var opts = {
+        let opts = {
             data: json,
             contentType: 'application/json',
             type: 'post',
@@ -247,13 +274,14 @@ define([
         /* switch on ajax loader */
         $('body').trigger('processStart');
     };
+
     /**
      * Function is fired when user selects transfer counterparty from the suggested list.
      *
      * @param event
      * @param ui
      */
-    var fnAutocompleteSelected = function (event, ui) {
+    let fnAutocompleteSelected = function (event, ui) {
         const country = ui.item.data.country;
         const path = ui.item.data.path_full;
         const custCountry = viewModel.customer.country;
@@ -271,6 +299,6 @@ define([
     $('#customer-edit-prxgt-accounting').on('click', fnAjaxGetInitData);
 
     /* this is required return to prevent Magento parsing errors */
-    var result = Component.extend({});
+    let result = Component.extend({});
     return result;
 });
