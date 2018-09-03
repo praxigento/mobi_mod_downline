@@ -63,7 +63,6 @@ define([
      * @returns {boolean}
      */
     function fnWarnOnTransferAmount() {
-        debugger;
         let result = false;
         let amount = this.amount();
         let selected = this.selectedAsset();
