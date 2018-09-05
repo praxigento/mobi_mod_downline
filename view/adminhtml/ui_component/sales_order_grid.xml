@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<listing
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
-
-
-    <columns name="customer_columns">
-        <column name="prxgtDwnlCustomerRef">
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <!-- Additional columns (MLM ID, Parent ID) for sale orders grid -->
+    <columns name="sales_order_columns">
+        <column name="prxgtDwnlMlmId">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
@@ -13,7 +11,7 @@
                 </item>
             </argument>
         </column>
-        <column name="prxgtDwnlParentRef">
+        <column name="prxgtDwnlMlmIdParent">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
@@ -21,14 +19,5 @@
                 </item>
             </argument>
         </column>
-        <column name="prxgtDwnlCustomerDepth">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Depth</item>
-                </item>
-            </argument>
-        </column>
     </columns>
-
 </listing>
