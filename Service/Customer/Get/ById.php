@@ -19,13 +19,17 @@ class ById
     private $qbCustGet;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoCust;
+    /** @var \Praxigento\Accounting\Api\Helper\SysCustomer */
+    private $hlpSysCust;
 
     public function __construct(
         \Praxigento\Downline\Repo\Dao\Customer $daoCust,
-        \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet
+        \Praxigento\Downline\Repo\Query\Customer\Get $qbCustGet,
+        \Praxigento\Accounting\Api\Helper\SysCustomer $hlpSysCust
     ) {
         $this->daoCust = $daoCust;
         $this->qbCustGet = $qbCustGet;
+        $this->hlpSysCust = $hlpSysCust;
     }
 
     /**
@@ -76,7 +80,13 @@ class ById
         $mlmId = $request->getMlmId();
 
         /** perform processing */
-        if ($customerId) {
+        $sysCustId = $this->hlpSysCust->getId();
+        if (
+            ($customerId == $sysCustId) ||
+            ($email == Cfg::SYS_CUSTOMER_EMAIL)
+        ) {
+            $result = $this->composeSysCust();
+        } elseif ($customerId) {
             /* customer ID has a higher priority */
             $result = $this->searchById($customerId);
         } elseif ($email) {
@@ -111,6 +121,21 @@ class ById
         return $result;
     }
 
+    private function composeSysCust()
+    {
+        $custId = $this->hlpSysCust->getId();
+        $email = Cfg::SYS_CUSTOMER_EMAIL;
+        /* compose response data */
+        $result = new AResponse();
+        $result->setId($custId);
+        $result->setEmail($email);
+        $result->setNameFirst('System');
+        $result->setNameLast('Account');
+        $result->setMlmId('0000');
+        $result->setCountry('LV');
+        $result->setPathFull(Cfg::DTPS);
+        return $result;
+    }
     private function searchById($custId)
     {
         $query = $this->qbCustGet->build();

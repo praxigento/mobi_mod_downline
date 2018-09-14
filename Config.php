@@ -7,7 +7,8 @@
 
 namespace Praxigento\Downline;
 
-class Config extends \Praxigento\Core\Config
+class Config
+    extends \Praxigento\Accounting\Config
 {
     /** Downline Tree path separator */
     const DTPS = ':';
