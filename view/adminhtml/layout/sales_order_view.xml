@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="extra_customer_info">
+            <block class="Praxigento\Downline\Block\Adminhtml\Sales\Order\View\Info"
+                   name="prxgt_dwnl_sales_order_view_info"
+                   template="Praxigento_Downline::sales/order/view/info.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
