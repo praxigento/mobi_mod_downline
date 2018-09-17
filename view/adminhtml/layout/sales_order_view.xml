@@ -3,6 +3,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="extra_customer_info">
+            <!-- add MLM ID to sale form -->
             <block class="Praxigento\Downline\Block\Adminhtml\Sales\Order\View\Info"
                    name="prxgt_dwnl_sales_order_view_info"
                    template="Praxigento_Downline::sales/order/view/info.phtml"/>
