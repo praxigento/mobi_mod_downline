@@ -1,16 +1,16 @@
 <?php
 /**
- * Simple in-memoty balance calculation.
- *
- * User: Alex Gusev <alex@flancer64.com>
+ * Authors: Alex Gusev <alex@flancer64.com>
+ * Since: 2018
  */
-namespace Praxigento\Downline\Service\Snap\Sub;
+
+namespace Praxigento\Downline\Service\Snap\Calc\A;
 
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
-class CalcSimple
+class ComposeUpdates
 {
     /** @var \Praxigento\Core\Api\Helper\Period */
     private $hlpPeriod;
@@ -23,8 +23,7 @@ class CalcSimple
     public function __construct(
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Downline\Api\Helper\Tree $hlpTree
-    )
-    {
+    ) {
         $this->hlpPeriod = $hlpPeriod;
         $this->hlpTree = $hlpTree;
     }
@@ -40,7 +39,7 @@ class CalcSimple
      *
      * @return array
      */
-    public function calcSnapshots($snap, $changes)
+    public function exec($snap, $changes)
     {
         $result = [];
         /* We need to process changes one by one (changes are ordered by date) */
@@ -70,7 +69,7 @@ class CalcSimple
                 $pathReplace = $pathUpdated . $customerId . Cfg::DTPS;
 
                 /* update path teams for changed customer */
-                if(!isset($mapByPath[$currPath])) {
+                if (!isset($mapByPath[$currPath])) {
                     $mapByPath[$currPath] = [];
                 }
                 $teamCurr = &$mapByPath[$currPath]; // use & to work with nested array directly (not with copy of)

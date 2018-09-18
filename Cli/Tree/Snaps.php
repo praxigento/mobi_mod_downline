@@ -10,14 +10,14 @@ namespace Praxigento\Downline\Cli\Tree;
 class Snaps
     extends \Praxigento\Core\App\Cli\Cmd\Base
 {
-    /** @var \Praxigento\Downline\Service\ISnap */
-    private $callSnap;
     /** @var \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     private $manTrans;
+    /** @var \Praxigento\Downline\Api\Service\Snap\Calc */
+    private $servSnapCalc;
 
     public function __construct(
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
-        \Praxigento\Downline\Service\ISnap $callSnap
+        \Praxigento\Downline\Api\Service\Snap\Calc $servSnapCalc
     ) {
         $manObj = \Magento\Framework\App\ObjectManager::getInstance();
         parent::__construct(
@@ -26,7 +26,7 @@ class Snaps
             'Create snapshots for downline tree.'
         );
         $this->manTrans = $manTrans;
-        $this->callSnap = $callSnap;
+        $this->servSnapCalc = $servSnapCalc;
     }
 
     protected function execute(
@@ -37,8 +37,8 @@ class Snaps
         $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
         $def = $this->manTrans->begin();
         try {
-            $req = new \Praxigento\Downline\Service\Snap\Request\Calc();
-            $this->callSnap->calc($req);
+            $req = new \Praxigento\Downline\Api\Service\Snap\Calc\Request();
+            $this->servSnapCalc->exec($req);
             $this->manTrans->commit($def);
         } catch (\Throwable $e) {
             $output->writeln('<info>Command \'' . $this->getName() . '\' failed. Reason: '

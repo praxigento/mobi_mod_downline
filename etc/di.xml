@@ -35,8 +35,12 @@
                 type="Praxigento\Downline\Service\Customer\Get\ById"/>
     <preference for="Praxigento\Downline\Api\Service\Customer\Search"
                 type="Praxigento\Downline\Service\Customer\Search"/>
+    <preference for="Praxigento\Downline\Api\Service\Snap\Calc"
+                type="Praxigento\Downline\Service\Snap\Calc"/>
     <preference for="Praxigento\Downline\Api\Service\Snap\Clean"
                 type="Praxigento\Downline\Service\Snap\Clean"/>
+    <preference for="Praxigento\Downline\Api\Service\Snap\GetLastDate"
+                type="Praxigento\Downline\Service\Snap\GetLastDate"/>
 
 
     <!-- ******* -->

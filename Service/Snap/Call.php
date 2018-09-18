@@ -6,7 +6,6 @@
 namespace Praxigento\Downline\Service\Snap;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Repo\Data\Customer as ECust;
 use Praxigento\Downline\Repo\Data\Snap as ESnap;
 
 /**
@@ -17,34 +16,22 @@ use Praxigento\Downline\Repo\Data\Snap as ESnap;
 class Call
     implements \Praxigento\Downline\Service\ISnap
 {
-    /** @var \Praxigento\Downline\Repo\Dao\Change */
-    private $daoChange;
-    /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $daoCust;
     /** @var \Praxigento\Downline\Repo\Dao\Snap */
     private $daoSnap;
     /** @var  \Praxigento\Core\Api\Helper\Period */
     private $hlpPeriod;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
-    /** @var \Praxigento\Downline\Service\Snap\Sub\CalcSimple */
-    private $subCalc;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\Downline\Repo\Dao\Change $daoChange,
-        \Praxigento\Downline\Repo\Dao\Customer $daoCust,
-        \Praxigento\Downline\Repo\Dao\Snap $daoSnap,
-        \Praxigento\Downline\Service\Snap\Sub\CalcSimple $subCalc
+        \Praxigento\Downline\Repo\Dao\Snap $daoSnap
     )
     {
         $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
-        $this->daoChange = $daoChange;
-        $this->daoCust = $daoCust;
         $this->daoSnap = $daoSnap;
-        $this->subCalc = $subCalc;
     }
 
     /**
@@ -85,43 +72,6 @@ class Call
                 $this->_composeSnapData($result, $children, $custId);
             }
         }
-    }
-
-    /**
-     * Calculate downline snapshots up to requested date (including).
-     *
-     * @param Request\Calc $request
-     *
-     * @return Response\Calc
-     */
-    public function calc(Request\Calc $request)
-    {
-        $result = new Response\Calc();
-        $this->logger->info("New downline snapshot calculation is requested.");
-        /* get the last date with calculated snapshots */
-        $reqLast = new Request\GetLastDate();
-        /** @var  $resp Response\GetLastDate */
-        $respLast = $this->getLastDate($reqLast);
-        $dsLast = $respLast->getLastDate();
-        /* clean snapshot on the last date (MOBI-956) */
-        $where = ESnap::A_DATE . '>=' . $dsLast;
-        $this->daoSnap->delete($where);
-        /* get the snapshot on the last date */
-        $snapshot = $this->getSnap($dsLast);
-        /* get change log for the period */
-        $tsFrom = $this->hlpPeriod->getTimestampFrom($dsLast);
-        $periodTo = $this->hlpPeriod->getPeriodCurrent();
-        $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
-        $changelog = $this->daoChange->getChangesForPeriod($tsFrom, $tsTo);
-        /* calculate snapshots for the period */
-        $updates = $this->subCalc->calcSnapshots($snapshot, $changelog);
-        /* save new snapshots in DB */
-        $this->daoSnap->saveCalculatedUpdates($updates);
-        /* update actual state of the downline */
-        $this->updateDownline($updates);
-        /* finalize processing */
-        $result->markSucceed();
-        return $result;
     }
 
     /**
@@ -198,50 +148,6 @@ class Call
     }
 
     /**
-     * Calculate the last date for existing downline snap or the "yesterday" for the first change log entry.
-     *
-     * @param Request\GetLastDate $request
-     *
-     * @return Response\GetLastDate
-     */
-    public function getLastDate(Request\GetLastDate $request)
-    {
-        $result = new Response\GetLastDate();
-        $this->logger->info("'Get Last Data' operation is requested.");
-        /* get the maximal date for existing snapshot */
-        $snapMaxDate = $this->daoSnap->getMaxDatestamp();
-        if ($snapMaxDate) {
-            /* there is snapshots data */
-            $result->set([Response\GetLastDate::LAST_DATE => $snapMaxDate]);
-            $result->markSucceed();
-        } else {
-            /* there is no snapshot data yet, get change log minimal date  */
-            $changelogMinDate = $this->daoChange->getChangelogMinDate();
-            if ($changelogMinDate) {
-                $period = $this->hlpPeriod->getPeriodCurrent($changelogMinDate);
-                $dayBefore = $this->hlpPeriod->getPeriodPrev($period);
-                $this->logger->info("The last date for downline snapshot is '$dayBefore'.");
-                $result->set([Response\GetLastDate::LAST_DATE => $dayBefore]);
-                $result->markSucceed();
-            }
-        }
-        $this->logger->info("'Get Last Data' operation is completed.");
-        return $result;
-    }
-
-    private function getSnap($datestamp)
-    {
-        $result = [];
-        $snapshot = $this->daoSnap->getStateOnDate($datestamp);
-        foreach ($snapshot as $one) {
-            $item = new ESnap($one);
-            $custId = $item->getCustomerId();
-            $result[$custId] = $item;
-        }
-        return $result;
-    }
-
-    /**
      * Select downline tree state on the given datestamp.
      *
      * @param Request\GetStateOnDate $request
@@ -264,28 +170,4 @@ class Call
         return $result;
     }
 
-    private function updateDownline($updates)
-    {
-        /* compress all updates by customer */
-        $downline = [];
-        foreach ($updates as $date => $updatesByDate) {
-            /** @var ESnap $one */
-            foreach ($updatesByDate as $one) {
-                $custId = $one->getCustomerId();
-                $parentId = $one->getParentId();
-                $depth = $one->getDepth();
-                $path = $one->getPath();
-                $entry = new ECust();
-                $entry->setCustomerId($custId);
-                $entry->setParentId($parentId);
-                $entry->setDepth($depth);
-                $entry->setPath($path);
-                $downline[$custId] = $entry;
-            }
-        }
-        /* update DB data */
-        foreach ($downline as $custId => $item) {
-            $this->daoCust->updateById($custId, $item);
-        }
-    }
 }
