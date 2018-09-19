@@ -29,7 +29,7 @@ class CollectionFactory
      * @param \Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory $subject
      * @param \Closure $proceed
      * @param $requestName
-     * @return null
+     * @return \Magento\Framework\Data\Collection
      */
     public function aroundGetReport(
         \Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory $subject,

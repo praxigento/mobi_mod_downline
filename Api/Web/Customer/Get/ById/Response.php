@@ -20,7 +20,7 @@ class Response
 
     /**
      * @param \Praxigento\Downline\Api\Service\Customer\Get\ById\Response $data
-     * @return null
+     * @return void
      *
      * Magento 2 WebAPI requires full names in documentation (aliases are not allowed).
      */

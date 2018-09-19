@@ -49,7 +49,7 @@ class Change
      * FROM `prxgt_dwnl_change` AS `c`
      * ORDER BY `c`.`date_changed` ASC
      *
-     * @return null|string
+     * @return string|null
      */
     public function getChangelogMinDate()
     {

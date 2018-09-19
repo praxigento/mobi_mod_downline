@@ -97,7 +97,7 @@ class Snap
      * FROM `prxgt_dwnl_snap` AS `s`
      * ORDER BY `s`.`date` DESC
      *
-     * @return null|string YYYYMMDD
+     * @return string|null YYYYMMDD
      *
      */
     public function getMaxDatestamp()

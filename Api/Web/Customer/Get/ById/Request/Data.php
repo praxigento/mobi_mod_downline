@@ -26,7 +26,7 @@ class Data
 
     /**
      * @param string $data
-     * @return null
+     * @return void
      */
     public function setMlmId($data) {
         parent::set(self::MLM_ID, $data);

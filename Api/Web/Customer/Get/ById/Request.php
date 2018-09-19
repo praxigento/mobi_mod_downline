@@ -19,7 +19,7 @@ class Request
 
     /**
      * @param \Praxigento\Downline\Api\Web\Customer\Get\ById\Request\Data $data
-     * @return null
+     * @return void
      *
      * Magento 2 WebAPI requires full names in documentation (aliases are not allowed).
      */

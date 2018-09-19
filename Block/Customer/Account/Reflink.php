@@ -68,7 +68,7 @@ class Reflink
         return $result;
     }
 
-    /** @return null|string */
+    /** @return string|null */
     public function getReferralCode()
     {
         $dwnlCust = $this->getDwnlCustomer();
