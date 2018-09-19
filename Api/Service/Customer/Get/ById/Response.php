@@ -43,6 +43,7 @@ class Response
 
     /**
      * @param string $data
+     * @return null
      */
     public function setCountry($data)
     {
@@ -51,6 +52,7 @@ class Response
 
     /**
      * @param string $data
+     * @return null
      */
     public function setMlmId($data)
     {
@@ -61,6 +63,7 @@ class Response
      * Full path to the customer (including own ID) in downline.
      *
      * @param string $data
+     * @return null
      */
     public function setPathFull($data)
     {
