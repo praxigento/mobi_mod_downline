@@ -48,6 +48,7 @@ class Item
 
     /**
      * @param string $data
+     * @return void
      */
     public function setCountry($data)
     {
@@ -56,6 +57,7 @@ class Item
 
     /**
      * @param string $data
+     * @return void
      */
     public function setMlmId($data)
     {
@@ -66,6 +68,7 @@ class Item
      * Full path to the customer (including own ID) in downline.
      *
      * @param string $data
+     * @return void
      */
     public function setPathFull($data)
     {

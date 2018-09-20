@@ -21,6 +21,7 @@ class Response
 
     /**
      * @param \Praxigento\Downline\Api\Service\Customer\Search\Response $data
+     * @return void
      *
      * Magento 2 WebAPI requires full names in documentation (aliases are not allowed).
      */

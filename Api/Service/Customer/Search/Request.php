@@ -21,7 +21,10 @@ class Request
         return $result;
     }
 
-    /** @param int $data */
+    /**
+     * @param int $data
+     * @return void
+     */
     public function setCustomerId($data)
     {
         parent::set(self::CUSTOMER_ID, $data);
