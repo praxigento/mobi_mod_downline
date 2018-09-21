@@ -212,9 +212,8 @@ define([
                     let one = data.items[i];
                     let nameFirst = one.name_first;
                     let nameLast = one.name_last;
-                    let email = one.email;
                     let mlmId = one.mlm_id;
-                    let label = nameFirst + ' ' + nameLast + ' <' + email + '> / ' + mlmId;
+                    let label = nameFirst + ' ' + nameLast + ' / ' + mlmId;
                     let foundOne = {
                         label: label,
                         value: label,
