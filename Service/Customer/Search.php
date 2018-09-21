@@ -22,16 +22,12 @@ class Search
     /** Default limit for result set items. */
     const DEF_LIMIT = 10;
 
-    /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $daoDwnlCust;
     /** @var \Praxigento\Downline\Repo\Query\Customer\Get */
     private $qGetCustomer;
 
     public function __construct(
-        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Downline\Repo\Query\Customer\Get $qGetCustomer
     ) {
-        $this->daoDwnlCust = $daoDwnlCust;
         $this->qGetCustomer = $qGetCustomer;
     }
 
@@ -48,7 +44,6 @@ class Search
         if ($db) {
             /* extract DB data */
             $custId = $db[QBGetCustomer::A_ID];
-            $email = $db[QBGetCustomer::A_EMAIL];
             $nameFirst = $db[QBGetCustomer::A_NAME_FIRST];
             $nameLast = $db[QBGetCustomer::A_NAME_LAST];
             $mlmId = $db[QBGetCustomer::A_MLM_ID];
@@ -58,9 +53,8 @@ class Search
             /* prepare response data */
             $pathFull = $path . $custId . Cfg::DTPS;
 
-            /* compose response data */
+            /* compose response data (w/o email, see MOBI-1678)*/
             $result->setId($custId);
-            $result->setEmail($email);
             $result->setNameFirst($nameFirst);
             $result->setNameLast($nameLast);
             $result->setMlmId($mlmId);
@@ -83,11 +77,7 @@ class Search
         $limit = $req->getLimit() ?? self::DEF_LIMIT;
 
         /** perform processing */
-        $path = $country = null;
-        if ($rootCustId) {
-            list($country, $path) = $this->getRootAttrs($rootCustId);
-        }
-        $items = $this->selectCustomers($key, $limit, $rootCustId, $country, $path);
+        $items = $this->selectCustomers($key, $limit);
 
         /** compose result */
         $result = new AResponse();
@@ -96,28 +86,11 @@ class Search
     }
 
     /**
-     * Get root customer attributes (country & path) to filter result set.
-     *
-     * @param int $custId
-     * @return array ($country, $path)
-     */
-    private function getRootAttrs($custId)
-    {
-        $entity = $this->daoDwnlCust->getById($custId);
-        $country = $entity->getCountryCode();
-        $path = $entity->getPath();
-        return [$country, $path];
-    }
-
-    /**
      * @param string $key
      * @param int $limit
-     * @param int $custId
-     * @param string $country
-     * @param string $path
      * @return array
      */
-    private function selectCustomers($key, $limit, $custId, $country, $path)
+    private function selectCustomers($key, $limit)
     {
         $query = $this->qGetCustomer->build();
         $conn = $query->getConnection();
@@ -129,9 +102,8 @@ class Search
         $asDwnl = QBGetCustomer::AS_DWNL_CUST;
         $byFirst = "$asCust." . Cfg::E_CUSTOMER_A_FIRSTNAME . " LIKE $searchBy";
         $byLast = "$asCust." . Cfg::E_CUSTOMER_A_LASTNAME . " LIKE $searchBy";
-        $byEmail = "$asCust." . Cfg::E_CUSTOMER_A_EMAIL . " LIKE $searchBy";
         $byMlmID = "$asDwnl." . EDwnlCust::A_MLM_ID . " LIKE $searchBy";
-        $where = "($byFirst) OR ($byLast) OR ($byEmail) OR ($byMlmID)";
+        $where = "($byFirst) OR ($byLast) OR ($byMlmID)";
 
         $query->where($where);
         /* add LIMIT clause */
