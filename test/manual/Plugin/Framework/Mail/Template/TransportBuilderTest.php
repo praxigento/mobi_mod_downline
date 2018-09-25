@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Test\Praxigento\Downline\Plugin\Framework\Mail\Template;
+namespace Test\Praxigento\Downline\Plugin\Magento\Framework\Mail\Template;
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
 

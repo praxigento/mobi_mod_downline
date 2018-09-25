@@ -4,7 +4,7 @@
  * Since: 2018
  */
 
-namespace Praxigento\Downline\Plugin\Quote\Model\QuoteRepository;
+namespace Praxigento\Downline\Plugin\Magento\Quote\Model\QuoteRepository;
 
 
 class SaveHandler

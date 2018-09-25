@@ -4,7 +4,7 @@
  * Since: 2018
  */
 
-namespace Praxigento\Downline\Plugin\Framework\Mail\Template;
+namespace Praxigento\Downline\Plugin\Magento\Framework\Mail\Template;
 
 
 class TransportBuilder

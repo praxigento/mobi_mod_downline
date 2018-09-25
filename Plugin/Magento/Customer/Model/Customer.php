@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Plugin\Customer\Model;
+namespace Praxigento\Downline\Plugin\Magento\Customer\Model;
 
 class Customer
 {

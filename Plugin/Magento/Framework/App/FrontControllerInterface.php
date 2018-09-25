@@ -4,7 +4,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Plugin\Framework\App;
+namespace Praxigento\Downline\Plugin\Magento\Framework\App;
 
 use Praxigento\Downline\Config as Cfg;
 

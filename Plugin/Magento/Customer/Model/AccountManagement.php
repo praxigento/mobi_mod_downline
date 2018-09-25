@@ -4,7 +4,7 @@
  * Since: 2018
  */
 
-namespace Praxigento\Downline\Plugin\Customer\Model;
+namespace Praxigento\Downline\Plugin\Magento\Customer\Model;
 
 class AccountManagement
 {

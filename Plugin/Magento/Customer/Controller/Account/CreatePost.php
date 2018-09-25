@@ -4,7 +4,7 @@
  * Since: 2018
  */
 
-namespace Praxigento\Downline\Plugin\Customer\Controller\Account;
+namespace Praxigento\Downline\Plugin\Magento\Customer\Controller\Account;
 
 use Magento\Framework\Controller\ResultFactory as AResultFactory;
 

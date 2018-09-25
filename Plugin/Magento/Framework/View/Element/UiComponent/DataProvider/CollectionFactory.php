@@ -2,11 +2,11 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider;
+namespace Praxigento\Downline\Plugin\Magento\Framework\View\Element\UiComponent\DataProvider;
 
 use Praxigento\Downline\Config as Cfg;
-use Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier\Customers as AQModCustomers;
-use Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier\Sales as AQModSales;
+use Praxigento\Downline\Plugin\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier\Customers as AQModCustomers;
+use Praxigento\Downline\Plugin\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier\Sales as AQModSales;
 
 class CollectionFactory
 {

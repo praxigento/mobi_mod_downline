@@ -82,70 +82,70 @@
     <type name="Magento\Customer\Controller\Account\CreatePost">
         <!--MOBI-1319: disable customer registration w/o sale order. -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Customer\Controller\Account\CreatePost"
+                type="Praxigento\Downline\Plugin\Magento\Customer\Controller\Account\CreatePost"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Customer\Model\AccountManagement">
         <!-- Look up for customer's email by MLM ID -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Customer\Model\AccountManagement"
+                type="Praxigento\Downline\Plugin\Magento\Customer\Model\AccountManagement"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Customer\Model\Customer">
         <!-- define default group ID for referral customers -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Customer\Model\Customer"
+                type="Praxigento\Downline\Plugin\Magento\Customer\Model\Customer"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Customer\Model\GroupManagement">
         <!-- replace anonymous group for referrals -->
         <plugin name="praxigento_warehouse_plugin"
-                type="Praxigento\Downline\Plugin\Customer\Model\GroupManagement"
+                type="Praxigento\Downline\Plugin\Magento\Customer\Model\GroupManagement"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Customer\Model\Session">
         <!-- replace anonymous group for referrals -->
         <plugin name="praxigento_warehouse_plugin"
-                type="Praxigento\Downline\Plugin\Customer\Model\Session"
+                type="Praxigento\Downline\Plugin\Magento\Customer\Model\Session"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Framework\App\FrontControllerInterface">
         <!-- analyze referral codes in requests (plugin should be loaded before page cache plugins, see "sortOrder") -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Framework\App\FrontControllerInterface"
+                type="Praxigento\Downline\Plugin\Magento\Framework\App\FrontControllerInterface"
                 sortOrder="-100" disabled="false"/>
     </type>
 
     <type name="Magento\Framework\App\ResponseInterface">
         <!-- set referral cookie -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Framework\App\ResponseInterface"
+                type="Praxigento\Downline\Plugin\Magento\Framework\App\ResponseInterface"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Framework\Mail\Template\TransportBuilder">
         <!-- Add downline related attributes to customer data (registration emails) -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Framework\Mail\Template\TransportBuilder"
+                type="Praxigento\Downline\Plugin\Magento\Framework\Mail\Template\TransportBuilder"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <!-- Add custom columns to the customer grid -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
+                type="Praxigento\Downline\Plugin\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory"
                 sortOrder="100" disabled="false"/>
     </type>
 
     <type name="Magento\Framework\Url">
         <!-- MOBI-731: don't remove DCP SPA states from Magento frontend navigator (customer account) -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Framework\Url"
+                type="Praxigento\Downline\Plugin\Magento\Framework\Url"
                 sortOrder="100" disabled="false"/>
     </type>
 
@@ -161,7 +161,7 @@
                 to get country code for downline on guest checkout.
         -->
         <plugin name="praxigento_downline"
-                type="Praxigento\Downline\Plugin\Quote\Model\QuoteRepository\SaveHandler"
+                type="Praxigento\Downline\Plugin\Magento\Quote\Model\QuoteRepository\SaveHandler"
                 sortOrder="100" disabled="false"/>
     </type>
 

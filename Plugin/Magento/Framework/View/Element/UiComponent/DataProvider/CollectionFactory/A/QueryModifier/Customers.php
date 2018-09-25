@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Plugin\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier;
+namespace Praxigento\Downline\Plugin\Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory\A\QueryModifier;
 
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Data\Customer;

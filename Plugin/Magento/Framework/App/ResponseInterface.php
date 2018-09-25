@@ -6,7 +6,7 @@
  * Time: 18:51
  */
 
-namespace Praxigento\Downline\Plugin\Framework\App;
+namespace Praxigento\Downline\Plugin\Magento\Framework\App;
 
 class ResponseInterface
 {

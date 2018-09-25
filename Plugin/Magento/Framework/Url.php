@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Downline\Plugin\Framework;
+namespace Praxigento\Downline\Plugin\Magento\Framework;
 
 class Url
 {
