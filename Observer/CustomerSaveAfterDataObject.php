@@ -17,6 +17,8 @@ class CustomerSaveAfterDataObject
 
     /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
     private $hlpCodeGen;
+    /** @var \Praxigento\Downline\Helper\Registry */
+    private $hlpRegistry;
     /** @var bool flag for disabled functionality */
     private static $isDisabled = false;
     /** @var \Magento\Framework\Registry  */
@@ -27,11 +29,13 @@ class CustomerSaveAfterDataObject
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
+        \Praxigento\Downline\Helper\Registry $hlpRegistry,
         \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd
     )
     {
         $this->registry = $registry;
         $this->hlpCodeGen = $hlpCodeGen;
+        $this->hlpRegistry = $hlpRegistry;
         $this->servDwnlAdd = $servDwnlAdd;
     }
 
@@ -61,7 +65,7 @@ class CustomerSaveAfterDataObject
                     $mlmId = $this->hlpCodeGen->generateMlmId($afterSave);
                 }
                 $parentId = $this->registry->registry(self::A_PARENT_MAGE_ID);
-                $countryCode = $this->registry->registry(self::A_CUST_COUNTRY);
+                $countryCode = $this->hlpRegistry->getCustomerCountry();
                 $refCode = $this->hlpCodeGen->generateReferralCode($afterSave);
                 $req = new \Praxigento\Downline\Api\Service\Customer\Add\Request();
                 $req->setCountryCode($countryCode);
