@@ -11,10 +11,6 @@ namespace Praxigento\Downline\Observer;
 class CustomerSaveAfterDataObject
     implements \Magento\Framework\Event\ObserverInterface
 {
-    const A_CUST_COUNTRY = 'prxgtCustCountry';
-    const A_CUST_MLM_ID = 'prxgtCustMlmId';
-    const A_PARENT_MAGE_ID = 'prxgtParentMageId';
-
     /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
     private $hlpCodeGen;
     /** @var \Praxigento\Downline\Helper\Registry */
@@ -59,19 +55,15 @@ class CustomerSaveAfterDataObject
             $idAfter = $afterSave->getId();
             if ($idBefore != $idAfter) {
                 /* this is newly saved customer, register it into downline */
-                /* get MLM ID for replicated client (if exists) */
-                $mlmId = $this->registry->registry(self::A_CUST_MLM_ID);
-                if (!$mlmId) {
-                    $mlmId = $this->hlpCodeGen->generateMlmId($afterSave);
-                }
-                $parentId = $this->registry->registry(self::A_PARENT_MAGE_ID);
+                $mlmId = $this->hlpCodeGen->generateMlmId($afterSave);
                 $countryCode = $this->hlpRegistry->getCustomerCountry();
                 $refCode = $this->hlpCodeGen->generateReferralCode($afterSave);
                 $req = new \Praxigento\Downline\Api\Service\Customer\Add\Request();
                 $req->setCountryCode($countryCode);
                 $req->setCustomerId($idAfter);
                 $req->setMlmId($mlmId);
-                $req->setParentId($parentId);
+                /* parent ID will be extracted from referral codes in service call */
+                $req->setParentId(null);
                 $req->setReferralCode($refCode);
                 $this->servDwnlAdd->exec($req);
             }
