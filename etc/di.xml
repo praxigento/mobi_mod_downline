@@ -87,7 +87,8 @@
     </type>
 
     <type name="Magento\Customer\Model\AccountManagement">
-        <!-- Look up for customer's email by MLM ID -->
+        <!-- Look up for customer's email by MLM ID (beforeAuthenticate) -->
+        <!-- Extract country code and save into Magento registry when customer is created through adminhtml (beforeCreateAccount). -->
         <plugin name="praxigento_downline"
                 type="Praxigento\Downline\Plugin\Magento\Customer\Model\AccountManagement"
                 sortOrder="100" disabled="false"/>
