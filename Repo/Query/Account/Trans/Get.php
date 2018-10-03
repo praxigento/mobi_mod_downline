@@ -20,8 +20,8 @@ class Get
     const AS_DWNL_DEBIT = 'dwnlDebt';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
-    const A_CREDIT_MLM_ID = 'creditMlmID';
-    const A_DEBIT_MLM_ID = 'debitMlmID';
+    const A_CREDIT_MLM_ID = 'creditMlmId';
+    const A_DEBIT_MLM_ID = 'debitMlmId';
 
     /** Entities are used in the query */
     const E_DWNL_CREDIT = EDwnlCust::ENTITY_NAME;
