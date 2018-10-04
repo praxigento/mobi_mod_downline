@@ -5,7 +5,7 @@
 
             <div class="admin__field">
                 <label class="admin__field-label">
-                    <span><!-- ko i18n: 'Customer'--><!-- /ko -->:</span>
+                    <span>Customer:</span>
                 </label>
                 <div class="admin__field-control">
                     <span data-bind="text: customer.name_first"></span>
@@ -19,25 +19,25 @@
 
             <div class="admin__field _required">
                 <label class="admin__field-label">
-                    <span><!-- ko i18n: 'Transfer type'--><!-- /ko -->:</span>
+                    <span>Transfer type:</span>
                 </label>
                 <div class="admin__field-control required">
                     <div>
                         <input type="radio" id="prxgtTypeDirect" name="transferType" value="direct"
                                data-bind="checked: transferType"/>
-                        <label for="prxgtTypeDirect"><!-- ko i18n: 'Direct'--><!-- /ko --></label>
+                        <label for="prxgtTypeDirect">Direct</label>
                     </div>
                     <div>
                         <input type="radio" id="prxgtTypeBetween" name="transferType" value="between"
                                data-bind="checked: transferType"/>
-                        <label for="prxgtTypeBetween"><!-- ko i18n: 'Between customers'--><!-- /ko --></label>
+                        <label for="prxgtTypeBetween">Between customers</label>
                     </div>
                 </div>
             </div>
 
             <div class="admin__field _required">
                 <label class="admin__field-label">
-                    <span><!-- ko i18n: 'Asset'--><!-- /ko -->:</span>
+                    <span>Asset:</span>
                 </label>
                 <div class="admin__field-control required">
                     <select data-bind="options: assets,
@@ -54,7 +54,7 @@
 
             <div class="admin__field _required">
                 <label class="admin__field-label">
-                    <span><!-- ko i18n: 'Amount'--><!-- /ko -->:</span>
+                    <span>Amount:</span>
                 </label>
                 <div class="admin__field-control required">
                     <input data-bind="value: amount" class="admin__control-text"/>
@@ -64,12 +64,12 @@
             <div class="admin__field" style="color:red;" data-bind="visible:warnAmount()">
                 <label class="admin__field-label"><span>&nbsp;</span></label>
                 <div class="admin__field-control">
-                    <div><!-- ko i18n: 'Amount is greater then balance.'--><!-- /ko --></div>
+                    <div>Amount is greater then balance.</div>
              </div>
             </div>
 
             <div class="admin__field _required">
-                <label class="admin__field-label"><span><!-- ko i18n: 'Comment'--><!-- /ko -->:</span></label>
+                <label class="admin__field-label"><span>Comment:</span></label>
                 <div class="admin__field-control required">
                     <input data-bind="value: comment" class="admin__control-text"/>
                 </div>
@@ -77,7 +77,7 @@
 
             <div class="admin__field _required" data-bind="visible: transferType()=='between'">
                 <label class="admin__field-label">
-                    <span><!-- ko i18n: 'Counterparty'--><!-- /ko -->:</span>
+                    <span>Counterparty:</span>
                 </label>
                 <div class="admin__field-control required">
                     <input id="prxgtCustomerSearch" data-bind="value: counterparty" class="admin__control-text"/>
@@ -87,17 +87,24 @@
             <div class="admin__field" style="color:red;" data-bind="visible: transferType()=='between'">
                 <label class="admin__field-label"><span>&nbsp;</span></label>
                 <div class="admin__field-control">
-                    <div data-bind="visible:warnDiffCountries"><!-- ko i18n: 'Transfer counterparty is from the different country.'--><!-- /ko --></div>
-                    <div data-bind="visible:warnOutOfDwnl"><!-- ko i18n: 'Transfer counterparty is not under sender\'s downline.'--><!-- /ko --></div>
+                    <div data-bind="visible:warnDiffCountries">Transfer counterparty is from the different country.</div>
+                    <div data-bind="visible:warnOutOfDwnl">Transfer counterparty is not under sender's downline.</div>
                 </div>
             </div>
 
 
-            <div class="admin__field" data-bind="visible:operationId>0">
+            <div class="admin__field" data-bind="visible:operationId()>0">
                 <label class="admin__field-label"><span>&nbsp;</span></label>
                 <div class="admin__field-control">
-                    <span><!-- ko i18n: 'Transfer is succeed. Operation #'--><!-- /ko --></span>
-                    <span data-bind="text:operationId"></span>
+                    <div>Transfer is succeed.</div>
+                    <div>
+                        <span>Operation: #</span>
+                        <span data-bind="text:operationId"></span>
+                    </div>
+                    <div>
+                        <span>Amount:</span>
+                        <span data-bind="text:transAmount"></span>
+                    </div>
                 </div>
             </div>
 

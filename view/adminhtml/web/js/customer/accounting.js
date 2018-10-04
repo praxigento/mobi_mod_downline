@@ -27,18 +27,19 @@ define([
     /* View Model for slider */
     let viewModel = {
         amount: ko.observable(0),
-        comment: ko.observable(""),
         assets: undefined,
+        comment: ko.observable(""),
         counterparty: ko.observable(),
         customer: undefined,
-        operationId: 0,
+        lastInputWasValid: ko.observable(true),
+        operationId: ko.observable(0),
         selectedAsset: ko.observable(),
         selectedCounterparty: undefined,
+        transAmount: 0,
         transferType: ko.observable(TYPE_DIRECT),
+        warnAmount: undefined,
         warnDiffCountries: ko.observable(false),
-        warnOutOfDwnl: ko.observable(false),
-        lastInputWasValid: ko.observable(true),
-        warnAmount: undefined
+        warnOutOfDwnl: ko.observable(false)
     };
 
     /**
@@ -125,7 +126,7 @@ define([
             viewModel.assets = assets;
             viewModel.counterparty = ko.observable();
             viewModel.customer = customer;
-            viewModel.operationId = 0;
+            viewModel.operationId = ko.observable(0);
             viewModel.transferType = ko.observable(TYPE_DIRECT);
             viewModel.warnAmount = ko.computed(fnWarnOnTransferAmount, viewModel);
             let elm = document.getElementById('modal_panel_placeholder');
@@ -251,7 +252,11 @@ define([
         let fnSuccess = function (response) {
             /* switch off ajax loader */
             $('body').trigger('processStop');
-            viewModel.operationId = response.data.oper_id;
+            let amount = response.data.amount;
+            viewModel.transAmount = amount.toFixed(2);
+            viewModel.operationId = ko.observable(response.data.oper_id);
+            // viewModel.operationId.valueHasMutated();
+            /* "ko i18n" statements are duplicated on cleanNode/applyBindings */
             let elm = document.getElementById('modal_panel_placeholder');
             ko.cleanNode(elm);
             ko.applyBindings(viewModel, elm);
