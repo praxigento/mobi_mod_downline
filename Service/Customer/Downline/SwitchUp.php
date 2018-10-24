@@ -51,7 +51,7 @@ class SwitchUp
         $customerId = $req->getCustomerId();
         $formatted = $req->getDate();
         if (empty($formatted)) {
-            $formatted = $this->hlpDate->getMageNowForDb();
+            $formatted = $this->hlpDate->getUtcNowForDb();
         }
         $this->logger->info("Downline for customer #$customerId will be switched to it's parent.");
 
