@@ -42,6 +42,15 @@ interface Tree
     public function getParentsFromPathReversed($path);
 
     /**
+     * Compose full path from $path & $custId to select all children from DB.
+     *
+     * @param string $path ":12:34:56:"
+     * @param int $custId 78
+     * @return string ":12:34:56:78:"
+     */
+    public function getParentFullPath($path, $custId);
+
+    /**
      * Convert array of array or data objects ([ 0 => [ 'id' => 321, ... ], ...])
      * to mapped array ([ 321 => [ 'id'=>321, ... ], ... ]).
      *

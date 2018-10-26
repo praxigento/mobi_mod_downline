@@ -131,6 +131,12 @@ class Tree
         return $result;
     }
 
+    public function getParentFullPath($path, $custId)
+    {
+        $result = $path . $custId . Cfg::DTPS;
+        return $result;
+    }
+
     public function mapById($tree, $key)
     {
         $result = [];
