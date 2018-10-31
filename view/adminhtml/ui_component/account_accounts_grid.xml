@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <!-- **************************************************** -->
-    <!-- Data Source definition -->
+    <!-- Data Source (is used by data provider).              -->
     <!-- **************************************************** -->
     <dataSource name="account_accounts_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
+            <!--https://magento.stackexchange.com/questions/248611/magento-2-grid-data-source-definition-in-compact-form -->
             <argument name="class" xsi:type="string">Praxigento\Core\App\Ui\DataProvider\Grid\Base</argument>
             <argument name="name" xsi:type="string">account_accounts_grid_data_source</argument>
             <argument name="gridQueryBuilder" xsi:type="object">Praxigento\Downline\Ui\DataProvider\Grid\Account\Query</argument>
         </argument>
-        <argument name="data" xsi:type="array">
-            <item name="js_config" xsi:type="array">
-                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
-            </item>
-        </argument>
     </dataSource>
 
+    <!-- **************************************************** -->
+    <!-- Additional Columns for Grid                          -->
+    <!-- **************************************************** -->
     <columns name="account_accounts_columns">
         <column name="mlmId">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="sortOrder" xsi:type="number">1</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">MLM ID</item>
-                </item>
-            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">MLM ID</label>
+            </settings>
         </column>
+
     </columns>
 </listing>
