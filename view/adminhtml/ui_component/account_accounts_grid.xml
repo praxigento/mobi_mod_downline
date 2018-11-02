@@ -3,13 +3,11 @@
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <!-- **************************************************** -->
-    <!-- Data Source (is used by data provider).              -->
+    <!-- Rewrite original Data Source.                        -->
     <!-- **************************************************** -->
     <dataSource name="account_accounts_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <!--https://magento.stackexchange.com/questions/248611/magento-2-grid-data-source-definition-in-compact-form -->
-            <argument name="class" xsi:type="string">Praxigento\Core\App\Ui\DataProvider\Grid\Base</argument>
-            <argument name="name" xsi:type="string">account_accounts_grid_data_source</argument>
             <argument name="gridQueryBuilder" xsi:type="object">Praxigento\Downline\Ui\DataProvider\Grid\Account\Query</argument>
         </argument>
     </dataSource>
@@ -18,6 +16,7 @@
     <!-- Additional Columns for Grid                          -->
     <!-- **************************************************** -->
     <columns name="account_accounts_columns">
+
         <column name="mlmId">
             <settings>
                 <dataType>text</dataType>

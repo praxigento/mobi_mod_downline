@@ -3,41 +3,35 @@
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <!-- **************************************************** -->
-    <!-- Data Source definition -->
+    <!-- Rewrite original Data Source.                        -->
     <!-- **************************************************** -->
     <dataSource name="account_transactions_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Praxigento\Core\App\Ui\DataProvider\Grid\Base</argument>
-            <argument name="name" xsi:type="string">account_transactions_grid_data_source</argument>
+            <!--https://magento.stackexchange.com/questions/248611/magento-2-grid-data-source-definition-in-compact-form -->
             <argument name="gridQueryBuilder" xsi:type="object">Praxigento\Downline\Ui\DataProvider\Grid\Transaction\Query</argument>
-        </argument>
-        <argument name="data" xsi:type="array">
-            <item name="js_config" xsi:type="array">
-                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
-            </item>
         </argument>
     </dataSource>
 
+    <!-- **************************************************** -->
+    <!-- Additional Columns for Grid                          -->
+    <!-- **************************************************** -->
     <columns name="account_transactions_columns">
+
         <column name="mlmIdDebit">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="sortOrder" xsi:type="number">4</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Debit MLM ID</item>
-                </item>
-            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Debit MLM ID</label>
+            </settings>
         </column>
+
         <column name="mlmIdCredit">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="sortOrder" xsi:type="number">6</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Credit MLM ID</item>
-                </item>
-            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Credit MLM ID</label>
+            </settings>
         </column>
+
     </columns>
 </listing>

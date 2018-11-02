@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
-    <!-- Additional columns (MLM ID, Parent ID) for sale orders grid -->
+
+    <!-- **************************************************** -->
+    <!-- Additional Columns for Grid                          -->
+    <!-- **************************************************** -->
     <columns name="sales_order_columns">
+
         <column name="prxgtDwnlMlmId">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">MLM ID</item>
-                </item>
-            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">MLM ID</label>
+            </settings>
         </column>
+
         <column name="prxgtDwnlMlmIdParent">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Parent ID</item>
-                </item>
-            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Parent ID</label>
+            </settings>
         </column>
+
     </columns>
 </listing>
