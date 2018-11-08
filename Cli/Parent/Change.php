@@ -73,6 +73,7 @@ class Change
     ) {
         $def = $this->manTrans->begin();
         try {
+            $output->writeln('<info>You can change parent using adminhtml. See "Customer Details / Santegra Info /  Parent MLM ID".<info>');
             $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
 
             /** define local working data */
