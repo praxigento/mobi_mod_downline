@@ -21,17 +21,21 @@ class Change
     private $daoDwnlChange;
     /** @var  \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
+    /** @var \Praxigento\Core\Api\Helper\Date */
+    private $hlpDate;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Downline\Repo\Dao\Change $daoDwnlChange,
-        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
+        \Praxigento\Core\Api\Helper\Date $hlpDate
     ) {
         $this->logger = $logger;
         $this->daoDwnlChange = $daoDwnlChange;
         $this->daoDwnlCust = $daoDwnlCust;
+        $this->hlpDate = $hlpDate;
     }
 
     /**
@@ -50,6 +54,9 @@ class Change
         $this->logger->info("Set up new parent #$newParentId for customer #$customerId.");
 
         /** perform processing */
+        if (!$formatted) {
+            $formatted = $this->hlpDate->getUtcNowForDb();
+        }
         /* get customer's downline  data */
         $data = $this->daoDwnlCust->getById($customerId);
         $currParentId = $data->getParentId();;
