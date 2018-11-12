@@ -22,6 +22,7 @@
     <preference for="Praxigento\Core\Api\Service\Customer\Search"
                 type="Praxigento\Downline\Service\Customer\Search"/>
 
+
     <!-- ************ -->
     <!-- API Services -->
     <!-- ************ -->
@@ -83,6 +84,13 @@
         <!--MOBI-1319: disable customer registration w/o sale order. -->
         <plugin name="praxigento_downline"
                 type="Praxigento\Downline\Plugin\Magento\Customer\Controller\Account\CreatePost"
+                sortOrder="100" disabled="false"/>
+    </type>
+
+    <type name="Magento\Customer\Model\ResourceModel\CustomerRepository">
+        <!-- Remove customer related data from Downline on customer delete from adminhtml. -->
+        <plugin name="praxigento_downline"
+                type="Praxigento\Downline\Plugin\Magento\Customer\Model\ResourceModel\CustomerRepository"
                 sortOrder="100" disabled="false"/>
     </type>
 
