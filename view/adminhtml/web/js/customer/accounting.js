@@ -35,7 +35,7 @@ define([
         operationId: ko.observable(0),
         selectedAsset: ko.observable(),
         selectedCounterparty: undefined,
-        transAmount: 0,
+        transAmount: ko.observable(0),
         transferType: ko.observable(TYPE_DIRECT),
         warnAmount: undefined,
         warnDiffCountries: ko.observable(false),
@@ -122,11 +122,13 @@ define([
             /* open modal slider, populate knockout view-model and bind it to template */
             popup.openModal();
             viewModel.amount = ko.observable(0);
-            viewModel.comment = ko.observable("");
             viewModel.assets = assets;
+            viewModel.comment = ko.observable("");
             viewModel.counterparty = ko.observable();
             viewModel.customer = customer;
+            viewModel.error = ko.observable("");
             viewModel.operationId = ko.observable(0);
+            viewModel.transAmount = ko.observable(0);
             viewModel.transferType = ko.observable(TYPE_DIRECT);
             viewModel.warnAmount = ko.computed(fnWarnOnTransferAmount, viewModel);
             let elm = document.getElementById('modal_panel_placeholder');
@@ -248,33 +250,56 @@ define([
         };
         let json = JSON.stringify({data: data});
 
-        /* process response from server: create modal slider and populate with data */
+        /* Function to process assets transfer response from server: create modal slider and populate with data */
         let fnSuccess = function (response) {
+
+            /* clean up UI */
+            viewModel.error("");
+            viewModel.operationId(0);
+            viewModel.transAmount(0);
+            viewModel.warnDiffCountries(false);
+            viewModel.warnOutOfDwnl(false);
+
             /* switch off ajax loader */
             $('body').trigger('processStop');
-            let amount = response.data.amount;
-            viewModel.transAmount = amount.toFixed(2);
-            viewModel.operationId = ko.observable(response.data.oper_id);
-            // viewModel.operationId.valueHasMutated();
+
+            /* analyze response */
+            let respRes = response.result;
+            let respData = response.data;
+            if (!respData) {
+                /* display error message */
+                let msg = respRes.text;
+                viewModel.error = ko.observable(msg);
+            } else {
+                /* display operation details */
+                let amount = respData.amount;
+                viewModel.transAmount(amount.toFixed(2));
+                viewModel.operationId = ko.observable(respData.oper_id);
+                // viewModel.operationId.valueHasMutated();
+            }
+
+            /* refresh UI */
             /* "ko i18n" statements are duplicated on cleanNode/applyBindings */
             let elm = document.getElementById('modal_panel_placeholder');
             ko.cleanNode(elm);
             ko.applyBindings(viewModel, elm);
+
             /* wait 3 sec. & close modal */
             setTimeout(function () {
                 popup.closeModal();
             }, 3000);
         };
 
+        /* Send request to the server to process asset transfer. */
         let opts = {
             data: json,
             contentType: 'application/json',
             type: 'post',
             success: fnSuccess
         };
-
         $.ajax(urlTransfer, opts);
-        /* switch on ajax loader */
+
+        /* switch on ajax loader (will be switched off on response processing). */
         $('body').trigger('processStart');
     };
 

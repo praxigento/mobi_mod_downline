@@ -108,6 +108,14 @@
                 </div>
             </div>
 
+            <div class="admin__field" style="color:red;" data-bind="visible:error()!=''">
+                <label class="admin__field-label"><span>&nbsp;</span></label>
+                <div class="admin__field-control">
+                    <span>Error: </span>
+                    <span data-bind="text:error"></span>
+                </div>
+            </div>
+
         </fieldset>
     </div>
 
