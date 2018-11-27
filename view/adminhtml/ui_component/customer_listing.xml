@@ -24,7 +24,8 @@
             </settings>
         </column>
 
-        <column name="prxgtDwnlCustomerDepth">
+        <column name="prxgtDwnlCustomerDepth"
+                component="Praxigento_Core/js/grid/columns/integer">
             <settings>
                 <dataType>number</dataType>
                 <filter>textRange</filter>
