@@ -6,9 +6,12 @@
 
 namespace Praxigento\Downline\Observer;
 
+use Magento\Framework\Exception\LocalizedException as AMageException;
+use Magento\Framework\Phrase as APhrase;
 use Praxigento\Downline\Api\Service\Customer\Parent\Change\Request as AChangeRequest;
 use Praxigento\Downline\Api\Service\Customer\Parent\Change\Response as AChangeResponse;
 use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
+use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 
 /**
  * Save additional attributes for customer form in adminhtml.
@@ -64,15 +67,47 @@ class AdminhtmlCustomerSaveAfter
         $originalRequestData = $request->getPostValue();
         if (isset($originalRequestData['customer'][ABlock::TMPL_FLDGRP])) {
             $group = $originalRequestData['customer'][ABlock::TMPL_FLDGRP];
+            /* load customer */
+            $cust = $this->daoDwnlCust->getById($custId);
+            /* own MLM ID  */
+            $ownMlmId = $group[ABlock::TMPL_FIELD_OWN_MLM_ID];
+            $this->updateMlmId($cust, $ownMlmId);
             /* parent */
             $parentMlmId = $group[ABlock::TMPL_FIELD_PARENT_MLM_ID];
-            $this->updateParent($custId, $parentMlmId);
+            $this->updateParent($cust, $parentMlmId);
         }
     }
 
-    private function updateParent($custId, $parentMlmId)
+    /**
+     * @param EDwnlCust $cust
+     * @param string $newMlmId
+     * @throws \Exception
+     */
+    private function updateMlmId($cust, $newMlmId)
     {
-        $cust = $this->daoDwnlCust->getById($custId);
+        $mlmId = $cust->getMlmId();
+        if ($mlmId != $newMlmId) {
+            $custId = $cust->getCustomerId();
+            $cust->setMlmId($newMlmId);
+            try {
+                $this->daoDwnlCust->updateById($custId, $cust);
+            } catch (\Throwable $e) {
+                $msg = $e->getMessage();
+                $phrase = new APhrase(__("Cannot set new MLM ID (%1). Error: %2"), [$newMlmId, $msg]);
+                $e = new AMageException($phrase);
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * @param EDwnlCust $cust
+     * @param string $parentMlmId
+     * @throws \Exception
+     */
+    private function updateParent($cust, $parentMlmId)
+    {
+        $custId = $cust->getCustomerId();
         $parentIdCurrent = $cust->getParentId();
         $parent = $this->daoDwnlCust->getByMlmId($parentMlmId);
         if ($parent) {
@@ -84,6 +119,10 @@ class AdminhtmlCustomerSaveAfter
                 /** @var AChangeResponse $resp */
                 $resp = $this->servChange->exec($req);
             }
+        } else {
+            $phrase = new APhrase(__("Given parent (MLM ID: %1) does not exist."), [$parentMlmId]);
+            $e = new AMageException($phrase);
+            throw $e;
         }
     }
 }

@@ -5,6 +5,8 @@
 
 namespace Praxigento\Downline\Observer;
 
+use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
+
 /**
  * Register downline on new customer create event.
  */
@@ -13,6 +15,8 @@ class CustomerSaveAfterDataObject
 {
     /** @var \Magento\Framework\App\RequestInterface */
     private $appRequest;
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
+    private $daoDwnlCust;
     /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
     private $hlpCodeGen;
     /** @var \Praxigento\Downline\Helper\Registry */
@@ -25,12 +29,14 @@ class CustomerSaveAfterDataObject
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\RequestInterface $appRequest,
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
         \Praxigento\Downline\Helper\Registry $hlpRegistry,
         \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd
     ) {
         $this->registry = $registry;
         $this->appRequest = $appRequest;
+        $this->daoDwnlCust = $daoDwnlCust;
         $this->hlpCodeGen = $hlpCodeGen;
         $this->hlpRegistry = $hlpRegistry;
         $this->servDwnlAdd = $servDwnlAdd;
@@ -70,18 +76,31 @@ class CustomerSaveAfterDataObject
     private function getMlmId($custId)
     {
         $posted = $this->appRequest->getPostValue();
-        $result = $this->hlpCodeGen->generateMlmId($custId);
+        if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID])) {
+            $result = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID];
+        } else {
+            $result = $this->hlpCodeGen->generateMlmId($custId);
+        }
         return $result;
     }
 
     /**
-     * Extract customer's parent ID from posted data or set null to extract it in service later.
+     * Extract customer's parent ID from posted data or set null to extract it in service later from referral code.
      *
      * @return int|null
      */
     private function getParentId()
     {
-        $result = null;
+        $posted = $this->appRequest->getPostValue();
+        if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID])) {
+            $mlmId = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID];
+            $found = $this->daoDwnlCust->getByMlmId($mlmId);
+            if ($found) {
+                $result = $found->getCustomerId();
+            }
+        } else {
+            $result = null;
+        }
         return $result;
     }
 }
