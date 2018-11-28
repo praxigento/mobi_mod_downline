@@ -1,0 +1,68 @@
+<?php
+/**
+ * @var \Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info $block
+ */
+
+use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
+
+/* compose names & IDs for DOM elements */
+$tab = ABlock::TMPL_FLDGRP;
+$fldMlmId = ABlock::TMPL_FIELD_OWN_MLM_ID;
+$fldParentId = ABlock::TMPL_FIELD_PARENT_MLM_ID;
+$idMlmId = "$tab-$fldMlmId";
+$idParentId = "$tab-$fldParentId";
+?>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?= __('Downline') ?></span>
+    </div>
+    <div class="admin__fieldset-wrapper-content">
+        <fieldset class="admin__fieldset">
+
+            <?php /* Own MLM ID */ ?>
+            <div class="admin__field">
+                <label class="admin__field-label" for="<?= $idMlmId ?>">
+                    <span><?= _('MLM ID') ?></span>
+                </label>
+                <div class="admin__field-control control">
+                    <div class="fields">
+                        <input
+                                name="customer[<?= $tab ?>][<?= $fldMlmId ?>]"
+                                type="text"
+                                data-form-part="customer_form"
+                                value="<?= $block->getMlmId() ?>"
+                                id="<?= $idMlmId ?>"
+                                title="<?= __('') ?>"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <?php /* Parent MLM ID */ ?>
+            <div class="admin__field">
+                <label class="admin__field-label" for="<?= $idParentId ?>">
+                    <span><?= _('Parent MLM ID') ?></span>
+                </label>
+                <div class="admin__field-control control">
+                    <div class="fields">
+                        <input
+                                name="customer[<?= $tab ?>][<?= $fldParentId ?>]"
+                                type="text"
+                                data-form-part="customer_form"
+                                value="<?= $block->getParentMlmId() ?>"
+                                id="<?= $idParentId ?>"
+                                title="<?= __('') ?>"
+                        />
+                        <?php if ($block->hasParent()): ?>
+                            <div>
+                                <a href="<?= $block->getParentViewUrl() ?>"><?= $block->getParentName() ?></a>
+                                &lt;<?= $block->getParentEmail() ?>&gt;
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+</div>
