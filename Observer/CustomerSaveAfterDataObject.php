@@ -52,7 +52,7 @@ class CustomerSaveAfterDataObject
         $idAfter = $afterSave->getId();
         if ($idBefore != $idAfter) {
             /* this is newly saved customer, register it into downline */
-            $mlmId = $this->getMlmId($idAfter);
+            $mlmId = $this->getMlmId($afterSave);
             $parentId = $this->getParentId();
             $countryCode = $this->hlpRegistry->getCustomerCountry();
             $refCode = $this->hlpCodeGen->generateReferralCode($afterSave);
@@ -70,16 +70,16 @@ class CustomerSaveAfterDataObject
     /**
      * Extract customer's MLM ID from posted data or generate new one.
      *
-     * @param int $custId
+     * @param \Magento\Customer\Model\Data\Customer $cust
      * @return string
      */
-    private function getMlmId($custId)
+    private function getMlmId($cust)
     {
         $posted = $this->appRequest->getPostValue();
         if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID])) {
             $result = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID];
         } else {
-            $result = $this->hlpCodeGen->generateMlmId($custId);
+            $result = $this->hlpCodeGen->generateMlmId($cust);
         }
         return $result;
     }
