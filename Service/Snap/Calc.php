@@ -11,41 +11,44 @@ use Praxigento\Downline\Api\Service\Snap\Calc\Request as ARequest;
 use Praxigento\Downline\Api\Service\Snap\Calc\Response as AResponse;
 use Praxigento\Downline\Api\Service\Snap\GetLastDate\Request as AGetLastDateRequest;
 use Praxigento\Downline\Api\Service\Snap\GetLastDate\Response as AGetLastDateResponse;
+use Praxigento\Downline\Repo\Data\Change as EChange;
 use Praxigento\Downline\Repo\Data\Snap as ESnap;
+use Praxigento\Downline\Repo\Query\Snap\OnDate\Builder as QSnapOnDate;
+use Praxigento\Downline\Service\Snap\Calc\A\Repo\Query\GetChanges as QGetChanges;
 
 class Calc
     implements \Praxigento\Downline\Api\Service\Snap\Calc
 {
     /** @var \Praxigento\Downline\Service\Snap\Calc\A\ComposeUpdates */
     private $aComposeUpdates;
-    /** @var \Praxigento\Downline\Repo\Dao\Change */
-    private $daoChange;
-    /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $daoCust;
     /** @var \Praxigento\Downline\Repo\Dao\Snap */
     private $daoSnap;
     /** @var  \Praxigento\Core\Api\Helper\Period */
     private $hlpPeriod;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
+    /** @var \Praxigento\Downline\Service\Snap\Calc\A\Repo\Query\GetChanges */
+    private $qGetChanges;
+    /** @var \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder */
+    private $qSnapOnDate;
     /** @var \Praxigento\Downline\Api\Service\Snap\GetLastDate */
     private $servGetLastDate;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\Downline\Repo\Dao\Change $daoChange,
-        \Praxigento\Downline\Repo\Dao\Customer $daoCust,
         \Praxigento\Downline\Repo\Dao\Snap $daoSnap,
+        \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qSnapOnDate,
         \Praxigento\Downline\Api\Service\Snap\GetLastDate $servGetLastDate,
+        \Praxigento\Downline\Service\Snap\Calc\A\Repo\Query\GetChanges $qGetChanges,
         \Praxigento\Downline\Service\Snap\Calc\A\ComposeUpdates $aComposeUpdates
     ) {
         $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
-        $this->daoChange = $daoChange;
-        $this->daoCust = $daoCust;
         $this->daoSnap = $daoSnap;
+        $this->qSnapOnDate = $qSnapOnDate;
         $this->servGetLastDate = $servGetLastDate;
+        $this->qGetChanges = $qGetChanges;
         $this->aComposeUpdates = $aComposeUpdates;
     }
 
@@ -81,13 +84,29 @@ class Calc
      *
      * @param string $datestamp
      * @return \Praxigento\Downline\Repo\Data\Change[]
+     * @throws \Exception
      */
     private function getDwnlLog($datestamp)
     {
+        $result = [];
+        /* prepare query parameters */
         $tsFrom = $this->hlpPeriod->getTimestampFrom($datestamp);
         $periodTo = $this->hlpPeriod->getPeriodCurrent();
         $tsTo = $this->hlpPeriod->getTimestampTo($periodTo);
-        $result = $this->daoChange->getChangesForPeriod($tsFrom, $tsTo);
+        /* perform query */
+        $query = $this->qGetChanges->build();
+        $conn = $query->getConnection();
+        $bind = [
+            QGetChanges::BND_DATE_FROM => $tsFrom,
+            QGetChanges::BND_DATE_TO => $tsTo
+        ];
+        $rs = $conn->fetchAll($query, $bind);
+        /* compose result */
+        foreach ($rs as $one) {
+            $item = new EChange($one);
+            $result[] = $item;
+        }
+
         return $result;
     }
 
@@ -101,8 +120,14 @@ class Calc
     private function getDwnlSnap($datestamp)
     {
         $result = [];
-        $snapshot = $this->daoSnap->getStateOnDate($datestamp);
-        foreach ($snapshot as $one) {
+        $query = $this->qSnapOnDate->build();
+        $query->order(QSnapOnDate::AS_DWNL_SNAP . '.' . ESnap::A_DEPTH);
+        $conn = $query->getConnection();
+        $bind = [
+            QSnapOnDate::BND_ON_DATE => $datestamp
+        ];
+        $rows = $conn->fetchAll($query, $bind);
+        foreach ($rows as $one) {
             $item = new ESnap($one);
             $custId = $item->getCustomerId();
             $result[$custId] = $item;

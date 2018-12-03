@@ -43,41 +43,6 @@ class Snap
     }
 
     /**
-     * Get customer data snapshot on date (less or equal to).
-     *
-     * @param int $id
-     * @param string $datestamp 'YYYYMMDD'
-     * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.ShortVariable)
-     */
-    public function getByCustomerIdOnDate($id, $datestamp)
-    {
-        $result = null;
-        $tbl = $this->resource->getTableName(Entity::ENTITY_NAME);
-        $query = $this->conn->select();
-        $query->from($tbl);
-        $bind = [];
-        /* where */
-        $where = Entity::A_CUSTOMER_ID . '= :id';
-        $bind['id'] = (int)$id;
-        $query->where($where);
-        $where = Entity::A_DATE . '<= :date';
-        $bind['date'] = $datestamp;
-        $query->where($where);
-        /* order by */
-        $query->order(Entity::A_DATE . ' DESC');
-        /* get one only record */
-        $query->limit(1);
-        /* perform query */
-        $result = $this->conn->fetchRow($query, $bind);
-        if ($result) {
-            $result = $this->createEntity($result);
-        }
-        return $result;
-    }
-
-    /**
      * @param int $id
      * @return \Praxigento\Downline\Repo\Data\Snap|bool
      *

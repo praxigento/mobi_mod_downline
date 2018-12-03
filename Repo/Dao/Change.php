@@ -69,49 +69,4 @@ class Change
         return $result;
     }
 
-    /**
-     * SELECT
-     * `log`.*
-     * FROM `prxgt_dwnl_change` AS `log`
-     * WHERE
-     * (log.date_changed >= :date_from) AND
-     * (log.date_changed <= :date_to)
-     * ORDER BY `log`.`date_changed` ASC
-     *
-     * @param $timestampFrom
-     * @param $timestampTo
-     *
-     * @return EChange[]
-     */
-    public function getChangesForPeriod($timestampFrom, $timestampTo)
-    {
-        $asChange = 'log';
-        $tblChange = $this->resource->getTableName(EChange::ENTITY_NAME);
-        /* select from prxgt_dwnl_change */
-        $query = $this->conn->select();
-        $query->from([$asChange => $tblChange]);
-        /* where */
-        $query->where($asChange . '.' . EChange::A_DATE_CHANGED . '>=:date_from');
-        $query->where($asChange . '.' . EChange::A_DATE_CHANGED . '<:date_to');
-        $bind = [
-            'date_from' => $timestampFrom,
-            'date_to' => $timestampTo
-        ];
-        /**
-         * Order by date changed, than by customer id.
-         * Order is important for tree snapshot calculation (MOBI-202)
-         */
-        $query->order([
-            $asChange . '.' . EChange::A_DATE_CHANGED . ' ASC',
-            $asChange . '.' . EChange::A_CUSTOMER_ID . ' ASC'
-        ]);
-        $rs = $this->conn->fetchAll($query, $bind);
-        $result = [];
-        foreach ($rs as $one) {
-            $item = new EChange($one);
-            $result[] = $item;
-        }
-        return $result;
-    }
-
 }

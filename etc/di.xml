@@ -73,8 +73,6 @@
     <!-- ******** -->
     <preference for="Praxigento\Downline\Service\IMap"
                 type="Praxigento\Downline\Service\Map\Call"/>
-    <preference for="Praxigento\Downline\Service\ISnap"
-                type="Praxigento\Downline\Service\Snap\Call"/>
 
 
     <!-- ******* -->
