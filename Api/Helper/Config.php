@@ -12,6 +12,20 @@ interface Config
 {
 
     /**
+     * Group IDs of the customer groups that have a distributor permissions.
+     *
+     * @return int[]
+     */
+    public function getDowngradeGroupsDistrs();
+
+    /**
+     * Group where to unqualified customer will be placed after downgrade.
+     *
+     * @return int group ID
+     */
+    public function getDowngradeGroupUnqual();
+
+    /**
      * Group ID for referral customers.
      * @return int
      *
