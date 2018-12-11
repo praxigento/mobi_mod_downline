@@ -64,6 +64,23 @@ class CustomerSaveAfterDataObject
             $req->setParentId($parentId);
             $req->setReferralCode($refCode);
             $this->servDwnlAdd->exec($req);
+        } else {
+            /* this is customer update */
+            $groupIdBefore = $beforeSave->getGroupId();
+            $groupIdAfter = $afterSave->getGroupId();
+            $this->switchGroup($groupIdBefore, $groupIdAfter, $afterSave);
+        }
+    }
+
+    /**
+     * @param int $groupIdBefore
+     * @param int $groupIdAfter
+     * @param \Magento\Customer\Model\Data\Customer $customer
+     */
+    private function switchGroup($groupIdBefore, $groupIdAfter, $customer)
+    {
+        if ($groupIdBefore != $groupIdAfter) {
+            $q = 4;
         }
     }
 
