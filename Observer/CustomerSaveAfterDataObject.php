@@ -5,7 +5,9 @@
 
 namespace Praxigento\Downline\Observer;
 
+use Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp\Request as ASwitchUpRequest;
 use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
+use Praxigento\Downline\Service\Customer\Downline\StickUp\Request as AStickUpRequest;
 
 /**
  * Register downline on new customer create event.
@@ -19,27 +21,39 @@ class CustomerSaveAfterDataObject
     private $daoDwnlCust;
     /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
     private $hlpCodeGen;
+    /** @var \Praxigento\Downline\Api\Helper\Group\Transition */
+    private $hlpGroupTrans;
     /** @var \Praxigento\Downline\Helper\Registry */
     private $hlpRegistry;
     /** @var \Magento\Framework\Registry */
     private $registry;
     /** @var \Praxigento\Downline\Api\Service\Customer\Add */
     private $servDwnlAdd;
+    /** @var \Praxigento\Downline\Service\Customer\Downline\StickUp */
+    private $servStickUp;
+    /** @var \Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp */
+    private $servSwitchUp;
 
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\RequestInterface $appRequest,
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
+        \Praxigento\Downline\Api\Helper\Group\Transition $hlpGroupTrans,
         \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
         \Praxigento\Downline\Helper\Registry $hlpRegistry,
-        \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd
+        \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd,
+        \Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp $servSwitchUp,
+        \Praxigento\Downline\Service\Customer\Downline\StickUp $servStickUp
     ) {
         $this->registry = $registry;
         $this->appRequest = $appRequest;
         $this->daoDwnlCust = $daoDwnlCust;
+        $this->hlpGroupTrans = $hlpGroupTrans;
         $this->hlpCodeGen = $hlpCodeGen;
         $this->hlpRegistry = $hlpRegistry;
         $this->servDwnlAdd = $servDwnlAdd;
+        $this->servSwitchUp = $servSwitchUp;
+        $this->servStickUp = $servStickUp;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -69,18 +83,6 @@ class CustomerSaveAfterDataObject
             $groupIdBefore = $beforeSave->getGroupId();
             $groupIdAfter = $afterSave->getGroupId();
             $this->switchGroup($groupIdBefore, $groupIdAfter, $afterSave);
-        }
-    }
-
-    /**
-     * @param int $groupIdBefore
-     * @param int $groupIdAfter
-     * @param \Magento\Customer\Model\Data\Customer $customer
-     */
-    private function switchGroup($groupIdBefore, $groupIdAfter, $customer)
-    {
-        if ($groupIdBefore != $groupIdAfter) {
-            $q = 4;
         }
     }
 
@@ -119,5 +121,33 @@ class CustomerSaveAfterDataObject
             $result = null;
         }
         return $result;
+    }
+
+    /**
+     * @param int $groupIdBefore
+     * @param int $groupIdAfter
+     * @param \Magento\Customer\Model\Data\Customer $customer
+     * @throws \Exception
+     */
+    private function switchGroup($groupIdBefore, $groupIdAfter, $customer)
+    {
+        if ($groupIdBefore != $groupIdAfter) {
+            $custId = $customer->getId();
+            $isDowngrade = $this->hlpGroupTrans->isDowngrade($groupIdBefore, $groupIdAfter);
+            if ($isDowngrade) {
+                /* we need to switch all customer's children to the customer's parent */
+                $req = new ASwitchUpRequest();
+                $req->setCustomerId($custId);
+                $this->servSwitchUp->exec($req);
+            } else {
+                $isUpgrade = $this->hlpGroupTrans->isUpgrade($groupIdBefore, $groupIdAfter);
+                if ($isUpgrade) {
+                    /* we need to place customer under the first distributor in upline */
+                    $req = new AStickUpRequest();
+                    $req->setCustomerId($custId);
+                    $this->servStickUp->exec($req);
+                }
+            }
+        }
     }
 }
