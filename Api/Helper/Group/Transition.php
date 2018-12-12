@@ -13,13 +13,6 @@ interface Transition
     const CTX_ADMIN = 'admin';
 
     /**
-     * @param \Magento\Customer\Api\Data\CustomerInterface $custMage
-     * @param \Praxigento\Downline\Repo\Data\Customer $custDwnl
-     * @return bool
-     */
-    public function canDowngrade($custMage = null, $custDwnl = null);
-
-    /**
      * Validate does this group change is a downgrade.
      *
      * @param int $gidFrom

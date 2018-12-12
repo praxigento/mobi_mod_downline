@@ -12,7 +12,7 @@ use Praxigento\Downline\Repo\Data\Change as EDwnlChange;
 use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 
 /**
- * Add customer to downline and new entry to change log.
+ * Change parent for the customer in downline.
  */
 class Change
     implements \Praxigento\Downline\Api\Service\Customer\Parent\Change
@@ -51,12 +51,12 @@ class Change
         $customerId = $req->getCustomerId();
         $newParentId = $req->getNewParentId();
         $formatted = $req->getDate();
-        $this->logger->info("Set up new parent #$newParentId for customer #$customerId.");
-
-        /** perform processing */
         if (!$formatted) {
             $formatted = $this->hlpDate->getUtcNowForDb();
         }
+        $this->logger->info("Set up new parent #$newParentId for customer #$customerId.");
+
+        /** perform processing */
         /* get customer's downline  data */
         $data = $this->daoDwnlCust->getById($customerId);
         $currParentId = $data->getParentId();;
