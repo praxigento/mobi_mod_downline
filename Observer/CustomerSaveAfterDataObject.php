@@ -10,7 +10,7 @@ use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
 use Praxigento\Downline\Service\Customer\Downline\StickUp\Request as AStickUpRequest;
 
 /**
- * Register downline on new customer create event.
+ * Register downline on new customer create event or re-build downline on customer group change.
  */
 class CustomerSaveAfterDataObject
     implements \Magento\Framework\Event\ObserverInterface
