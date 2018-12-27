@@ -1,18 +1,20 @@
 <?php
 /**
- * User: Alex Gusev <alex@flancer64.com>
+ * Authors: Alex Gusev <alex@flancer64.com>
+ * Since: 2018
  */
 
-namespace Praxigento\Downline\Repo\Data;
+namespace Praxigento\Downline\Repo\Data\Change;
 
-class Change
+class Group
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const A_CUSTOMER_REF = 'customer_ref';
     const A_DATE_CHANGED = 'date_changed';
+    const A_GROUP_NEW = 'group_new';
+    const A_GROUP_OLD = 'group_old';
     const A_ID = 'id';
-    const A_PARENT_REF = 'parent_ref';
-    const ENTITY_NAME = 'prxgt_dwnl_change';
+    const ENTITY_NAME = 'prxgt_dwnl_change_group';
 
     /**
      * @return int
@@ -35,6 +37,24 @@ class Change
     /**
      * @return int
      */
+    public function getGroupNew()
+    {
+        $result = parent::get(self::A_GROUP_NEW);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGroupOld()
+    {
+        $result = parent::get(self::A_GROUP_OLD);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         $result = parent::get(self::A_ID);
@@ -44,7 +64,7 @@ class Change
     /**
      * @return int
      */
-    public function getParentRef()
+    public function getParentId()
     {
         $result = parent::get(self::A_PARENT_REF);
         return $result;
@@ -58,7 +78,7 @@ class Change
     /**
      * @param int $data
      */
-    public function setCustomerRef($data)
+    public function setCustomerId($data)
     {
         parent::set(self::A_CUSTOMER_REF, $data);
     }
@@ -74,6 +94,22 @@ class Change
     /**
      * @param int $data
      */
+    public function setGroupNew($data)
+    {
+        parent::set(self::A_GROUP_NEW, $data);
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setGroupOld($data)
+    {
+        parent::set(self::A_GROUP_OLD, $data);
+    }
+
+    /**
+     * @param int $data
+     */
     public function setId($data)
     {
         parent::set(self::A_ID, $data);
@@ -82,7 +118,7 @@ class Change
     /**
      * @param int $data
      */
-    public function setParentRef($data)
+    public function setParentId($data)
     {
         parent::set(self::A_PARENT_REF, $data);
     }

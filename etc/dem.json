@@ -17,75 +17,151 @@
                     "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "ParentId": {
                     "alias": "parent_ref",
                     "comment": "Reference to the customer's parent.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "Depth": {
                     "alias": "depth",
                     "comment": "Depth of the node in the tree.",
                     "nullable": false,
                     "default": 0,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "Path": {
                     "alias": "path",
                     "comment": "Path to the node - /1/2/3/.../",
                     "nullable": false,
-                    "type": {"text": {"length": 255}}
+                    "type": {
+                      "text": {
+                        "length": 255
+                      }
+                    }
                   },
                   "MlmId": {
                     "alias": "mlm_id",
                     "comment": "MLM ID (human readable reference).",
                     "nullable": true,
-                    "type": {"text": {"length": 255}}
+                    "type": {
+                      "text": {
+                        "length": 255
+                      }
+                    }
                   },
                   "ReferralCode": {
                     "alias": "referral_code",
                     "comment": "Code for referral links/coupons to build downline.",
                     "nullable": true,
-                    "type": {"text": {"length": 255}}
+                    "type": {
+                      "text": {
+                        "length": 255
+                      }
+                    }
                   },
                   "CountryCode": {
                     "alias": "country_code",
                     "comment": "Code for country of the registration.",
                     "nullable": false,
-                    "type": {"text": {"length": 2}}
+                    "type": {
+                      "text": {
+                        "length": 2
+                      }
+                    }
                   }
                 },
                 "index": {
-                  "PK": {"type": "primary", "aliases": ["customer_ref"]},
-                  "uniqueMlmId": {"type": "unique", "aliases": ["mlm_id"]},
-                  "uniqueReferralCode": {"type": "unique", "aliases": ["referral_code"]}
+                  "PK": {
+                    "type": "primary",
+                    "aliases": [
+                      "customer_ref"
+                    ]
+                  },
+                  "uniqueMlmId": {
+                    "type": "unique",
+                    "aliases": [
+                      "mlm_id"
+                    ]
+                  },
+                  "uniqueReferralCode": {
+                    "type": "unique",
+                    "aliases": [
+                      "referral_code"
+                    ]
+                  }
                 },
                 "relation": {
                   "toMageCustomer": {
-                    "own": {"aliases": ["customer_ref"]},
-                    "reference": {
-                      "entity": {"completeAlias": "customer_entity"},
-                      "aliases": ["entity_id"]
+                    "own": {
+                      "aliases": [
+                        "customer_ref"
+                      ]
                     },
-                    "action": {"delete": "cascade", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "customer_entity"
+                      },
+                      "aliases": [
+                        "entity_id"
+                      ]
+                    },
+                    "action": {
+                      "delete": "cascade",
+                      "update": "restrict"
+                    }
                   },
                   "toSelfAsParent": {
-                    "own": {"aliases": ["parent_ref"]},
-                    "reference": {
-                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_ref"]
+                    "own": {
+                      "aliases": [
+                        "parent_ref"
+                      ]
                     },
-                    "action": {"delete": "cascade", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "prxgt_dwnl_customer"
+                      },
+                      "aliases": [
+                        "customer_ref"
+                      ]
+                    },
+                    "action": {
+                      "delete": "cascade",
+                      "update": "restrict"
+                    }
                   },
                   "toMageCountryCode": {
-                    "own": {"aliases": ["country_code"]},
-                    "reference": {
-                      "entity": {"completeAlias": "directory_country"},
-                      "aliases": ["country_id"]
+                    "own": {
+                      "aliases": [
+                        "country_code"
+                      ]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "directory_country"
+                      },
+                      "aliases": [
+                        "country_id"
+                      ]
+                    },
+                    "action": {
+                      "delete": "restrict",
+                      "update": "restrict"
+                    }
                   }
                 }
               },
@@ -97,46 +173,88 @@
                     "alias": "id",
                     "comment": "ID of the change.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true,
+                        "autoincrement": true
+                      }
+                    }
                   },
                   "DateChanged": {
                     "alias": "date_changed",
                     "comment": "Timestamp for the change.",
                     "nullable": false,
-                    "type": {"datetime": {}}
+                    "type": {
+                      "datetime": {}
+                    }
                   },
                   "CustomerId": {
                     "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "ParentId": {
                     "alias": "parent_ref",
                     "comment": "Reference to the customer's parent.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   }
                 },
                 "index": {
-                  "PK": {"type": "primary", "aliases": ["id"]}
+                  "PK": {
+                    "type": "primary",
+                    "aliases": [
+                      "id"
+                    ]
+                  }
                 },
                 "relation": {
                   "toDownlineCustomer": {
-                    "own": {"aliases": ["customer_ref"]},
-                    "reference": {
-                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_ref"]
+                    "own": {
+                      "aliases": [
+                        "customer_ref"
+                      ]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "prxgt_dwnl_customer"
+                      },
+                      "aliases": [
+                        "customer_ref"
+                      ]
+                    },
+                    "action": {
+                      "delete": "restrict",
+                      "update": "restrict"
+                    }
                   },
                   "toDownlineCustomerAsParent": {
-                    "own": {"aliases": ["parent_ref"]},
-                    "reference": {
-                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_ref"]
+                    "own": {
+                      "aliases": [
+                        "parent_ref"
+                      ]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "prxgt_dwnl_customer"
+                      },
+                      "aliases": [
+                        "customer_ref"
+                      ]
+                    },
+                    "action": {
+                      "delete": "restrict",
+                      "update": "restrict"
+                    }
                   }
                 }
               },
@@ -148,53 +266,231 @@
                     "alias": "date",
                     "comment": "Snapshot date ('YYYYMMDD').",
                     "nullable": false,
-                    "type": {"text": {"length": 8}}
+                    "type": {
+                      "text": {
+                        "length": 8
+                      }
+                    }
                   },
                   "CustomerId": {
                     "alias": "customer_ref",
                     "comment": "Reference to the customer.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "ParentId": {
                     "alias": "parent_ref",
                     "comment": "Reference to the customer's parent.",
                     "nullable": false,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "Depth": {
                     "alias": "depth",
                     "comment": "Depth of the node in the tree.",
                     "nullable": false,
                     "default": 0,
-                    "type": {"integer": {"unsigned": true}}
+                    "type": {
+                      "integer": {
+                        "unsigned": true
+                      }
+                    }
                   },
                   "Path": {
                     "alias": "path",
                     "comment": "Path to the node - /1/2/3/.../",
                     "nullable": false,
-                    "type": {"text": {"length": 255}}
+                    "type": {
+                      "text": {
+                        "length": 255
+                      }
+                    }
                   }
                 },
                 "index": {
-                  "PK": {"type": "primary", "aliases": ["date", "customer_ref"]}
+                  "PK": {
+                    "type": "primary",
+                    "aliases": [
+                      "date",
+                      "customer_ref"
+                    ]
+                  }
                 },
                 "relation": {
                   "toDownlineCustomer": {
-                    "own": {"aliases": ["customer_ref"]},
-                    "reference": {
-                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_ref"]
+                    "own": {
+                      "aliases": [
+                        "customer_ref"
+                      ]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "prxgt_dwnl_customer"
+                      },
+                      "aliases": [
+                        "customer_ref"
+                      ]
+                    },
+                    "action": {
+                      "delete": "restrict",
+                      "update": "restrict"
+                    }
                   },
                   "toDownlineCustomerAsParent": {
-                    "own": {"aliases": ["parent_ref"]},
-                    "reference": {
-                      "entity": {"completeAlias": "prxgt_dwnl_customer"},
-                      "aliases": ["customer_ref"]
+                    "own": {
+                      "aliases": [
+                        "parent_ref"
+                      ]
                     },
-                    "action": {"delete": "restrict", "update": "restrict"}
+                    "reference": {
+                      "entity": {
+                        "completeAlias": "prxgt_dwnl_customer"
+                      },
+                      "aliases": [
+                        "customer_ref"
+                      ]
+                    },
+                    "action": {
+                      "delete": "restrict",
+                      "update": "restrict"
+                    }
+                  }
+                }
+              }
+            },
+            "package": {
+              "Change": {
+                "alias": "change",
+                "comment": "Top level package for Praxigento_Downline_Change namespace",
+                "entity": {
+                  "Group": {
+                    "alias": "group",
+                    "comment": "Register to trace customer group changing events.",
+                    "attribute": {
+                      "Id": {
+                        "alias": "id",
+                        "comment": "ID of the registered event to order in case datetime is the same for diff. events.",
+                        "nullable": false,
+                        "type": {
+                          "integer": {
+                            "unsigned": true,
+                            "autoincrement": true
+                          }
+                        }
+                      },
+                      "DateChanged": {
+                        "alias": "date_changed",
+                        "comment": "Timestamp for the change.",
+                        "nullable": false,
+                        "type": {
+                          "datetime": {}
+                        }
+                      },
+                      "CustomerRef": {
+                        "alias": "customer_ref",
+                        "comment": "Reference to the customer.",
+                        "nullable": false,
+                        "type": {
+                          "integer": {
+                            "unsigned": true
+                          }
+                        }
+                      },
+                      "GroupOld": {
+                        "alias": "group_old",
+                        "comment": "Reference to the old customer group.",
+                        "nullable": false,
+                        "type": {
+                          "integer": {
+                            "unsigned": true
+                          }
+                        }
+                      },
+                      "GroupNew": {
+                        "alias": "group_new",
+                        "comment": "Reference to the new customer group.",
+                        "nullable": false,
+                        "type": {
+                          "integer": {
+                            "unsigned": true
+                          }
+                        }
+                      }
+                    },
+                    "index": {
+                      "PK": {
+                        "type": "primary",
+                        "aliases": [
+                          "id"
+                        ]
+                      }
+                    },
+                    "relation": {
+                      "toMageCustomer": {
+                        "own": {
+                          "aliases": [
+                            "customer_ref"
+                          ]
+                        },
+                        "reference": {
+                          "entity": {
+                            "completeAlias": "customer_entity"
+                          },
+                          "aliases": [
+                            "entity_id"
+                          ]
+                        },
+                        "action": {
+                          "delete": "cascade",
+                          "update": "cascade"
+                        }
+                      },
+                      "toMageCustomerGroupOld": {
+                        "own": {
+                          "aliases": [
+                            "group_old"
+                          ]
+                        },
+                        "reference": {
+                          "entity": {
+                            "completeAlias": "customer_group"
+                          },
+                          "aliases": [
+                            "customer_group_id"
+                          ]
+                        },
+                        "action": {
+                          "delete": "cascade",
+                          "update": "cascade"
+                        }
+                      },
+                      "toMageCustomerGroupNew": {
+                        "own": {
+                          "aliases": [
+                            "group_new"
+                          ]
+                        },
+                        "reference": {
+                          "entity": {
+                            "completeAlias": "customer_group"
+                          },
+                          "aliases": [
+                            "customer_group_id"
+                          ]
+                        },
+                        "action": {
+                          "delete": "cascade",
+                          "update": "cascade"
+                        }
+                      }
+                    }
                   }
                 }
               }
