@@ -68,7 +68,7 @@ class StickUp
         /** perform processing */
         /* get customer downline data */
         $customer = $this->daoDwnlCust->getById($customerId);
-        $parentId = $customer->getParentId();
+        $parentId = $customer->getParentRef();
         $path = $customer->getPath();
 
         if ($parentId != $customerId) {

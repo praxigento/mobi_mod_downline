@@ -42,7 +42,7 @@ class AccountManagement
             $mlmId = trim($username);
             $found = $this->daoDwnlCust->getByMlmId($mlmId);
             if ($found) {
-                $custId = $found->getCustomerId();
+                $custId = $found->getCustomerRef();
                 $customer = $this->daoCust->getById($custId);
                 if ($customer instanceof \Magento\Customer\Api\Data\CustomerInterface) {
                     $username = $customer->getEmail();

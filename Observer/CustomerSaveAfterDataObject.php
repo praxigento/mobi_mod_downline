@@ -115,7 +115,7 @@ class CustomerSaveAfterDataObject
             $mlmId = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID];
             $found = $this->daoDwnlCust->getByMlmId($mlmId);
             if ($found) {
-                $result = $found->getCustomerId();
+                $result = $found->getCustomerRef();
             }
         } else {
             $result = null;

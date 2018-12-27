@@ -57,7 +57,7 @@ class Sales
         $cols = [
             self::A_MLM_ID => EDwnlCust::A_MLM_ID
         ];
-        $cond = "$as." . EDwnlCust::A_CUSTOMER_ID . "=" . Cfg::AS_MAIN_TABLE . "." . Cfg::E_SALE_ORDER_A_CUSTOMER_ID;
+        $cond = "$as." . EDwnlCust::A_CUSTOMER_REF . "=" . Cfg::AS_MAIN_TABLE . "." . Cfg::E_SALE_ORDER_A_CUSTOMER_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* LEFT JOIN prxgt_dwnl_customer (for parent MLM ID) */
@@ -66,7 +66,7 @@ class Sales
         $cols = [
             self::A_PARENT_MLM_ID => EDwnlCust::A_MLM_ID
         ];
-        $cond = "$as." . EDwnlCust::A_CUSTOMER_ID . "=$asCust." . EDwnlCust::A_PARENT_ID;
+        $cond = "$as." . EDwnlCust::A_CUSTOMER_REF . "=$asCust." . EDwnlCust::A_PARENT_REF;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         return $result;

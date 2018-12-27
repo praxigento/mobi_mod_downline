@@ -46,8 +46,8 @@ class ComposeUpdates
         /* to update downline paths/depths for changed customers */
         $mapByPath = $this->mapByPath($snap);
         foreach ($changes as $one) {
-            $customerId = $one->getCustomerId();
-            $newParentId = $one->getParentId();
+            $customerId = $one->getCustomerRef();
+            $newParentId = $one->getParentRef();
             $tsChanged = $one->getDateChanged();
             $dsChanged = $this->hlpPeriod->getPeriodCurrent($tsChanged);
             /* $currentState contains actual state that is updated with changes */
@@ -139,8 +139,8 @@ class ComposeUpdates
     private function composeSnapItem($customerId, $parentId, $dsChanged, $snap)
     {
         $result = new ESnap();
-        $result->setCustomerId($customerId);
-        $result->setParentId($parentId);
+        $result->setCustomerRef($customerId);
+        $result->setParentRef($parentId);
         $result->setDate($dsChanged);
         if ($customerId == $parentId) {
             /* this is root node customer */
@@ -163,7 +163,7 @@ class ComposeUpdates
 
     private function mapByPath($snap)
     {
-        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::A_CUSTOMER_ID, ESnap::A_PATH);
+        $result = $this->hlpTree->mapIdsByKey($snap, ESnap::A_CUSTOMER_REF, ESnap::A_PATH);
         return $result;
     }
 

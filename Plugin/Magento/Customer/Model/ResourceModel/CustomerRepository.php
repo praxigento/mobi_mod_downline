@@ -46,13 +46,13 @@ class CustomerRepository
 
     private function deleteChange($custId)
     {
-        $where = EChange::A_CUSTOMER_ID . '=' . (int)$custId;
+        $where = EChange::A_CUSTOMER_REF . '=' . (int)$custId;
         $this->daoChange->delete($where);
     }
 
     private function deleteSnaps($custId)
     {
-        $where = ESnap::A_CUSTOMER_ID . '=' . (int)$custId;
+        $where = ESnap::A_CUSTOMER_REF . '=' . (int)$custId;
         $this->daoSnap->delete($where);
     }
 }

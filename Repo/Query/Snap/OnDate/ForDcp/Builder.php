@@ -36,8 +36,8 @@ class Builder
         $tblDwnlCust = [
             $asDwnlCust => $this->resource->getTableName(\Praxigento\Downline\Repo\Data\Customer::ENTITY_NAME)
         ];
-        $on = $asDwnlCust . '.' . \Praxigento\Downline\Repo\Data\Customer::A_CUSTOMER_ID . '='
-            . $asDwnlSnap . '.' . \Praxigento\Downline\Repo\Data\Snap::A_CUSTOMER_ID;
+        $on = $asDwnlCust . '.' . \Praxigento\Downline\Repo\Data\Customer::A_CUSTOMER_REF . '='
+            . $asDwnlSnap . '.' . \Praxigento\Downline\Repo\Data\Snap::A_CUSTOMER_REF;
         $cols = [
             self::A_MLM_ID => \Praxigento\Downline\Repo\Data\Customer::A_MLM_ID,
             self::A_COUNTRY_CODE => \Praxigento\Downline\Repo\Data\Customer::A_COUNTRY_CODE
@@ -48,7 +48,7 @@ class Builder
             $asCust => $this->resource->getTableName(Cfg::ENTITY_MAGE_CUSTOMER)
         ];
         $on = $asCust . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID . '='
-            . $asDwnlCust . '.' . \Praxigento\Downline\Repo\Data\Customer::A_CUSTOMER_ID;
+            . $asDwnlCust . '.' . \Praxigento\Downline\Repo\Data\Customer::A_CUSTOMER_REF;
         $cols = [
             self::A_EMAIL => Cfg::E_CUSTOMER_A_EMAIL,
             self::A_NAME_FIRST => Cfg::E_CUSTOMER_A_FIRSTNAME,

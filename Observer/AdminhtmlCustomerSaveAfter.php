@@ -87,7 +87,7 @@ class AdminhtmlCustomerSaveAfter
     {
         $mlmId = $cust->getMlmId();
         if ($mlmId != $newMlmId) {
-            $custId = $cust->getCustomerId();
+            $custId = $cust->getCustomerRef();
             $cust->setMlmId($newMlmId);
             try {
                 $this->daoDwnlCust->updateById($custId, $cust);
@@ -107,11 +107,11 @@ class AdminhtmlCustomerSaveAfter
      */
     private function updateParent($cust, $parentMlmId)
     {
-        $custId = $cust->getCustomerId();
-        $parentIdCurrent = $cust->getParentId();
+        $custId = $cust->getCustomerRef();
+        $parentIdCurrent = $cust->getParentRef();
         $parent = $this->daoDwnlCust->getByMlmId($parentMlmId);
         if ($parent) {
-            $parentIdNew = $parent->getCustomerId();
+            $parentIdNew = $parent->getCustomerRef();
             if ($parentIdCurrent != $parentIdNew) {
                 $req = new AChangeRequest();
                 $req->setCustomerId($custId);

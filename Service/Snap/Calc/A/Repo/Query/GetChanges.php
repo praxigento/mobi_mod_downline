@@ -15,10 +15,10 @@ class GetChanges
     const AS_CHANGE = 'ch';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
-    const A_CUSTOMER_ID = EChange::A_CUSTOMER_ID;
+    const A_CUSTOMER_ID = EChange::A_CUSTOMER_REF;
     const A_DATE_CHANGED = EChange::A_DATE_CHANGED;
     const A_ID = EChange::A_ID;
-    const A_PARENT_ID = EChange::A_PARENT_ID;
+    const A_PARENT_ID = EChange::A_PARENT_REF;
 
     /** Bound variables names ('camelCase' naming) */
     const BND_DATE_FROM = 'dateFrom';
@@ -58,10 +58,10 @@ class GetChanges
         $tbl = $this->resource->getTableName(self::E_CHANGE);    // name with prefix
         $as = $asChange;    // alias for 'current table' (currently processed in this block of code)
         $cols = [
-            self::A_CUSTOMER_ID => EChange::A_CUSTOMER_ID,
+            self::A_CUSTOMER_ID => EChange::A_CUSTOMER_REF,
             self::A_DATE_CHANGED => EChange::A_DATE_CHANGED,
             self::A_ID => EChange::A_ID,
-            self::A_PARENT_ID => EChange::A_PARENT_ID
+            self::A_PARENT_ID => EChange::A_PARENT_REF
         ];
         $result->from([$as => $tbl], $cols);    // standard names for the variables
 
@@ -78,7 +78,7 @@ class GetChanges
          */
         $result->order([
             $asChange . '.' . EChange::A_DATE_CHANGED . ' ASC',
-            $asChange . '.' . EChange::A_CUSTOMER_ID . ' ASC',
+            $asChange . '.' . EChange::A_CUSTOMER_REF . ' ASC',
             $asChange . '.' . EChange::A_ID . ' ASC'
         ]);
 

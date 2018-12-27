@@ -88,18 +88,18 @@ class Add
         /* add customer to downline */
         $customer = new EDwnlCust();
         $customer->setCountryCode($countryCode);
-        $customer->setCustomerId($customerId);
+        $customer->setCustomerRef($customerId);
         $customer->setDepth($depth);
         $customer->setMlmId($mlmId);
-        $customer->setParentId($parentId);
+        $customer->setParentRef($parentId);
         $customer->setPath($path);
         $customer->setReferralCode($refCode);
         $this->daoDwnlCust->create($customer);
 
         /* save log record to the changes registry */
         $log = new EDwnlChange();
-        $log->setCustomerId($customerId);
-        $log->setParentId($parentId);
+        $log->setCustomerRef($customerId);
+        $log->setParentRef($parentId);
         $log->setDateChanged($date);
         $logId = $this->daoDwnlChange->create($log);
         $this->logger->debug("Downline changes are logged in registry with date: $date.");
@@ -130,7 +130,7 @@ class Add
             $defRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
             $parent = $this->daoDwnlCust->getByMlmId($defRootMlmId);
             if ($parent) {
-                $result = $parent->getCustomerId();
+                $result = $parent->getCustomerRef();
                 $this->logger->info("Default root parent #$result is used for customer #$customerId (admin mode).");
             }
         } else {
@@ -140,7 +140,7 @@ class Add
                 /* this is a referral customer, use parent from referral code */
                 $parent = $this->daoDwnlCust->getByReferralCode($code);
                 if ($parent) {
-                    $result = $parent->getCustomerId();
+                    $result = $parent->getCustomerRef();
                     $this->logger->info("Referral parent #$result is used for customer #$customerId.");
                 }
             } else {
@@ -148,7 +148,7 @@ class Add
                 $anonRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
                 $parent = $this->daoDwnlCust->getByMlmId($anonRootMlmId);
                 if ($parent) {
-                    $result = $parent->getCustomerId();
+                    $result = $parent->getCustomerRef();
                     $this->logger->info("Anonymous root parent #$result is used for customer #$customerId.");
                 }
             }

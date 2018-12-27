@@ -58,13 +58,13 @@ class SwitchUp
         /** perform processing */
         /* get customer downline data */
         $customer = $this->daoDwnlCust->getById($customerId);
-        $parentId = $customer->getParentId();
+        $parentId = $customer->getParentRef();
         $path = $customer->getPath();
 
         /* I skip the rare case when customer is the root node (w/o parent) */
 
         /* get customer's first-line team */
-        $where = EDwnlCust::A_PARENT_ID . '=' . (int)$customerId;
+        $where = EDwnlCust::A_PARENT_REF . '=' . (int)$customerId;
         $firstLine = $this->daoDwnlCust->get($where);
 
         if (count($firstLine)) {
@@ -75,7 +75,7 @@ class SwitchUp
 
             /* change parent for customer's first-line team */
             $bind = [
-                EDwnlCust::A_PARENT_ID => $parentId
+                EDwnlCust::A_PARENT_REF => $parentId
             ];
             $updated = $this->daoDwnlCust->update($bind, $where);
             $this->logger->info("Parent is updated for '$updated' downline customers from the first line.");
@@ -83,10 +83,10 @@ class SwitchUp
             /* log downline changes */
             /** @var EDwnlCust $item */
             foreach ($firstLine as $item) {
-                $custIdChange = $item->getCustomerId();
+                $custIdChange = $item->getCustomerRef();
                 $change = new EDwnlChange();
-                $change->setCustomerId($custIdChange);
-                $change->setParentId($parentId);
+                $change->setCustomerRef($custIdChange);
+                $change->setParentRef($parentId);
                 $change->setDateChanged($formatted);
                 $this->daoDwnlChange->create($change);
             }

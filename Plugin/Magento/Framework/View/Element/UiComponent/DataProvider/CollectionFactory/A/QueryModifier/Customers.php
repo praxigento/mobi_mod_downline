@@ -39,7 +39,7 @@ class Customers
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
         // parent id
         $fieldAlias = self::AS_FLD_PARENT_ID;
-        $fieldFullName = self::AS_TBL_CUST . '.' . Customer::A_PARENT_ID;
+        $fieldFullName = self::AS_TBL_CUST . '.' . Customer::A_PARENT_REF;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
         // parent ref (mlm id)
         $fieldAlias = self::AS_FLD_PARENT_REF;
@@ -53,18 +53,18 @@ class Customers
         $result = $collection->getSelect();
         /* LEFT JOIN `prxgt_dwnl_customer` AS `prxgtDwnlCust` */
         $tbl = [self::AS_TBL_CUST => $this->resource->getTableName(Customer::ENTITY_NAME)];
-        $on = self::AS_TBL_CUST . '.' . Customer::A_CUSTOMER_ID . '='
+        $on = self::AS_TBL_CUST . '.' . Customer::A_CUSTOMER_REF . '='
             . Cfg::AS_MAIN_TABLE . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID;
         $cols = [
             self::AS_FLD_CUSTOMER_REF => Customer::A_MLM_ID,
             self::AS_FLD_CUSTOMER_DEPTH => Customer::A_DEPTH,
-            self::AS_FLD_PARENT_ID => Customer::A_PARENT_ID
+            self::AS_FLD_PARENT_ID => Customer::A_PARENT_REF
         ];
         $result->joinLeft($tbl, $on, $cols);
         /* LEFT JOIN `prxgt_dwnl_customer` AS `prxgtDwnlParentCust` */
         $tbl = [self::AS_TBL_PARENT_CUST => $this->resource->getTableName(Customer::ENTITY_NAME)];
-        $on = self::AS_TBL_PARENT_CUST . '.' . Customer::A_CUSTOMER_ID . '='
-            . self::AS_TBL_CUST . '.' . Customer::A_PARENT_ID;
+        $on = self::AS_TBL_PARENT_CUST . '.' . Customer::A_CUSTOMER_REF . '='
+            . self::AS_TBL_CUST . '.' . Customer::A_PARENT_REF;
         $cols = [
             self::AS_FLD_PARENT_REF => Customer::A_MLM_ID
         ];

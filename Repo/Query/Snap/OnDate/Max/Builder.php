@@ -19,7 +19,7 @@ class Builder
     const AS_DWNL_SNAP_4_MAX = 'prxgtDwnlSnap4Max';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
-    const A_CUST_ID = ESnap::A_CUSTOMER_ID;
+    const A_CUST_ID = ESnap::A_CUSTOMER_REF;
     const A_DATE_MAX = 'date_max';
 
     /** Bound variables names ('camelCase' naming) */
@@ -38,13 +38,13 @@ class Builder
             'MAX(`' . $asSnap . '`.`' . ESnap::A_DATE . '`)'
         );
         $cols = [
-            self::A_CUST_ID => ESnap::A_CUSTOMER_ID,
+            self::A_CUST_ID => ESnap::A_CUSTOMER_REF,
             self::A_DATE_MAX => $expMaxDate
         ];
         $result->from([$asSnap => $tbl], $cols);
 
         /* query tuning */
-        $result->group($asSnap . '.' . ESnap::A_CUSTOMER_ID);
+        $result->group($asSnap . '.' . ESnap::A_CUSTOMER_REF);
         $result->where($asSnap . '.' . ESnap::A_DATE . '<=:' . self::BND_ON_DATE);
 
         return $result;

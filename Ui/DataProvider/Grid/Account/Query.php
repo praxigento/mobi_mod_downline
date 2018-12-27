@@ -66,7 +66,7 @@ class Query
         $cols = [
             self::A_MLM_ID => EDownline::A_MLM_ID
         ];
-        $cond = $as . '.' . EDownline::A_CUSTOMER_ID . '=' . $asAcc . '.' . EAccount::A_CUST_ID;
+        $cond = $as . '.' . EDownline::A_CUSTOMER_REF . '=' . $asAcc . '.' . EAccount::A_CUST_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* return  result */

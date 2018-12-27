@@ -59,7 +59,7 @@ class Get
             self::A_NAME_FIRST => Cfg::E_CUSTOMER_A_FIRSTNAME,
             self::A_NAME_LAST => Cfg::E_CUSTOMER_A_LASTNAME
         ];
-        $cond = $as . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID . '=' . $asDwnl . '.' . EDwnlCust::A_CUSTOMER_ID;
+        $cond = $as . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID . '=' . $asDwnl . '.' . EDwnlCust::A_CUSTOMER_REF;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* query tuning */

@@ -99,8 +99,8 @@ class Snap
             /* define tables aliases */
             $as = self::AS_TBL_DWNL;
             $tbl = $this->resource->getTableName(ECustomer::ENTITY_NAME);
-            $on = $as . '.' . ECustomer::A_CUSTOMER_ID . '='
-                . QBldSnap::AS_DWNL_SNAP . '.' . Entity::A_CUSTOMER_ID;
+            $on = $as . '.' . ECustomer::A_CUSTOMER_REF . '='
+                . QBldSnap::AS_DWNL_SNAP . '.' . Entity::A_CUSTOMER_REF;
             $cols = [
                 self::A_COUNTRY => ECustomer::A_COUNTRY_CODE,
                 self::A_MLM_ID => ECustomer::A_MLM_ID

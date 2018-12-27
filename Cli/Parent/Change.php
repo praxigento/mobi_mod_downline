@@ -83,8 +83,8 @@ class Change
             $output->writeln("<info>Setup new parent '$parentMlmId' for customer '$custMlmId'.<info>");
             $cust = $this->daoDwnlCust->getByMlmId($custMlmId);
             $parent = $this->daoDwnlCust->getByMlmId($parentMlmId);
-            $custId = $cust->getCustomerId();
-            $parentId = $parent->getCustomerId();
+            $custId = $cust->getCustomerRef();
+            $parentId = $parent->getCustomerRef();
 
             $req = new ARequest();
             $req->setCustomerId($custId);

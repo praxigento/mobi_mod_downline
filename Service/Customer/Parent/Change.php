@@ -59,7 +59,7 @@ class Change
         /** perform processing */
         /* get customer's downline  data */
         $data = $this->daoDwnlCust->getById($customerId);
-        $currParentId = $data->getParentId();;
+        $currParentId = $data->getParentRef();;
         $currDepth = $data->getDepth();
         $currPath = $data->getPath();
 
@@ -81,7 +81,7 @@ class Change
             }
             /* update customer with new data */
             $update = new EDwnlCust();
-            $update->setParentId($newParentId);
+            $update->setParentRef($newParentId);
             $update->setDepth($newCustomerDepth);
             $update->setPath($newCustomerPath);
             $this->daoDwnlCust->updateById($customerId, $update);
@@ -93,8 +93,8 @@ class Change
             $this->logger->info("Total '$rowsUpdated' customers in downline were updated.");
             /* save new record into change log */
             $change = new EDwnlChange();
-            $change->setCustomerId($customerId);
-            $change->setParentId($newParentId);
+            $change->setCustomerRef($customerId);
+            $change->setParentRef($newParentId);
             $change->setDateChanged($formatted);
             $insertedId = $this->daoDwnlChange->create($change);
             $this->logger->info("New change log record #$insertedId is inserted (customer: $customerId, parent: $newParentId, date: $formatted).");

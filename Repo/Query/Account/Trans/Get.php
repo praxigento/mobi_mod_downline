@@ -43,7 +43,7 @@ class Get
         $cols = [
             self::A_DEBIT_MLM_ID => EDwnlCust::A_MLM_ID
         ];
-        $cond = "$as." . EDwnlCust::A_CUSTOMER_ID . "=$asAccDebit." . EAccount::A_CUST_ID;
+        $cond = "$as." . EDwnlCust::A_CUSTOMER_REF . "=$asAccDebit." . EAccount::A_CUST_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* LEFT JOIN prxgt_dwnl_customer (debit) */
@@ -52,7 +52,7 @@ class Get
         $cols = [
             self::A_CREDIT_MLM_ID => EDwnlCust::A_MLM_ID
         ];
-        $cond = "$as." . EDwnlCust::A_CUSTOMER_ID . "=$asAccCredit." . EAccount::A_CUST_ID;
+        $cond = "$as." . EDwnlCust::A_CUSTOMER_REF . "=$asAccCredit." . EAccount::A_CUST_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         return $result;

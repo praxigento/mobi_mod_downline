@@ -33,16 +33,16 @@ class Tree
             if (is_null($parentId)) {
                 /* this is root node */
                 $result[$custId] = [
-                    Snap::A_CUSTOMER_ID => $custId,
-                    Snap::A_PARENT_ID => $custId,
+                    Snap::A_CUSTOMER_REF => $custId,
+                    Snap::A_PARENT_REF => $custId,
                     Snap::A_DEPTH => Cfg::INIT_DEPTH,
                     Snap::A_PATH => Cfg::DTPS
                 ];
             } else {
                 $parentData = $result[$parentId];
                 $result[$custId] = [
-                    Snap::A_CUSTOMER_ID => $custId,
-                    Snap::A_PARENT_ID => $parentId,
+                    Snap::A_CUSTOMER_REF => $custId,
+                    Snap::A_PARENT_REF => $parentId,
                     Snap::A_DEPTH => $parentData[Snap::A_DEPTH] + 1,
                     Snap::A_PATH => $parentData[Snap::A_PATH] . $parentId . Cfg::DTPS
                 ];

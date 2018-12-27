@@ -8,19 +8,19 @@ namespace Praxigento\Downline\Repo\Data;
 class Snap
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const A_CUSTOMER_ID = 'customer_ref';
+    const A_CUSTOMER_REF = 'customer_ref';
     const A_DATE = 'date';
     const A_DEPTH = 'depth';
-    const A_PARENT_ID = 'parent_ref';
+    const A_PARENT_REF = 'parent_ref';
     const A_PATH = 'path';
     const ENTITY_NAME = 'prxgt_dwnl_snap';
 
     /**
      * @return int
      */
-    public function getCustomerId()
+    public function getCustomerRef()
     {
-        $result = parent::get(self::A_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_REF);
         return $result;
     }
 
@@ -45,9 +45,9 @@ class Snap
     /**
      * @return int
      */
-    public function getParentId()
+    public function getParentRef()
     {
-        $result = parent::get(self::A_PARENT_ID);
+        $result = parent::get(self::A_PARENT_REF);
         return $result;
     }
 
@@ -62,15 +62,15 @@ class Snap
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::A_DATE, self::A_CUSTOMER_ID];
+        return [self::A_DATE, self::A_CUSTOMER_REF];
     }
 
     /**
      * @param int $data
      */
-    public function setCustomerId($data)
+    public function setCustomerRef($data)
     {
-        parent::set(self::A_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_REF, $data);
     }
 
     /**
@@ -92,9 +92,9 @@ class Snap
     /**
      * @param int $data
      */
-    public function setParentId($data)
+    public function setParentRef($data)
     {
-        parent::set(self::A_PARENT_ID, $data);
+        parent::set(self::A_PARENT_REF, $data);
     }
 
     /**

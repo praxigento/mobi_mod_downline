@@ -37,8 +37,8 @@ class Verify
         assert($request instanceof ARequest);
 
         $tree = $this->daoDwnlCust->get();
-        $mapById = $this->hlpTree->mapById($tree, EDwnlCust::A_CUSTOMER_ID);
-        $mapByDepth = $this->hlpTree->mapByTreeDepthAsc($tree, EDwnlCust::A_CUSTOMER_ID, EDwnlCust::A_DEPTH);
+        $mapById = $this->hlpTree->mapById($tree, EDwnlCust::A_CUSTOMER_REF);
+        $mapByDepth = $this->hlpTree->mapByTreeDepthAsc($tree, EDwnlCust::A_CUSTOMER_REF, EDwnlCust::A_DEPTH);
 
         $entries = [];
         foreach ($mapByDepth as $level) {
@@ -46,7 +46,7 @@ class Verify
                 /** @var EDwnlCust $cust */
                 $cust = $mapById[$custId];
                 $pathAct = $cust->getPath();
-                $parentId = $cust->getParentId();
+                $parentId = $cust->getParentRef();
                 /** @var EDwnlCust $parent */
                 $parent = $mapById[$parentId];
                 $pathParent = $parent->getPath();

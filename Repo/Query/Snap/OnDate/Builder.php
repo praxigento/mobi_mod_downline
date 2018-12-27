@@ -22,9 +22,9 @@ class Builder
     /** Columns aliases. */
     /* this aliases must be equals to ESnap::A_, */
     /* see \Praxigento\Downline\Service\Snap\Sub\CalcSimple::calcSnapshots */
-    const A_CUST_ID = ESnap::A_CUSTOMER_ID;
+    const A_CUST_ID = ESnap::A_CUSTOMER_REF;
     const A_DEPTH = ESnap::A_DEPTH;
-    const A_PARENT_ID = ESnap::A_PARENT_ID;
+    const A_PARENT_ID = ESnap::A_PARENT_REF;
     const A_PATH = ESnap::A_PATH;
 
     /** Bound variables names */
@@ -52,15 +52,15 @@ class Builder
         /* select from prxgt_dwnl_snap */
         $tbl = $this->resource->getTableName(ESnap::ENTITY_NAME);
         $cols = [
-            self::A_CUST_ID => ESnap::A_CUSTOMER_ID,
-            self::A_PARENT_ID => ESnap::A_PARENT_ID,
+            self::A_CUST_ID => ESnap::A_CUSTOMER_REF,
+            self::A_PARENT_ID => ESnap::A_PARENT_REF,
             self::A_DEPTH => ESnap::A_DEPTH,
             self::A_PATH => ESnap::A_PATH
         ];
         $result->from([$asSnap => $tbl], $cols);
         /* left join $q4Max */
         $q4Max = $this->qbldMax->build();
-        $on = '(' . $asMax . '.' . MaxBuilder::A_CUST_ID . '=' . $asSnap . '.' . ESnap::A_CUSTOMER_ID . ')';
+        $on = '(' . $asMax . '.' . MaxBuilder::A_CUST_ID . '=' . $asSnap . '.' . ESnap::A_CUSTOMER_REF . ')';
         $on .= ' AND (' . $asMax . '.' . MaxBuilder::A_DATE_MAX . '=' . $asSnap . '.' . ESnap::A_DATE . ')';
         $result->joinLeft([$asMax => $q4Max], $on, []);
         /* where */

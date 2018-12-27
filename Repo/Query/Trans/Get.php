@@ -51,12 +51,12 @@ class Get
 
         /* LEFT JOIN prxgt_dwnl_customer custDb */
         $tbl = $this->resource->getTableName(Cust::ENTITY_NAME);
-        $on = $asCustDbt . '.' . Cust::A_CUSTOMER_ID . '=' . $asAccDbt . '.' . Acc::A_CUST_ID;
+        $on = $asCustDbt . '.' . Cust::A_CUSTOMER_REF . '=' . $asAccDbt . '.' . Acc::A_CUST_ID;
         $cols = [self::A_DEBIT_CUST_REF => Cust::A_MLM_ID];
         $result->joinLeft([$asCustDbt => $tbl], $on, $cols);
         /* LEFT JOIN prxgt_dwnl_customer custCr */
         $tbl = $this->resource->getTableName(Cust::ENTITY_NAME);
-        $on = $asCustCrd . '.' . Cust::A_CUSTOMER_ID . '=' . $asAccCrd . '.' . Acc::A_CUST_ID;
+        $on = $asCustCrd . '.' . Cust::A_CUSTOMER_REF . '=' . $asAccCrd . '.' . Acc::A_CUST_ID;
         $cols = [self::A_CREDIT_CUST_REF => Cust::A_MLM_ID];
         $result->joinLeft([$asCustCrd => $tbl], $on, $cols);
 

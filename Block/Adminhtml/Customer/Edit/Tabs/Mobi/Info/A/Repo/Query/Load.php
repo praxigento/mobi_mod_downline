@@ -71,7 +71,7 @@ class Load
         $cols = [
             self::A_MLM_ID => EDwnl::A_MLM_ID
         ];
-        $cond = "$as." . EDwnl::A_CUSTOMER_ID . "=$asCust." . Cfg::E_CUSTOMER_A_ENTITY_ID;
+        $cond = "$as." . EDwnl::A_CUSTOMER_REF . "=$asCust." . Cfg::E_CUSTOMER_A_ENTITY_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* LEFT JOIN `prxgt_dwnl_customer` AS `dwnlParent` */
@@ -80,7 +80,7 @@ class Load
         $cols = [
             self::A_PARENT_MLM_ID => EDwnl::A_MLM_ID
         ];
-        $cond = "$as." . EDwnl::A_CUSTOMER_ID . "=$asDwnlCust." . EDwnl::A_PARENT_ID;
+        $cond = "$as." . EDwnl::A_CUSTOMER_REF . "=$asDwnlCust." . EDwnl::A_PARENT_REF;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* LEFT JOIN `customer_entity` AS `custParent` */
@@ -92,7 +92,7 @@ class Load
             self::A_PARENT_FIRST => Cfg::E_CUSTOMER_A_FIRSTNAME,
             self::A_PARENT_LAST => Cfg::E_CUSTOMER_A_LASTNAME
         ];
-        $cond = "$as." . Cfg::E_CUSTOMER_A_ENTITY_ID . "=$asDwnlCust." . EDwnl::A_PARENT_ID;
+        $cond = "$as." . Cfg::E_CUSTOMER_A_ENTITY_ID . "=$asDwnlCust." . EDwnl::A_PARENT_REF;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* query tuning */

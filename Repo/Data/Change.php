@@ -8,18 +8,18 @@ namespace Praxigento\Downline\Repo\Data;
 class Change
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const A_CUSTOMER_ID = 'customer_ref';
+    const A_CUSTOMER_REF = 'customer_ref';
     const A_DATE_CHANGED = 'date_changed';
     const A_ID = 'id';
-    const A_PARENT_ID = 'parent_ref';
+    const A_PARENT_REF = 'parent_ref';
     const ENTITY_NAME = 'prxgt_dwnl_change';
 
     /**
      * @return int
      */
-    public function getCustomerId()
+    public function getCustomerRef()
     {
-        $result = parent::get(self::A_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_REF);
         return $result;
     }
 
@@ -44,9 +44,9 @@ class Change
     /**
      * @return int
      */
-    public function getParentId()
+    public function getParentRef()
     {
-        $result = parent::get(self::A_PARENT_ID);
+        $result = parent::get(self::A_PARENT_REF);
         return $result;
     }
 
@@ -58,9 +58,9 @@ class Change
     /**
      * @param int $data
      */
-    public function setCustomerId($data)
+    public function setCustomerRef($data)
     {
-        parent::set(self::A_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_REF, $data);
     }
 
     /**
@@ -82,8 +82,8 @@ class Change
     /**
      * @param int $data
      */
-    public function setParentId($data)
+    public function setParentRef($data)
     {
-        parent::set(self::A_PARENT_ID, $data);
+        parent::set(self::A_PARENT_REF, $data);
     }
 }

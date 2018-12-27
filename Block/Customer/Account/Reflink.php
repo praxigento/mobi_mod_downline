@@ -62,7 +62,7 @@ class Reflink
     public function getMlmIdParent()
     {
         $cust = $this->getDwnlCustomer();
-        $parentId = $cust->getParentId();
+        $parentId = $cust->getParentRef();
         $parent = $this->daoDwnlCust->getById($parentId);
         $result = $parent->getMlmId();
         return $result;

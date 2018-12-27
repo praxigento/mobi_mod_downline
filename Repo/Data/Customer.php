@@ -9,10 +9,10 @@ class Customer
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const A_COUNTRY_CODE = 'country_code';
-    const A_CUSTOMER_ID = 'customer_ref';
+    const A_CUSTOMER_REF = 'customer_ref';
     const A_DEPTH = 'depth';
     const A_MLM_ID = 'mlm_id';
-    const A_PARENT_ID = 'parent_ref';
+    const A_PARENT_REF = 'parent_ref';
     const A_PATH = 'path';
     const A_REFERRAL_CODE = 'referral_code';
     const ENTITY_NAME = 'prxgt_dwnl_customer';
@@ -30,9 +30,9 @@ class Customer
     /**
      * @return int
      */
-    public function getCustomerId()
+    public function getCustomerRef()
     {
-        $result = parent::get(self::A_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_REF);
         return $result;
     }
 
@@ -57,9 +57,9 @@ class Customer
     /**
      * @return int
      */
-    public function getParentId()
+    public function getParentRef()
     {
-        $result = parent::get(self::A_PARENT_ID);
+        $result = parent::get(self::A_PARENT_REF);
         return $result;
     }
 
@@ -74,7 +74,7 @@ class Customer
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::A_CUSTOMER_ID];
+        return [self::A_CUSTOMER_REF];
     }
 
     /**
@@ -97,9 +97,9 @@ class Customer
     /**
      * @param int $data
      */
-    public function setCustomerId($data)
+    public function setCustomerRef($data)
     {
-        parent::set(self::A_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_REF, $data);
     }
 
     /**
@@ -121,9 +121,9 @@ class Customer
     /**
      * @param int $data
      */
-    public function setParentId($data)
+    public function setParentRef($data)
     {
-        parent::set(self::A_PARENT_ID, $data);
+        parent::set(self::A_PARENT_REF, $data);
     }
 
     /**
