@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+
+        <!-- "Grids" group items -->
+        <add id="Praxigento_Downline::customer_group_changes"
+             title="Group Changes"
+             translate="title"
+             module="Praxigento_Downline"
+             sortOrder="300"
+             parent="Praxigento_Core::customers_grids"
+             action="customer/group_changes"
+             resource="Magento_Customer::group"/>
+    </menu>
+</config>

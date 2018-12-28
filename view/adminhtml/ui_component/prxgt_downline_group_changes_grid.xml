@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <!-- **************************************************** -->
+    <!-- Configuration of the component's data provider.      -->
+    <!-- **************************************************** -->
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">prxgt_downline_group_changes_grid.prxgt_downline_group_changes_grid_data_source</item>
+            <!-- Prevent JS error: "this.source is not a function at UiClass.exportSorting (column.js:187)" -->
+            <item name="deps" xsi:type="string">prxgt_downline_group_changes_grid.prxgt_downline_group_changes_grid_data_source</item>
+        </item>
+        <!-- data loading indicator is bound to grid columns area (spinner will not disappear w/o it) -->
+        <item name="spinner" xsi:type="string">account_accounts_columns</item>
+    </argument>
+
+    <!-- **************************************************** -->
+    <!-- Data Source (is used by data provider).              -->
+    <!-- **************************************************** -->
+    <dataSource name="prxgt_downline_group_changes_grid_data_source"
+                component="Magento_Ui/js/grid/provider">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <!--https://magento.stackexchange.com/questions/248611/magento-2-grid-data-source-definition-in-compact-form -->
+            <argument name="class" xsi:type="string">Praxigento\Core\App\Ui\DataProvider\Grid\Base</argument>
+            <argument name="name" xsi:type="string">prxgt_downline_group_changes_grid_data_source</argument>
+            <argument name="gridQueryBuilder" xsi:type="object">Praxigento\Downline\Ui\DataProvider\Grid\Customer\Group\Changes\Query</argument>
+        </argument>
+    </dataSource>
+
+    <!-- **************************************************** -->
+    <!-- Grid header (filter, bookmarks, pager, ...).         -->
+    <!-- **************************************************** -->
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>false</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <!-- **************************************************** -->
+    <!-- Grid Columns                                         -->
+    <!-- **************************************************** -->
+    <columns name="account_accounts_columns">
+
+        <column name="id"
+                component="Praxigento_Core/js/grid/column/integer">
+            <settings>
+                <dataType>number</dataType>
+                <filter>text</filter>
+                <label translate="true">Change ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+
+        <column name="custName"
+                component="Praxigento_Downline/js/grid/customer/group_changes/column/link/customer_name">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Customer</label>
+            </settings>
+        </column>
+
+        <column name="custMlmId"
+                component="Praxigento_Downline/js/grid/customer/group_changes/column/link/customer_mlm_id">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">MLM ID</label>
+            </settings>
+        </column>
+
+        <column name="groupCur">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Cur. Group</label>
+            </settings>
+        </column>
+
+        <column name="dateChanged"
+                class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <dataType>date</dataType>
+                <filter>dateRange</filter>
+                <label translate="true">Changed at</label>
+            </settings>
+        </column>
+
+        <column name="groupOld">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Old Group</label>
+            </settings>
+        </column>
+
+        <column name="groupNew">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">New Group</label>
+            </settings>
+        </column>
+
+    </columns>
+</listing>

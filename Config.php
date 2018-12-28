@@ -16,6 +16,7 @@ class Config
     const INIT_DEPTH = 0;
     /** Name for GET parameter with referral code value */
     const KEY_REF_CODE = 'ref';
+    const MENU_CUSTOMER_GROUP_CHANGES = 'customer_group_changes';
     const MODULE = 'Praxigento_Downline';
     const ROUTE_NAME_ADMIN = 'prxgt_dwnl';
 }
