@@ -5,55 +5,23 @@
 
 namespace Praxigento\Downline\Observer;
 
-use Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp\Request as ASwitchUpRequest;
-use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
-use Praxigento\Downline\Service\Customer\Downline\StickUp\Request as AStickUpRequest;
-
 /**
  * Register downline on new customer create event or re-build downline on customer group change.
  */
 class CustomerSaveAfterDataObject
     implements \Magento\Framework\Event\ObserverInterface
 {
-    /** @var \Magento\Framework\App\RequestInterface */
-    private $appRequest;
-    /** @var \Praxigento\Downline\Repo\Dao\Customer */
-    private $daoDwnlCust;
-    /** @var \Praxigento\Downline\Api\Helper\Referral\CodeGenerator */
-    private $hlpCodeGen;
-    /** @var \Praxigento\Downline\Api\Helper\Group\Transition */
-    private $hlpGroupTrans;
-    /** @var \Praxigento\Downline\Helper\Registry */
-    private $hlpRegistry;
-    /** @var \Magento\Framework\Registry */
-    private $registry;
-    /** @var \Praxigento\Downline\Api\Service\Customer\Add */
-    private $servDwnlAdd;
-    /** @var \Praxigento\Downline\Service\Customer\Downline\StickUp */
-    private $servStickUp;
-    /** @var \Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp */
-    private $servSwitchUp;
+    /** @var \Praxigento\Downline\Observer\CustomerSaveAfterDataObject\A\GroupSwitch */
+    private $aGroupSwitch;
+    /** @var \Praxigento\Downline\Observer\CustomerSaveAfterDataObject\A\SaveNew */
+    private $aSaveNew;
 
     public function __construct(
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\App\RequestInterface $appRequest,
-        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
-        \Praxigento\Downline\Api\Helper\Group\Transition $hlpGroupTrans,
-        \Praxigento\Downline\Api\Helper\Referral\CodeGenerator $hlpCodeGen,
-        \Praxigento\Downline\Helper\Registry $hlpRegistry,
-        \Praxigento\Downline\Api\Service\Customer\Add $servDwnlAdd,
-        \Praxigento\Downline\Api\Service\Customer\Downline\SwitchUp $servSwitchUp,
-        \Praxigento\Downline\Service\Customer\Downline\StickUp $servStickUp
+        \Praxigento\Downline\Observer\CustomerSaveAfterDataObject\A\GroupSwitch $aGroupSwitch,
+        \Praxigento\Downline\Observer\CustomerSaveAfterDataObject\A\SaveNew $aSaveNew
     ) {
-        $this->registry = $registry;
-        $this->appRequest = $appRequest;
-        $this->daoDwnlCust = $daoDwnlCust;
-        $this->hlpGroupTrans = $hlpGroupTrans;
-        $this->hlpCodeGen = $hlpCodeGen;
-        $this->hlpRegistry = $hlpRegistry;
-        $this->servDwnlAdd = $servDwnlAdd;
-        $this->servSwitchUp = $servSwitchUp;
-        $this->servStickUp = $servStickUp;
+        $this->aGroupSwitch = $aGroupSwitch;
+        $this->aSaveNew = $aSaveNew;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -66,88 +34,12 @@ class CustomerSaveAfterDataObject
         $idAfter = $afterSave->getId();
         if ($idBefore != $idAfter) {
             /* this is newly saved customer, register it into downline */
-            $mlmId = $this->getMlmId($afterSave);
-            $parentId = $this->getParentId();
-            $countryCode = $this->hlpRegistry->getCustomerCountry();
-            $refCode = $this->hlpCodeGen->generateReferralCode($afterSave);
-            $req = new \Praxigento\Downline\Api\Service\Customer\Add\Request();
-            $req->setCountryCode($countryCode);
-            $req->setCustomerId($idAfter);
-            $req->setMlmId($mlmId);
-            /* parent ID will be extracted from referral codes in service call */
-            $req->setParentId($parentId);
-            $req->setReferralCode($refCode);
-            $this->servDwnlAdd->exec($req);
+            $this->aSaveNew->exec($afterSave);
         } else {
             /* this is customer update */
             $groupIdBefore = $beforeSave->getGroupId();
-            $groupIdAfter = $afterSave->getGroupId();
-            $this->switchGroup($groupIdBefore, $groupIdAfter, $afterSave);
+            $this->aGroupSwitch->exec($groupIdBefore, $afterSave);
         }
     }
 
-    /**
-     * Extract customer's MLM ID from posted data or generate new one.
-     *
-     * @param \Magento\Customer\Model\Data\Customer $cust
-     * @return string
-     */
-    private function getMlmId($cust)
-    {
-        $posted = $this->appRequest->getPostValue();
-        if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID])) {
-            $result = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID];
-        } else {
-            $result = $this->hlpCodeGen->generateMlmId($cust);
-        }
-        return $result;
-    }
-
-    /**
-     * Extract customer's parent ID from posted data or set null to extract it in service later from referral code.
-     *
-     * @return int|null
-     */
-    private function getParentId()
-    {
-        $posted = $this->appRequest->getPostValue();
-        if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID])) {
-            $mlmId = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID];
-            $found = $this->daoDwnlCust->getByMlmId($mlmId);
-            if ($found) {
-                $result = $found->getCustomerRef();
-            }
-        } else {
-            $result = null;
-        }
-        return $result;
-    }
-
-    /**
-     * @param int $groupIdBefore
-     * @param int $groupIdAfter
-     * @param \Magento\Customer\Model\Data\Customer $customer
-     * @throws \Exception
-     */
-    private function switchGroup($groupIdBefore, $groupIdAfter, $customer)
-    {
-        if ($groupIdBefore != $groupIdAfter) {
-            $custId = $customer->getId();
-            $isDowngrade = $this->hlpGroupTrans->isDowngrade($groupIdBefore, $groupIdAfter);
-            if ($isDowngrade) {
-                /* we need to switch all customer's children to the customer's parent */
-                $req = new ASwitchUpRequest();
-                $req->setCustomerId($custId);
-                $this->servSwitchUp->exec($req);
-            } else {
-                $isUpgrade = $this->hlpGroupTrans->isUpgrade($groupIdBefore, $groupIdAfter);
-                if ($isUpgrade) {
-                    /* we need to place customer under the first distributor in upline */
-                    $req = new AStickUpRequest();
-                    $req->setCustomerId($custId);
-                    $this->servStickUp->exec($req);
-                }
-            }
-        }
-    }
 }

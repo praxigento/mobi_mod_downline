@@ -64,7 +64,7 @@ class Group
     /**
      * @return int
      */
-    public function getParentId()
+    public function getParentRef()
     {
         $result = parent::get(self::A_PARENT_REF);
         return $result;
@@ -78,7 +78,7 @@ class Group
     /**
      * @param int $data
      */
-    public function setCustomerId($data)
+    public function setCustomerRef($data)
     {
         parent::set(self::A_CUSTOMER_REF, $data);
     }
@@ -118,7 +118,7 @@ class Group
     /**
      * @param int $data
      */
-    public function setParentId($data)
+    public function setParentRef($data)
     {
         parent::set(self::A_PARENT_REF, $data);
     }
