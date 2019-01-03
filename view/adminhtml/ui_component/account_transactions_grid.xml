@@ -17,7 +17,8 @@
     <!-- **************************************************** -->
     <columns name="account_transactions_columns">
 
-        <column name="mlmIdDebit">
+        <column name="mlmIdDebit"
+                component="Praxigento_Downline/js/grid/account/transactions/column/link/debit_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>
@@ -25,7 +26,8 @@
             </settings>
         </column>
 
-        <column name="mlmIdCredit">
+        <column name="mlmIdCredit"
+                component="Praxigento_Downline/js/grid/account/transactions/column/link/credit_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>
