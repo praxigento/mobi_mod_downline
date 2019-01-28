@@ -86,7 +86,10 @@ class AdminhtmlCustomerSaveAfter
     private function updateMlmId($cust, $newMlmId)
     {
         $mlmId = $cust->getMlmId();
-        if ($mlmId != $newMlmId) {
+        if (
+            ($mlmId != $newMlmId) &&
+            !empty($newMlmId)
+        ) {
             $custId = $cust->getCustomerRef();
             $cust->setMlmId($newMlmId);
             try {

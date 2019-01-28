@@ -63,7 +63,10 @@ class SaveNew
     private function getMlmId($customer)
     {
         $posted = $this->appRequest->getPostValue();
-        if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID])) {
+        if (
+            isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID]) &&
+            !empty($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID])
+        ) {
             $result = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_OWN_MLM_ID];
         } else {
             $result = $this->hlpCodeGen->generateMlmId($customer);
