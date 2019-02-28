@@ -156,19 +156,26 @@
                 sortOrder="300" disabled="false"/>
     </type>
 
-    <type name="Magento\Sales\Model\Order\OrderCustomerExtractor">
-        <!-- Save customer country code into the registry to be processed in downline when new referral customer is created. -->
-        <plugin name="prxgt_dwnl_plugin"
-                type="Praxigento\Downline\Plugin\Magento\Sales\Model\Order\OrderCustomerExtractor"
-                sortOrder="300" disabled="false"/>
-    </type>
-
     <type name="Magento\Quote\Model\Quote\Address">
         <!-- MOBI-1695: force "saveInAddressBook" attribute for billing address
                 to get country code for downline on guest checkout.
         -->
         <plugin name="prxgt_dwnl_plugin"
                 type="Praxigento\Downline\Plugin\Magento\Quote\Model\Quote\Address"
+                sortOrder="300" disabled="false"/>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote">
+        <!-- SAN-551: Replace NOT_LOGGED_IN group for referral customers. -->
+        <plugin name="prxgt_dwnl_plugin"
+                type="Praxigento\Downline\Plugin\Magento\Quote\Model\Quote"
+                sortOrder="300" disabled="false"/>
+    </type>
+
+    <type name="Magento\Sales\Model\Order\OrderCustomerExtractor">
+        <!-- Save customer country code into the registry to be processed in downline when new referral customer is created. -->
+        <plugin name="prxgt_dwnl_plugin"
+                type="Praxigento\Downline\Plugin\Magento\Sales\Model\Order\OrderCustomerExtractor"
                 sortOrder="300" disabled="false"/>
     </type>
 
