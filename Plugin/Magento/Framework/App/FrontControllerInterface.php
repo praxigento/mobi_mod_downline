@@ -13,12 +13,15 @@ class FrontControllerInterface
     /** Name of the HTTP GET variable for referral code */
     const REQ_REFERRAL = Cfg::KEY_REF_CODE;
     /** @var \Praxigento\Downline\Api\Helper\Referral */
-    protected $hlpRefCode;
+    private $hlpRefCode;
+    /** @var \Magento\Customer\Model\Session */
+    private $session;
 
     public function __construct(
+        \Magento\Customer\Model\Session $session,
         \Praxigento\Downline\Api\Helper\Referral $hlpRefCode
-    )
-    {
+    ) {
+        $this->session = $session;
         $this->hlpRefCode = $hlpRefCode;
     }
 
@@ -31,9 +34,11 @@ class FrontControllerInterface
     public function beforeDispatch(
         \Magento\Framework\App\FrontControllerInterface $subject,
         \Magento\Framework\App\RequestInterface $request
-    )
-    {
+    ) {
         $code = $request->getParam(static::REQ_REFERRAL);
+        if (!empty($code)) {
+            $this->session->logout();
+        }
         $this->hlpRefCode->processHttpRequest($code);
     }
 }
