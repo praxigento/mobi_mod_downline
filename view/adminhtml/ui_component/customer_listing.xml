@@ -8,7 +8,8 @@
     <!-- **************************************************** -->
     <columns name="customer_columns">
 
-        <column name="prxgtDwnlCustomerRef">
+        <column name="prxgtDwnlCustomerRef"
+                component="Praxigento_Downline/js/grid/customer/index/column/link/customer_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>
@@ -16,7 +17,8 @@
             </settings>
         </column>
 
-        <column name="prxgtDwnlParentRef">
+        <column name="prxgtDwnlParentRef"
+                component="Praxigento_Downline/js/grid/customer/index/column/link/parent_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>

@@ -7,7 +7,8 @@
     <!-- **************************************************** -->
     <columns name="sales_order_columns">
 
-        <column name="prxgtDwnlMlmId">
+        <column name="prxgtDwnlMlmId"
+                component="Praxigento_Downline/js/grid/sales/order/column/link/customer_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>
@@ -15,7 +16,8 @@
             </settings>
         </column>
 
-        <column name="prxgtDwnlMlmIdParent">
+        <column name="prxgtDwnlMlmIdParent"
+                component="Praxigento_Downline/js/grid/sales/order/column/link/parent_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>
