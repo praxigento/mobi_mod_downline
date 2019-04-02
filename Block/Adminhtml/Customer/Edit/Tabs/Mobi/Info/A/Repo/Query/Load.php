@@ -19,6 +19,7 @@ class Load
     const AS_DWNL_PARENT = 'dwnlParent';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
+    const A_COUNTRY_CODE = 'countryCode';
     const A_MLM_ID = 'mlmId';
     const A_PARENT_CUST_ID = 'parentCustId';
     const A_PARENT_EMAIL = 'parentEmail';
@@ -33,21 +34,6 @@ class Load
     const E_CUST = Cfg::ENTITY_MAGE_CUSTOMER;
     const E_DWNL = EDwnl::ENTITY_NAME;
 
-    /**
-     * SELECT `dwnlCust`.`mlm_id`      AS `mlmId`,
-     * `dwnlParent`.`mlm_id`    AS `parenMlmId`,
-     * `custParent`.`entity_id` AS `parentCustId`,
-     * `custParent`.`email`     AS `parentEmail`,
-     * `custParent`.`firstname` AS `parentFirst`,
-     * `custParent`.`lastname`  AS `parentLast`
-     * FROM `customer_entity` AS `cust`
-     * LEFT JOIN `prxgt_dwnl_customer` AS `dwnlCust` ON dwnlCust.customer_ref = cust.entity_id
-     * LEFT JOIN `prxgt_dwnl_customer` AS `dwnlParent` ON dwnlParent.customer_ref = dwnlCust.parent_ref
-     * LEFT JOIN `customer_entity` AS `custParent` ON custParent.entity_id = dwnlCust.parent_ref
-     * WHERE (cust.entity_id = :custId)
-     *
-     * @inheritdoc
-     */
     public function build(\Magento\Framework\DB\Select $source = null)
     {
         /* this is root query builder (started from SELECT) */
@@ -69,7 +55,8 @@ class Load
         $tbl = $this->resource->getTableName(self::E_DWNL);
         $as = $asDwnlCust;
         $cols = [
-            self::A_MLM_ID => EDwnl::A_MLM_ID
+            self::A_MLM_ID => EDwnl::A_MLM_ID,
+            self::A_COUNTRY_CODE => EDwnl::A_COUNTRY_CODE
         ];
         $cond = "$as." . EDwnl::A_CUSTOMER_REF . "=$asCust." . Cfg::E_CUSTOMER_A_ENTITY_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);

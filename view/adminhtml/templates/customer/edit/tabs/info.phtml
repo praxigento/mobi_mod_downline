@@ -7,8 +7,10 @@ use Praxigento\Downline\Block\Adminhtml\Customer\Edit\Tabs\Mobi\Info as ABlock;
 
 /* compose names & IDs for DOM elements */
 $tab = ABlock::TMPL_FLDGRP;
+$fldCountryCode = ABlock::TMPL_FIELD_COUNTRY_CODE;
 $fldMlmId = ABlock::TMPL_FIELD_OWN_MLM_ID;
 $fldParentId = ABlock::TMPL_FIELD_PARENT_MLM_ID;
+$idCountryCode = "$tab-$fldCountryCode";
 $idMlmId = "$tab-$fldMlmId";
 $idParentId = "$tab-$fldParentId";
 ?>
@@ -32,6 +34,25 @@ $idParentId = "$tab-$fldParentId";
                                 data-form-part="customer_form"
                                 value="<?= $block->getMlmId() ?>"
                                 id="<?= $idMlmId ?>"
+                                title="<?= __('') ?>"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <?php /* Country code*/ ?>
+            <div class="admin__field">
+                <label class="admin__field-label" for="<?= $idCountryCode ?>">
+                    <span><?= _('Country') ?></span>
+                </label>
+                <div class="admin__field-control control">
+                    <div class="fields">
+                        <input
+                                name="customer[<?= $tab ?>][<?= $fldCountryCode ?>]"
+                                type="text"
+                                data-form-part="customer_form"
+                                value="<?= $block->getCountryCode() ?>"
+                                id="<?= $idCountryCode ?>"
                                 title="<?= __('') ?>"
                         />
                     </div>

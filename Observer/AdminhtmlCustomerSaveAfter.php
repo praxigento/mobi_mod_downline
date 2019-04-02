@@ -69,9 +69,12 @@ class AdminhtmlCustomerSaveAfter
             $group = $originalRequestData['customer'][ABlock::TMPL_FLDGRP];
             /* load customer */
             $cust = $this->daoDwnlCust->getById($custId);
-            /* own MLM ID  */
+            /* own MLM ID */
             $ownMlmId = $group[ABlock::TMPL_FIELD_OWN_MLM_ID];
             $this->updateMlmId($cust, $ownMlmId);
+            /* country code */
+            $countryCode = $group[ABlock::TMPL_FIELD_COUNTRY_CODE];
+            $this->updateCountryCode($cust, $countryCode);
             /* parent */
             $parentMlmId = $group[ABlock::TMPL_FIELD_PARENT_MLM_ID];
             $this->updateParent($cust, $parentMlmId);
@@ -97,6 +100,34 @@ class AdminhtmlCustomerSaveAfter
             } catch (\Throwable $e) {
                 $msg = $e->getMessage();
                 $phrase = new APhrase(__("Cannot set new MLM ID (%1). Error: %2"), [$newMlmId, $msg]);
+                $e = new AMageException($phrase);
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * @param EDwnlCust $cust
+     * @param string $newCountryCode
+     * @throws \Exception
+     */
+    private function updateCountryCode($cust, $newCountryCode)
+    {
+        $countryCode = $cust->getCountryCode();
+        if (
+            ($countryCode != $newCountryCode) &&
+            !empty($newCountryCode)
+        ) {
+            $custId = $cust->getCustomerRef();
+            $cust->setCountryCode($newCountryCode);
+            try {
+                $this->daoDwnlCust->updateById($custId, $cust);
+            } catch (\Throwable $e) {
+                $msg = $e->getMessage();
+                $phrase = new APhrase(
+                    __("Cannot set new country code (%1) for customer #%2. Error: %3"),
+                    [$newCountryCode, $custId, $msg]
+                );
                 $e = new AMageException($phrase);
                 throw $e;
             }

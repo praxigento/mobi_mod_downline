@@ -17,6 +17,7 @@ class Info
     /**
      * See input nodes names in './view/adminhtml/templates/customer/edit/tabs/info.phtml'
      */
+    const TMPL_FIELD_COUNTRY_CODE = 'country_code';
     const TMPL_FIELD_OWN_MLM_ID = 'own_mlm_id';
     const TMPL_FIELD_PARENT_MLM_ID = 'parent_mlm_id';
     const TMPL_FLDGRP = 'mobi_dwnl';
@@ -52,6 +53,12 @@ class Info
     {
         $this->loadData();
         return parent::_beforeToHtml();;
+    }
+
+    public function getCountryCode()
+    {
+        $result = $this->cacheData[QLoad::A_COUNTRY_CODE] ?? '';
+        return $result;
     }
 
     public function getMlmId()

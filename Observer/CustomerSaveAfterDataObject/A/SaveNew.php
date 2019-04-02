@@ -55,6 +55,22 @@ class SaveNew
     }
 
     /**
+     * Extract code for customer's registration country from posted data.
+     *
+     * @return string
+     */
+    private function getCountryCode()
+    {
+        $posted = $this->appRequest->getPostValue();
+        if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_COUNTRY_CODE])) {
+            $result = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_COUNTRY_CODE];
+        } else {
+            $result = $this->hlpRegistry->getCustomerCountry();
+        }
+        return $result;
+    }
+
+    /**
      * Extract customer's MLM ID from posted data or generate new one.
      *
      * @param \Magento\Customer\Model\Data\Customer $customer
@@ -103,7 +119,7 @@ class SaveNew
         $custId = $customer->getId();
         $mlmId = $this->getMlmId($customer);
         $parentId = $this->getParentId();
-        $countryCode = $this->hlpRegistry->getCustomerCountry();
+        $countryCode = $this->getCountryCode();
         $refCode = $this->hlpCodeGen->generateReferralCode($customer);
         $req = new \Praxigento\Downline\Api\Service\Customer\Add\Request();
         $req->setCountryCode($countryCode);
