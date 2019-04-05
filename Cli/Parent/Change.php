@@ -21,15 +21,17 @@ class Change
     const OPT_PARENT_MLM_ID_NAME = 'parent';
     const OPT_PARENT_MLM_ID_SHORTCUT = 'p';
 
+    /** @var \Magento\Framework\DB\Adapter\AdapterInterface */
+    private $conn;
     /** @var \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
-    /** @var \Praxigento\Core\Api\App\Repo\Transaction\Manager */
-    private $manTrans;
+    /** @var \Magento\Framework\App\ResourceConnection */
+    private $resource;
     /** @var \Praxigento\Downline\Api\Service\Customer\Parent\Change */
     private $servParentChange;
 
     public function __construct(
-        \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
+        \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Downline\Api\Service\Customer\Parent\Change $servParentChange
     ) {
@@ -39,7 +41,8 @@ class Change
             'prxgt:downline:parent:change',
             'Change parent for the customer.'
         );
-        $this->manTrans = $manTrans;
+        $this->resource = $resource;
+        $this->conn = $resource->getConnection();
         $this->daoDwnlCust = $daoDwnlCust;
         $this->servParentChange = $servParentChange;
     }
@@ -71,7 +74,7 @@ class Change
         \Symfony\Component\Console\Input\InputInterface $input,
         \Symfony\Component\Console\Output\OutputInterface $output
     ) {
-        $def = $this->manTrans->begin();
+        $this->conn->beginTransaction();
         try {
             $output->writeln('<info>You can change parent using adminhtml. See "Customer Details / Santegra Info /  Parent MLM ID".<info>');
             $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
@@ -100,15 +103,13 @@ class Change
                 $this->setNewMlmId($custId, $newMlmId);
                 $output->writeln("<info>New MLM ID '$newMlmId' is set for customer $custId (old: $custMlmId).<info>");
             }
-
-            $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
-            $this->manTrans->commit($def);
+            $this->conn->commit();
         } catch (\Throwable $e) {
             $output->writeln('<info>Command \'' . $this->getName() . '\' failed. Reason: '
                 . $e->getMessage() . '.<info>');
-        } finally {
-            $this->manTrans->end($def);
+            $this->conn->rollBack();
         }
+        $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
     }
 
     private function setNewMlmId($custId, $newMlmId)

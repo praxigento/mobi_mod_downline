@@ -10,13 +10,16 @@ namespace Praxigento\Downline\Cli\Tree;
 class Snaps
     extends \Praxigento\Core\App\Cli\Cmd\Base
 {
-    /** @var \Praxigento\Core\Api\App\Repo\Transaction\Manager */
-    private $manTrans;
+
+    /** @var \Magento\Framework\DB\Adapter\AdapterInterface */
+    private $conn;
+    /** @var \Magento\Framework\App\ResourceConnection */
+    private $resource;
     /** @var \Praxigento\Downline\Api\Service\Snap\Calc */
     private $servSnapCalc;
 
     public function __construct(
-        \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
+        \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Downline\Api\Service\Snap\Calc $servSnapCalc
     ) {
         $manObj = \Magento\Framework\App\ObjectManager::getInstance();
@@ -25,7 +28,8 @@ class Snaps
             'prxgt:downline:snaps',
             'Create snapshots for downline tree.'
         );
-        $this->manTrans = $manTrans;
+        $this->resource = $resource;
+        $this->conn = $resource->getConnection();
         $this->servSnapCalc = $servSnapCalc;
     }
 
@@ -35,16 +39,16 @@ class Snaps
     )
     {
         $output->writeln('<info>Command \'' . $this->getName() . '\':<info>');
-        $def = $this->manTrans->begin();
+        $this->conn->beginTransaction();
         try {
             $req = new \Praxigento\Downline\Api\Service\Snap\Calc\Request();
             $this->servSnapCalc->exec($req);
-            $this->manTrans->commit($def);
+            $this->conn->commit();
         } catch (\Throwable $e) {
             $output->writeln('<info>Command \'' . $this->getName() . '\' failed. Reason: '
                 . $e->getMessage() . '.<info>');
         } finally {
-            $this->manTrans->end($def);
+            $this->conn->rollBack();
         }
         $output->writeln('<info>Command \'' . $this->getName() . '\' is completed.<info>');
     }
