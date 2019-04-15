@@ -13,6 +13,7 @@ $fldParentId = ABlock::TMPL_FIELD_PARENT_MLM_ID;
 $idCountryCode = "$tab-$fldCountryCode";
 $idMlmId = "$tab-$fldMlmId";
 $idParentId = "$tab-$fldParentId";
+$countryCode = $block->getCountryCode();
 ?>
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
@@ -47,14 +48,18 @@ $idParentId = "$tab-$fldParentId";
                 </label>
                 <div class="admin__field-control control">
                     <div class="fields">
-                        <input
+                        <select
+                                class="admin__control-select"
                                 name="customer[<?= $tab ?>][<?= $fldCountryCode ?>]"
-                                type="text"
                                 data-form-part="customer_form"
-                                value="<?= $block->getCountryCode() ?>"
                                 id="<?= $idCountryCode ?>"
-                                title="<?= __('') ?>"
-                        />
+                                title="<?= __('') ?>">
+                            <?php foreach ($block->getCountriesAvailable() as $cntrCode => $cntrName): ?>
+                                <?php $selected = ($cntrCode == $countryCode) ? 'selected="true"' : ''; ?>
+                                <option data-title="<?= $cntrName ?>"
+                                    <?= $selected ?> value="<?= $cntrCode ?>"><?= $cntrName ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
             </div>
