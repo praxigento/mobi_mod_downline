@@ -11,7 +11,8 @@ namespace Praxigento\Downline\Helper;
  */
 class Registry
 {
-    const CUST_COUNTRY = 'prxgtCustCountry';
+    private const CUST_COUNTRY = 'prxgtDwnlCustCountry';
+    private const QUOTE_ID = 'prxgtDwnlQuoteId';
 
     /** @var \Magento\Framework\Registry */
     private $registry;
@@ -32,6 +33,17 @@ class Registry
     }
 
     /**
+     * Quote ID for newly created orders.
+     *
+     * @return int
+     */
+    public function getQuoteId()
+    {
+        $result = (int)$this->registry->registry(self::QUOTE_ID);
+        return $result;
+    }
+
+    /**
      * @param string $data 2 chars country code
      */
     public function putCustomerCountry($data)
@@ -40,5 +52,18 @@ class Registry
             $this->registry->unregister(self::CUST_COUNTRY);
         }
         $this->registry->register(self::CUST_COUNTRY, $data);
+    }
+
+    /**
+     * Quote ID for newly created orders.
+     *
+     * @param int $data
+     */
+    public function putQuoteId($data)
+    {
+        if ($this->registry->registry(self::QUOTE_ID)) {
+            $this->registry->unregister(self::QUOTE_ID);
+        }
+        $this->registry->register(self::QUOTE_ID, $data);
     }
 }
