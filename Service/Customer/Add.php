@@ -142,6 +142,15 @@ class Add
                 if ($parent) {
                     $result = $parent->getCustomerRef();
                     $this->logger->info("Referral parent #$result is used for customer #$customerId.");
+                } else {
+                    /* this is referral code w/o customer, use parent from config */
+                    $anonRootMlmId = $this->hlpConfig->getReferralsRootAnonymous();
+                    $parent = $this->daoDwnlCust->getByMlmId($anonRootMlmId);
+                    if ($parent) {
+                        $result = $parent->getCustomerRef();
+                        $this->logger->info("Anonymous root parent #$result is used for customer #$customerId" .
+                            "because ref. code '$code' is not correspond to any customer.");
+                    }
                 }
             } else {
                 /* this is anonymous customer, use parent from config */
