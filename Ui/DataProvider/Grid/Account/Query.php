@@ -8,7 +8,7 @@
 
 namespace Praxigento\Downline\Ui\DataProvider\Grid\Account;
 
-use Praxigento\Accounting\Repo\Data\Account as EAccount;
+use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Data\Customer as EDownline;
 
 class Query
@@ -16,11 +16,14 @@ class Query
 {
 
     /**#@+ Tables aliases for external usage ('camelCase' naming) */
-    const AS_DWNL = 'dwnl';
+    const AS_DWNL_CUST = 'dc';
+    const AS_DWNL_PARENT = 'dp';
     /**#@- */
-
+    const A_CUST_COUNTRY = 'custCountry';
     /**#@+ Columns/expressions aliases for external usage */
-    const A_MLM_ID = 'mlmId';
+    const A_CUST_MLM_ID = 'custMlmId';
+    const A_PARENT_ID = 'parentId';
+    const A_PARENT_MLM_ID = 'parentMlmId';
 
     /**#@- */
 
@@ -31,42 +34,55 @@ class Query
             /* init parent mapper */
             $this->mapper = parent::getMapper();
             /* then add own aliases */
-            $key = self::A_MLM_ID;
-            $value = self::AS_DWNL . '.' . EDownline::A_MLM_ID;
+            // custMlmId
+            $key = self::A_CUST_MLM_ID;
+            $value = self::AS_DWNL_CUST . '.' . EDownline::A_MLM_ID;
+            $this->mapper->add($key, $value);
+            // custCountry
+            $key = self::A_CUST_COUNTRY;
+            $value = self::AS_DWNL_CUST . '.' . EDownline::A_COUNTRY_CODE;
+            $this->mapper->add($key, $value);
+            // parentId
+            $key = self::A_PARENT_ID;
+            $value = self::AS_DWNL_PARENT . '.' . EDownline::A_CUSTOMER_REF;
+            $this->mapper->add($key, $value);
+            // parentMlmId
+            $key = self::A_PARENT_MLM_ID;
+            $value = self::AS_DWNL_PARENT . '.' . EDownline::A_MLM_ID;
             $this->mapper->add($key, $value);
         }
         $result = $this->mapper;
         return $result;
     }
 
-    /**
-     * SELECT
-     * ...
-     * FROM
-     * `prxgt_acc_account` AS `paa`
-     * LEFT JOIN `prxgt_acc_type_asset` AS `pata` ON
-     * pata.id = paa.asset_type_id
-     * LEFT JOIN `customer_entity` AS `ce` ON
-     * ce.entity_id = paa.customer_id
-     * LEFT JOIN `prxgt_dwnl_customer` AS `dwnl` ON
-     * dwnl.customer_ref = paa.customer_id
-     */
     protected function getQueryItems()
     {
         /* this is primary query builder, not extender */
         $result = parent::getQueryItems();
 
         /* define tables aliases for internal usage (in this method) */
-        $asDwnl = self::AS_DWNL;
-        $asAcc = self::AS_ACCOUNT;
+        $asCust = self::AS_CUSTOMER;
+        $asDwnlCust = self::AS_DWNL_CUST;
+        $asDwnlParent = self::AS_DWNL_PARENT;
 
-        /* LEFT JOIN prxgt_dwnl_customer */
+        /* LEFT JOIN prxgt_dwnl_customer AS cust */
         $tbl = $this->resource->getTableName(EDownline::ENTITY_NAME);
-        $as = $asDwnl;
+        $as = $asDwnlCust;
         $cols = [
-            self::A_MLM_ID => EDownline::A_MLM_ID
+            self::A_CUST_MLM_ID => EDownline::A_MLM_ID,
+            self::A_CUST_COUNTRY => EDownline::A_COUNTRY_CODE
         ];
-        $cond = $as . '.' . EDownline::A_CUSTOMER_REF . '=' . $asAcc . '.' . EAccount::A_CUST_ID;
+        $cond = $as . '.' . EDownline::A_CUSTOMER_REF . '=' . $asCust . '.' . Cfg::E_CUSTOMER_A_ENTITY_ID;
+        $result->joinLeft([$as => $tbl], $cond, $cols);
+
+        /* LEFT JOIN prxgt_dwnl_customer AS parent */
+        $tbl = $this->resource->getTableName(EDownline::ENTITY_NAME);
+        $as = $asDwnlParent;
+        $cols = [
+            self::A_PARENT_ID => EDownline::A_CUSTOMER_REF,
+            self::A_PARENT_MLM_ID => EDownline::A_MLM_ID
+        ];
+        $cond = $as . '.' . EDownline::A_CUSTOMER_REF . '=' . $asDwnlCust . '.' . EDownline::A_PARENT_REF;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* return  result */

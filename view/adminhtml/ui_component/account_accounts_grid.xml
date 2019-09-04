@@ -17,12 +17,39 @@
     <!-- **************************************************** -->
     <columns name="account_accounts_columns">
 
-        <column name="mlmId"
-                component="Praxigento_Downline/js/grid/account/accounts/column/link/mlm_id">
+        <column name="custMlmId"
+                component="Praxigento_Downline/js/grid/account/accounts/column/link/cust_mlm_id">
             <settings>
                 <dataType>text</dataType>
                 <filter>text</filter>
                 <label translate="true">MLM ID</label>
+            </settings>
+        </column>
+
+        <column name="custCountry">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Country</label>
+            </settings>
+        </column>
+
+        <column name="parentId"
+                component="Praxigento_Downline/js/grid/account/accounts/column/link/parent_id">
+            <settings>
+                <dataType>number</dataType>
+                <filter>text</filter>
+                <label translate="true">Parent ID</label>
+            </settings>
+        </column>
+
+
+        <column name="parentMlmId"
+                component="Praxigento_Downline/js/grid/account/accounts/column/link/parent_mlm_id">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Parent MLM ID</label>
             </settings>
         </column>
 
