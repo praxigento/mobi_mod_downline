@@ -23,10 +23,14 @@ class Add
     private $daoDwnlChange;
     /** @var  \Praxigento\Downline\Repo\Dao\Customer */
     private $daoDwnlCust;
-    /** @var \Praxigento\Downline\Helper\Config */
+    /** @var \Praxigento\Downline\Api\Helper\Config */
     private $hlpConfig;
+    /** @var \Praxigento\Core\Api\Helper\Customer\Group */
+    private $hlpCustGroup;
     /** @var  \Praxigento\Downline\Api\Helper\Referral */
     private $hlpReferral;
+    /** @var \Praxigento\Downline\Api\Helper\Tree */
+    private $hlpTree;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
     /** @var \Magento\Framework\App\State */
@@ -37,14 +41,18 @@ class Add
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Downline\Repo\Dao\Change $daoDwnlChange,
         \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
+        \Praxigento\Core\Api\Helper\Customer\Group $hlpCustGroup,
         \Praxigento\Downline\Api\Helper\Referral $hlpReferral,
-        \Praxigento\Downline\Helper\Config $hlpConfig
+        \Praxigento\Downline\Api\Helper\Tree $hlpTree,
+        \Praxigento\Downline\Api\Helper\Config $hlpConfig
     ) {
         $this->state = $state;
         $this->logger = $logger;
         $this->daoDwnlChange = $daoDwnlChange;
         $this->daoDwnlCust = $daoDwnlCust;
+        $this->hlpCustGroup = $hlpCustGroup;
         $this->hlpReferral = $hlpReferral;
+        $this->hlpTree = $hlpTree;
         $this->hlpConfig = $hlpConfig;
     }
 
@@ -139,8 +147,8 @@ class Add
             if ($code) {
                 /* this is a referral customer, use parent from referral code */
                 $parent = $this->daoDwnlCust->getByReferralCode($code);
-                if ($parent) {
-                    $result = $parent->getCustomerRef();
+                $result = $this->scanParentsForId($parent);
+                if ($result) {
                     $this->logger->info("Referral parent #$result is used for customer #$customerId.");
                 } else {
                     /* this is referral code w/o customer, use parent from config */
@@ -159,6 +167,32 @@ class Add
                 if ($parent) {
                     $result = $parent->getCustomerRef();
                     $this->logger->info("Anonymous root parent #$result is used for customer #$customerId.");
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Return first parent that is distributor or default root for anonymous if no distributors are in upline.
+     *
+     * @param \Praxigento\Downline\Repo\Data\Customer $parent
+     * @return int parent Id
+     */
+    private function scanParentsForId($parent)
+    {
+        $result = null;
+        if ($parent instanceof \Praxigento\Downline\Repo\Data\Customer) {
+            $groupsAllowed = $this->hlpConfig->getDowngradeGroupsDistrs();
+            $parentId = $parent->getCustomerRef();
+            $path = $parent->getPath();
+            $uplineIds = $this->hlpTree->getParentsFromPathReversed($path);
+            array_unshift($uplineIds, $parentId);
+            foreach ($uplineIds as $id) {
+                $groupId = $this->hlpCustGroup->getIdByCustomerId($id);
+                if (in_array($groupId, $groupsAllowed)) {
+                    $result = $id;
+                    break;
                 }
             }
         }
