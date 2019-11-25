@@ -29,6 +29,52 @@ class ComposeUpdates
     }
 
     /**
+     * @param \Praxigento\Downline\Repo\Data\Snap $item
+     * @return \Praxigento\Downline\Repo\Data\Snap
+     * @throws \Exception
+     */
+    private function cloneSnapItem($item)
+    {
+        $data = clone $item->get();
+        $result = new ESnap($data);
+        return $result;
+    }
+
+    /**
+     * Compose snapshot item.
+     *
+     * @param int $customerId
+     * @param int $parentId
+     * @param string $dsChanged
+     * @param ESnap[] $snap
+     * @return ESnap
+     */
+    private function composeSnapItem($customerId, $parentId, $dsChanged, $snap)
+    {
+        $result = new ESnap();
+        $result->setCustomerRef($customerId);
+        $result->setParentRef($parentId);
+        $result->setDate($dsChanged);
+        if ($customerId == $parentId) {
+            /* this is root node customer */
+            $newDepth = Cfg::INIT_DEPTH;
+            $newPath = Cfg::DTPS;
+        } else {
+            /* this is NOT root node customer */
+            if (!isset($snap[$parentId])) {
+                $breakPoint = 'inconsistency detected'; // this is code for debug only
+            }
+            /** @var ESnap $parent */
+            $parent = $snap[$parentId];
+            $newDepth = $parent->getDepth() + 1;
+            $newPath = $parent->getPath() . $parentId . Cfg::DTPS;
+        }
+        $result->setDepth($newDepth);
+        $result->setPath($newPath);
+        return $result;
+    }
+
+    /**
      * Calculate downline snapshots by date basing on the last snapshot and change log.
      *
      * We use $snap array to trace actual state during the changes. Target updates are placed in the $result.
@@ -41,7 +87,8 @@ class ComposeUpdates
      */
     public function exec($snap, $changes)
     {
-        $result = [];
+        $updates = [];
+        $current = [];
         /* We need to process changes one by one (changes are ordered by date) */
         /* to update downline paths/depths for changed customers */
         $mapByPath = $this->mapByPath($snap);
@@ -56,6 +103,10 @@ class ComposeUpdates
                 /* write down existing state */
                 /** @var ESnap $currCustomer */
                 $currCustomer = $snap[$customerId];
+                $currParentId = $currCustomer->getParentRef();
+                if ($currParentId == $newParentId) {
+                    continue;
+                }
                 $currDepth = $currCustomer->getDepth();
                 $currPath = $currCustomer->getPath();
                 /* ... and compose new updated snap item */
@@ -99,7 +150,7 @@ class ComposeUpdates
                             $member->setDepth($newDepth);
                             $member->setPath($newPath);
                             /* save changed customer in results */
-                            $result[$dsChanged][$memberId] = $member;
+                            $updates[$dsChanged][$memberId] = $this->cloneSnapItem($member);
                             /* register new team member */
                             $mapByPath[$newPath][] = $memberId;
                             /* update actual snap */
@@ -122,43 +173,10 @@ class ComposeUpdates
                     $mapByPath[$pathNew][] = $customerId;
                 }
             }
-            $result[$dsChanged][$customerId] = $customer;
+            $updates[$dsChanged][$customerId] = $this->cloneSnapItem($customer);
+            $current[$customerId] = $customer;
         }
-        return $result;
-    }
-
-    /**
-     * Compose snapshot item.
-     *
-     * @param int $customerId
-     * @param int $parentId
-     * @param string $dsChanged
-     * @param ESnap[] $snap
-     * @return ESnap
-     */
-    private function composeSnapItem($customerId, $parentId, $dsChanged, $snap)
-    {
-        $result = new ESnap();
-        $result->setCustomerRef($customerId);
-        $result->setParentRef($parentId);
-        $result->setDate($dsChanged);
-        if ($customerId == $parentId) {
-            /* this is root node customer */
-            $newDepth = Cfg::INIT_DEPTH;
-            $newPath = Cfg::DTPS;
-        } else {
-            /* this is NOT root node customer */
-            if (!isset($snap[$parentId])) {
-                $breakPoint = 'inconsistency detected'; // this is code for debug only
-            }
-            /** @var ESnap $parent */
-            $parent = $snap[$parentId];
-            $newDepth = $parent->getDepth() + 1;
-            $newPath = $parent->getPath() . $parentId . Cfg::DTPS;
-        }
-        $result->setDepth($newDepth);
-        $result->setPath($newPath);
-        return $result;
+        return [$updates, $current];
     }
 
     private function mapByPath($snap)

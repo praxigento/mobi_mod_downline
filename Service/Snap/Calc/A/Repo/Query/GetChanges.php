@@ -73,13 +73,13 @@ class GetChanges
         /**
          * ORDER:
          *
-         * by date changed, then by customer ID, then by change log ID (SAN-470).
+         * by date changed, then by change log ID (SAN-470), then by customer ID.
          * Order is important for tree snapshot calculation (MOBI-202)
          */
         $result->order([
             $asChange . '.' . EChange::A_DATE_CHANGED . ' ASC',
-            $asChange . '.' . EChange::A_CUSTOMER_REF . ' ASC',
-            $asChange . '.' . EChange::A_ID . ' ASC'
+            $asChange . '.' . EChange::A_ID . ' ASC',
+            $asChange . '.' . EChange::A_CUSTOMER_REF . ' ASC'
         ]);
 
         return $result;

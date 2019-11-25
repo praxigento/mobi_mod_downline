@@ -21,6 +21,8 @@ class Calc
 {
     /** @var \Praxigento\Downline\Service\Snap\Calc\A\ComposeUpdates */
     private $aComposeUpdates;
+    /** @var \Praxigento\Downline\Repo\Dao\Customer */
+    private $daoDwnlCust;
     /** @var \Praxigento\Downline\Repo\Dao\Snap */
     private $daoSnap;
     /** @var  \Praxigento\Core\Api\Helper\Period */
@@ -37,6 +39,7 @@ class Calc
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
+        \Praxigento\Downline\Repo\Dao\Customer $daoDwnlCust,
         \Praxigento\Downline\Repo\Dao\Snap $daoSnap,
         \Praxigento\Downline\Repo\Query\Snap\OnDate\Builder $qSnapOnDate,
         \Praxigento\Downline\Api\Service\Snap\GetLastDate $servGetLastDate,
@@ -45,6 +48,7 @@ class Calc
     ) {
         $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
+        $this->daoDwnlCust = $daoDwnlCust;
         $this->daoSnap = $daoSnap;
         $this->qSnapOnDate = $qSnapOnDate;
         $this->servGetLastDate = $servGetLastDate;
@@ -72,9 +76,10 @@ class Calc
         /* get change log for the period starting from the last date */
         $changelog = $this->getDwnlLog($dsLast);
         /* calculate snapshots for the period */
-        $updates = $this->aComposeUpdates->exec($snapshot, $changelog);
+        [$updates, $current] = $this->aComposeUpdates->exec($snapshot, $changelog);
         /* save new snapshots in DB */
         $this->daoSnap->saveCalculatedUpdates($updates);
+        $this->updateCurrentState($current);
         /* finalize processing */
         return $result;
     }
@@ -148,6 +153,45 @@ class Calc
         $resp = $this->servGetLastDate->exec($req);
         $result = $resp->getLastDate();
         return $result;
+    }
+
+    /**
+     * @param \Praxigento\Downline\Repo\Data\Snap[] $current
+     */
+    private function updateCurrentState($current)
+    {
+        /** @var \Praxigento\Downline\Repo\Data\Customer[] $all */
+        $all = $this->daoDwnlCust->get();
+        $indexed = [];
+        /** @var \Praxigento\Downline\Repo\Data\Customer $cust */
+        foreach ($all as $cust) {
+            $custId = $cust->getCustomerRef();
+            $indexed[$custId] = $cust;
+        }
+        /** @var \Praxigento\Downline\Repo\Data\Snap $snap */
+        foreach ($current as $snap) {
+            $custId = $snap->getCustomerRef();
+            $parentId = $snap->getParentRef();
+            $path = $snap->getPath();
+            $depth = $snap->getDepth();
+            /** @var \Praxigento\Downline\Repo\Data\Customer $cust */
+            $cust = $indexed[$custId];
+            $savedParentId = $cust->getParentRef();
+            $savedPath = $cust->getPath();
+            $savedDepth = $cust->getDepth();
+            if (
+                ($parentId != $savedParentId) ||
+                ($path != $savedPath) ||
+                ($depth != $savedDepth)
+            ) {
+                $this->logger->warning("Update wrong downline data for customer #$custId. "
+                    . "Data (parent/depth/path): $parentId/$savedParentId; $depth/$savedDepth; $path/$savedPath.");
+                $cust->setParentRef($parentId);
+                $cust->setPath($path);
+                $cust->setDepth($depth);
+                $this->daoDwnlCust->updateById($custId, $cust);
+            }
+        }
     }
 
 }
