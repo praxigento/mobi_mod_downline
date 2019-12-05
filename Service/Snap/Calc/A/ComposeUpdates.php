@@ -35,7 +35,14 @@ class ComposeUpdates
      */
     private function cloneSnapItem($item)
     {
-        $data = clone $item->get();
+        $data = $item->get();
+        if (is_object($data)) {
+            $data = clone $data;
+        } elseif (is_array($data)) {
+            // do nothing
+        } else {
+            throw new \Error("Unpredictable data type.");
+        }
         $result = new ESnap($data);
         return $result;
     }
