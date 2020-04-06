@@ -70,13 +70,13 @@ class AdminhtmlCustomerSaveAfter
             /* load customer */
             $cust = $this->daoDwnlCust->getById($custId);
             /* own MLM ID */
-            $ownMlmId = $group[ABlock::TMPL_FIELD_OWN_MLM_ID];
+            $ownMlmId = trim($group[ABlock::TMPL_FIELD_OWN_MLM_ID]);
             $this->updateMlmId($cust, $ownMlmId);
             /* country code */
             $countryCode = $group[ABlock::TMPL_FIELD_COUNTRY_CODE];
             $this->updateCountryCode($cust, $countryCode);
             /* parent */
-            $parentMlmId = $group[ABlock::TMPL_FIELD_PARENT_MLM_ID];
+            $parentMlmId = trim($group[ABlock::TMPL_FIELD_PARENT_MLM_ID]);
             $this->updateParent($cust, $parentMlmId);
         }
     }
