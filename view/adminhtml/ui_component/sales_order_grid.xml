@@ -25,5 +25,14 @@
             </settings>
         </column>
 
+
+        <column name="prxgtDwnlCountry">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Reg. Country</label>
+            </settings>
+        </column>
+
     </columns>
 </listing>

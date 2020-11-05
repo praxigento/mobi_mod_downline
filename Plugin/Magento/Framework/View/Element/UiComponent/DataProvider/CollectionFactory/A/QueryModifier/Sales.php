@@ -11,16 +11,17 @@ use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 class Sales
 {
     /** Tables aliases for external usage ('camelCase' naming) */
-    const AS_CUST = 'prxgtDwnlCust';
-    const AS_PARENT = 'prxgtDwnlParent';
+    private const AS_CUST = 'prxgtDwnlCust';
+    private const AS_PARENT = 'prxgtDwnlParent';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
-    const A_MLM_ID = 'prxgtDwnlMlmId';
-    const A_PARENT_MLM_ID = 'prxgtDwnlMlmIdParent';
+    private const A_COUNTRY = 'prxgtDwnlCountry';
+    private const A_MLM_ID = 'prxgtDwnlMlmId';
+    private const A_PARENT_MLM_ID = 'prxgtDwnlMlmIdParent';
 
     /** Entities are used in the query */
-    const E_CUST = EDwnlCust::ENTITY_NAME;
-    const E_PARENT = EDwnlCust::ENTITY_NAME;
+    private const E_CUST = EDwnlCust::ENTITY_NAME;
+    private const E_PARENT = EDwnlCust::ENTITY_NAME;
 
     /** @var \Magento\Framework\App\ResourceConnection */
     private $resource;
@@ -34,6 +35,10 @@ class Sales
     public function addFieldsMapping(
         \Magento\Sales\Model\ResourceModel\Order\Grid\Collection $collection
     ) {
+        /* prxgtDwnlCountry */
+        $fieldAlias = self::A_COUNTRY;
+        $fieldFullName = self::AS_CUST . '.' . EDwnlCust::A_COUNTRY_CODE;
+        $collection->addFilterToMap($fieldAlias, $fieldFullName);
         /* prxgtDwnlMlmId */
         $fieldAlias = self::A_MLM_ID;
         $fieldFullName = self::AS_CUST . '.' . EDwnlCust::A_MLM_ID;
@@ -55,7 +60,8 @@ class Sales
         $tbl = $this->resource->getTableName(self::E_CUST);
         $as = $asCust;
         $cols = [
-            self::A_MLM_ID => EDwnlCust::A_MLM_ID
+            self::A_COUNTRY => EDwnlCust::A_COUNTRY_CODE,
+            self::A_MLM_ID => EDwnlCust::A_MLM_ID,
         ];
         $cond = "$as." . EDwnlCust::A_CUSTOMER_REF . "=" . Cfg::AS_MAIN_TABLE . "." . Cfg::E_SALE_ORDER_A_CUSTOMER_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
