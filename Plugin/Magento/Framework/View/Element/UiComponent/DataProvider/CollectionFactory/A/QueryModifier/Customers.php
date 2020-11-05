@@ -33,18 +33,22 @@ class Customers
         $fieldAlias = self::AS_FLD_CUSTOMER_DEPTH;
         $fieldFullName = self::AS_TBL_CUST . '.' . Customer::A_DEPTH;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
+        $collection->addFilterToMap("main_table.$fieldAlias", $fieldFullName);
         // ref (mlm id)
         $fieldAlias = self::AS_FLD_CUSTOMER_REF;
         $fieldFullName = self::AS_TBL_CUST . '.' . Customer::A_MLM_ID;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
+        $collection->addFilterToMap("main_table.$fieldAlias", $fieldFullName);
         // parent id
         $fieldAlias = self::AS_FLD_PARENT_ID;
         $fieldFullName = self::AS_TBL_CUST . '.' . Customer::A_PARENT_REF;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
+        $collection->addFilterToMap("main_table.$fieldAlias", $fieldFullName);
         // parent ref (mlm id)
         $fieldAlias = self::AS_FLD_PARENT_REF;
         $fieldFullName = self::AS_TBL_PARENT_CUST . '.' . Customer::A_MLM_ID;
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
+        $collection->addFilterToMap("main_table.$fieldAlias", $fieldFullName);
     }
 
     public function populateSelect(
