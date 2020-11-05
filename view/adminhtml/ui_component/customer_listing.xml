@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listing
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <!-- **************************************************** -->
     <!-- Additional Columns for Grid                          -->
     <!-- **************************************************** -->
     <columns name="customer_columns">
+
+        <column name="prxgtDwnlCountryReg">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <label translate="true">Reg. Country</label>
+            </settings>
+        </column>
 
         <column name="prxgtDwnlCustomerRef"
                 component="Praxigento_Downline/js/grid/customer/index/column/link/customer_mlm_id">
