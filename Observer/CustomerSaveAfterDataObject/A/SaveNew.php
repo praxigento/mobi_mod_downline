@@ -97,6 +97,7 @@ class SaveNew
      */
     private function getParentId()
     {
+        $result = null;
         $posted = $this->appRequest->getPostValue();
         if (isset($posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID])) {
             $mlmId = $posted['customer'][ABlock::TMPL_FLDGRP][ABlock::TMPL_FIELD_PARENT_MLM_ID];
@@ -104,8 +105,6 @@ class SaveNew
             if ($found) {
                 $result = $found->getCustomerRef();
             }
-        } else {
-            $result = null;
         }
         return $result;
     }
