@@ -32,6 +32,15 @@
             </settings>
         </column>
 
+        <column name="prxgtDwnlStoreName">
+            <settings>
+                <dataType>select</dataType>
+                <filter>select</filter>
+                <options class="Praxigento\Core\Model\Config\Source\Stores"/>
+                <label translate="true">Store</label>
+            </settings>
+        </column>
+
 
         <column name="prxgtDwnlCountry">
             <settings>

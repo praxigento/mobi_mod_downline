@@ -9,23 +9,27 @@ use Praxigento\Core\App\Repo\Query\Expression as AnExpression;
 use Praxigento\Downline\Config as Cfg;
 use Praxigento\Downline\Repo\Data\Customer as EDwnlCust;
 
-class Sales
-{
+class Sales {
     /** Tables aliases for external usage ('camelCase' naming) */
     private const AS_CUST = 'prxgtDwnlCust';
-    private const AS_PARENT = 'prxgtDwnlParent';
     private const AS_MAGE_PARENT = 'mageCustParent';
+    private const AS_PARENT = 'prxgtDwnlParent';
+    private const AS_STORE_GROUP = 'mageStoreGroup';
+    private const AS_STORE_VIEW = 'mageStoreView';
 
     /** Columns/expressions aliases for external usage ('camelCase' naming) */
     private const A_COUNTRY = 'prxgtDwnlCountry';
     private const A_MLM_ID = 'prxgtDwnlMlmId';
     private const A_PARENT_MLM_ID = 'prxgtDwnlMlmIdParent';
     private const A_PARENT_NAME = 'prxgtDwnlParentName';
+    private const A_STORE_NAME = 'prxgtDwnlStoreName';
 
     /** Entities are used in the query */
     private const E_CUST = EDwnlCust::ENTITY_NAME;
     private const E_MAGE_PARENT = Cfg::ENTITY_MAGE_CUSTOMER;
     private const E_PARENT = EDwnlCust::ENTITY_NAME;
+    private const E_STORE_GROUP = Cfg::ENTITY_MAGE_STORE_GROUP;
+    private const E_STORE_VIEW = Cfg::ENTITY_MAGE_STORE;
 
     /** @var \Magento\Framework\App\ResourceConnection */
     private $resource;
@@ -55,6 +59,10 @@ class Sales
         $fieldAlias = self::A_PARENT_NAME;
         $fieldFullName = $this->expCustName();
         $collection->addFilterToMap($fieldAlias, $fieldFullName);
+        /* prxgtDwnlStoreName */
+        $fieldAlias = self::A_STORE_NAME;
+        $fieldFullName = self::AS_STORE_GROUP . '.' . Cfg::E_STORE_GROUP_A_NAME;
+        $collection->addFilterToMap($fieldAlias, $fieldFullName);
     }
 
     public function populateSelect(
@@ -62,6 +70,8 @@ class Sales
     ) {
         $result = $collection->getSelect();
         $asCust = self::AS_CUST;
+        $asStoreView = self::AS_STORE_VIEW;
+        $asStoreGroup = self::AS_STORE_GROUP;
         $asParent = self::AS_PARENT;
         $asParentName = self::AS_MAGE_PARENT;
 
@@ -92,6 +102,23 @@ class Sales
         ];
         $cond = "$as." . Cfg::E_CUSTOMER_A_ENTITY_ID . "=$asCust." . EDwnlCust::A_PARENT_REF;
         $result->joinLeft([$as => $tbl], $cond, $cols);
+
+        /* LEFT JOIN store */
+        $tbl = $this->resource->getTableName(self::E_STORE_VIEW);
+        $as = $asStoreView;
+        $cols = [];
+        $cond = "$as." . Cfg::E_STORE_A_STORE_ID . "=" . Cfg::AS_MAIN_TABLE . "." . Cfg::E_SALE_ORDER_A_STORE_ID;
+        $result->joinLeft([$as => $tbl], $cond, $cols);
+
+        /* LEFT JOIN store_group */
+        $tbl = $this->resource->getTableName(self::E_STORE_GROUP);
+        $as = $asStoreGroup;
+        $cols = [
+            self::A_STORE_NAME => Cfg::E_STORE_GROUP_A_NAME
+        ];
+        $cond = "$as." . Cfg::E_STORE_GROUP_A_GROUP_ID . "=$asStoreView." . Cfg::E_STORE_A_GROUP_ID;
+        $result->joinLeft([$as => $tbl], $cond, $cols);
+
 
         return $result;
     }
