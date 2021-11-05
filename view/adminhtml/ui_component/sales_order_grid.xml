@@ -28,6 +28,7 @@
         <column name="prxgtDwnlParentName">
             <settings>
                 <dataType>text</dataType>
+                <filter>text</filter>
                 <label translate="true">Parent Name</label>
             </settings>
         </column>
