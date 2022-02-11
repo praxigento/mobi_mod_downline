@@ -52,7 +52,7 @@ class Customer
     {
         $result = null;
         $cols = null;
-        $qCode = $this->conn->quote($mlmId);
+        $qCode = $this->conn->quote(trim($mlmId));
         $where = Entity::A_MLM_ID . '=' . $qCode;
         $items = $this->daoGeneric->getEntities(Entity::ENTITY_NAME, $cols, $where);
         if (
