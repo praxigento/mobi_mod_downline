@@ -64,8 +64,8 @@
             <div class="admin__field" style="color:red;" data-bind="visible:warnAmount()">
                 <label class="admin__field-label"><span>&nbsp;</span></label>
                 <div class="admin__field-control">
-                    <div>Amount is greater then balance.</div>
-             </div>
+                    <div>Amount is greater than balance.</div>
+                </div>
             </div>
 
             <div class="admin__field _required">
@@ -80,15 +80,23 @@
                     <span>Counterparty:</span>
                 </label>
                 <div class="admin__field-control required">
-                    <input id="prxgtCustomerSearch" data-bind="value: counterparty" class="admin__control-text"/>
+                    <input id="prxgtCustomerSearch" class="admin__control-text"/>
+                    <div style="color:red;">
+                        <div data-bind="visible:warnDiffCountries">
+                            Transfer counterparty is from the different country.
+                        </div>
+                        <div data-bind="visible:warnOutOfDwnl">
+                            Transfer counterparty is not under sender's downline.
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="admin__field" style="color:red;" data-bind="visible: transferType()=='between'">
+            <div class="admin__field" data-bind="visible: transferType()=='between' && displaySearchOpts">
                 <label class="admin__field-label"><span>&nbsp;</span></label>
                 <div class="admin__field-control">
-                    <div data-bind="visible:warnDiffCountries">Transfer counterparty is from the different country.</div>
-                    <div data-bind="visible:warnOutOfDwnl">Transfer counterparty is not under sender's downline.</div>
+                    <select id="prxgtCustomerSearchOptions" class="admin__control-text" size="10" multiple>
+                    </select>
                 </div>
             </div>
 

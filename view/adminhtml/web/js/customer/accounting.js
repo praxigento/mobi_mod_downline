@@ -13,6 +13,8 @@ define([
      */
     /* component constants */
     const TYPE_DIRECT = 'direct';
+    const ID_SEARCH = 'prxgtCustomerSearch';
+    const ID_SELECT = 'prxgtCustomerSearchOptions';
     /* pin globals into UI component scope */
     const baseUrl = BASE_URL;
     const formKey = '?form_key=' + FORM_KEY;
@@ -22,6 +24,7 @@ define([
     const urlCustomerGet = urlAdminBase + 'prxgt/customer/get_byId/' + formKey;
     const urlCustomerSearch = urlAdminBase + 'prxgt/customer/search_byKey/' + formKey;
     const urlTransfer = urlAdminBase + 'account/asset/transfer/' + formKey;
+
     /* slider itself */
     let popup;
     /* View Model for slider */
@@ -31,6 +34,7 @@ define([
         comment: ko.observable(""),
         counterparty: ko.observable(),
         customer: undefined,
+        displaySearchOpts: ko.observable(false),
         lastInputWasValid: ko.observable(true),
         operationId: ko.observable(0),
         selectedAsset: ko.observable(),
@@ -45,15 +49,14 @@ define([
     /**
      * Get current customer ID data from uiRegistry (loaded asynchronously).
      *
-     * @returns {*|Integer|string}
+     * @returns {number|string}
      */
     function getCustomerId() {
         /* */
         const customerDs = uiRegistry.get('customer_form.customer_form_data_source');
         const customerData = customerDs.data;
         const customer = customerData.customer;
-        const result = customer.entity_id;
-        return result;
+        return customer.entity_id;
     }
 
     /**
@@ -67,17 +70,15 @@ define([
         let result = false;
         let amount = this.amount();
         let selected = this.selectedAsset();
-        if (selected != undefined) {
+        if (selected !== undefined) {
             let balance = selected.acc_balance;
-            if (balance == undefined) balance = 0;
-            if (amount > balance) {
-                result = true;
-            }
+            if (balance === undefined) balance = 0;
+            if (amount > balance) result = true;
         } else {
             /* skip amount validation if asset is not chosen */
         }
         return result;
-    };
+    }
 
     /**
      * Front-back communication functions
@@ -113,6 +114,12 @@ define([
         };
         /* populate template with initial data then open slider */
         let fnModalOpen = function () {
+            // VARS
+            let elSearch, elSelect; // search key input & select elements to search counterparty
+            let idTimeoutLoad; // timeout id for waiting to load suggestions from the back
+            let suggestById;
+
+            // MAIN
             /* switch off loader */
             $('body').trigger('processStop');
             /* set parsed HTML as content for modal placeholder create modal slider */
@@ -126,6 +133,7 @@ define([
             viewModel.comment = ko.observable("");
             viewModel.counterparty = ko.observable();
             viewModel.customer = customer;
+            viewModel.displaySearchOpts = ko.observable(false);
             viewModel.error = ko.observable("");
             viewModel.operationId = ko.observable(0);
             viewModel.transAmount = ko.observable(0);
@@ -135,16 +143,59 @@ define([
             ko.cleanNode(elm);
             ko.applyBindings(viewModel, elm);
 
-            /* add JQuery auto complete widget to the slider */
-            $('#prxgtCustomerSearch').autocomplete({
-                source: fnAjaxCustomerSearch,
-                select: fnAutocompleteSelected,
-                minLength: 2,
-                /* disable auto-complete helper text */
-                messages: {
-                    noResults: '',
-                    results: function () {
-                    }
+            /*
+             * Counterparty suggestions.
+             */
+            elSearch = document.getElementById(ID_SEARCH);
+            elSelect = document.getElementById(ID_SELECT);
+            elSearch.value = ''; // clean previous values
+            elSearch.addEventListener('input', () => {
+                const term = elSearch.value;
+                if ((typeof term === 'string') && (term.length >= 2)) {
+                    // wait 1 sec. then load data from the server
+                    if (idTimeoutLoad) clearTimeout(idTimeoutLoad);
+                    idTimeoutLoad = setTimeout(() => {
+                        // FUNCS
+                        /**
+                         * Callback to parse loaded data and populate selector's options.
+                         * @param {array} res
+                         */
+                        function fnResponse(res) {
+                            const opts = elSelect.options;
+                            opts.length = 0;
+                            suggestById = [];
+                            for (const one of res) {
+                                opts[opts.length] = new Option(one.label, one.value);
+                                suggestById[one.value] = one.data;
+                            }
+                            /* switch off ajax loader */
+                            $('body').trigger('processStop');
+                        }
+
+                        // MAIN
+                        viewModel.displaySearchOpts(true);
+                        /* switch on ajax loader (will be switched off on response processing). */
+                        $('body').trigger('processStart');
+                        fnAjaxCustomerSearch({term}, fnResponse);
+                    }, 1000);
+                }
+            });
+            // analyze selected option and populate viewModel with data
+            elSelect.addEventListener('change', () => {
+                const id = Number.parseInt(elSelect.value);
+                const data = suggestById[id]
+                if (data) {
+                    elSearch.value = data.label;
+                    const country = data.country;
+                    const path = data.path_full;
+                    const custCountry = viewModel.customer.country;
+                    const custPath = viewModel.customer.path_full;
+                    const isTheSameCountry = (custCountry === country);
+                    const isInDownline = path.startsWith(custPath);
+                    /* set model attributes */
+                    viewModel.selectedCounterparty = data.id;
+                    viewModel.warnDiffCountries(!isTheSameCountry);
+                    viewModel.warnOutOfDwnl(!isInDownline);
                 }
             });
         };
@@ -212,17 +263,14 @@ define([
                 let data = resp.data;
                 let found = [];
                 for (let i = 0; i < data.items.length; i++) {
-                    let one = data.items[i];
-                    let nameFirst = one.name_first;
-                    let nameLast = one.name_last;
-                    let mlmId = one.mlm_id;
-                    let label = nameFirst + ' ' + nameLast + ' / ' + mlmId;
-                    let foundOne = {
-                        label: label,
-                        value: label,
-                        data: one
-                    };
-                    found.push(foundOne);
+                    const one = data.items[i];
+                    const nameFirst = one.name_first;
+                    const nameLast = one.name_last;
+                    const mlmId = one.mlm_id;
+                    const value = one.id;
+                    one.label = nameFirst + ' ' + nameLast + ' / ' + mlmId;
+                    const item = {label: one.label, value, data: one};
+                    found.push(item);
                 }
                 response(found);
             }
@@ -237,7 +285,9 @@ define([
         let customerId = viewModel.customer.id;
         let counterPartyId = viewModel.selectedCounterparty;
         let type = viewModel.transferType();
-        let isDirect = (type == TYPE_DIRECT);
+        let isDirect = (type === TYPE_DIRECT);
+
+        viewModel.displaySearchOpts(false);
 
         /* see: \Praxigento\Accounting\Controller\Adminhtml\Asset\Transfer */
         let data = {
@@ -303,30 +353,10 @@ define([
         $('body').trigger('processStart');
     };
 
-    /**
-     * Function is fired when user selects transfer counterparty from the suggested list.
-     *
-     * @param event
-     * @param ui
-     */
-    let fnAutocompleteSelected = function (event, ui) {
-        const country = ui.item.data.country;
-        const path = ui.item.data.path_full;
-        const custCountry = viewModel.customer.country;
-        const custPath = viewModel.customer.path_full;
-        const isTheSameCountry = (custCountry == country);
-        const isInDownline = path.startsWith(custPath);
-        /* set model attributes */
-        viewModel.selectedCounterparty = ui.item.data.id;
-        viewModel.warnDiffCountries(!isTheSameCountry);
-        viewModel.warnOutOfDwnl(!isInDownline);
-    };
-
     /* bind modal opening to 'Accounting' button on the form */
     /* (see \Praxigento\Accounting\Block\Customer\Adminhtml\Edit\AccountingButton) */
     $('#customer-edit-prxgt-accounting').on('click', fnAjaxGetInitData);
 
     /* this is required return to prevent Magento parsing errors */
-    let result = Component.extend({});
-    return result;
+    return Component.extend({});
 });
